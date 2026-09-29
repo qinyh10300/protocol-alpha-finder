@@ -1,60 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc" xml:lang="en">
-<title id="title">Protocol Alpha Finder · System Architecture</title>
-<desc id="desc">TRON evidence feeds a host Agent. One orchestration Skill coordinates wallet discovery, investigation and validation. Saved research reaches the workspace through a local Python API.</desc>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Strategy Wallet Discovery Pipeline</title>
+<desc id="desc">Seed Alpha identifies evidenced strategy wallets. Their broader history produces candidate mechanisms, which are validated for current conditions and execution requirements. One Skill orchestrates the three research Skills. Only an established mechanism may become a new seed.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
 <style>
 text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #253647; }
-.heading { font-size: 28px; font-weight: 700; }
-.box-title { font-size: 23px; font-weight: 600; }
+.heading { font-size: 30px; font-weight: 700; }
+.box-title { font-size: 24px; font-weight: 600; }
 .sub { font-size: 20px; fill: #60748a; }
-.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 17px; fill: #486859; }
-.line { fill: none; stroke: #64788c; stroke-width: 1.5; marker-end: url(#arrow); }
+.result { font-size: 22px; font-weight: 600; fill: #365f4b; }
+.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 18px; fill: #486859; }
+.line { fill: none; stroke: #64788c; stroke-width: 1.6; marker-end: url(#arrow); }
 .coord { fill: none; stroke: #98b2a3; stroke-width: 1.5; stroke-dasharray: 5 5; }
+.loop { fill: none; stroke: #64788c; stroke-width: 1.5; stroke-dasharray: 6 5; marker-end: url(#arrow); }
 </style>
-<rect width="1440" height="880" fill="#ffffff"/>
-<text x="40" y="48" class="heading" text-anchor="start">Protocol Alpha Finder · System Architecture</text>
-<text x="1400" y="47" class="sub" text-anchor="end">4 Skills · Evidence → Alpha Reports</text>
-<rect x="48" y="104" width="380" height="96" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="238.0" y="142" class="box-title" text-anchor="middle">Research Workspace</text>
-<text x="238.0" y="173" class="sub" text-anchor="middle">Wallets → Candidates → Reports</text>
-<rect x="555" y="104" width="330" height="96" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="720.0" y="142" class="box-title" text-anchor="middle">Python API</text>
-<text x="720.0" y="173" class="sub" text-anchor="middle">Read saved research</text>
-<rect x="1012" y="104" width="380" height="96" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="1202.0" y="142" class="box-title" text-anchor="middle">Research Archive</text>
-<text x="1202.0" y="173" class="sub" text-anchor="middle">JSON · Markdown</text>
-<path d="M 545 158 H 438" class="line"/>
-<text x="491" y="143" class="sub" text-anchor="middle">HTTP</text>
-<path d="M 1002 158 H 895" class="line"/>
-<text x="948" y="143" class="sub" text-anchor="middle">JSON</text>
-<rect x="48" y="280" width="1344" height="386" rx="9" fill="#fafcfb" stroke="#bbcec3" stroke-width="1.5"/>
-<text x="78" y="320" class="box-title" text-anchor="start">Host Agent · Research Workflow</text>
-<path d="M 1202 270 V 210" class="line"/>
-<text x="1220" y="246" class="sub" text-anchor="start">Save results</text>
-<rect x="515" y="338" width="410" height="88" rx="9" fill="#eaf4ee" stroke="#83a68e" stroke-width="1.5"/>
-<text x="720" y="372" class="box-title" text-anchor="middle">1 · Orchestrate</text>
-<text x="720" y="402" class="skill" text-anchor="middle">protocol-alpha-discovery</text>
-<path d="M 720 426 V 460 M 268 488 V 460 H 1172 V 488 M 720 460 V 488" class="coord"/>
-<text x="740" y="451" class="sub" text-anchor="start">Coordinates three Skills</text>
-<rect x="88" y="488" width="360" height="118" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="268" y="522" class="box-title" text-anchor="middle">2 · Find Wallets</text>
-<text x="268" y="553" class="skill" text-anchor="middle">alpha-seed-wallets</text>
-<text x="268" y="584" class="sub" text-anchor="middle">Strategy wallets</text>
-<rect x="540" y="488" width="360" height="118" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="720" y="522" class="box-title" text-anchor="middle">3 · Investigate</text>
-<text x="720" y="553" class="skill" text-anchor="middle">wallet-alpha-investigation</text>
-<text x="720" y="584" class="sub" text-anchor="middle">Alpha candidates</text>
-<rect x="992" y="488" width="360" height="118" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="1172" y="522" class="box-title" text-anchor="middle">4 · Validate</text>
-<text x="1172" y="553" class="skill" text-anchor="middle">protocol-alpha-validation</text>
-<text x="1172" y="584" class="sub" text-anchor="middle">Alpha reports</text>
-<path d="M 458 547 H 530" class="line"/>
-<path d="M 910 547 H 982" class="line"/>
-<text x="720" y="642" class="sub" text-anchor="middle">Each wallet: History → Analyze → Search Alpha</text>
-<rect x="390" y="740" width="660" height="88" rx="9" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
-<text x="720.0" y="778" class="box-title" text-anchor="middle">TRON Evidence</text>
-<text x="720.0" y="809" class="sub" text-anchor="middle">Transactions · Contracts · State</text>
-<path d="M 720 730 V 676" class="line"/>
-<text x="740" y="710" class="sub" text-anchor="start">Read-only</text>
-<text x="720" y="862" class="sub" text-anchor="middle">Report outcomes: Actionable · Monitor · Rejected · Insufficient evidence</text>
+<rect width="1600" height="700" fill="#ffffff"/>
+<text x="40" y="48" class="heading" text-anchor="start">Strategy Wallet Discovery Pipeline</text>
+<text x="1560" y="47" class="sub" text-anchor="end">Seed Alpha → Strategy Wallet → New Alpha</text>
+<rect x="570" y="106" width="650" height="118" rx="9" fill="#eaf4ee" stroke="#83a68e" stroke-width="1.5"/>
+<text x="895" y="143" class="box-title" text-anchor="middle">1 · Orchestrate Research</text>
+<text x="895" y="175" class="skill" text-anchor="middle">protocol-alpha-discovery</text>
+<text x="895" y="206" class="sub" text-anchor="middle">Research scope · Stage handoffs · Stopping rules</text>
+<path d="M 895 224 V 260 M 500 300 V 260 H 1365 V 300 M 930 260 V 300" class="coord"/>
+<rect x="40" y="300" width="220" height="212" rx="9" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
+<text x="150" y="398" class="box-title" text-anchor="middle">Seed Alpha</text>
+<text x="150" y="432" class="sub" text-anchor="middle">Known mechanism</text>
+<path d="M 270 406 H 300" class="line"/>
+<rect x="310" y="300" width="380" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="500.0" y="338" class="box-title" text-anchor="middle">2 · Find &amp; Verify Wallets</text>
+<text x="500.0" y="369" class="skill" text-anchor="middle">alpha-seed-wallets</text>
+<path d="M 332 389 H 668" stroke="#e4ebe7"/>
+<text x="500.0" y="420" class="sub" text-anchor="middle">Match calls and successful receipts</text>
+<text x="500.0" y="450" class="sub" text-anchor="middle">Identify the actual executor</text>
+<text x="500.0" y="490" class="result" text-anchor="middle">Strategy Wallets</text>
+<rect x="740" y="300" width="380" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="930.0" y="338" class="box-title" text-anchor="middle">3 · Discover Candidates</text>
+<text x="930.0" y="369" class="skill" text-anchor="middle">wallet-alpha-investigation</text>
+<path d="M 762 389 H 1098" stroke="#e4ebe7"/>
+<text x="930.0" y="420" class="sub" text-anchor="middle">Study broader wallet history</text>
+<text x="930.0" y="450" class="sub" text-anchor="middle">Form new mechanism hypotheses</text>
+<text x="930.0" y="490" class="result" text-anchor="middle">Alpha Candidates</text>
+<rect x="1170" y="300" width="390" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="1365.0" y="338" class="box-title" text-anchor="middle">4 · Validate Candidates</text>
+<text x="1365.0" y="369" class="skill" text-anchor="middle">protocol-alpha-validation</text>
+<path d="M 1192 389 H 1538" stroke="#e4ebe7"/>
+<text x="1365.0" y="420" class="sub" text-anchor="middle">Test mechanism and current state</text>
+<text x="1365.0" y="450" class="sub" text-anchor="middle">Check costs and execution conditions</text>
+<text x="1365.0" y="490" class="result" text-anchor="middle">Alpha Reports</text>
+<path d="M 700 406 H 730" class="line"/>
+<path d="M 1130 406 H 1160" class="line"/>
+<path d="M 1365 522 V 563 H 150 V 522" class="loop"/>
+<text x="800" y="594" class="sub" text-anchor="middle">Established mechanism → next Seed Alpha within research scope</text>
+<text x="800" y="642" class="sub" text-anchor="middle">Report outcomes: Actionable · Monitor · Rejected · Insufficient Evidence</text>
+<text x="800" y="680" class="sub" text-anchor="middle">TRON seeds: Energy Rental liquidation · JustLend liquidation · USDD keeper / auction</text>
 </svg>

@@ -1,4 +1,4 @@
-"""Render the bilingual architecture overview using only the Python standard library."""
+"""Generate bilingual diagrams of the four-Skill research method (standard library only)."""
 
 from html import escape
 from pathlib import Path
@@ -6,67 +6,67 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 LABELS = {
     "en": {
-        "title": "Protocol Alpha Finder · System Architecture",
-        "subtitle": "4 Skills · Evidence → Alpha Reports",
-        "ui": ("Research Workspace", "Wallets → Candidates → Reports"),
-        "api": ("Python API", "Read saved research"),
-        "store": ("Research Archive", "JSON · Markdown"),
-        "host": "Host Agent · Research Workflow",
-        "orchestrate": "1 · Orchestrate",
-        "find": "2 · Find Wallets",
-        "investigate": "3 · Investigate",
-        "validate": "4 · Validate",
-        "wallets": "Strategy wallets",
-        "candidates": "Alpha candidates",
-        "reports": "Alpha reports",
-        "coordinate": "Coordinates three Skills",
-        "save": "Save results",
-        "read": "Read-only",
-        "history": "Each wallet: History → Analyze → Search Alpha",
-        "evidence": ("TRON Evidence", "Transactions · Contracts · State"),
-        "outcomes": "Report outcomes: Actionable · Monitor · Rejected · Insufficient evidence",
-        "description": "TRON evidence feeds a host Agent. One orchestration Skill coordinates wallet discovery, investigation and validation. Saved research reaches the workspace through a local Python API.",
+        "title": "Strategy Wallet Discovery Pipeline",
+        "subtitle": "Seed Alpha → Strategy Wallet → New Alpha",
+        "orchestrate": "1 · Orchestrate Research",
+        "scope": "Research scope · Stage handoffs · Stopping rules",
+        "seed": "Seed Alpha",
+        "known": "Known mechanism",
+        "find": "2 · Find & Verify Wallets",
+        "find_logic": ["Match calls and successful receipts", "Identify the actual executor"],
+        "wallets": "Strategy Wallets",
+        "investigate": "3 · Discover Candidates",
+        "investigate_logic": ["Study broader wallet history", "Form new mechanism hypotheses"],
+        "candidates": "Alpha Candidates",
+        "validate": "4 · Validate Candidates",
+        "validate_logic": ["Test mechanism and current state", "Check costs and execution conditions"],
+        "reports": "Alpha Reports",
+        "loop": "Established mechanism → next Seed Alpha within research scope",
+        "outcomes": "Report outcomes: Actionable · Monitor · Rejected · Insufficient Evidence",
+        "seeds": "TRON seeds: Energy Rental liquidation · JustLend liquidation · USDD keeper / auction",
+        "description": "Seed Alpha identifies evidenced strategy wallets. Their broader history produces candidate mechanisms, which are validated for current conditions and execution requirements. One Skill orchestrates the three research Skills. Only an established mechanism may become a new seed.",
     },
     "zh-CN": {
-        "title": "Protocol Alpha Finder · 系统架构",
-        "subtitle": "4 个 Skill · 从证据到 Alpha 报告",
-        "ui": ("研究工作台", "钱包 → 候选 → 报告"),
-        "api": ("Python API", "读取研究留档"),
-        "store": ("研究留档", "JSON · Markdown"),
-        "host": "宿主 Agent · 研究流程",
-        "orchestrate": "1 · 研究编排",
-        "find": "2 · 发现钱包",
-        "investigate": "3 · 钱包研究",
-        "validate": "4 · 候选验证",
-        "wallets": "策略钱包",
-        "candidates": "Alpha 候选",
-        "reports": "Alpha 报告",
-        "coordinate": "协调三个 Skill",
-        "save": "保存结果",
-        "read": "只读查询",
-        "history": "每个钱包独立执行：历史 → 分析 → 搜索 Alpha",
-        "evidence": ("TRON 链上证据", "交易 · 合约 · 状态"),
+        "title": "Strategy Wallet 发现与验证流程",
+        "subtitle": "已知 Alpha → 策略钱包 → 新 Alpha",
+        "orchestrate": "1 · 编排研究",
+        "scope": "研究范围 · 阶段交接 · 停止条件",
+        "seed": "Seed Alpha",
+        "known": "已知协议机制",
+        "find": "2 · 发现并核验钱包",
+        "find_logic": ["匹配合约调用与成功回执", "确认真实执行者"],
+        "wallets": "Strategy Wallets · 策略钱包",
+        "investigate": "3 · 发现候选",
+        "investigate_logic": ["研究钱包更广泛的历史活动", "形成新的机制假设"],
+        "candidates": "Alpha Candidates · 候选",
+        "validate": "4 · 验证候选",
+        "validate_logic": ["验证机制与当前状态", "核查成本及执行条件"],
+        "reports": "Alpha Reports · 报告",
+        "loop": "机制得到验证 → 在研究范围内作为新的 Seed Alpha",
         "outcomes": "报告结果：可执行 · 持续观察 · 已排除 · 证据不足",
-        "description": "TRON 证据进入宿主 Agent。编排 Skill 协调钱包发现、研究和验证，研究留档通过本地 Python API 展示在工作台中。",
+        "seeds": "TRON 入口：Energy Rental 清算 · JustLend 清算 · USDD keeper／拍卖",
+        "description": "以已知 Alpha 识别有交易证据的策略钱包，从钱包更广泛的历史中形成候选机制，再验证其当前状态与执行条件。一个编排 Skill 协调其余三个研究 Skill，只有机制得到验证后才可作为新的入口。",
     },
 }
 
 
 def render(lang, labels):
-    parts = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc" xml:lang="{lang}">
+    parts = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-labelledby="title desc" xml:lang="{lang}">
 <title id="title">{escape(labels['title'])}</title>
 <desc id="desc">{escape(labels['description'])}</desc>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
 <style>
 text {{ font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #253647; }}
-.heading {{ font-size: 28px; font-weight: 700; }}
-.box-title {{ font-size: 23px; font-weight: 600; }}
+.heading {{ font-size: 30px; font-weight: 700; }}
+.box-title {{ font-size: 24px; font-weight: 600; }}
 .sub {{ font-size: 20px; fill: #60748a; }}
-.skill {{ font-family: 'SFMono-Regular', Consolas, monospace; font-size: 17px; fill: #486859; }}
-.line {{ fill: none; stroke: #64788c; stroke-width: 1.5; marker-end: url(#arrow); }}
+.result {{ font-size: 22px; font-weight: 600; fill: #365f4b; }}
+.skill {{ font-family: 'SFMono-Regular', Consolas, monospace; font-size: 18px; fill: #486859; }}
+.line {{ fill: none; stroke: #64788c; stroke-width: 1.6; marker-end: url(#arrow); }}
 .coord {{ fill: none; stroke: #98b2a3; stroke-width: 1.5; stroke-dasharray: 5 5; }}
+.loop {{ fill: none; stroke: #64788c; stroke-width: 1.5; stroke-dasharray: 6 5; marker-end: url(#arrow); }}
 </style>
-<rect width="1440" height="880" fill="#ffffff"/>''']
+<rect width="1600" height="700" fill="#ffffff"/>''']
 
     def text(x, y, value, cls="sub", anchor="middle"):
         parts.append(f'<text x="{x}" y="{y}" class="{cls}" text-anchor="{anchor}">{escape(value)}</text>')
@@ -77,79 +77,59 @@ text {{ font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: 
     def path(d, cls="line"):
         parts.append(f'<path d="{d}" class="{cls}"/>')
 
-    def box(x, y, w, h, title, subtitle, fill="#ffffff", stroke="#cbd6e0"):
-        rect(x, y, w, h, fill, stroke)
-        text(x + w / 2, y + 38, title, "box-title")
-        text(x + w / 2, y + 69, subtitle)
-
     text(40, 48, labels["title"], "heading", "start")
-    text(1400, 47, labels["subtitle"], anchor="end")
+    text(1560, 47, labels["subtitle"], anchor="end")
+    rect(570, 106, 650, 118, "#eaf4ee", "#83a68e")
+    text(895, 143, labels["orchestrate"], "box-title")
+    text(895, 175, "protocol-alpha-discovery", "skill")
+    text(895, 206, labels["scope"])
+    path("M 895 224 V 260 M 500 300 V 260 H 1365 V 300 M 930 260 V 300", "coord")
 
-    box(48, 104, 380, 96, *labels["ui"])
-    box(555, 104, 330, 96, *labels["api"])
-    box(1012, 104, 380, 96, *labels["store"])
-    path("M 545 158 H 438")
-    text(491, 143, "HTTP")
-    path("M 1002 158 H 895")
-    text(948, 143, "JSON")
+    rect(40, 300, 220, 212, "#f1f5fb", "#b2c5df")
+    text(150, 398, labels["seed"], "box-title")
+    text(150, 432, labels["known"], "sub")
+    path("M 270 406 H 300")
 
-    rect(48, 280, 1344, 386, "#fafcfb", "#bbcec3")
-    text(78, 320, labels["host"], "box-title", "start")
-    path("M 1202 270 V 210")
-    text(1220, 246, labels["save"], anchor="start")
-
-    rect(515, 338, 410, 88, "#eaf4ee", "#83a68e")
-    text(720, 372, labels["orchestrate"], "box-title")
-    text(720, 402, "protocol-alpha-discovery", "skill")
-    path("M 720 426 V 460 M 268 488 V 460 H 1172 V 488 M 720 460 V 488", "coord")
-    text(740, 451, labels["coordinate"], anchor="start")
-
-    for x, name, skill, output in [
-        (88, "find", "alpha-seed-wallets", "wallets"),
-        (540, "investigate", "wallet-alpha-investigation", "candidates"),
-        (992, "validate", "protocol-alpha-validation", "reports"),
+    for x, width, key, skill, result in [
+        (310, 380, "find", "alpha-seed-wallets", "wallets"),
+        (740, 380, "investigate", "wallet-alpha-investigation", "candidates"),
+        (1170, 390, "validate", "protocol-alpha-validation", "reports"),
     ]:
-        rect(x, 488, 360, 118)
-        text(x + 180, 522, labels[name], "box-title")
-        text(x + 180, 553, skill, "skill")
-        text(x + 180, 584, labels[output])
+        rect(x, 300, width, 212)
+        cx = x + width / 2
+        text(cx, 338, labels[key], "box-title")
+        text(cx, 369, skill, "skill")
+        parts.append(f'<path d="M {x + 22} 389 H {x + width - 22}" stroke="#e4ebe7"/>')
+        for y, label in zip([420, 450], labels[f"{key}_logic"]):
+            text(cx, y, label)
+        text(cx, 490, labels[result], "result")
 
-    path("M 458 547 H 530")
-    path("M 910 547 H 982")
-    text(720, 642, labels["history"])
-
-    box(390, 740, 660, 88, *labels["evidence"], "#f1f5fb", "#b2c5df")
-    path("M 720 730 V 676")
-    text(740, 710, labels["read"], anchor="start")
-    text(720, 862, labels["outcomes"])
+    path("M 700 406 H 730")
+    path("M 1130 406 H 1160")
+    path("M 1365 522 V 563 H 150 V 522", "loop")
+    text(800, 594, labels["loop"])
+    text(800, 642, labels["outcomes"])
+    text(800, 680, labels["seeds"])
     parts.append("</svg>\n")
     (ROOT.parent / "images" / f"system-architecture-{lang}.svg").write_text("\n".join(parts))
 
-    # Portable graph source for users who prefer editing in Mermaid.
-    def node(key):
-        return "<br/>".join(labels[key])
+    def stage(key, skill, result):
+        return "<br/>".join([labels[key], skill, *labels[f"{key}_logic"], labels[result]])
 
-    mermaid = f'''%% Simplified architecture. The README illustration uses render_architecture.py for a fixed layout.
-flowchart TB
-    subgraph APPLICATION["{labels['ui'][0]}"]
-        direction RL
-        STORE["{node('store')}"] --> API["{node('api')}"] --> UI["{node('ui')}"]
-    end
-    subgraph AGENT["{labels['host']}"]
-        ORCH["{labels['orchestrate']}<br/>protocol-alpha-discovery"]
-        FIND["{labels['find']}<br/>alpha-seed-wallets"]
-        INVESTIGATE["{labels['investigate']}<br/>wallet-alpha-investigation"]
-        VALIDATE["{labels['validate']}<br/>protocol-alpha-validation"]
-        ORCH -.-> FIND
-        ORCH -.-> INVESTIGATE
-        ORCH -.-> VALIDATE
-        FIND --> INVESTIGATE --> VALIDATE
-    end
-    AGENT -->|{labels['save']}| STORE
-    EVIDENCE["{node('evidence')}"] -->|{labels['read']}| AGENT
-    style AGENT fill:#fafcfb,stroke:#bbcec3
+    mermaid = f'''%% Four-Skill method. render_architecture.py generates the fixed-layout README illustration.
+flowchart LR
+    SEED["{labels['seed']}<br/>{labels['known']}"]
+    ORCH["{labels['orchestrate']}<br/>protocol-alpha-discovery<br/>{labels['scope']}"]
+    FIND["{stage('find', 'alpha-seed-wallets', 'wallets')}"]
+    INVESTIGATE["{stage('investigate', 'wallet-alpha-investigation', 'candidates')}"]
+    VALIDATE["{stage('validate', 'protocol-alpha-validation', 'reports')}"]
+    SEED --> FIND --> INVESTIGATE --> VALIDATE
+    ORCH -.-> FIND
+    ORCH -.-> INVESTIGATE
+    ORCH -.-> VALIDATE
+    VALIDATE -.->|{labels['loop']}| SEED
     style ORCH fill:#eaf4ee,stroke:#83a68e
-    style EVIDENCE fill:#f1f5fb,stroke:#b2c5df
+    style SEED fill:#f1f5fb,stroke:#b2c5df
 '''
     (ROOT / f"system-architecture-{lang}.mmd").write_text(mermaid)
 

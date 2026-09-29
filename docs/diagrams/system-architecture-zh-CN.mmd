@@ -1,21 +1,14 @@
-%% Simplified architecture. The README illustration uses render_architecture.py for a fixed layout.
-flowchart TB
-    subgraph APPLICATION["研究工作台"]
-        direction RL
-        STORE["研究留档<br/>JSON · Markdown"] --> API["Python API<br/>读取研究留档"] --> UI["研究工作台<br/>钱包 → 候选 → 报告"]
-    end
-    subgraph AGENT["宿主 Agent · 研究流程"]
-        ORCH["1 · 研究编排<br/>protocol-alpha-discovery"]
-        FIND["2 · 发现钱包<br/>alpha-seed-wallets"]
-        INVESTIGATE["3 · 钱包研究<br/>wallet-alpha-investigation"]
-        VALIDATE["4 · 候选验证<br/>protocol-alpha-validation"]
-        ORCH -.-> FIND
-        ORCH -.-> INVESTIGATE
-        ORCH -.-> VALIDATE
-        FIND --> INVESTIGATE --> VALIDATE
-    end
-    AGENT -->|保存结果| STORE
-    EVIDENCE["TRON 链上证据<br/>交易 · 合约 · 状态"] -->|只读查询| AGENT
-    style AGENT fill:#fafcfb,stroke:#bbcec3
+%% Four-Skill method. render_architecture.py generates the fixed-layout README illustration.
+flowchart LR
+    SEED["Seed Alpha<br/>已知协议机制"]
+    ORCH["1 · 编排研究<br/>protocol-alpha-discovery<br/>研究范围 · 阶段交接 · 停止条件"]
+    FIND["2 · 发现并核验钱包<br/>alpha-seed-wallets<br/>匹配合约调用与成功回执<br/>确认真实执行者<br/>Strategy Wallets · 策略钱包"]
+    INVESTIGATE["3 · 发现候选<br/>wallet-alpha-investigation<br/>研究钱包更广泛的历史活动<br/>形成新的机制假设<br/>Alpha Candidates · 候选"]
+    VALIDATE["4 · 验证候选<br/>protocol-alpha-validation<br/>验证机制与当前状态<br/>核查成本及执行条件<br/>Alpha Reports · 报告"]
+    SEED --> FIND --> INVESTIGATE --> VALIDATE
+    ORCH -.-> FIND
+    ORCH -.-> INVESTIGATE
+    ORCH -.-> VALIDATE
+    VALIDATE -.->|机制得到验证 → 在研究范围内作为新的 Seed Alpha| SEED
     style ORCH fill:#eaf4ee,stroke:#83a68e
-    style EVIDENCE fill:#f1f5fb,stroke:#b2c5df
+    style SEED fill:#f1f5fb,stroke:#b2c5df

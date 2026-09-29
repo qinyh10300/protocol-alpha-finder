@@ -24,7 +24,12 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 ## System architecture
 
-A host Agent runs four Skills. The local API displays their saved results in the workspace.
+Start from **Seed Alpha**, verify its executors, then investigate their histories for new opportunities.
+
+- **Orchestrate:** set scope and coordinate the research.
+- **Find wallets:** verify calls, receipts, and executor roles.
+- **Investigate:** turn wallet activity into candidate mechanisms.
+- **Validate:** check the mechanism, current state, and execution conditions.
 
 ![System architecture](docs/images/system-architecture-en.svg)
 

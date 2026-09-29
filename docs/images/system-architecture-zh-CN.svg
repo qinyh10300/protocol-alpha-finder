@@ -1,60 +1,55 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
-<title id="title">Protocol Alpha Finder · 系统架构</title>
-<desc id="desc">TRON 证据进入宿主 Agent。编排 Skill 协调钱包发现、研究和验证，研究留档通过本地 Python API 展示在工作台中。</desc>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
+<title id="title">Strategy Wallet 发现与验证流程</title>
+<desc id="desc">以已知 Alpha 识别有交易证据的策略钱包，从钱包更广泛的历史中形成候选机制，再验证其当前状态与执行条件。一个编排 Skill 协调其余三个研究 Skill，只有机制得到验证后才可作为新的入口。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
 <style>
 text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #253647; }
-.heading { font-size: 28px; font-weight: 700; }
-.box-title { font-size: 23px; font-weight: 600; }
+.heading { font-size: 30px; font-weight: 700; }
+.box-title { font-size: 24px; font-weight: 600; }
 .sub { font-size: 20px; fill: #60748a; }
-.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 17px; fill: #486859; }
-.line { fill: none; stroke: #64788c; stroke-width: 1.5; marker-end: url(#arrow); }
+.result { font-size: 22px; font-weight: 600; fill: #365f4b; }
+.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 18px; fill: #486859; }
+.line { fill: none; stroke: #64788c; stroke-width: 1.6; marker-end: url(#arrow); }
 .coord { fill: none; stroke: #98b2a3; stroke-width: 1.5; stroke-dasharray: 5 5; }
+.loop { fill: none; stroke: #64788c; stroke-width: 1.5; stroke-dasharray: 6 5; marker-end: url(#arrow); }
 </style>
-<rect width="1440" height="880" fill="#ffffff"/>
-<text x="40" y="48" class="heading" text-anchor="start">Protocol Alpha Finder · 系统架构</text>
-<text x="1400" y="47" class="sub" text-anchor="end">4 个 Skill · 从证据到 Alpha 报告</text>
-<rect x="48" y="104" width="380" height="96" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="238.0" y="142" class="box-title" text-anchor="middle">研究工作台</text>
-<text x="238.0" y="173" class="sub" text-anchor="middle">钱包 → 候选 → 报告</text>
-<rect x="555" y="104" width="330" height="96" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="720.0" y="142" class="box-title" text-anchor="middle">Python API</text>
-<text x="720.0" y="173" class="sub" text-anchor="middle">读取研究留档</text>
-<rect x="1012" y="104" width="380" height="96" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="1202.0" y="142" class="box-title" text-anchor="middle">研究留档</text>
-<text x="1202.0" y="173" class="sub" text-anchor="middle">JSON · Markdown</text>
-<path d="M 545 158 H 438" class="line"/>
-<text x="491" y="143" class="sub" text-anchor="middle">HTTP</text>
-<path d="M 1002 158 H 895" class="line"/>
-<text x="948" y="143" class="sub" text-anchor="middle">JSON</text>
-<rect x="48" y="280" width="1344" height="386" rx="9" fill="#fafcfb" stroke="#bbcec3" stroke-width="1.5"/>
-<text x="78" y="320" class="box-title" text-anchor="start">宿主 Agent · 研究流程</text>
-<path d="M 1202 270 V 210" class="line"/>
-<text x="1220" y="246" class="sub" text-anchor="start">保存结果</text>
-<rect x="515" y="338" width="410" height="88" rx="9" fill="#eaf4ee" stroke="#83a68e" stroke-width="1.5"/>
-<text x="720" y="372" class="box-title" text-anchor="middle">1 · 研究编排</text>
-<text x="720" y="402" class="skill" text-anchor="middle">protocol-alpha-discovery</text>
-<path d="M 720 426 V 460 M 268 488 V 460 H 1172 V 488 M 720 460 V 488" class="coord"/>
-<text x="740" y="451" class="sub" text-anchor="start">协调三个 Skill</text>
-<rect x="88" y="488" width="360" height="118" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="268" y="522" class="box-title" text-anchor="middle">2 · 发现钱包</text>
-<text x="268" y="553" class="skill" text-anchor="middle">alpha-seed-wallets</text>
-<text x="268" y="584" class="sub" text-anchor="middle">策略钱包</text>
-<rect x="540" y="488" width="360" height="118" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="720" y="522" class="box-title" text-anchor="middle">3 · 钱包研究</text>
-<text x="720" y="553" class="skill" text-anchor="middle">wallet-alpha-investigation</text>
-<text x="720" y="584" class="sub" text-anchor="middle">Alpha 候选</text>
-<rect x="992" y="488" width="360" height="118" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="1172" y="522" class="box-title" text-anchor="middle">4 · 候选验证</text>
-<text x="1172" y="553" class="skill" text-anchor="middle">protocol-alpha-validation</text>
-<text x="1172" y="584" class="sub" text-anchor="middle">Alpha 报告</text>
-<path d="M 458 547 H 530" class="line"/>
-<path d="M 910 547 H 982" class="line"/>
-<text x="720" y="642" class="sub" text-anchor="middle">每个钱包独立执行：历史 → 分析 → 搜索 Alpha</text>
-<rect x="390" y="740" width="660" height="88" rx="9" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
-<text x="720.0" y="778" class="box-title" text-anchor="middle">TRON 链上证据</text>
-<text x="720.0" y="809" class="sub" text-anchor="middle">交易 · 合约 · 状态</text>
-<path d="M 720 730 V 676" class="line"/>
-<text x="740" y="710" class="sub" text-anchor="start">只读查询</text>
-<text x="720" y="862" class="sub" text-anchor="middle">报告结果：可执行 · 持续观察 · 已排除 · 证据不足</text>
+<rect width="1600" height="700" fill="#ffffff"/>
+<text x="40" y="48" class="heading" text-anchor="start">Strategy Wallet 发现与验证流程</text>
+<text x="1560" y="47" class="sub" text-anchor="end">已知 Alpha → 策略钱包 → 新 Alpha</text>
+<rect x="570" y="106" width="650" height="118" rx="9" fill="#eaf4ee" stroke="#83a68e" stroke-width="1.5"/>
+<text x="895" y="143" class="box-title" text-anchor="middle">1 · 编排研究</text>
+<text x="895" y="175" class="skill" text-anchor="middle">protocol-alpha-discovery</text>
+<text x="895" y="206" class="sub" text-anchor="middle">研究范围 · 阶段交接 · 停止条件</text>
+<path d="M 895 224 V 260 M 500 300 V 260 H 1365 V 300 M 930 260 V 300" class="coord"/>
+<rect x="40" y="300" width="220" height="212" rx="9" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
+<text x="150" y="398" class="box-title" text-anchor="middle">Seed Alpha</text>
+<text x="150" y="432" class="sub" text-anchor="middle">已知协议机制</text>
+<path d="M 270 406 H 300" class="line"/>
+<rect x="310" y="300" width="380" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="500.0" y="338" class="box-title" text-anchor="middle">2 · 发现并核验钱包</text>
+<text x="500.0" y="369" class="skill" text-anchor="middle">alpha-seed-wallets</text>
+<path d="M 332 389 H 668" stroke="#e4ebe7"/>
+<text x="500.0" y="420" class="sub" text-anchor="middle">匹配合约调用与成功回执</text>
+<text x="500.0" y="450" class="sub" text-anchor="middle">确认真实执行者</text>
+<text x="500.0" y="490" class="result" text-anchor="middle">Strategy Wallets · 策略钱包</text>
+<rect x="740" y="300" width="380" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="930.0" y="338" class="box-title" text-anchor="middle">3 · 发现候选</text>
+<text x="930.0" y="369" class="skill" text-anchor="middle">wallet-alpha-investigation</text>
+<path d="M 762 389 H 1098" stroke="#e4ebe7"/>
+<text x="930.0" y="420" class="sub" text-anchor="middle">研究钱包更广泛的历史活动</text>
+<text x="930.0" y="450" class="sub" text-anchor="middle">形成新的机制假设</text>
+<text x="930.0" y="490" class="result" text-anchor="middle">Alpha Candidates · 候选</text>
+<rect x="1170" y="300" width="390" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="1365.0" y="338" class="box-title" text-anchor="middle">4 · 验证候选</text>
+<text x="1365.0" y="369" class="skill" text-anchor="middle">protocol-alpha-validation</text>
+<path d="M 1192 389 H 1538" stroke="#e4ebe7"/>
+<text x="1365.0" y="420" class="sub" text-anchor="middle">验证机制与当前状态</text>
+<text x="1365.0" y="450" class="sub" text-anchor="middle">核查成本及执行条件</text>
+<text x="1365.0" y="490" class="result" text-anchor="middle">Alpha Reports · 报告</text>
+<path d="M 700 406 H 730" class="line"/>
+<path d="M 1130 406 H 1160" class="line"/>
+<path d="M 1365 522 V 563 H 150 V 522" class="loop"/>
+<text x="800" y="594" class="sub" text-anchor="middle">机制得到验证 → 在研究范围内作为新的 Seed Alpha</text>
+<text x="800" y="642" class="sub" text-anchor="middle">报告结果：可执行 · 持续观察 · 已排除 · 证据不足</text>
+<text x="800" y="680" class="sub" text-anchor="middle">TRON 入口：Energy Rental 清算 · JustLend 清算 · USDD keeper／拍卖</text>
 </svg>
