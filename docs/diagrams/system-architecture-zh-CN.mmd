@@ -57,3 +57,13 @@ flowchart TB
     style WALLET4 fill:#fff7ed,stroke:#f1dcc2
     style WALLET5 fill:#fff7ed,stroke:#f1dcc2
     style CANDIDATE2 fill:#fff7ed,stroke:#f1dcc2
+    subgraph TECH["技术架构"]
+        direction LR
+        T0["TRON 链上数据<br/>合约调用 · 回执 · 协议状态"]
+        T1["采集与研究<br/>Python 采集器 · Agent Skills"]
+        T0 -->|读取| T1
+        T2["研究归档<br/>SQLite 证据 · JSON 研究结论"]
+        T1 -->|保存| T2
+        T3["研究工作区<br/>Python 适配器 · React 界面"]
+        T2 -->|读取 JSON| T3
+    end

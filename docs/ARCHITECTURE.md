@@ -10,7 +10,7 @@
 
 The workflow contains four stages: **01 Alpha Seeds → 02 Strategy Wallets → 03 Alpha Candidates → 04 Validation**. Each seed leads to two abbreviated, fictitious TRON addresses. Wallet and candidate colors show their seed family; one highlighted wallet-to-candidate arrow demonstrates the investigation step.
 
-Skill 1–3 badges sit on the transition arrows. Above them, **Skill 4 coordinates the three Skills through dashed arrows**. The lower part shows the historical evidence we analyze and the new wallet activity we review. The technical details at the bottom summarize TRON evidence, incremental collection, and linked research artifacts.
+Skill 1–3 badges sit on the transition arrows. Above them, **Skill 4 coordinates the three Skills through dashed arrows**. The lower part shows the historical evidence we analyze and the new wallet activity we review. The Technical Architecture frame connects TRON data, collection and research, archived evidence, and the research workspace.
 
 | Seed | Illustrative wallets | Candidate hypothesis |
 | --- | --- | --- |

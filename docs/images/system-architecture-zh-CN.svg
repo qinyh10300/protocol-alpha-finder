@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1210" viewBox="0 0 1800 1210" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
 <title id="title">Protocol Alpha Finder · 系统架构</title><desc id="desc">地址与候选均为方法示意 · 相同颜色标明来源关系，图中只展开一条研究路径。</desc><defs>
 <marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#2563b8"/></marker>
 <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#7953ad"/></marker>
@@ -14,7 +14,7 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 .code { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; }
 .label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#61758a; }
 </style>
-<rect x="0" y="0" width="1800" height="1120" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
+<rect x="0" y="0" width="1800" height="1210" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
 <text x="40" y="55" class="title" text-anchor="start">Protocol Alpha Finder · 系统架构</text>
 <path data-kind="legend-evidence" d="M 1200 90 C 1225.0 90 1225.0 90 1250 90" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
 <text x="1262" y="96" class="small" text-anchor="start">证据流转</text>
@@ -113,12 +113,24 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 <text x="1019" y="942" class="small" text-anchor="start">重复采集与复查；当前由手动启动检查。</text>
 <path data-kind="history-observation" d="M 815 905 C 900.0 905 900.0 905 985 905" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
 <text x="900" y="891" class="small" text-anchor="middle">对比</text>
-<path d="M 40 1000 L 1760 1000" stroke="#dce5ef" fill="none"/>
-<text x="40" y="1031" class="node" text-anchor="start">技术说明</text>
-<text x="40" y="1065" class="body" text-anchor="start" style="fill:#344b60">TRON 链上证据</text>
-<text x="40" y="1093" class="small" text-anchor="start">合约调用、回执、转账与协议状态</text>
-<text x="650" y="1065" class="body" text-anchor="start" style="fill:#344b60">增量采集</text>
-<text x="650" y="1093" class="small" text-anchor="start">覆盖检查与可恢复的采集检查点</text>
-<text x="1260" y="1065" class="body" text-anchor="start" style="fill:#344b60">关联研究记录</text>
-<text x="1260" y="1093" class="small" text-anchor="start">带证据引用的 JSON 交接文件与报告</text>
+<rect x="40" y="998" width="1720" height="182" rx="8" fill="#f8fafc" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="65" y="1035" class="heading" text-anchor="start">技术架构</text>
+<rect x="65" y="1056" width="335" height="99" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="232.5" y="1092" class="node" text-anchor="middle">TRON 链上数据</text>
+<text x="232.5" y="1125" class="small" text-anchor="middle">合约调用 · 回执 · 协议状态</text>
+<rect x="510" y="1056" width="335" height="99" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="677.5" y="1092" class="node" text-anchor="middle">采集与研究</text>
+<text x="677.5" y="1125" class="small" text-anchor="middle">Python 采集器 · Agent Skills</text>
+<rect x="955" y="1056" width="335" height="99" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="1122.5" y="1092" class="node" text-anchor="middle">研究归档</text>
+<text x="1122.5" y="1125" class="small" text-anchor="middle">SQLite 证据 · JSON 研究结论</text>
+<rect x="1400" y="1056" width="335" height="99" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="1567.5" y="1092" class="node" text-anchor="middle">研究工作区</text>
+<text x="1567.5" y="1125" class="small" text-anchor="middle">Python 适配器 · React 界面</text>
+<path data-kind="technical-flow" d="M 406 1114 C 454.5 1114 454.5 1114 503 1114" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<text x="454.5" y="1099" class="small" text-anchor="middle">读取</text>
+<path data-kind="technical-flow" d="M 851 1114 C 899.5 1114 899.5 1114 948 1114" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<text x="899.5" y="1099" class="small" text-anchor="middle">保存</text>
+<path data-kind="technical-flow" d="M 1296 1114 C 1344.5 1114 1344.5 1114 1393 1114" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<text x="1344.5" y="1099" class="small" text-anchor="middle">读取 JSON</text>
 </svg>

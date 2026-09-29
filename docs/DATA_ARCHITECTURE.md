@@ -30,10 +30,8 @@ An established mechanism can become a new seed. Unresolved candidates retain the
 
 [Wallet discovery](../skills/alpha-seed-wallets/SKILL.md) · [Wallet investigation](../skills/wallet-alpha-investigation/SKILL.md) · [Candidate validation](../skills/protocol-alpha-validation/SKILL.md)
 
-## Technical details
+## Technical architecture
 
-- **TRON evidence:** contract calls, receipts, asset flows, and protocol state.
-- **Incremental collection:** deduplicated records, coverage tracking, and collection checkpoints.
-- **Linked artifacts:** wallet, candidate, and validation records retain their source transactions.
+The diagram connects **TRON data → Collection & Research → Research Archive → Research Workspace**. Python collectors and Agent Skills save evidence and findings; the Python adapter reads the JSON findings for the React workspace. The adapter does not query SQLite directly.
 
 To regenerate the bilingual figure: `python3 docs/diagrams/render_architecture.py`.

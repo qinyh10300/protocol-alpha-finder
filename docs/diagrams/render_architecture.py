@@ -1,4 +1,4 @@
-"""Render one bilingual architecture: workflow, Skill control, evidence and technical notes."""
+"""Render one bilingual architecture: workflow, Skill control, evidence and technical architecture."""
 from pathlib import Path
 from svg_diagram import Diagram, PALETTE
 
@@ -31,11 +31,13 @@ LABELS = {
   'observe_note':'Repeat collection and review; current checks start manually.',
   'compare':'Compare',
   'example':'Illustrative addresses and hypotheses · Matching colors show provenance; one research path is drawn.',
-  'technical':'Technical details',
+  'technical':'Technical Architecture',
   'tech':[
-   ['TRON evidence','Calls, receipts, transfers and state'],
-   ['Incremental collection','Coverage checks and resume checkpoints'],
-   ['Linked research artifacts','Evidence-linked JSON handoffs and reports']],
+   ['TRON Data','Calls · Receipts · State'],
+   ['Collection & Research','Python collectors · Agent Skills'],
+   ['Research Archive','SQLite evidence · JSON findings'],
+   ['Research Workspace','Python adapter · React UI']],
+  'tech_edges':['Read','Save','Read JSON'],
   'solid':'Evidence flow', 'dashed':'Coordination / review',
  },
  'zh-CN': {
@@ -64,18 +66,20 @@ LABELS = {
   'observe_note':'重复采集与复查；当前由手动启动检查。',
   'compare':'对比',
   'example':'地址与候选均为方法示意 · 相同颜色标明来源关系，图中只展开一条研究路径。',
-  'technical':'技术说明',
+  'technical':'技术架构',
   'tech':[
-   ['TRON 链上证据','合约调用、回执、转账与协议状态'],
-   ['增量采集','覆盖检查与可恢复的采集检查点'],
-   ['关联研究记录','带证据引用的 JSON 交接文件与报告']],
+   ['TRON 链上数据','合约调用 · 回执 · 协议状态'],
+   ['采集与研究','Python 采集器 · Agent Skills'],
+   ['研究归档','SQLite 证据 · JSON 研究结论'],
+   ['研究工作区','Python 适配器 · React 界面']],
+  'tech_edges':['读取','保存','读取 JSON'],
   'solid':'证据流转','dashed':'编排／复查',
  }
 }
 
 
 def render(lang, L):
- d=Diagram(1800,1120,L['title'],L['example'],lang)
+ d=Diagram(1800,1210,L['title'],L['example'],lang)
  d.text(40,55,L['title'],'title')
  d.arrow(1200,90,1250,90,0,'legend-evidence')
  d.text(1262,96,L['solid'],'small')
@@ -136,12 +140,18 @@ def render(lang, L):
   d.text(x+24,942,note,'small')
  d.arrow(815,905,985,905,0,'history-observation')
  d.text(900,891,L['compare'],'small','middle')
- # Technical notes stay last and summarize implementation in three short items.
- d.line(40,1000,1760,1000,'#dce5ef')
- d.text(40,1031,L['technical'],'node')
- for x,(heading,detail) in zip([40,650,1260],L['tech']):
-  d.text(x,1065,heading,'body',color='#344b60')
-  d.text(x,1093,detail,'small')
+ # A single technical scope connects data, research, archived evidence and display.
+ d.rect(40,998,1720,182,'#f8fafc','#c9d6e3',8)
+ d.text(65,1035,L['technical'],'heading')
+ tech_x=[65,510,955,1400]; tech_w=335
+ for x,(heading,detail) in zip(tech_x,L['tech']):
+  d.rect(x,1056,tech_w,99,'#ffffff','#c9d6e3',8)
+  d.text(x+tech_w/2,1092,heading,'node','middle')
+  d.text(x+tech_w/2,1125,detail,'small','middle')
+ for i in range(3):
+  start=tech_x[i]+tech_w+6; end=tech_x[i+1]-7
+  d.arrow(start,1114,end,1114,0,'technical-flow')
+  d.text((start+end)/2,1099,L['tech_edges'][i],'small','middle')
  d.save(ROOT.parent/'images'/f'system-architecture-{lang}.svg')
 
  # The Mermaid companion records the same hierarchy and representative path.
@@ -166,6 +176,11 @@ def render(lang, L):
  for i in range(3):
   fill,border,_=PALETTE[i]
   for name in [f'WALLET{2*i}',f'WALLET{2*i+1}',f'CANDIDATE{i}']:m.append(f'    style {name} fill:{fill},stroke:{border}')
+ m.extend([f'    subgraph TECH["{L["technical"]}"]','        direction LR'])
+ for i,(heading,detail) in enumerate(L['tech']):
+  m.append(f'        T{i}["{heading}<br/>{detail}"]')
+  if i:m.append(f'        T{i-1} -->|{L["tech_edges"][i-1]}| T{i}')
+ m.append('    end')
  (ROOT/f'system-architecture-{lang}.mmd').write_text('\n'.join(m)+'\n')
 
 

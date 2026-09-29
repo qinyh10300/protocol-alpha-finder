@@ -30,10 +30,8 @@
 
 [钱包发现](../skills/alpha-seed-wallets/SKILL.md) · [钱包研究](../skills/wallet-alpha-investigation/SKILL.md) · [候选验证](../skills/protocol-alpha-validation/SKILL.md)
 
-## 技术说明
+## 技术架构
 
-- **TRON 证据：** 合约调用、交易回执、资产流与协议状态。
-- **增量采集：** 记录去重、覆盖范围与采集检查点。
-- **关联产物：** 钱包、候选与验证记录保留来源交易。
+图中连接 **TRON 数据 → 采集与研究 → 研究归档 → 研究工作区**。Python 采集器和 Agent Skills 保存证据与结论；Python 适配器读取 JSON 研究结论，供 React 工作区展示。适配器不直接查询 SQLite。
 
 重新生成中英文图片：`python3 docs/diagrams/render_architecture.py`。

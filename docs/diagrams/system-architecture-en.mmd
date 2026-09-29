@@ -57,3 +57,13 @@ flowchart TB
     style WALLET4 fill:#fff7ed,stroke:#f1dcc2
     style WALLET5 fill:#fff7ed,stroke:#f1dcc2
     style CANDIDATE2 fill:#fff7ed,stroke:#f1dcc2
+    subgraph TECH["Technical Architecture"]
+        direction LR
+        T0["TRON Data<br/>Calls · Receipts · State"]
+        T1["Collection & Research<br/>Python collectors · Agent Skills"]
+        T0 -->|Read| T1
+        T2["Research Archive<br/>SQLite evidence · JSON findings"]
+        T1 -->|Save| T2
+        T3["Research Workspace<br/>Python adapter · React UI"]
+        T2 -->|Read JSON| T3
+    end
