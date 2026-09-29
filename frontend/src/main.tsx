@@ -442,7 +442,9 @@ function WalletInvestigationRow({
       <div className="wallet-identity">
         <div>
           <span className="wallet-address" title={wallet.address}>
-            {short(wallet.address)}
+            {wallet.address.length > 10
+              ? `${wallet.address.slice(0, 4)}…${wallet.address.slice(-4)}`
+              : wallet.address}
           </span>
           <button
             className="copy-wallet"

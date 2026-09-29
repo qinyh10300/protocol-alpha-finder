@@ -672,8 +672,8 @@ main {
 .wallet-row {
   position: relative;
   display: grid;
-  grid-template-columns: 28px minmax(105px, 1fr) minmax(190px, 1.25fr) 12px;
-  gap: 9px;
+  grid-template-columns: 22px 104px minmax(0, 1fr) 12px;
+  gap: 10px;
   align-items: center;
   min-height: 88px;
   padding: 11px 10px;
@@ -751,12 +751,16 @@ main {
 .wallet-job {
   min-width: 0;
 }
-.wallet-result {
-  display: flex;
+.wallet-row .wallet-result {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
-  margin-bottom: 5px;
+  justify-items: center;
+  gap: 0;
+  margin-bottom: 3px;
+}
+.wallet-result > .chip {
+  grid-column: 3;
 }
 .wallet-result .chip {
   font-size: 11px;
@@ -764,9 +768,10 @@ main {
 }
 .candidate-count,
 .zero-count {
-  font-size: 11px;
+  font-size: 14px;
+  font-weight: 750;
   white-space: nowrap;
-  padding: 4px 7px;
+  padding: 4px 6px;
   border-radius: 6px;
   line-height: 1.25;
 }
@@ -780,6 +785,29 @@ main {
 }
 .wallet-chevron {
   color: #6d89b6;
+}
+.wallet-row .row-index {
+  width: 22px;
+}
+.wallet-row .pipeline-step small {
+  display: block;
+  line-height: 1.2;
+}
+.wallet-row .step-track {
+  height: 24px;
+}
+.wallet-row .step-track:before,
+.wallet-row .step-track:after {
+  top: 10px;
+  height: 3px;
+}
+.wallet-row .step-track > span {
+  width: 20px;
+  height: 20px;
+}
+.wallet-row .step-track svg {
+  width: 12px;
+  height: 12px;
 }
 .pipeline {
   display: flex;
@@ -1295,11 +1323,13 @@ main {
     font-size: 18px;
   }
   .wallet-address {
-    font-size: 15px;
+    font-size: 13px;
   }
-  .wallet-result .chip,
   .candidate-count,
   .zero-count {
+    font-size: 16px;
+  }
+  .wallet-result .chip {
     font-size: 12px;
   }
   .wallet-volume,
@@ -1307,7 +1337,6 @@ main {
     font-size: 12px;
   }
   .wallet-row {
-    grid-template-columns: 32px minmax(150px, 1fr) minmax(210px, 1.15fr) 14px;
     min-height: 90px;
   }
   .candidate-evidence {
@@ -1396,13 +1425,10 @@ main {
     width: 24px;
   }
   .wallet-row {
-    grid-template-columns: 24px minmax(102px, 1fr) minmax(174px, 1.25fr) 10px;
     gap: 6px;
     padding-inline: 8px;
   }
-  .wallet-result .chip,
-  .candidate-count,
-  .zero-count {
+  .wallet-result .chip {
     font-size: 10px;
     padding: 4px 5px;
   }
@@ -1492,12 +1518,9 @@ main {
     flex-wrap: wrap;
   }
   .wallet-row {
-    grid-template-columns: 28px minmax(104px, 1fr) minmax(181px, 1.25fr) 12px;
     gap: 7px;
   }
-  .wallet-result .chip,
-  .candidate-count,
-  .zero-count {
+  .wallet-result .chip {
     font-size: 10px;
   }
   .wallet-address {
@@ -1564,13 +1587,10 @@ main {
     grid-column: auto;
   }
   .wallet-row {
-    grid-template-columns: 32px minmax(130px, 1fr) minmax(210px, 1.1fr) 16px;
     min-height: 88px;
     gap: 12px;
   }
-  .wallet-result .chip,
-  .candidate-count,
-  .zero-count {
+  .wallet-result .chip {
     font-size: 12px;
   }
   .wallet-address {
@@ -1802,9 +1822,7 @@ main {
   .wallet-volume {
     font-size: 11px;
   }
-  .wallet-result .chip,
-  .candidate-count,
-  .zero-count {
+  .wallet-result .chip {
     font-size: 9px;
     padding: 3px 4px;
   }
@@ -1969,8 +1987,8 @@ main {
   .wallet-row {
     height: 84px;
     min-height: 84px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
   .wallet-row:has(.error-text) {
     height: auto;
@@ -2051,9 +2069,7 @@ main {
     gap: 8px;
     margin-bottom: 5px;
   }
-  .wallet-result .chip,
-  .candidate-count,
-  .zero-count {
+  .wallet-result .chip {
     font-size: 12px;
     padding: 4px 7px;
   }
