@@ -94,4 +94,10 @@ Agent 推理负责解释观察结果和提出假设；确定性的交易重建�
 
 ## 架构图源文件
 
-英文和中文 SVG 由对应的 `.mmd` 文件渲染生成。两种语言使用相同的图结构，仅替换文字。重新生成时，使用 Mermaid CLI、`docs/diagrams/mermaid.config.json` 和兼容的 Chromium。界面截图采集自 2026 年 9 月 30 日的本地应用。
+概览图面向演示，每个框只保留简短信息。中英文 SVG 使用相同的固定布局，由 [render_architecture.py](diagrams/render_architecture.py) 通过 Python 标准库生成：
+
+```bash
+python3 docs/diagrams/render_architecture.py
+```
+
+脚本同时生成对应的 Mermaid 文件，方便编辑图结构。详细行为与后续计划保留在上文。产品截图采集于 2026 年 9 月 30 日。

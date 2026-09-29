@@ -69,32 +69,11 @@ Saved reports and watchlists live in the current browser. Refreshing results rel
 
 ## System architecture
 
-![Protocol Alpha Finder system architecture](docs/images/system-architecture-en.svg)
+Four Skills turn on-chain evidence into Alpha reports. A host Agent runs the research; the local API brings saved results into the workspace.
 
-[Architecture details](docs/ARCHITECTURE.md) · [Editable Mermaid source](docs/diagrams/system-architecture-en.mmd) · [Chinese diagram](docs/images/system-architecture-zh-CN.svg)
+![Protocol Alpha Finder — System architecture](docs/images/system-architecture-en.svg)
 
-| Layer | Responsibility | Current implementation |
-| --- | --- | --- |
-| Evidence | Collect provider responses, receipts, histories, and contract materials | Energy Rental Python collector; host tools or supplied evidence for other seeds |
-| Research orchestration | Set scope, coordinate stages, retain gaps and stopping conditions | `protocol-alpha-discovery`, executed by the host Agent |
-| Wallet discovery | Verify executors, merge wallet identities, preserve seed provenance | `alpha-seed-wallets` |
-| Investigation and validation | Form hypotheses and assess mechanism, history, current state, and execution conditions | `wallet-alpha-investigation` + `protocol-alpha-validation` |
-| Saved research | Preserve source references and stage handoffs | Local JSON / Markdown under Git-ignored `data/` |
-| Application | Check handoff consistency and expose research views | Python adapter and local HTTP API |
-| Experience | Display jobs, candidates, reports, and supporting activity | React 19 + TypeScript + Vite; English / Chinese |
-
-The Agent supplies interpretation and hypotheses. Evidence and deterministic checks support the assessment. The adapter verifies candidate, wallet, transaction, and input-hash consistency before displaying saved validation. General profit accounting and integrated Agent scheduling remain on the roadmap.
-
-### Four Skills, one research workflow
-
-| Skill | Output handed to the next stage |
-| --- | --- |
-| [`protocol-alpha-discovery`](skills/protocol-alpha-discovery/SKILL.md) | Research scope, stage coordination, final record, stopping reason |
-| [`alpha-seed-wallets`](skills/alpha-seed-wallets/SKILL.md) | Deduplicated strategy wallets, per-seed coverage, executor evidence |
-| [`wallet-alpha-investigation`](skills/wallet-alpha-investigation/SKILL.md) | Candidate IDs, source transactions, hypotheses, alternative explanations |
-| [`protocol-alpha-validation`](skills/protocol-alpha-validation/SKILL.md) | Mechanism assessment, current opportunity status, execution conditions, next checks |
-
-The orchestrator spans the other three Skills. A mechanism supported by evidence may be proposed as a new seed with its limitations preserved. Automated expansion into an Alpha Graph is a future capability.
+[Architecture details](docs/ARCHITECTURE.md) · [Diagram source](docs/diagrams/render_architecture.py) · [Mermaid](docs/diagrams/system-architecture-en.mmd) · [Chinese diagram](docs/images/system-architecture-zh-CN.svg)
 
 ## Recorded research
 

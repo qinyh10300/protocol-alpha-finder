@@ -69,32 +69,11 @@ Protocol Alpha 来自协议规则与智能合约执行，例如清算激励、ke
 
 ## 系统架构
 
-![Protocol Alpha Finder 系统架构](docs/images/system-architecture-zh-CN.svg)
+四个 Skill 将链上证据转化为 Alpha 报告。宿主 Agent 执行研究，本地 API 将留档结果呈现在工作台中。
 
-[架构详解](docs/ARCHITECTURE.zh-CN.md) · [可编辑的 Mermaid 源文件](docs/diagrams/system-architecture-zh-CN.mmd) · [英文架构图](docs/images/system-architecture-en.svg)
+![Protocol Alpha Finder — 系统架构](docs/images/system-architecture-zh-CN.svg)
 
-| 层级 | 职责 | 当前实现 |
-| --- | --- | --- |
-| 证据 | 收集数据提供方响应、回执、历史和合约材料 | Energy Rental Python 采集器；其他入口使用宿主工具或提供的证据 |
-| 研究编排 | 确定范围、协调阶段、保留缺口与停止条件 | 由宿主 Agent 执行 `protocol-alpha-discovery` |
-| 钱包发现 | 核验执行者、合并钱包身份、保留入口来源 | `alpha-seed-wallets` |
-| 研究与验证 | 形成假设，评估机制、历史、当前状态与执行条件 | `wallet-alpha-investigation` + `protocol-alpha-validation` |
-| 研究留档 | 保留来源引用与阶段交接文件 | 本地 `data/` 下的 JSON／Markdown，已被 Git 忽略 |
-| 应用服务 | 检查交接一致性，提供研究视图 | Python 适配器与本地 HTTP API |
-| 用户界面 | 展示任务、候选、报告与辅助活动 | React 19 + TypeScript + Vite；支持中英文 |
-
-Agent 负责解释与提出假设，证据和确定性检查支持最终判断。适配器在展示留档验证结果前，会检查候选、钱包、交易和输入哈希的一致性。通用盈利核算与集成式 Agent 调度仍在路线图中。
-
-### 四个 Skill，一条研究流程
-
-| Skill | 交给下一阶段的输出 |
-| --- | --- |
-| [`protocol-alpha-discovery`](skills/protocol-alpha-discovery/SKILL.md) | 研究范围、阶段协调、最终记录、停止原因 |
-| [`alpha-seed-wallets`](skills/alpha-seed-wallets/SKILL.md) | 去重后的策略钱包、各入口覆盖情况、执行者证据 |
-| [`wallet-alpha-investigation`](skills/wallet-alpha-investigation/SKILL.md) | 候选 ID、来源交易、假设、其他可能解释 |
-| [`protocol-alpha-validation`](skills/protocol-alpha-validation/SKILL.md) | 机制评估、当前机会状态、执行条件、后续检查 |
-
-编排 Skill 协调其余三个 Skill。有证据支持的机制可以被提议为新入口，同时保留其限制。自动扩展为 Alpha Graph 属于未来能力。
+[架构详解](docs/ARCHITECTURE.zh-CN.md) · [绘图源码](docs/diagrams/render_architecture.py) · [Mermaid](docs/diagrams/system-architecture-zh-CN.mmd) · [英文架构图](docs/images/system-architecture-en.svg)
 
 ## 研究留档
 
