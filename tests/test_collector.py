@@ -33,6 +33,23 @@ class CollectionTests(unittest.TestCase):
   def unexpected(*a,**k):raise AssertionError('Should use normal checkpoint overlap, not old cursor')
   self.c.request=unexpected
   self.c.resume_partial('wallet/transactions',10)
+ def test_historical_and_incremental_coverage_survive_same_run(self):
+  self.c.request=lambda *a,**k:{'data':[],'meta':{}}
+  self.c.scan('wallet/transactions','/unused',0,100)
+  self.c.scan('wallet/transactions','/unused',90,110)
+  intervals=self.c.db.execute('SELECT start_ms,end_ms,status FROM coverage ORDER BY start_ms').fetchall()
+  self.assertEqual(intervals,[(0,100,'complete'),(90,110,'complete')])
+  self.assertEqual(self.c.db.execute('SELECT through_ms FROM checkpoints').fetchone()[0],110)
+ def test_legacy_coverage_migration_preserves_evidence(self):
+  self.c.db.executescript('DROP TABLE coverage; CREATE TABLE coverage(run TEXT,stream TEXT,start_ms INTEGER,end_ms INTEGER,status TEXT,pages INTEGER,rows INTEGER,new_rows INTEGER,detail TEXT,PRIMARY KEY(run,stream));')
+  self.c.db.execute('INSERT INTO coverage VALUES(?,?,?,?,?,?,?,?,?)',('legacy','wallet/transactions',0,100,'complete',2,3,3,'{}'))
+  self.c.db.commit();self.c.db.close()
+  self.c=m.Collector(self.temp.name)
+  self.assertEqual(self.c.db.execute('SELECT * FROM coverage').fetchone(),('legacy','wallet/transactions',0,100,'complete',2,3,3,'{}'))
+  self.c.request=lambda *a,**k:{'data':[],'meta':{}}
+  self.c.scan('wallet/transactions','/unused',0,100)
+  self.c.scan('wallet/transactions','/unused',90,110)
+  self.assertEqual(self.c.db.execute('SELECT count(*) FROM coverage').fetchone()[0],3)
  def test_raw_log_verification_rejects_mismatched_reward(self):
   event={'transaction_id':'sample','block_number':1,'result':{'liquidator':'0x'+'11'*20,'renter':'0x'+'22'*20,'receiver':'0x'+'33'*20,'amount':'100','resourceType':'1','usageRental':'5','liquidateFee':'20','sendBack':'7'}}
   receipt={'id':'sample','blockNumber':1,'receipt':{'result':'SUCCESS'},'log':[{'address':'c60a6f5c81431c97ed01b61698b6853557f3afd4','topics':[m.LIQUIDATE_TOPIC]+['0'*24+x*20 for x in ['11','22','33']],'data':''.join(f'{x:064x}' for x in [100,1,5,20,7])}]}

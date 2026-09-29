@@ -64,8 +64,20 @@ class Collector:
         CREATE TABLE IF NOT EXISTS items(stream TEXT,item_id TEXT,timestamp INTEGER,payload TEXT,first_run TEXT,last_run TEXT,PRIMARY KEY(stream,item_id));
         CREATE INDEX IF NOT EXISTS item_time ON items(stream,timestamp);
         CREATE TABLE IF NOT EXISTS checkpoints(stream TEXT PRIMARY KEY, through_ms INTEGER);
-        CREATE TABLE IF NOT EXISTS coverage(run TEXT,stream TEXT,start_ms INTEGER,end_ms INTEGER,status TEXT,pages INTEGER,rows INTEGER,new_rows INTEGER,detail TEXT,PRIMARY KEY(run,stream));
+        CREATE TABLE IF NOT EXISTS coverage(run TEXT,stream TEXT,start_ms INTEGER,end_ms INTEGER,status TEXT,pages INTEGER,rows INTEGER,new_rows INTEGER,detail TEXT,PRIMARY KEY(run,stream,start_ms,end_ms));
         ''')
+        # A resumed historical scan and an incremental scan can share a run.
+        # Preserve both intervals instead of overwriting the historical proof.
+        coverage_key=[row[1] for row in sorted(self.db.execute('PRAGMA table_info(coverage)'),key=lambda row:row[5]) if row[5]]
+        if coverage_key==['run','stream']:
+            self.db.executescript('''
+            BEGIN;
+            ALTER TABLE coverage RENAME TO coverage_legacy;
+            CREATE TABLE coverage(run TEXT,stream TEXT,start_ms INTEGER,end_ms INTEGER,status TEXT,pages INTEGER,rows INTEGER,new_rows INTEGER,detail TEXT,PRIMARY KEY(run,stream,start_ms,end_ms));
+            INSERT INTO coverage SELECT * FROM coverage_legacy;
+            DROP TABLE coverage_legacy;
+            COMMIT;
+            ''')
         self.count=0;self.last_request=0;self.errors=[];self.changes={}
         self.key=os.environ.get('TRONGRID_API_KEY') or os.environ.get('TRON_PRO_API_KEY')
     def request(self,path,params=None,body=None):
@@ -177,7 +189,7 @@ class Collector:
         watchlist={'network':'tron-mainnet','seed_contract':CONTRACT,'created_at':utc(),'history_start_ms':start,'discovery_end_ms':end,'wallets':list(wallets.values()),'relationships':links,'selection_limit':count,'selection_method':'Liquidator contracts sorted by Energy Rental event count; sampled newest, middle and oldest event, verified originating wallet through transaction body + successful receipt. This is a research shortlist, not a profitability ranking.'}
         dump(self.root/'watchlist.json',watchlist);return watchlist
     def resume_partial(self,stream,max_pages):
-        last=self.db.execute('SELECT start_ms,end_ms,status,detail FROM coverage WHERE stream=? ORDER BY run DESC LIMIT 1',(stream,)).fetchone()
+        last=self.db.execute('SELECT start_ms,end_ms,status,detail FROM coverage WHERE stream=? ORDER BY run DESC,end_ms DESC,start_ms DESC LIMIT 1',(stream,)).fetchone()
         if last and last[2]=='partial':
             cp=self.db.execute('SELECT through_ms FROM checkpoints WHERE stream=?',(stream,)).fetchone()
             if cp:return  # A completed prefix exists; normal overlap scan fills the remaining gap.

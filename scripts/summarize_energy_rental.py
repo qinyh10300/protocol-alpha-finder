@@ -41,7 +41,7 @@ def summarize(root):
             name=f'{a}/{kind}'
             row=db.execute('SELECT count(*),min(timestamp),max(timestamp) FROM items WHERE stream=?',(name,)).fetchone()
             cp=db.execute('SELECT through_ms FROM checkpoints WHERE stream=?',(name,)).fetchone()
-            coverage=db.execute('SELECT run,start_ms,end_ms,status,pages,rows,detail FROM coverage WHERE stream=? ORDER BY run DESC LIMIT 1',(name,)).fetchone()
+            coverage=db.execute('SELECT run,start_ms,end_ms,status,pages,rows,detail FROM coverage WHERE stream=? ORDER BY run DESC,end_ms DESC,start_ms DESC LIMIT 1',(name,)).fetchone()
             streams[kind]={'records':row[0],'oldest':utc(row[1]) if row[1] else None,'newest':utc(row[2]) if row[2] else None,'complete_through':utc(cp[0]) if cp else None,'latest_scan':dict(zip(['run','start_ms','end_ms','status','pages','rows','detail'],coverage)) if coverage else None}
         accountpath=root/'wallets'/a/'account_snapshot.json'
         account=json.loads(accountpath.read_text()).get('account',{}) if accountpath.exists() else {}
