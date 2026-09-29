@@ -28,7 +28,14 @@ import {
   CircleHelp,
 } from "lucide-react";
 import { ApiResearchDataSource, MockResearchDataSource } from "./data";
-import { currentMode, currentPath, isPagesBuild, routeUrl } from "./routing";
+import {
+  currentMode,
+  currentPath,
+  currentSeed,
+  isPagesBuild,
+  routeUrl,
+} from "./routing";
+import { DEFAULT_DEMO_SEED } from "./seeds";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -263,6 +270,7 @@ function ResearchRunSummary({
   const { t, locale } = useI18n();
 
   const run = data.run;
+  const selectedSeed = data.seeds.find((seed) => seed.id === run.seedId);
   return (
     <section className="run-summary" aria-label={t("Research run summary")}>
       <div className="summary-top">
@@ -275,7 +283,7 @@ function ResearchRunSummary({
             <label className="seed-select">
               <select
                 aria-label={t("Research seed")}
-                value={data.mode === "demo" ? data.seeds[0].id : seedId}
+                value={seedId}
                 onChange={(e) => changeSeed(e.target.value)}
               >
                 {data.seeds.map((s) => (
@@ -289,7 +297,9 @@ function ResearchRunSummary({
             <p>
               {data.mode === "archive"
                 ? t("TRON · Known protocol alpha")
-                : t("JustLend · Synthetic demo seed")}
+                : t("{protocol} · Synthetic demo seed", {
+                    protocol: selectedSeed?.protocol || "TRON",
+                  })}
             </p>
           </div>
         </div>
@@ -1227,7 +1237,7 @@ function App() {
 
   const [path, setPath] = useState(currentPath);
   const [mode, setMode] = useState(currentMode);
-  const [seedId, setSeedId] = useState("all");
+  const [seedId, setSeedId] = useState(currentSeed);
   const [rawData, setData] = useState<Snapshot | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(true);
@@ -1257,7 +1267,7 @@ function App() {
           rawDrawer
         : data?.candidates.find((c) => c.id === rawDrawer.id) || rawDrawer;
   function navigate(next: string) {
-    history.pushState({}, "", routeUrl(next, mode));
+    history.pushState({}, "", routeUrl(next, mode, seedId));
     setPath(next);
     setDrawer(null);
     window.scrollTo(0, 0);
@@ -1269,14 +1279,17 @@ function App() {
     setError("");
     setDrawer(null);
     setFilterWallet(null);
-    setSeedId("all");
+    const nextSeed = next === "demo" ? DEFAULT_DEMO_SEED : "all";
+    setSeedId(nextSeed);
     setPath("/research");
-    history.pushState({}, "", routeUrl("/research", next));
+    history.pushState({}, "", routeUrl("/research", next, nextSeed));
   }
   useEffect(() => {
     const onPop = () => {
       setPath(currentPath());
       setMode(currentMode());
+      setSeedId(currentSeed());
+      setFilterWallet(null);
       setDrawer(null);
     };
     window.addEventListener("popstate", onPop);
@@ -1293,7 +1306,8 @@ function App() {
     setBusy(true);
     setError("");
     const source = mode === "demo" ? demo : api;
-    const id = mode === "demo" ? "run-demo-001" : "local-" + seedId;
+    if (mode === "demo") demo.selectSeed(seedId);
+    const id = mode === "demo" ? `run-demo-${seedId}` : "local-" + seedId;
     const load = async () => {
       try {
         const result = await source.getSnapshot(id);
@@ -1532,12 +1546,20 @@ function App() {
                       setSeedId(id);
                       setData(null);
                       setFilterWallet(null);
+                      setDrawer(null);
+                      setSearch("");
+                      setOutcome("all");
+                      history.pushState(
+                        {},
+                        "",
+                        routeUrl("/research", mode, id),
+                      );
                     }}
                     refresh={() => setRevision((r) => r + 1)}
                     busy={busy}
                     activity={() => setDrawer("activity")}
                     play={async () => {
-                      await demo.createRun();
+                      await demo.createRun(seedId);
                       setRevision((r) => r + 1);
                     }}
                     pause={() => {

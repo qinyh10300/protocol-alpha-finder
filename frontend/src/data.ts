@@ -1,4 +1,5 @@
 import mockPayload from "../../Protocol_Alpha_Finder_Frontend_Implementation_Pack/06_MOCK_DATA.json";
+import { DEFAULT_DEMO_SEED, DEMO_SCENARIOS, PROTOCOL_SEEDS } from "./seeds";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -74,6 +75,7 @@ export class ApiResearchDataSource implements ResearchDataSource {
 }
 
 export class MockResearchDataSource implements ResearchDataSource {
+  private seedId = DEFAULT_DEMO_SEED;
   private started = false;
   private elapsed = 0;
   private epoch = 0;
@@ -84,7 +86,19 @@ export class MockResearchDataSource implements ResearchDataSource {
       (this.started && !this.paused ? (Date.now() - this.epoch) / 1000 : 0)
     );
   }
-  async createRun() {
+  selectSeed(seedId: string) {
+    if (!PROTOCOL_SEEDS.some((seed) => seed.id === seedId)) {
+      throw new Error("Unknown demo seed");
+    }
+    if (this.seedId === seedId) return;
+    this.seedId = seedId;
+    this.started = false;
+    this.paused = false;
+    this.elapsed = 0;
+    this.epoch = 0;
+  }
+  async createRun(seedId = this.seedId) {
+    this.selectSeed(seedId);
     this.started = true;
     this.paused = false;
     this.elapsed = 0;
@@ -101,6 +115,13 @@ export class MockResearchDataSource implements ResearchDataSource {
   }
   async getSnapshot(): Promise<Snapshot> {
     const data = structuredClone(mockPayload);
+    const scenario = DEMO_SCENARIOS[this.seedId];
+    data.wallets = data.wallets.filter((wallet) =>
+      scenario.wallets.includes(wallet.address),
+    );
+    data.candidates = data.candidates.filter((candidate) =>
+      scenario.candidates.includes(candidate.id),
+    );
     const t = this.seconds;
     const wallets: StrategyWallet[] = this.started
       ? data.wallets
@@ -117,16 +138,20 @@ export class MockResearchDataSource implements ResearchDataSource {
             });
             return {
               ...w,
+              sourceSeedId: this.seedId,
               historyJob: {
                 ...job(1, 4),
                 txCount: phase >= 4 ? w.historyJob.txCount : undefined,
               },
               analysisJob: job(4, 6),
               alphaSearchJob: job(6, 9),
-              candidateIds: w.candidateIds.filter(
-                (id) =>
-                  data.candidates.findIndex((c) => c.id === id) * 1.4 + 9 <= t,
-              ),
+              candidateIds: data.candidates
+                .filter(
+                  (candidate, index) =>
+                    candidate.sourceWallets.includes(w.address) &&
+                    index * 1.4 + 9 <= t,
+                )
+                .map((candidate) => candidate.id),
             };
           })
       : [];
@@ -154,6 +179,8 @@ export class MockResearchDataSource implements ResearchDataSource {
       })) as AlphaReport[];
     const run: ResearchRun = {
       ...data.run,
+      id: `run-demo-${this.seedId}`,
+      seedId: this.seedId,
       walletCount: wallets.length,
       candidateCount: candidates.length,
       reportCount: reports.length,
@@ -191,7 +218,7 @@ export class MockResearchDataSource implements ResearchDataSource {
     );
     return {
       run,
-      seeds: [data.seed],
+      seeds: structuredClone(PROTOCOL_SEEDS),
       wallets,
       candidates,
       reports,

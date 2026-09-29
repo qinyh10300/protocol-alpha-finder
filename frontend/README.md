@@ -76,6 +76,10 @@ UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Researc
 
 右上角切换后，点击 **Run Discovery**。使用实现包 `06_MOCK_DATA.json`，约 17 秒自动播放各钱包的独立阶段、候选验证与报告出现；支持暂停、继续和重播。页面持续标识合成数据，Demo 的 ACTIONABLE 结论不属于真实研究。Demo 不依赖本地链上留档。
 
+左上角 **Current Seed** 支持与 `alpha-seed-wallets` 一致的三个入口：Energy Rental Liquidation、JustLend Lending Liquidation、USDD Keeper / Auction。切换 Seed 会清空上一场演示和钱包筛选，点击 **Run Discovery** 播放所选场景。Seed 会保存在页面 URL 中，报告分享、刷新和浏览器前后退均保留选择。
+
+`src/seeds.ts` 明确列出三个合成场景的钱包和候选范围，复用实现包中的示例报告。它们用于演示切换，不代表新的链上查询或历史留档：Energy Rental 为 5 钱包 / 3 候选，JustLend 借贷为 4 钱包 / 1 候选，USDD 为 3 钱包 / 2 候选。真实数据模式仍由 API 按 Seed 筛选已保存的 Skill 产物，并保留零结果与覆盖缺口。
+
 ## 报告结果映射
 
 Skill 的机会状态与前端的报告处置是两个字段：

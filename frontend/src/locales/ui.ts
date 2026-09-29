@@ -136,6 +136,7 @@ export const uiZh: Record<string, string> = {
   "Search Alpha": "发现 Alpha",
   "TRON · Known protocol alpha": "TRON · 已知协议 Alpha",
   "JustLend · Synthetic demo seed": "JustLend · 合成演示种子",
+  "{protocol} · Synthetic demo seed": "{protocol} · 合成演示种子",
   "Pause demo": "暂停演示",
   "Resume demo": "继续演示",
   "Replay Demo": "重播演示",

@@ -18,6 +18,7 @@ export type Seed = {
   id: string;
   name: string;
   chain: string;
+  protocol?: string;
   description?: string;
   walletCount?: number;
   coverage?: string;
