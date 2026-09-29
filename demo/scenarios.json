@@ -1,0 +1,78 @@
+{
+  "mode": "synthetic",
+  "notice": "All wallets, sequences and candidates are illustrative. No live chain queries or model calls.",
+  "scenarios": [
+    {
+      "id": "energy",
+      "name": "Energy Rental liquidation",
+      "tier": "Primary seed",
+      "why": "从协议资源机制中的执行者出发，寻找更多值得研究的合约行为。",
+      "wallet": "DEMO-WALLET-001",
+      "candidate": "跨合约资源回收与奖励领取",
+      "sequence": [
+        "资源释放",
+        "结算调用",
+        "奖励领取"
+      ],
+      "hypothesis": "同一示例执行者在清算以外重复调用结算与领取动作，可能存在额外的协议激励路径。",
+      "missing": [
+        "真实执行交易与 ABI",
+        "奖励归属及资金流重建",
+        "当前合约状态与 Energy 成本"
+      ],
+      "risks": [
+        "奖励参数变化",
+        "状态竞争与执行失败",
+        "资源成本超过收益"
+      ]
+    },
+    {
+      "id": "usdd",
+      "name": "USDD keeper / redo()",
+      "tier": "Candidate seed",
+      "why": "研究协议维护行为与激励的联系；实际主网执行和奖励参数仍需验证。",
+      "wallet": "DEMO-WALLET-002",
+      "candidate": "拍卖维护与后续结算序列",
+      "sequence": [
+        "拍卖状态检查",
+        "维护动作",
+        "后续结算"
+      ],
+      "hypothesis": "示例历史把维护动作和后续结算关联起来；需要验证它们是否属于同一经济策略。",
+      "missing": [
+        "主网 keeper 事件",
+        "调用者与奖励接收者关系",
+        "拍卖参数及最新状态"
+      ],
+      "risks": [
+        "激励条件不成立",
+        "竞争导致交易失效",
+        "流动性不足"
+      ]
+    },
+    {
+      "id": "justlend",
+      "name": "JustLend lending liquidation",
+      "tier": "Conditional seed",
+      "why": "标准 UI 清算的信号有限，需要检查直接合约调用或非标准执行序列。",
+      "wallet": "DEMO-WALLET-003",
+      "candidate": "清算后的资产处理路径",
+      "sequence": [
+        "清算",
+        "抵押资产处理",
+        "结算"
+      ],
+      "hypothesis": "示例执行者在清算后采用重复的资产处理路径；需要排除普通 UI 路径与价格变动解释。",
+      "missing": [
+        "真实合约调用轨迹",
+        "前端标准路径对照",
+        "资产估值与完整执行成本"
+      ],
+      "risks": [
+        "资金门槛",
+        "滑点与退出深度",
+        "预言机依赖"
+      ]
+    }
+  ]
+}
