@@ -74,7 +74,7 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
   }
   await expect(page.locator(".seed-object p")).toHaveCount(0);
   await expect(page.locator(".coverage-note")).toHaveCount(0);
-  await expect(page.locator(".demo-banner")).toContainText("Synthetic demo");
+  await expect(page.locator(".demo-banner")).toHaveCount(0);
   await chooseSeed(scenarios[1].id);
   await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
@@ -134,9 +134,7 @@ test("switching a paused run resets progress and the chosen seed survives sharin
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
-  await expect(page.locator(".demo-banner")).toContainText(
-    "Recorded research replay",
-  );
+  await expect(page.locator(".demo-banner")).toHaveCount(0);
   await expect(page.locator(".toc-note")).toContainText(
     "Based on saved Skill evidence",
   );
@@ -284,7 +282,7 @@ test("USDD demo reports keep synthetic labels and evidence after sharing and rel
   expect(shared.searchParams.get("view")).toContain("report-demo-usdd-");
   await page.goto(shared.href);
   await page.reload();
-  await expect(page.locator(".demo-banner")).toContainText("Synthetic demo");
+  await expect(page.locator(".demo-banner")).toHaveCount(0);
   await expect(page.locator(".toc-note")).toContainText(
     "Synthetic demo report",
   );

@@ -33,11 +33,11 @@ test("Legacy All links retain combined results without an All selector", async (
 }) => {
   await page.clock.install();
   await page.goto("/frontend/index.html?seed=all");
-  await expect(page.locator('input[name="research-seed"][value="all"]')).toHaveCount(0);
+  await expect(
+    page.locator('input[name="research-seed"][value="all"]'),
+  ).toHaveCount(0);
   await expect(page.locator(".wallet-column select")).toHaveCount(0);
-  await expect(page.locator(".demo-banner")).toContainText(
-    "Energy Rental and USDD use synthetic examples",
-  );
+  await expect(page.locator(".demo-banner")).toHaveCount(0);
   await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
   await expect(page.locator(".summary-count strong")).toHaveText([
@@ -85,7 +85,9 @@ test("Legacy All links retain combined results without an All selector", async (
   await page.goto("/frontend/index.html?seed=all");
   await expect(page.locator(".wallet-column select")).toHaveCount(0);
   await page.reload();
-  await expect(page.locator('input[name="research-seed"][value="all"]')).toHaveCount(0);
+  await expect(
+    page.locator('input[name="research-seed"][value="all"]'),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(6000);
   await page.getByRole("button", { name: "Pause demo", exact: true }).click();
@@ -109,5 +111,7 @@ test("Legacy All links retain combined results without an All selector", async (
   await page
     .getByRole("button", { name: "Back to research", exact: true })
     .click();
-  await expect(page.locator('input[name="research-seed"][value="all"]')).toHaveCount(0);
+  await expect(
+    page.locator('input[name="research-seed"][value="all"]'),
+  ).toHaveCount(0);
 });

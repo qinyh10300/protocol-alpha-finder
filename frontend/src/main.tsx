@@ -11,7 +11,6 @@ import {
   Copy,
   ExternalLink,
   FileText,
-  FlaskConical,
   Layers3,
   LoaderCircle,
   Pause,
@@ -477,18 +476,20 @@ function WalletInvestigationRow({
               provenance={wallet.provenance}
             />
           )}
-          <span
-            className={
-              wallet.candidateIds.length ? "candidate-count" : "zero-count"
-            }
-          >
-            {t(
-              wallet.candidateIds.length === 1
-                ? "{count} candidate"
-                : "{count} candidates",
-              { count: wallet.candidateIds.length },
-            )}
-          </span>
+          {wallet.alphaSearchJob.status === "completed" && (
+            <span
+              className={
+                wallet.candidateIds.length ? "candidate-count" : "zero-count"
+              }
+            >
+              {t(
+                wallet.candidateIds.length === 1
+                  ? "{count} candidate"
+                  : "{count} candidates",
+                { count: wallet.candidateIds.length },
+              )}
+            </span>
+          )}
         </div>
         <PipelineStatus wallet={wallet} />
       </div>
@@ -579,13 +580,11 @@ function WalletInvestigationList({
 function AlphaCandidateCard({
   candidate: c,
   index,
-  open,
-  sources,
+  details,
 }: {
   candidate: AlphaCandidate;
   index: number;
-  open: (id: string) => void;
-  sources: () => void;
+  details: () => void;
 }) {
   const { t } = useI18n();
 
@@ -670,23 +669,19 @@ function AlphaCandidateCard({
         </div>
       </div>
       <div className="card-actions">
-        {c.reportId ? (
-          <button
-            className="secondary report-link"
-            onClick={() => open(c.reportId!)}
-          >
-            <FileText size={15} />
-            {t("Open Report")}
-          </button>
-        ) : (
+        {!c.reportId && (
           <span className="pending-report">
             {c.status === "validating"
               ? t("Validation in progress")
               : t("Awaiting validation")}
           </span>
         )}
-        <button className="text-button" onClick={sources}>
-          {t("View evidence")}
+        <button
+          className="text-button"
+          onClick={details}
+          disabled={!c.reportId}
+        >
+          {t("View Details")}
           <ArrowRight size={15} />
         </button>
       </div>
@@ -696,14 +691,12 @@ function AlphaCandidateCard({
 function AlphaCandidateList({
   data,
   candidates,
-  open,
-  sources,
+  details,
   clear,
 }: {
   data: Snapshot;
   candidates: AlphaCandidate[];
-  open: (id: string) => void;
-  sources: (c: AlphaCandidate) => void;
+  details: (c: AlphaCandidate) => void;
   clear?: () => void;
 }) {
   const { t } = useI18n();
@@ -736,8 +729,7 @@ function AlphaCandidateList({
               key={c.id}
               candidate={c}
               index={i}
-              open={open}
-              sources={() => sources(c)}
+              details={() => details(c)}
             />
           ))
         ) : (
@@ -1255,6 +1247,7 @@ function App() {
     "activity" | StrategyWallet | AlphaCandidate | null
   >(null);
   const [filterWallet, setFilterWallet] = useState<string | null>(null);
+  const [previewReportId, setPreviewReportId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [outcome, setOutcome] = useState("all");
   const [rawReport, setReport] = useState<AlphaReport | null>(null);
@@ -1285,6 +1278,7 @@ function App() {
   function changeSeed(id: string) {
     setSeedId(id);
     setData(null);
+    setPreviewReportId(null);
     setFilterWallet(null);
     setDrawer(null);
     setSearch("");
@@ -1293,6 +1287,7 @@ function App() {
   }
   function switchMode(next: "archive" | "demo") {
     setMode(next);
+    setPreviewReportId(null);
     setData(null);
     setReport(null);
     setError("");
@@ -1389,7 +1384,6 @@ function App() {
       setMessage("Clipboard unavailable. Select the full address to copy.");
     }
   }
-  const provenance = reportId ? report?.provenance : data?.provenance;
   return (
     <>
       <AppHeader
@@ -1401,31 +1395,6 @@ function App() {
       <main
         className={path === "/research" ? "research-main" : "document-main"}
       >
-        {mode === "demo" && (reportId ? report : data) && (
-          <div className="demo-banner">
-            <FlaskConical size={15} />
-            <strong>
-              {t(
-                provenance === "mixed"
-                  ? "All seeds replay"
-                  : provenance === "recorded"
-                    ? "Recorded research replay"
-                    : "Synthetic demo",
-              )}
-            </strong>
-            <span>
-              {t(
-                provenance === "mixed"
-                  ? "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search."
-                  : provenance === "recorded"
-                    ? "Saved chain research with simulated playback. Replay Demo replays the recorded results; it does not start a new search."
-                    : isPagesBuild
-                      ? "Illustrative data and simulated job timing. Choose a set and click Replay Demo to explore."
-                      : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
-              )}
-            </span>
-          </div>
-        )}
         {reportId ? (
           report ? (
             <AlphaReportPage
@@ -1579,6 +1548,7 @@ function App() {
                     busy={busy}
                     activity={() => setDrawer("activity")}
                     play={async () => {
+                      setPreviewReportId(null);
                       await demo.createRun(seedId);
                       setRevision((r) => r + 1);
                     }}
@@ -1617,14 +1587,17 @@ function App() {
                     <AlphaCandidateList
                       data={data}
                       candidates={candidates}
-                      open={openReport}
-                      sources={(c) => setDrawer(c)}
+                      details={(c) =>
+                        c.reportId && setPreviewReportId(c.reportId)
+                      }
                       clear={
                         filterWallet ? () => setFilterWallet(null) : undefined
                       }
                     />
                     <AlphaReportList
                       reports={visibleReports}
+                      selectedId={previewReportId}
+                      select={setPreviewReportId}
                       open={openReport}
                     />
                   </div>

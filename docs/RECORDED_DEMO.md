@@ -16,7 +16,7 @@ USDD's demo uses `frontend/public/research/usdd-synthetic-demo.json`: three clea
 
 The saved real USDD scan remains unchanged at `frontend/public/research/usdd-keeper-auction.json`: 27 bounded provider queries and zero verified executors. That file retains its query limitations and is not used to support the synthetic reports. The local Skill-results mode still shows the recorded scan. The large zero-result note is absent from the synthetic Demo and All view.
 
-JustLend displays **Recorded research replay**. Energy Rental and USDD display **Synthetic demo**. All labels the source of each result. Playback timing is simulated; Replay Demo does not query the chain.
+The top replay banner is omitted. Replay metadata, source badges and the footer identify recorded or synthetic data. Wallet candidate counts appear after Search Alpha completes. **View Details** on a candidate selects its summary in the right report column; the first report is shown by default. **Open Full Report** appears in that column, without a duplicate action on candidate cards. Playback timing is simulated; Replay Demo does not query the chain.
 
 ## Refresh the published snapshots
 

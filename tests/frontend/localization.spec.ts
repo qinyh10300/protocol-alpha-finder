@@ -49,10 +49,11 @@ test.describe("Bilingual research workspace", () => {
       await page
         .locator(".candidate-card")
         .nth(index)
-        .getByRole("button", { name: "View evidence" })
+        .getByRole("button", { name: "View Details" })
         .click();
-      await expect(page.getByRole("dialog")).toBeVisible();
-      await expect(page.getByRole("dialog")).toContainText("UNCERTAIN");
+      await expect(page.locator(".report-preview.featured")).toContainText(
+        "UNCERTAIN",
+      );
       await expectEnglish(page);
       await page.keyboard.press("Escape");
     }

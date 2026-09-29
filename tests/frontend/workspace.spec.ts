@@ -8,9 +8,7 @@ const hasArchive = existsSync(
 
 test.describe("Real Skill integration", () => {
   test.skip(!hasArchive, "Restore ignored data/ to test real Skill artifacts");
-  test("real counts, wallet filter and candidate evidence", async ({
-    page,
-  }) => {
+  test("real counts, wallet filter and report preview", async ({ page }) => {
     await page.goto("/research");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
     await expect(page.locator(".wallet-row")).toHaveCount(6);
@@ -21,8 +19,10 @@ test.describe("Real Skill integration", () => {
     );
     await page.getByRole("button", { name: "Show related candidates" }).click();
     await expect(page.locator(".candidate-card")).toHaveCount(1);
-    await page.getByRole("button", { name: "View evidence" }).click();
-    await expect(page.getByRole("dialog")).toContainText("UNCERTAIN");
+    await page.getByRole("button", { name: "View Details" }).click();
+    await expect(page.locator(".report-preview.featured")).toContainText(
+      "UNCERTAIN",
+    );
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
     await page.getByRole("button", { name: "Filtered by wallet" }).click();

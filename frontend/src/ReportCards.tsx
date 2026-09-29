@@ -279,40 +279,32 @@ export function AlphaReportPreview({
 
 export function AlphaReportList({
   reports,
+  selectedId,
+  select,
   open,
 }: {
   reports: AlphaReport[];
+  selectedId: string | null;
+  select: (id: string) => void;
   open: (id: string) => void;
 }) {
   const { t, locale } = useI18n();
-  // A saved selection survives polling; changing to a seed without it selects its first report.
-  const sorted = [...reports].sort(
-    (a, b) => Number(b.outcome === "MONITOR") - Number(a.outcome === "MONITOR"),
-  );
-  const [selectedId, setSelectedId] = useState<string | undefined>(
-    sorted[0]?.id,
-  );
   const selected =
-    sorted.find((report) => report.id === selectedId) || sorted[0];
+    reports.find((report) => report.id === selectedId) || reports[0];
   const contentRef = useRef<HTMLDivElement>(null);
-  const focusSelection = useRef(false);
+  const previousSelection = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (focusSelection.current) {
+    if (
+      previousSelection.current &&
+      previousSelection.current !== selected?.id
+    ) {
+      contentRef.current?.scrollTo({ top: 0, behavior: "instant" });
       contentRef.current
         ?.querySelector<HTMLElement>(".featured h3")
         ?.focus({ preventScroll: true });
-      focusSelection.current = false;
     }
+    previousSelection.current = selected?.id;
   }, [selected?.id]);
-  useEffect(() => {
-    if (selected?.id !== selectedId) setSelectedId(selected?.id);
-  }, [selected?.id, selectedId]);
-
-  function selectReport(id: string) {
-    focusSelection.current = true;
-    setSelectedId(id);
-    contentRef.current?.scrollTo({ top: 0, behavior: "instant" });
-  }
 
   return (
     <section className="workspace-column report-column">
@@ -337,7 +329,7 @@ export function AlphaReportList({
               featured
               open={open}
             />
-            {sorted
+            {reports
               .filter((report) => report.id !== selected.id)
               .map((report) => (
                 <article
@@ -352,7 +344,7 @@ export function AlphaReportList({
                       title: report.title,
                       candidateId: report.candidateId,
                     })}
-                    onClick={() => selectReport(report.id)}
+                    onClick={() => select(report.id)}
                   >
                     <span className="report-document-icon" aria-hidden="true">
                       <FileText size={20} />

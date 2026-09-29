@@ -57,6 +57,7 @@ export const uiZh: Record<string, string> = {
   "Protocol opportunities discovered from wallet investigations.":
     "从钱包调查中发现的潜在协议机会。",
   "Sort by:": "排序：",
+  "View Details": "查看详情",
   "Sort candidates": "候选排序",
   "Discovery order": "发现顺序",
   "Newest first": "最新优先",
