@@ -1,57 +1,59 @@
-%% Solid lines show evidence/results; dashed lines show Skill coordination.
-flowchart LR
-    subgraph SEEDS["01  ALPHA SEED"]
-        SEED0["Energy Rental<br/>清算保证金不足的租赁订单，<br/>回收资源并获得奖励。"]
-        SEED1["JustLend<br/>偿还抵押不足头寸的债务，<br/>获得被清算的抵押品。"]
-        SEED2["USDD<br/>触发清算、重启拍卖，<br/>或购买拍卖中的抵押品。"]
+flowchart TB
+    subgraph FLOW["研究工作流"]
+        direction LR
+        subgraph SEEDS["1 · Alpha Seed"]
+            SEED0["Energy Rental<br/>清算保证金不足的租赁订单， 回收资源并获得奖励。"]
+            SEED1["JustLend<br/>偿还抵押不足头寸的债务， 获得被清算的抵押品。"]
+            SEED2["USDD<br/>触发清算、重启拍卖， 或购买拍卖中的抵押品。"]
+        end
+        subgraph WALLETS["2 · 策略钱包"]
+            WALLET0["T8mQ…4kN2"]
+            WALLET1["TB7p…9wR4"]
+            WALLET2["TK3v…7dA6"]
+            WALLET3["TP5n…2sF8"]
+            WALLET4["TU6c…8hM3"]
+            WALLET5["TX9r…5bK7"]
+        end
+        subgraph CANDIDATES["3 · Alpha 候选"]
+            CANDIDATE0["租赁组合操作<br/>合并调用可能降低 整体执行成本。"]
+            CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快 释放占用资金。"]
+            CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会， 需要结合执行成本验证。"]
+        end
+        subgraph VALIDATION["4 · 验证"]
+            CHECK["执行证据 · 奖励扣除成本 · 协议当前条件"]
+            REPORT["Alpha 报告<br/>可执行 · 持续观察<br/>已排除 · 证据不足"]
+            NEW["验证支持后形成新的 Alpha"]
+            CHECK --> REPORT --> NEW
+        end
+        SEED0 -->|Skill 1| WALLET0
+        SEED0 --> WALLET1
+        SEED1 --> WALLET2
+        SEED1 --> WALLET3
+        SEED2 --> WALLET4
+        SEED2 --> WALLET5
+        WALLET0 -->|Skill 2| CANDIDATE0
+        CANDIDATE0 -->|Skill 3| CHECK
     end
-    subgraph RESEARCH["Research Workflow"]
-    subgraph WALLETS["02  策略钱包"]
-        WALLET0["钱包 A<br/>租赁清算"]
-        WALLET1["钱包 B<br/>资源组合操作"]
-        WALLET2["钱包 C<br/>借贷清算"]
-        WALLET3["钱包 D<br/>抵押品赎回"]
-        WALLET4["钱包 E<br/>Keeper 操作"]
-        WALLET5["钱包 F<br/>拍卖购买"]
-    end
-    subgraph CANDIDATES["03  ALPHA 候选"]
-        CANDIDATE0["租赁组合操作<br/>合并调用可能降低<br/>整体执行成本。"]
-        CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快<br/>释放占用资金。"]
-        CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会，<br/>需要结合执行成本验证。"]
-    end
-    subgraph VALIDATE["04  VALIDATION 验证"]
-    VALIDATION["执行证据<br/>奖励扣除成本<br/>协议当前条件"]
-    NEW["新的 Alpha<br/>验证支持后产出"]
-    REPORT["Alpha 报告<br/>证据与后续检查<br/>每个候选均有报告<br/>可执行 · 持续观察<br/>已排除 · 证据不足"]
-    VALIDATION --> REPORT
-    REPORT --> NEW
-    end
-    end
-    SEED0 --> WALLET0
-    WALLET0 --> CANDIDATE0
-    SEED0 --> WALLET1
-    WALLET1 --> CANDIDATE0
-    CANDIDATE0 --> VALIDATION
-    SEED1 --> WALLET2
-    WALLET2 --> CANDIDATE1
-    SEED1 --> WALLET3
-    WALLET3 --> CANDIDATE1
-    CANDIDATE1 --> VALIDATION
-    SEED2 --> WALLET4
-    WALLET4 --> CANDIDATE2
-    SEED2 --> WALLET5
-    WALLET5 --> CANDIDATE2
-    CANDIDATE2 --> VALIDATION
-    subgraph SKILLS["Skills"]
-        S0["Skill 1 · 发现并核验钱包<br/>我们从已知机制的执行记录中找到钱包， 再通过交易回执核验其真实执行角色。<br/>alpha-seed-wallets"]
-        S1["Skill 2 · 研究钱包历史<br/>我们追踪每个钱包的完整历史， 从重复操作中提出新的机制假设。<br/>wallet-alpha-investigation"]
-        S2["Skill 3 · 验证候选<br/>我们结合交易证据、执行成本与 协议当前条件，逐个检验候选机制。<br/>protocol-alpha-validation"]
-        S3["Skill 4 · 协调 Skill 1–3<br/>我们协调三个研究步骤、保留证据， 并确定下一轮需要研究的对象。<br/>protocol-alpha-discovery"]
-    end
-    S3 -. coordinates .-> S0
-    S3 -. coordinates .-> S1
-    S3 -. coordinates .-> S2
-    style S0 fill:#eff5ff,stroke:#c8daf8
-    style S1 fill:#f5f1fc,stroke:#ded2f2
-    style S2 fill:#fff7ed,stroke:#f1dcc2
-    style S3 fill:#eef8f4,stroke:#c9e5d9
+    S1["Skill 1 · 发现钱包"]
+    S2["Skill 2 · 研究钱包"]
+    S3["Skill 3 · 验证候选"]
+    S4["Skill 4 · 协调 Skill 1–3"]
+    S4 -.-> S1
+    S4 -.-> S2
+    S4 -.-> S3
+    HISTORY["历史证据<br/>合约调用 · 交易回执 · 资产流动 · 协议状态"]
+    OBSERVE["复查钱包的新活动<br/>新增调用 · 行为变化 · 再次出现的执行条件"]
+    HISTORY --> FLOW
+    HISTORY --> OBSERVE
+    OBSERVE -.-> FLOW
+    %% 地址与候选均为方法示意 · 相同颜色标明来源关系，图中只展开一条研究路径。
+    %% 重复采集与复查；当前由手动启动检查。
+    style WALLET0 fill:#eff5ff,stroke:#c8daf8
+    style WALLET1 fill:#eff5ff,stroke:#c8daf8
+    style CANDIDATE0 fill:#eff5ff,stroke:#c8daf8
+    style WALLET2 fill:#f5f1fc,stroke:#ded2f2
+    style WALLET3 fill:#f5f1fc,stroke:#ded2f2
+    style CANDIDATE1 fill:#f5f1fc,stroke:#ded2f2
+    style WALLET4 fill:#fff7ed,stroke:#f1dcc2
+    style WALLET5 fill:#fff7ed,stroke:#f1dcc2
+    style CANDIDATE2 fill:#fff7ed,stroke:#f1dcc2

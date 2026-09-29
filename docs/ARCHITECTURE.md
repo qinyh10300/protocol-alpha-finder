@@ -8,13 +8,15 @@
 
 ## Reading the diagram
 
-The four stages are **01 Seeds → 02 Wallets → 03 Candidates → 04 Validation Outcomes**. Each seed has two independent arrows to a pair of wallets. Large frames group the research stages; smaller boxes hold the seed mechanisms, wallets, candidates, and checks. Solid arrows carry evidence and results. Below the workflow, Skill 4 connects to Skills 1–3 through dashed coordination arrows.
+The workflow contains four stages: **01 Alpha Seeds → 02 Strategy Wallets → 03 Alpha Candidates → 04 Validation**. Each seed leads to two abbreviated, fictitious TRON addresses. Wallet and candidate colors show their seed family; one highlighted wallet-to-candidate arrow demonstrates the investigation step.
+
+Skill 1–3 badges sit on the transition arrows. Above them, **Skill 4 coordinates the three Skills through dashed arrows**. The lower part shows the historical evidence we analyze and the new wallet activity we review. The technical details at the bottom summarize TRON evidence, incremental collection, and linked research artifacts.
 
 | Seed | Illustrative wallets | Candidate hypothesis |
 | --- | --- | --- |
-| Energy Rental | A: rental liquidation; B: resource bundling | Combining rental and liquidation may reduce execution costs |
-| JustLend | C: lending liquidation; D: collateral redemption | Redeeming and swapping collateral may recycle capital faster |
-| USDD | E: keeper actions; F: auction purchases | Auction timing may expose temporary discounts worth validating |
+| Energy Rental | Two fictitious addresses | Combining rental and liquidation may reduce execution costs |
+| JustLend | Two fictitious addresses | Redeeming and swapping collateral may recycle capital faster |
+| USDD | Two fictitious addresses | Auction timing may expose temporary discounts worth validating |
 
 These six wallets demonstrate the method; they are not the recorded wallet count. The USDD wallets and auction hypothesis are illustrative. In the saved run, USDD has no verified wallet, and the five reports are three Monitor and two Insufficient Evidence. No candidate has been promoted to a new seed. Recorded evidence remains in `validation-handoff.json` and `validation-results.json`.
 

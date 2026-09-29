@@ -4,9 +4,9 @@
 
 We study successful protocol actions to identify their executors, then review those wallets' broader history and new activity for other mechanisms.
 
-![Historical evidence and wallet observation cycle](images/data-architecture-en.svg)
+![Research workflow, evidence, and wallet observation](images/system-architecture-en.svg)
 
-Large frames group evidence, research, and validation. Solid arrows carry findings forward; the dashed return starts another research round only after a mechanism is established.
+The combined diagram places the four research stages inside one workflow. Below it, historical evidence and fresh wallet activity support further investigation; Skill 4 coordinates Skills 1–3 through dashed arrows.
 
 ## What we study
 
@@ -30,4 +30,10 @@ An established mechanism can become a new seed. Unresolved candidates retain the
 
 [Wallet discovery](../skills/alpha-seed-wallets/SKILL.md) · [Wallet investigation](../skills/wallet-alpha-investigation/SKILL.md) · [Candidate validation](../skills/protocol-alpha-validation/SKILL.md)
 
-To regenerate the bilingual figures: `python3 docs/diagrams/render_data_architecture.py`.
+## Technical details
+
+- **TRON evidence:** contract calls, receipts, asset flows, and protocol state.
+- **Incremental collection:** deduplicated records, coverage tracking, and collection checkpoints.
+- **Linked artifacts:** wallet, candidate, and validation records retain their source transactions.
+
+To regenerate the bilingual figure: `python3 docs/diagrams/render_architecture.py`.

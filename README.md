@@ -24,19 +24,11 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 ## System architecture
 
-Three seeds lead to strategy wallets, candidate mechanisms, and validation. Solid arrows show evidence flow; dashed arrows show how Skill 4 coordinates Skills 1–3.
+Three seeds lead to strategy wallets, candidate mechanisms, and validation. Skills 1–3 perform these steps; Skill 4 coordinates them. Historical evidence and new wallet activity support each research round.
 
-![Seed Alpha discovery pipeline](docs/images/system-architecture-en.svg)
+![Seed Alpha research architecture](docs/images/system-architecture-en.svg)
 
-[Method and Skills](docs/ARCHITECTURE.md)
-
-## From history to new Alpha
-
-Analyze calls, receipts, asset flows, and protocol state to identify strategy wallets. Review their new activity to find and validate fresh candidates.
-
-![Historical evidence and wallet observation cycle](docs/images/data-architecture-en.svg)
-
-[Evidence and observation workflow](docs/DATA_ARCHITECTURE.md)
+[Method and Skills](docs/ARCHITECTURE.md) · [Evidence and wallet observation](docs/DATA_ARCHITECTURE.md)
 
 ## Run locally
 

@@ -24,19 +24,11 @@
 
 ## 系统架构
 
-从三个 Seed 找到策略钱包，形成候选机制，再进行验证。实线表示证据流转，虚线表示 Skill 4 对 Skill 1–3 的编排。
+从三个 Seed 找到策略钱包，形成候选机制，再进行验证。Skill 1–3 完成这些步骤，Skill 4 统一编排；历史证据与钱包的新活动支持每轮研究。
 
-![Seed Alpha 发现流程](docs/images/system-architecture-zh-CN.svg)
+![Seed Alpha 研究架构](docs/images/system-architecture-zh-CN.svg)
 
-[方法与 Skills](docs/ARCHITECTURE.zh-CN.md)
-
-## 从历史数据发现新 Alpha
-
-分析合约调用、回执、资产流和协议状态，识别策略钱包；继续观察钱包的新活动，发现并验证新的候选机会。
-
-![历史证据与钱包观察流程](docs/images/data-architecture-zh-CN.svg)
-
-[数据研究与观察流程](docs/DATA_ARCHITECTURE.zh-CN.md)
+[方法与 Skills](docs/ARCHITECTURE.zh-CN.md) · [历史证据与钱包观察](docs/DATA_ARCHITECTURE.zh-CN.md)
 
 ## 本地运行
 

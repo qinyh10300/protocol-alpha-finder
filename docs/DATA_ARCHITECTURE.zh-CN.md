@@ -4,9 +4,9 @@
 
 从成功的协议操作中找到真实执行者，再研究这些钱包更广泛的历史和新增活动，寻找其他可能成立的机制。
 
-![历史证据与钱包观察流程](images/data-architecture-zh-CN.svg)
+![研究流程、历史证据与钱包观察](images/system-architecture-zh-CN.svg)
 
-大框分别组织历史证据、研究流程与验证。实线表示发现与结果的流转；虚线表示机制确认后再启动下一轮研究。
+合并后的架构图将四个研究阶段放在同一个工作流大框内。下方的历史证据与钱包新增活动支持进一步研究，Skill 4 通过虚线统一编排 Skill 1–3。
 
 ## 分析哪些数据
 
@@ -30,4 +30,10 @@
 
 [钱包发现](../skills/alpha-seed-wallets/SKILL.md) · [钱包研究](../skills/wallet-alpha-investigation/SKILL.md) · [候选验证](../skills/protocol-alpha-validation/SKILL.md)
 
-重新生成中英文图片：`python3 docs/diagrams/render_data_architecture.py`。
+## 技术说明
+
+- **TRON 证据：** 合约调用、交易回执、资产流与协议状态。
+- **增量采集：** 记录去重、覆盖范围与采集检查点。
+- **关联产物：** 钱包、候选与验证记录保留来源交易。
+
+重新生成中英文图片：`python3 docs/diagrams/render_architecture.py`。
