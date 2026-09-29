@@ -1,44 +1,31 @@
-# 数据库与研究数据
+# 从历史证据发现新 Alpha
 
 [English](DATA_ARCHITECTURE.md) · **简体中文** · [研究流程](ARCHITECTURE.zh-CN.md)
 
-链上采集证据保存在 SQLite 和文件中。Skills 将研究结论保存为 JSON 交接文件，适配器据此生成研究工作区和 Alpha 报告。
+从成功的协议操作中找到真实执行者，再研究这些钱包更广泛的历史和新增活动，寻找其他可能成立的机制。
 
-![数据库与研究数据](images/data-architecture-zh-CN.svg)
+![历史证据与钱包观察流程](images/data-architecture-zh-CN.svg)
 
-## 采集数据存储
+## 分析哪些数据
 
-各采集目录可包含一个 `research.sqlite3` 数据库，使用三张表：
+| 证据 | 需要回答的问题 |
+| --- | --- |
+| 合约调用 | 钱包使用了哪些合约与函数，调用顺序是什么？ |
+| 交易回执与事件日志 | 操作是否成功，谁是真正的执行者？ |
+| 代币流动与费用 | 哪些资产发生转移，最终剩余多少，执行成本是多少？ |
+| 协议状态 | 什么条件使操作成立，这些条件现在是否仍存在？ |
 
-| 表 | 主键 | 保存内容 |
-| --- | --- | --- |
-| `items` | `stream, item_id` | 时间戳、JSON 原始记录、首次与最近采集运行 |
-| `coverage` | `run, stream, start_ms, end_ms` | 分页状态、页数、记录数、新增数、JSON 详情 |
-| `checkpoints` | `stream` | 最近完成扫描的时间边界 `through_ms` |
+## 如何继续研究
 
-`items` 另有 `(stream, timestamp)` 索引。记录通过相同的 stream 和 run 值关联，数据库未声明外键。检查点仅在扫描完整结束后推进。图中采用当前采集器定义；旧留档可能仍使用 `(run, stream)` 作为 coverage 主键。
+1. 将已知 Seed 操作匹配到成功调用与真实执行者。
+2. 还原重复调用序列与资产流，筛选值得研究的策略钱包。
+3. 研究每个钱包在原始 Seed 之外的活动，保留交易证据。
+4. 复查新增交易，识别新合约、行为变化与再次出现的执行条件。
+5. 形成机制候选，附支持交易与能够推翻假设的检查项。
+6. 验证证据、成本和当前可用性，为每个候选生成报告。
 
-原始响应位于 `runs/<run>/*.json.gz`，保留请求信息、时间戳与哈希。回执和合约信息分别保存在 `evidence/` 与 `contracts/` 中。
+已确认的机制可以成为新的 Seed；尚未确认的候选保留缺失证据和后续检查。这里的监控指重复采集与复查，当前工作流通过手动运行完成这些检查。
 
-## 研究记录
+[钱包发现](../skills/alpha-seed-wallets/SKILL.md) · [钱包研究](../skills/wallet-alpha-investigation/SKILL.md) · [候选验证](../skills/protocol-alpha-validation/SKILL.md)
 
-以下记录以 JSON 文件保存，由适配器检查关联关系：
-
-| 记录 | 文件 | 关联依据 |
-| --- | --- | --- |
-| 策略钱包 | `strategy-wallets.json` | `address`、Seed ID、执行证据 |
-| Alpha 候选 | `validation-handoff.json` | `candidate_id`、`originating_wallet`、来源交易 |
-| 验证结果 | `validation-results.json` | 候选 ID、机制判断、当前状态 |
-| 研究运行 | `research-record.json` | 来源、研究发现、停止原因、后续检查 |
-
-适配器读取这些文件，并检查候选 ID、钱包地址、来源交易集合，以及文件中提供的交接哈希。随后生成包含入口、钱包、候选、报告和活动的前端快照。报告可以记录尚不确定的结论或缺失证据。
-
-## 来源与重新生成
-
-[采集器表结构](../scripts/collect_energy_rental.py) · [研究适配器](../scripts/research_adapter.py) · [前端数据类型](../frontend/src/types.ts)
-
-```bash
-python3 docs/diagrams/render_data_architecture.py
-```
-
-脚本仅依赖 Python 标准库，生成英文、中文 SVG 和 Mermaid 源文件。
+重新生成中英文图片：`python3 docs/diagrams/render_data_architecture.py`。

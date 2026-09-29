@@ -1,111 +1,81 @@
-"""Draw actual collector tables and JSON research artifacts, without invented SQL tables."""
+"""Draw the evidence-to-wallet research cycle without storage implementation details."""
 from pathlib import Path
 from svg_diagram import Diagram, PALETTE
 
 ROOT=Path(__file__).resolve().parent
 LABELS={
- 'en':{
-  'title':'Database & Research Data',
-  'collection':'01  COLLECTION STORAGE', 'collection_sub':'SQLite tables + original evidence files',
-  'research':'02  RESEARCH RECORDS', 'research_sub':'JSON handoffs linked by wallet and candidate IDs',
-  'items':'Events · Transactions · Transfers', 'coverage':'Requested intervals and pagination status',
-  'checkpoint':'Last complete scan per stream', 'raw':'Evidence files',
-  'raw_lines':['Requests · Receipts · Contract ABIs','URL · fetched_at · SHA-256'],
-  'wallet':'Strategy Wallets','candidate':'Alpha Candidates','validation':'Validation','run':'Research Run',
-  'skills':'Skills', 'summary':'summary',
-  'shared':'Shared stream / run values are logical links, not SQL foreign keys.',
-  'schema':'SQLite fields follow the current collector schema.',
-  'legacy':'Older archives may retain the previous coverage key.',
-  'snapshot':'03  SNAPSHOT + ALPHA REPORTS',
-  'snapshot_fields':'run · seeds · wallets · candidates · reports · activity',
-  'checks':'Adapter checks wallet IDs, source transactions and the input hash.',
-  'description':'The implemented collector stores items, coverage and checkpoints in SQLite and keeps raw evidence in files. Skills produce JSON wallet, candidate, validation and run records. The adapter checks their consistency and projects snapshots and Alpha reports for the frontend. These research entities are JSON records, not SQL tables.'
- },
- 'zh-CN':{
-  'title':'数据库与研究数据结构',
-  'collection':'01  采集数据存储','collection_sub':'SQLite 表 + 原始证据文件',
-  'research':'02  研究记录','research_sub':'JSON 交接文件，以钱包和候选 ID 关联',
-  'items':'事件 · 主交易 · 转账记录','coverage':'请求时间区间与分页覆盖状态',
-  'checkpoint':'每条流最后完成的扫描位置','raw':'证据文件',
-  'raw_lines':['请求响应 · 回执 · 合约 ABI','URL · 抓取时间 · SHA-256'],
-  'wallet':'策略钱包','candidate':'Alpha 候选','validation':'验证结果','run':'研究运行记录',
-  'skills':'Skills','summary':'汇总结论',
-  'shared':'stream / run 是共享关联值，未声明 SQL 外键。',
-  'schema':'图中 SQLite 字段采用当前采集器定义。',
-  'legacy':'旧留档可能仍使用上一版 coverage 主键。',
-  'snapshot':'03  前端快照与 ALPHA 报告',
-  'snapshot_fields':'运行 · 入口 · 钱包 · 候选 · 报告 · 活动',
-  'checks':'适配器校验钱包、来源交易和输入文件哈希的一致性。',
-  'description':'采集器通过 SQLite 的 items、coverage、checkpoints 三张表保存记录，并以文件保存原始证据。Skills 输出钱包、候选、验证和运行记录 JSON。适配器校验交接一致性后生成前端快照和 Alpha 报告；研究实体为 JSON 记录，不是 SQL 数据表。'
- }
-}
+'en':{
+ 'title':'How history reveals the next Alpha',
+ 'subtitle':'Historical evidence identifies strategy wallets. Fresh activity gives us the next research question.',
+ 'heads':['Read historical evidence','Find repeatable behavior','Identify strategy wallets','Observe fresh activity','Form a new Alpha candidate','Validate and learn'],
+ 'rows':[
+  [('Contract calls','Which functions did the wallet execute?'),('Receipts & event logs','Did those actions actually succeed?'),('Token transfers & fees','What entered, left, and remained?'),('Protocol state','What conditions made the action possible?')],
+  [('Match known seed actions','Link successful calls to their executors.'),('Reconstruct the sequence','Follow calls, asset movements, and costs.'),('Compare repeated executions','Separate recurring behavior from one-offs.')],
+  [('Keep the actual executor','Distinguish wallets from relayers and helpers.'),('Attach the evidence','Record the seed, calls, receipts, and role.'),('Build a research shortlist','Investigate each wallet beyond its seed.')],
+  [('Read new transactions','Look for new contracts and call sequences.'),('Compare with wallet history','Find changed behavior and repeated actions.'),('Recheck protocol conditions','See whether earlier opportunities reappear.')],
+  [('Describe the possible mechanism','Explain how the observed actions earn value.'),('Attach supporting executions','Keep transaction evidence and cost estimates.'),('Write a checkable hypothesis','State what would confirm or disprove it.')],
+  [('Test evidence, costs, and current state','Separate an observed pattern from an edge.'),('Produce a report for every candidate','Evidence, outcome, and the next checks to run.'),('Expand only after validation','An established mechanism can become a seed.')]
+ ],
+ 'tags':['INPUT: ON-CHAIN HISTORY','ANALYSIS: ACTIONS + ASSET FLOWS','OUTPUT: EVIDENCE-BACKED WALLETS','MONITORING: NEW ACTIVITY + STATE','OUTPUT: HYPOTHESIS + EVIDENCE','OUTPUT: REPORT + NEXT CHECKS'],
+ 'handoff':['verified executors','wallet shortlist','new behavior','candidate + evidence'],
+ 'loop':'Use an established mechanism as a new seed; repeat with fresh evidence.',
+ 'note':'Monitoring describes repeated collection and review. The current workflow runs these checks manually.',
+},
+'zh-CN':{
+ 'title':'从历史数据找到下一个 Alpha',
+ 'subtitle':'历史证据帮助识别策略钱包；钱包的新活动提出下一轮需要验证的问题。',
+ 'heads':['读取历史证据','识别重复行为','找到策略钱包','观察新增活动','形成新的 Alpha 候选','验证并继续研究'],
+ 'rows':[
+  [('合约调用','钱包调用了哪些合约与函数？'),('交易回执与事件日志','这些操作是否真正执行成功？'),('代币流动与费用','哪些资产流入、流出，最终剩余多少？'),('协议状态','什么条件让这次操作成为可能？')],
+  [('匹配已知 Seed 操作','从成功调用中找到真实执行者。'),('还原执行过程','串联合约调用、资产流动与执行成本。'),('对比多次执行','区分重复行为与偶发操作。')],
+  [('保留真实执行者','区分钱包、中继者与辅助合约。'),('附上可追溯的证据','记录入口、调用、回执及执行角色。'),('形成待研究的钱包名单','继续研究钱包在原始 Seed 之外的活动。')],
+  [('读取新增交易','寻找新合约与新的调用序列。'),('与已有钱包历史对比','识别行为变化和重复发生的操作。'),('重新检查协议条件','观察先前的机会是否再次出现。')],
+  [('描述可能成立的机制','解释这些操作如何产生收益。'),('保留支持这一判断的执行记录','附交易证据与成本估计。'),('写出可以检验的假设','说明什么证据能够支持或推翻它。')],
+  [('检查证据、成本和当前状态','判断观察到的行为是否构成实际优势。'),('为每个候选生成报告','可执行 · 持续观察 · 已排除 · 证据不足'),('验证支持后再扩展','已确认的机制可以成为新的 Seed。')]
+ ],
+ 'tags':['输入：链上历史数据','分析：操作序列与资产流','产出：有执行证据的钱包','监控：新增活动与协议状态','产出：候选假设与支持证据','产出：报告与后续检查'],
+ 'handoff':['已核验的执行记录','策略钱包名单','新行为','候选与证据'],
+ 'loop':'将已确认的机制作为新 Seed，结合新增证据继续下一轮研究。',
+ 'note':'这里的监控指重复采集与复查；当前工作流通过手动运行完成这些检查。',
+}}
 
 
 def render(lang,L):
- d=Diagram(2080,1110,L['title'],L['description'],lang)
- d.text(40,55,L['title'],'title')
- d.rect(40,141,880,728,'#f8fbff','#dbe5f2')
- d.rect(1050,141,990,728,'#fcfaff','#e3dcef')
- d.text(65,183,L['collection'],'heading');d.text(65,215,L['collection_sub'],'body')
- d.text(1080,183,L['research'],'heading');d.text(1080,215,L['research_sub'],'body')
- def table(x,y,w,h,title,fields,note=None,file=None,color=0):
-  d.rect(x,y,w,h)
-  d.text(x+22,y+37,title,'node',color=PALETTE[color][2])
-  d.line(x+22,y+53,x+w-22,y+53)
-  for i,line in enumerate(fields):d.text(x+22,y+85+28*i,line,'code')
-  if note:d.text(x+22,y+h-22,note,'small')
-  if file:d.text(x+22,y+h-20,file,'small')
- table(65,250,400,280,'items',[
-  'PK  stream + item_id','timestamp  INTEGER','payload  TEXT (JSON)','first_run · last_run'],L['items'])
- table(495,250,400,280,'coverage',[
-  'PK  run + stream','    + start_ms + end_ms','status · pages · rows · new_rows','detail  TEXT (JSON)'],L['coverage'])
- table(65,618,400,170,'checkpoints',['PK  stream','through_ms  INTEGER'],L['checkpoint'])
- table(495,618,400,170,L['raw'],L['raw_lines'],file='runs/ · evidence/ · contracts/',color=2)
- d.arrow(265,535,265,609,0,'logical-stream',True,True)
- d.text(286,577,'stream','small')
- d.text(65,839,L['shared'],'small')
- # The arrows on the right express artifact joins and summaries, not SQL FKs.
- d.arrow(1506,355,1582,355,1,'wallet-candidate-key')
- d.text(1545,336,'address','small','middle')
- d.arrow(1800,478,1800,566,1,'candidate-validation-key',False,True)
- d.text(1818,529,'candidate_id','small')
- d.arrow(1584,694,1508,694,1,'run-summary')
- d.text(1545,673,L['summary'],'small','middle')
- table(1080,250,420,225,L['wallet'],['address','seed_ids[]','evidence[]'],file='strategy-wallets.json',color=1)
- table(1590,250,420,225,L['candidate'],['candidate_id','originating_wallet','mechanism_hypothesis','source_transactions[]'],file='validation-handoff.json',color=1)
- table(1590,575,420,225,L['validation'],['candidate_id','mechanism_assessment','current_state','run.input_hash'],file='validation-results.json',color=1)
- table(1080,575,420,225,L['run'],['run · provenance','stopping_reason','next_checks'],file='research-record.json',color=1)
- d.arrow(930,500,1040,500,3,'skill-artifacts')
- d.text(985,479,L['skills'],'small','middle',PALETTE[3][2])
- d.arrow(1545,877,1545,929,1,'snapshot-projection',False,True)
- d.rect(1050,941,990,130,PALETTE[3][0],PALETTE[3][1])
- d.text(1080,978,L['snapshot'],'heading',color=PALETTE[3][2])
- d.text(1080,1013,L['snapshot_fields'],'body')
- d.text(1080,1046,L['checks'],'small')
- d.text(65,980,L['schema'],'body');d.text(65,1015,L['legacy'],'small')
+ d=Diagram(1800,1110,L['title'],L['subtitle'],lang)
+ d.text(40,40,'PROTOCOL ALPHA FINDER  /  EVIDENCE CYCLE','label')
+ d.text(40,94,L['title'],'title');d.text(40,134,L['subtitle'],'body')
+ positions=[(40,195),(640,195),(1240,195),(1240,635),(640,635),(40,635)]
+ colors=[0,1,0,1,2,3]
+ # A conventional serpentine process: left-to-right, then right-to-left.
+ for a,b,y,c,k in [(560,638,390,0,'history-analysis'),(1160,1238,390,0,'analysis-wallet'),(1238,1162,823,1,'monitor-candidate'),(638,562,823,2,'candidate-validation')]:
+  d.arrow(a,y,b,y,c,k)
+ d.arrow(1500,555,1500,627,0,'wallet-monitor',False,True)
+ for i,(x,y) in enumerate(positions):
+  fill,border,accent=PALETTE[colors[i]]
+  d.rect(x,y,520,360,'#ffffff',border,18)
+  d.rect(x,y,520,78,fill,border,18)
+  d.rect(x+22,y+20,38,38,accent,accent,19)
+  d.text(x+41,y+47,str(i+1),'node','middle','#ffffff')
+  d.text(x+76,y+48,L['heads'][i],'heading')
+  spacing=55 if i==0 else 71
+  for j,(title,desc) in enumerate(L['rows'][i]):
+   yy=y+112+j*spacing
+   d.text(x+24,yy,title,'node')
+   d.text(x+24,yy+25,desc,'body')
+  d.line(x+24,y+316,x+496,y+316)
+  d.text(x+24,y+342,L['tags'][i],'label',color=accent)
+ # The loop returns only established mechanisms, not unverified hypotheses.
+ d.arrow(300,633,300,563,3,'validated-seed-loop',True,True)
+ d.text(340,597,L['loop'],'small',color=PALETTE[3][2])
+ d.text(40,1090,L['note'],'small')
  d.save(ROOT.parent/'images'/f'data-architecture-{lang}.svg')
- # Mermaid preserves the same physical-vs-JSON boundary and actual key fields.
- m=f'''flowchart LR
-    subgraph SQLITE["{L['collection']}"]
-        ITEMS["items<br/>PK stream + item_id<br/>timestamp · payload · first_run · last_run"]
-        COVERAGE["coverage<br/>PK run + stream + start_ms + end_ms<br/>status · pages · rows · new_rows · detail"]
-        CHECKPOINTS["checkpoints<br/>PK stream · through_ms"]
-        RAW["{L['raw']}<br/>runs/ · evidence/ · contracts/"]
-        ITEMS -. stream .-> CHECKPOINTS
-    end
-    subgraph JSON["{L['research']} · JSON"]
-        W["{L['wallet']}<br/>address · seed_ids[] · evidence[]"]
-        C["{L['candidate']}<br/>candidate_id · originating_wallet<br/>mechanism_hypothesis · source_transactions[]"]
-        V["{L['validation']}<br/>candidate_id · mechanism_assessment<br/>current_state · run.input_hash"]
-        R["{L['run']}<br/>run · provenance · stopping_reason · next_checks"]
-        W -->|address| C
-        C -->|candidate_id| V
-        V -->|{L['summary']}| R
-    end
-    SQLITE -->|Skills| JSON
-    JSON --> SNAPSHOT["{L['snapshot']}<br/>{L['snapshot_fields']}"]
-'''
- (ROOT/f'data-architecture-{lang}.mmd').write_text(m)
+ m=['flowchart LR']
+ for i,head in enumerate(L['heads']):
+  rows='<br/>'.join(title for title,_ in L['rows'][i])
+  m.append(f'    N{i}["{i+1}. {head}<br/>{rows}"]')
+  if i:m.append(f'    N{i-1} --> N{i}')
+ m.append(f'    N5 -. "{L["loop"]}" .-> N0')
+ (ROOT/f'data-architecture-{lang}.mmd').write_text('\n'.join(m)+'\n')
 
 
 if __name__=='__main__':

@@ -27,18 +27,18 @@ flowchart LR
     SEED2 --> WALLET5
     WALLET5 --> CANDIDATE2
     CANDIDATE2 --> VALIDATION
-    VALIDATION["04  VALIDATION"]
+    VALIDATION["04  Validation"]
     NEW["New Alpha<br/>Only if validation supports it"]
     REPORT["Alpha Report<br/>Evidence + next checks<br/>For every candidate"]
     VALIDATION --> NEW
     VALIDATION --> REPORT
     subgraph SKILLS["Skills"]
-        S0["Skill 1 · Find & verify wallets<br/>alpha-seed-wallets"]
-        S1["Skill 2 · Investigate history<br/>wallet-alpha-investigation"]
-        S2["Skill 3 · Validate candidates<br/>protocol-alpha-validation"]
-        S3["Skill 4 · Coordinate Skills 1–3<br/>protocol-alpha-discovery"]
+        S0["Skill 1 · Find wallets<br/>We identify wallets that executed seed mechanisms and verify their roles using transaction receipts.<br/>alpha-seed-wallets"]
+        S1["Skill 2 · Investigate wallets<br/>We trace each wallet’s history to uncover repeated actions and propose new mechanisms.<br/>wallet-alpha-investigation"]
+        S2["Skill 3 · Validate candidates<br/>We test each candidate against transaction evidence, execution costs, and current protocol conditions.<br/>protocol-alpha-validation"]
+        S3["Skill 4 · Direct the research<br/>We coordinate the three research steps, preserve evidence, and select what to investigate next.<br/>protocol-alpha-discovery"]
     end
-    style S0 fill:#edf4ff,stroke:#bfd3f2
-    style S1 fill:#f4effc,stroke:#d8caec
-    style S2 fill:#fff5e6,stroke:#ecd8b5
-    style S3 fill:#edf6f0,stroke:#c5ddce
+    style S0 fill:#eff5ff,stroke:#c8daf8
+    style S1 fill:#f5f1fc,stroke:#ded2f2
+    style S2 fill:#fff7ed,stroke:#f1dcc2
+    style S3 fill:#eef8f4,stroke:#c9e5d9

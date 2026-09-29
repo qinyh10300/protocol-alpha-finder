@@ -33,12 +33,12 @@ flowchart LR
     VALIDATION --> NEW
     VALIDATION --> REPORT
     subgraph SKILLS["Skills"]
-        S0["Skill 1 · 发现并核验钱包<br/>alpha-seed-wallets"]
-        S1["Skill 2 · 研究钱包历史<br/>wallet-alpha-investigation"]
-        S2["Skill 3 · 验证候选<br/>protocol-alpha-validation"]
-        S3["Skill 4 · 协调 Skill 1–3<br/>protocol-alpha-discovery"]
+        S0["Skill 1 · 发现并核验钱包<br/>我们从已知机制的执行记录中找到钱包， 再通过交易回执核验其真实执行角色。<br/>alpha-seed-wallets"]
+        S1["Skill 2 · 研究钱包历史<br/>我们追踪每个钱包的完整历史， 从重复操作中提出新的机制假设。<br/>wallet-alpha-investigation"]
+        S2["Skill 3 · 验证候选<br/>我们结合交易证据、执行成本与 协议当前条件，逐个检验候选机制。<br/>protocol-alpha-validation"]
+        S3["Skill 4 · 协调 Skill 1–3<br/>我们协调三个研究步骤、保留证据， 并确定下一轮需要研究的对象。<br/>protocol-alpha-discovery"]
     end
-    style S0 fill:#edf4ff,stroke:#bfd3f2
-    style S1 fill:#f4effc,stroke:#d8caec
-    style S2 fill:#fff5e6,stroke:#ecd8b5
-    style S3 fill:#edf6f0,stroke:#c5ddce
+    style S0 fill:#eff5ff,stroke:#c8daf8
+    style S1 fill:#f5f1fc,stroke:#ded2f2
+    style S2 fill:#fff7ed,stroke:#f1dcc2
+    style S3 fill:#eef8f4,stroke:#c9e5d9

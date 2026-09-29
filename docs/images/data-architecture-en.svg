@@ -1,101 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2080" height="1110" viewBox="0 0 2080 1110" role="img" aria-labelledby="title desc" xml:lang="en">
-<title id="title">Database &amp; Research Data</title><desc id="desc">The implemented collector stores items, coverage and checkpoints in SQLite and keeps raw evidence in files. Skills produce JSON wallet, candidate, validation and run records. The adapter checks their consistency and projects snapshots and Alpha reports for the frontend. These research entities are JSON records, not SQL tables.</desc><defs>
-<marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#6088c5"/></marker>
-<marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#9774b9"/></marker>
-<marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#bd934f"/></marker>
-<marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#58826b"/></marker>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1110" viewBox="0 0 1800 1110" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">How history reveals the next Alpha</title><desc id="desc">Historical evidence identifies strategy wallets. Fresh activity gives us the next research question.</desc><defs>
+<marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#2563b8"/></marker>
+<marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#7953ad"/></marker>
+<marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#a8661e"/></marker>
+<marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#20775b"/></marker>
 </defs><style>
 text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#24384d; }
-.title { font-size:32px; font-weight:700; letter-spacing:-.4px; }
+.title { font-size:38px; font-weight:700; letter-spacing:-.4px; }
 .heading { font-size:23px; font-weight:650; }
 .node { font-size:21px; font-weight:600; }
-.body { font-size:18px; fill:#647b90; }
-.small { font-size:16px; fill:#71869a; }
+.body { font-size:18px; fill:#526579; }
+.small { font-size:16px; fill:#61758a; }
 .code { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; }
-.label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#8294a5; }
+.label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#61758a; }
 </style>
-<rect x="0" y="0" width="2080" height="1110" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
-<text x="40" y="55" class="title" text-anchor="start">Database &amp; Research Data</text>
-<rect x="40" y="141" width="880" height="728" rx="16" fill="#f8fbff" stroke="#dbe5f2" stroke-width="1.3"/>
-<rect x="1050" y="141" width="990" height="728" rx="16" fill="#fcfaff" stroke="#e3dcef" stroke-width="1.3"/>
-<text x="65" y="183" class="heading" text-anchor="start">01  COLLECTION STORAGE</text>
-<text x="65" y="215" class="body" text-anchor="start">SQLite tables + original evidence files</text>
-<text x="1080" y="183" class="heading" text-anchor="start">02  RESEARCH RECORDS</text>
-<text x="1080" y="215" class="body" text-anchor="start">JSON handoffs linked by wallet and candidate IDs</text>
-<rect x="65" y="250" width="400" height="280" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="87" y="287" class="node" text-anchor="start" style="fill:#6088c5">items</text>
-<path d="M 87 303 L 443 303" stroke="#e8eef4" fill="none"/>
-<text x="87" y="335" class="code" text-anchor="start">PK  stream + item_id</text>
-<text x="87" y="363" class="code" text-anchor="start">timestamp  INTEGER</text>
-<text x="87" y="391" class="code" text-anchor="start">payload  TEXT (JSON)</text>
-<text x="87" y="419" class="code" text-anchor="start">first_run · last_run</text>
-<text x="87" y="508" class="small" text-anchor="start">Events · Transactions · Transfers</text>
-<rect x="495" y="250" width="400" height="280" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="517" y="287" class="node" text-anchor="start" style="fill:#6088c5">coverage</text>
-<path d="M 517 303 L 873 303" stroke="#e8eef4" fill="none"/>
-<text x="517" y="335" class="code" text-anchor="start">PK  run + stream</text>
-<text x="517" y="363" class="code" text-anchor="start">    + start_ms + end_ms</text>
-<text x="517" y="391" class="code" text-anchor="start">status · pages · rows · new_rows</text>
-<text x="517" y="419" class="code" text-anchor="start">detail  TEXT (JSON)</text>
-<text x="517" y="508" class="small" text-anchor="start">Requested intervals and pagination status</text>
-<rect x="65" y="618" width="400" height="170" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="87" y="655" class="node" text-anchor="start" style="fill:#6088c5">checkpoints</text>
-<path d="M 87 671 L 443 671" stroke="#e8eef4" fill="none"/>
-<text x="87" y="703" class="code" text-anchor="start">PK  stream</text>
-<text x="87" y="731" class="code" text-anchor="start">through_ms  INTEGER</text>
-<text x="87" y="766" class="small" text-anchor="start">Last complete scan per stream</text>
-<rect x="495" y="618" width="400" height="170" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="517" y="655" class="node" text-anchor="start" style="fill:#bd934f">Evidence files</text>
-<path d="M 517 671 L 873 671" stroke="#e8eef4" fill="none"/>
-<text x="517" y="703" class="code" text-anchor="start">Requests · Receipts · Contract ABIs</text>
-<text x="517" y="731" class="code" text-anchor="start">URL · fetched_at · SHA-256</text>
-<text x="517" y="768" class="small" text-anchor="start">runs/ · evidence/ · contracts/</text>
-<path data-kind="logical-stream" d="M 265 535 C 265 572.0 265 572.0 265 609" stroke="#6088c5" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
-<text x="286" y="577" class="small" text-anchor="start">stream</text>
-<text x="65" y="839" class="small" text-anchor="start">Shared stream / run values are logical links, not SQL foreign keys.</text>
-<path data-kind="wallet-candidate-key" d="M 1506 355 C 1544.0 355 1544.0 355 1582 355" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
-<text x="1545" y="336" class="small" text-anchor="middle">address</text>
-<path data-kind="candidate-validation-key" d="M 1800 478 C 1800 522.0 1800 522.0 1800 566" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
-<text x="1818" y="529" class="small" text-anchor="start">candidate_id</text>
-<path data-kind="run-summary" d="M 1584 694 C 1546.0 694 1546.0 694 1508 694" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
-<text x="1545" y="673" class="small" text-anchor="middle">summary</text>
-<rect x="1080" y="250" width="420" height="225" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1102" y="287" class="node" text-anchor="start" style="fill:#9774b9">Strategy Wallets</text>
-<path d="M 1102 303 L 1478 303" stroke="#e8eef4" fill="none"/>
-<text x="1102" y="335" class="code" text-anchor="start">address</text>
-<text x="1102" y="363" class="code" text-anchor="start">seed_ids[]</text>
-<text x="1102" y="391" class="code" text-anchor="start">evidence[]</text>
-<text x="1102" y="455" class="small" text-anchor="start">strategy-wallets.json</text>
-<rect x="1590" y="250" width="420" height="225" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1612" y="287" class="node" text-anchor="start" style="fill:#9774b9">Alpha Candidates</text>
-<path d="M 1612 303 L 1988 303" stroke="#e8eef4" fill="none"/>
-<text x="1612" y="335" class="code" text-anchor="start">candidate_id</text>
-<text x="1612" y="363" class="code" text-anchor="start">originating_wallet</text>
-<text x="1612" y="391" class="code" text-anchor="start">mechanism_hypothesis</text>
-<text x="1612" y="419" class="code" text-anchor="start">source_transactions[]</text>
-<text x="1612" y="455" class="small" text-anchor="start">validation-handoff.json</text>
-<rect x="1590" y="575" width="420" height="225" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1612" y="612" class="node" text-anchor="start" style="fill:#9774b9">Validation</text>
-<path d="M 1612 628 L 1988 628" stroke="#e8eef4" fill="none"/>
-<text x="1612" y="660" class="code" text-anchor="start">candidate_id</text>
-<text x="1612" y="688" class="code" text-anchor="start">mechanism_assessment</text>
-<text x="1612" y="716" class="code" text-anchor="start">current_state</text>
-<text x="1612" y="744" class="code" text-anchor="start">run.input_hash</text>
-<text x="1612" y="780" class="small" text-anchor="start">validation-results.json</text>
-<rect x="1080" y="575" width="420" height="225" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1102" y="612" class="node" text-anchor="start" style="fill:#9774b9">Research Run</text>
-<path d="M 1102 628 L 1478 628" stroke="#e8eef4" fill="none"/>
-<text x="1102" y="660" class="code" text-anchor="start">run · provenance</text>
-<text x="1102" y="688" class="code" text-anchor="start">stopping_reason</text>
-<text x="1102" y="716" class="code" text-anchor="start">next_checks</text>
-<text x="1102" y="780" class="small" text-anchor="start">research-record.json</text>
-<path data-kind="skill-artifacts" d="M 930 500 C 985.0 500 985.0 500 1040 500" stroke="#58826b" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a3)"/>
-<text x="985" y="479" class="small" text-anchor="middle" style="fill:#58826b">Skills</text>
-<path data-kind="snapshot-projection" d="M 1545 877 C 1545 903.0 1545 903.0 1545 929" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
-<rect x="1050" y="941" width="990" height="130" rx="16" fill="#edf6f0" stroke="#c5ddce" stroke-width="1.3"/>
-<text x="1080" y="978" class="heading" text-anchor="start" style="fill:#58826b">03  SNAPSHOT + ALPHA REPORTS</text>
-<text x="1080" y="1013" class="body" text-anchor="start">run · seeds · wallets · candidates · reports · activity</text>
-<text x="1080" y="1046" class="small" text-anchor="start">Adapter checks wallet IDs, source transactions and the input hash.</text>
-<text x="65" y="980" class="body" text-anchor="start">SQLite fields follow the current collector schema.</text>
-<text x="65" y="1015" class="small" text-anchor="start">Older archives may retain the previous coverage key.</text>
+<rect x="0" y="0" width="1800" height="1110" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
+<text x="40" y="40" class="label" text-anchor="start">PROTOCOL ALPHA FINDER  /  EVIDENCE CYCLE</text>
+<text x="40" y="94" class="title" text-anchor="start">How history reveals the next Alpha</text>
+<text x="40" y="134" class="body" text-anchor="start">Historical evidence identifies strategy wallets. Fresh activity gives us the next research question.</text>
+<path data-kind="history-analysis" d="M 560 390 C 599.0 390 599.0 390 638 390" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="analysis-wallet" d="M 1160 390 C 1199.0 390 1199.0 390 1238 390" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitor-candidate" d="M 1238 823 C 1200.0 823 1200.0 823 1162 823" stroke="#7953ad" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="candidate-validation" d="M 638 823 C 600.0 823 600.0 823 562 823" stroke="#a8661e" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<path data-kind="wallet-monitor" d="M 1500 555 C 1500 591.0 1500 591.0 1500 627" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<rect x="40" y="195" width="520" height="360" rx="18" fill="#ffffff" stroke="#c8daf8" stroke-width="1.3"/>
+<rect x="40" y="195" width="520" height="78" rx="18" fill="#eff5ff" stroke="#c8daf8" stroke-width="1.3"/>
+<rect x="62" y="215" width="38" height="38" rx="19" fill="#2563b8" stroke="#2563b8" stroke-width="1.3"/>
+<text x="81" y="242" class="node" text-anchor="middle" style="fill:#ffffff">1</text>
+<text x="116" y="243" class="heading" text-anchor="start">Read historical evidence</text>
+<text x="64" y="307" class="node" text-anchor="start">Contract calls</text>
+<text x="64" y="332" class="body" text-anchor="start">Which functions did the wallet execute?</text>
+<text x="64" y="362" class="node" text-anchor="start">Receipts &amp; event logs</text>
+<text x="64" y="387" class="body" text-anchor="start">Did those actions actually succeed?</text>
+<text x="64" y="417" class="node" text-anchor="start">Token transfers &amp; fees</text>
+<text x="64" y="442" class="body" text-anchor="start">What entered, left, and remained?</text>
+<text x="64" y="472" class="node" text-anchor="start">Protocol state</text>
+<text x="64" y="497" class="body" text-anchor="start">What conditions made the action possible?</text>
+<path d="M 64 511 L 536 511" stroke="#e8eef4" fill="none"/>
+<text x="64" y="537" class="label" text-anchor="start" style="fill:#2563b8">INPUT: ON-CHAIN HISTORY</text>
+<rect x="640" y="195" width="520" height="360" rx="18" fill="#ffffff" stroke="#ded2f2" stroke-width="1.3"/>
+<rect x="640" y="195" width="520" height="78" rx="18" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
+<rect x="662" y="215" width="38" height="38" rx="19" fill="#7953ad" stroke="#7953ad" stroke-width="1.3"/>
+<text x="681" y="242" class="node" text-anchor="middle" style="fill:#ffffff">2</text>
+<text x="716" y="243" class="heading" text-anchor="start">Find repeatable behavior</text>
+<text x="664" y="307" class="node" text-anchor="start">Match known seed actions</text>
+<text x="664" y="332" class="body" text-anchor="start">Link successful calls to their executors.</text>
+<text x="664" y="378" class="node" text-anchor="start">Reconstruct the sequence</text>
+<text x="664" y="403" class="body" text-anchor="start">Follow calls, asset movements, and costs.</text>
+<text x="664" y="449" class="node" text-anchor="start">Compare repeated executions</text>
+<text x="664" y="474" class="body" text-anchor="start">Separate recurring behavior from one-offs.</text>
+<path d="M 664 511 L 1136 511" stroke="#e8eef4" fill="none"/>
+<text x="664" y="537" class="label" text-anchor="start" style="fill:#7953ad">ANALYSIS: ACTIONS + ASSET FLOWS</text>
+<rect x="1240" y="195" width="520" height="360" rx="18" fill="#ffffff" stroke="#c8daf8" stroke-width="1.3"/>
+<rect x="1240" y="195" width="520" height="78" rx="18" fill="#eff5ff" stroke="#c8daf8" stroke-width="1.3"/>
+<rect x="1262" y="215" width="38" height="38" rx="19" fill="#2563b8" stroke="#2563b8" stroke-width="1.3"/>
+<text x="1281" y="242" class="node" text-anchor="middle" style="fill:#ffffff">3</text>
+<text x="1316" y="243" class="heading" text-anchor="start">Identify strategy wallets</text>
+<text x="1264" y="307" class="node" text-anchor="start">Keep the actual executor</text>
+<text x="1264" y="332" class="body" text-anchor="start">Distinguish wallets from relayers and helpers.</text>
+<text x="1264" y="378" class="node" text-anchor="start">Attach the evidence</text>
+<text x="1264" y="403" class="body" text-anchor="start">Record the seed, calls, receipts, and role.</text>
+<text x="1264" y="449" class="node" text-anchor="start">Build a research shortlist</text>
+<text x="1264" y="474" class="body" text-anchor="start">Investigate each wallet beyond its seed.</text>
+<path d="M 1264 511 L 1736 511" stroke="#e8eef4" fill="none"/>
+<text x="1264" y="537" class="label" text-anchor="start" style="fill:#2563b8">OUTPUT: EVIDENCE-BACKED WALLETS</text>
+<rect x="1240" y="635" width="520" height="360" rx="18" fill="#ffffff" stroke="#ded2f2" stroke-width="1.3"/>
+<rect x="1240" y="635" width="520" height="78" rx="18" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
+<rect x="1262" y="655" width="38" height="38" rx="19" fill="#7953ad" stroke="#7953ad" stroke-width="1.3"/>
+<text x="1281" y="682" class="node" text-anchor="middle" style="fill:#ffffff">4</text>
+<text x="1316" y="683" class="heading" text-anchor="start">Observe fresh activity</text>
+<text x="1264" y="747" class="node" text-anchor="start">Read new transactions</text>
+<text x="1264" y="772" class="body" text-anchor="start">Look for new contracts and call sequences.</text>
+<text x="1264" y="818" class="node" text-anchor="start">Compare with wallet history</text>
+<text x="1264" y="843" class="body" text-anchor="start">Find changed behavior and repeated actions.</text>
+<text x="1264" y="889" class="node" text-anchor="start">Recheck protocol conditions</text>
+<text x="1264" y="914" class="body" text-anchor="start">See whether earlier opportunities reappear.</text>
+<path d="M 1264 951 L 1736 951" stroke="#e8eef4" fill="none"/>
+<text x="1264" y="977" class="label" text-anchor="start" style="fill:#7953ad">MONITORING: NEW ACTIVITY + STATE</text>
+<rect x="640" y="635" width="520" height="360" rx="18" fill="#ffffff" stroke="#f1dcc2" stroke-width="1.3"/>
+<rect x="640" y="635" width="520" height="78" rx="18" fill="#fff7ed" stroke="#f1dcc2" stroke-width="1.3"/>
+<rect x="662" y="655" width="38" height="38" rx="19" fill="#a8661e" stroke="#a8661e" stroke-width="1.3"/>
+<text x="681" y="682" class="node" text-anchor="middle" style="fill:#ffffff">5</text>
+<text x="716" y="683" class="heading" text-anchor="start">Form a new Alpha candidate</text>
+<text x="664" y="747" class="node" text-anchor="start">Describe the possible mechanism</text>
+<text x="664" y="772" class="body" text-anchor="start">Explain how the observed actions earn value.</text>
+<text x="664" y="818" class="node" text-anchor="start">Attach supporting executions</text>
+<text x="664" y="843" class="body" text-anchor="start">Keep transaction evidence and cost estimates.</text>
+<text x="664" y="889" class="node" text-anchor="start">Write a checkable hypothesis</text>
+<text x="664" y="914" class="body" text-anchor="start">State what would confirm or disprove it.</text>
+<path d="M 664 951 L 1136 951" stroke="#e8eef4" fill="none"/>
+<text x="664" y="977" class="label" text-anchor="start" style="fill:#a8661e">OUTPUT: HYPOTHESIS + EVIDENCE</text>
+<rect x="40" y="635" width="520" height="360" rx="18" fill="#ffffff" stroke="#c9e5d9" stroke-width="1.3"/>
+<rect x="40" y="635" width="520" height="78" rx="18" fill="#eef8f4" stroke="#c9e5d9" stroke-width="1.3"/>
+<rect x="62" y="655" width="38" height="38" rx="19" fill="#20775b" stroke="#20775b" stroke-width="1.3"/>
+<text x="81" y="682" class="node" text-anchor="middle" style="fill:#ffffff">6</text>
+<text x="116" y="683" class="heading" text-anchor="start">Validate and learn</text>
+<text x="64" y="747" class="node" text-anchor="start">Test evidence, costs, and current state</text>
+<text x="64" y="772" class="body" text-anchor="start">Separate an observed pattern from an edge.</text>
+<text x="64" y="818" class="node" text-anchor="start">Produce a report for every candidate</text>
+<text x="64" y="843" class="body" text-anchor="start">Evidence, outcome, and the next checks to run.</text>
+<text x="64" y="889" class="node" text-anchor="start">Expand only after validation</text>
+<text x="64" y="914" class="body" text-anchor="start">An established mechanism can become a seed.</text>
+<path d="M 64 951 L 536 951" stroke="#e8eef4" fill="none"/>
+<text x="64" y="977" class="label" text-anchor="start" style="fill:#20775b">OUTPUT: REPORT + NEXT CHECKS</text>
+<path data-kind="validated-seed-loop" d="M 300 633 C 300 598.0 300 598.0 300 563" stroke="#20775b" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a3)" stroke-dasharray="5 6"/>
+<text x="340" y="597" class="small" text-anchor="start" style="fill:#20775b">Use an established mechanism as a new seed; repeat with fresh evidence.</text>
+<text x="40" y="1090" class="small" text-anchor="start">Monitoring describes repeated collection and review. The current workflow runs these checks manually.</text>
 </svg>

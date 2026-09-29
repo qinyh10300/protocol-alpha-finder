@@ -30,13 +30,13 @@
 
 [方法与 Skills](docs/ARCHITECTURE.zh-CN.md)
 
-## 数据架构
+## 从历史数据发现新 Alpha
 
-SQLite 索引采集证据；JSON 记录关联钱包、候选与验证结果。
+分析合约调用、回执、资产流和协议状态，识别策略钱包；继续观察钱包的新活动，发现并验证新的候选机会。
 
-![数据库与研究数据](docs/images/data-architecture-zh-CN.svg)
+![历史证据与钱包观察流程](docs/images/data-architecture-zh-CN.svg)
 
-[数据模型](docs/DATA_ARCHITECTURE.zh-CN.md)
+[数据研究与观察流程](docs/DATA_ARCHITECTURE.zh-CN.md)
 
 ## 本地运行
 

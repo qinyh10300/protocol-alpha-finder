@@ -30,13 +30,13 @@ Three seeds lead to strategy wallets, candidate mechanisms, and validation. The 
 
 [Method and Skills](docs/ARCHITECTURE.md)
 
-## Data architecture
+## From history to new Alpha
 
-SQLite indexes collected evidence. JSON records connect wallets, candidates, and validation results.
+Analyze calls, receipts, asset flows, and protocol state to identify strategy wallets. Review their new activity to find and validate fresh candidates.
 
-![Database and research data](docs/images/data-architecture-en.svg)
+![Historical evidence and wallet observation cycle](docs/images/data-architecture-en.svg)
 
-[Data model](docs/DATA_ARCHITECTURE.md)
+[Evidence and observation workflow](docs/DATA_ARCHITECTURE.md)
 
 ## Run locally
 

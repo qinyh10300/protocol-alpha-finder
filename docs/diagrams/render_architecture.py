@@ -7,8 +7,8 @@ SKILLS = ['alpha-seed-wallets', 'wallet-alpha-investigation', 'protocol-alpha-va
 LABELS = {
  'en': {
   'title':'From Seed Alpha to New Alpha',
-  'heads':['01  ALPHA SEEDS','02  STRATEGY WALLETS','03  ALPHA CANDIDATES','04  VALIDATION'],
-  'subheads':['Known mechanisms to start from','Verified executors to investigate','Hypotheses from wallet behavior','Mechanism · State · Costs'],
+  'heads':['01  Alpha Seeds','02  Strategy Wallets','03  Alpha Candidates','04  Validation'],
+  'subheads':['Three known protocol mechanisms','Two illustrative wallets per seed','Explain why each idea is worth testing','Test the claim, then report the result'],
   'seeds':[
    ['Energy Rental',['Clear depleted rental orders,','recover resources and rewards.']],
    ['JustLend',['Repay undercollateralized loans','and receive seized collateral.']],
@@ -18,7 +18,7 @@ LABELS = {
   'new':['New Alpha','Only if validation supports it'],
   'report':['Alpha Report','Evidence + next checks','For every candidate'],
   'outcomes':['Actionable · Monitor','Rejected · Insufficient Evidence'],
-  'skill_names':['Find & verify wallets','Investigate history','Validate candidates','Coordinate Skills 1–3'],
+  'skill_names':['Find wallets','Investigate wallets','Validate candidates','Direct the research'],
   'caption':'Method illustration · Two wallets per seed · USDD wallets and auction hypothesis are illustrative, not recorded findings.',
  },
  'zh-CN': {
@@ -38,46 +38,64 @@ LABELS = {
 
 
 def render(lang, L):
- d=Diagram(2100,960,L['title'],L['caption'],lang)
- d.text(40,55,L['title'],'title')
- cols=[40,570,1110,1700]
- for x,head,sub in zip(cols,L['heads'],L['subheads']):
-  d.text(x,137,head,'heading')
-  d.text(x,173,sub,'small')
- seed_y=[310,470,630]; wallet_y=[270,350,430,510,590,670]
- # Draw curves behind the cards, preserving all six individual connections.
- for i,sy in enumerate(seed_y):
-  for wy in wallet_y[2*i:2*i+2]:d.arrow(320,sy,568,wy,0,'seed-wallet')
- for i,wy in enumerate(wallet_y):d.arrow(840,wy,1108,seed_y[i//2],1,'wallet-candidate')
- for sy in seed_y:d.arrow(1440,sy,1690,470,2,'candidate-validation')
- for i,cy in enumerate(seed_y):
-  d.rect(40,cy-61,280,122,'#f7faff','#dce6f4')
-  d.text(60,cy-22,L['seeds'][i][0],'node')
-  for j,line in enumerate(L['seeds'][i][1]):d.text(60,cy+11+25*j,line,'small')
-  d.rect(1110,cy-61,330,122,'#fcfaff','#e4dcef')
-  d.text(1130,cy-22,L['candidates'][i][0],'node')
-  for j,line in enumerate(L['candidates'][i][1]):d.text(1130,cy+11+25*j,line,'body')
- for i,cy in enumerate(wallet_y):
-  d.rect(570,cy-31,270,62)
-  d.text(590,cy-3,L['wallets'][i][0],'node')
-  d.text(590,cy+21,L['wallets'][i][1],'small')
- d.rect(1700,249,360,452,'#fbfcfe')
- d.rect(1720,291,320,126,PALETTE[3][0],PALETTE[3][1])
- d.text(1744,340,L['new'][0],'node',color=PALETTE[3][2])
- d.text(1744,376,L['new'][1],'body')
- d.line(1724,462,2036,462)
- d.text(1744,538,L['report'][0],'node')
- d.text(1744,577,L['report'][1],'body')
- d.text(1744,610,L['report'][2],'small')
- for j,line in enumerate(L['outcomes']):d.text(1744,649+24*j,line,'label')
- # Skills are entirely below the flow; colors map them to the arrows above.
- d.line(40,751,2060,751)
- for i,x in enumerate([40,555,1070,1585]):
+ d=Diagram(1800,1100,L['title'],L['caption'],lang)
+ en=lang=='en'
+ d.text(40,40,'PROTOCOL ALPHA FINDER  /  RESEARCH METHOD','label')
+ d.text(40,94,L['title'],'title')
+ d.text(40,132,'Find proven executors. Study their other actions. Validate each new mechanism.' if en else '找到真实执行者，研究他们的其他操作，再验证每个新机制。','body')
+ xs=[40,490,940,1390]; widths=[360,360,360,370]
+ for i,(x,w) in enumerate(zip(xs,widths)):
   fill,border,accent=PALETTE[i]
-  d.rect(x,786,475,92,fill,border,14)
-  d.text(x+22,823,f'Skill {i+1} · {L["skill_names"][i]}','node',color=accent)
-  d.text(x+22,854,SKILLS[i],'code',color=accent)
- d.text(1050,924,L['caption'],'small','middle')
+  d.rect(x,173,w,569,'#fafbfd','#e3e9f0',20)
+  d.rect(x,173,w,75,fill,border,20)
+  d.rect(x+18,190,38,38,accent,accent,19)
+  d.text(x+37,216,str(i+1),'node','middle','#ffffff')
+  d.text(x+69,216,L['heads'][i].split('  ',1)[1],'node')
+  d.text(x+20,280,L['subheads'][i],'small')
+ sy=[369,512,655]; wy=[337,401,480,544,623,687]
+ for i,y in enumerate(sy):
+  for target in wy[i*2:i*2+2]:d.arrow(382,y,507,target,0,'seed-wallet')
+ for i,y in enumerate(wy):d.arrow(832,y,957,sy[i//2],1,'wallet-candidate')
+ for y in sy:d.arrow(1282,y,1407,512,2,'candidate-validation')
+ for i,y in enumerate(sy):
+  d.rect(58,y-53,324,106,'#ffffff','#dce5ef',12)
+  d.text(78,y-19,L['seeds'][i][0],'node')
+  for j,line in enumerate(L['seeds'][i][1]):d.text(78,y+12+23*j,line,'small')
+  d.rect(958,y-53,324,106,'#ffffff','#ded4ed',12)
+  d.text(978,y-19,L['candidates'][i][0],'node')
+  for j,line in enumerate(L['candidates'][i][1]):d.text(978,y+12+23*j,line,'small')
+ for i,y in enumerate(wy):
+  d.rect(508,y-27,324,54,'#ffffff','#dce5ef',10)
+  d.rect(520,y-17,34,34,PALETTE[0][0],'none',8)
+  d.text(537,y+7,chr(65+i),'node','middle',PALETTE[0][2])
+  d.text(566,y+6,L['wallets'][i][1],'body',color='#24384d')
+ d.rect(1408,316,334,170,'#ffffff','#c9e5d9',12)
+ for i,(a,b) in enumerate(([('Mechanism','Does the evidence explain it?'),('Economics','Do rewards exceed costs?'),('Availability','Can it be executed now?')] if en else [('机制','证据是否支持这个机制？'),('收益','奖励能否覆盖成本？'),('可用性','当前条件是否允许执行？')])):
+  d.text(1428,346+49*i,a,'node')
+  d.text(1428,367+49*i,b,'small')
+ d.text(1428,528,'A report for every candidate' if en else '每个候选都有一份报告','body',color='#24384d')
+ for j,line in enumerate(L['outcomes']):d.text(1428,558+26*j,line,'small')
+ d.rect(1408,618,334,90,PALETTE[3][0],PALETTE[3][1],12)
+ d.text(1428,652,L['new'][0],'node',color=PALETTE[3][2])
+ d.text(1428,682,L['new'][1],'small')
+ d.text(40,801,'THE FOUR SKILLS' if en else '四个 SKILL 的具体工作','label')
+ explanations=([
+ ['We identify wallets that executed seed','mechanisms and verify their roles','using transaction receipts.'],
+ ['We trace each wallet’s history to','uncover repeated actions and propose','new mechanisms.'],
+ ['We test each candidate against','transaction evidence, execution costs,','and current protocol conditions.'],
+ ['We coordinate the three research steps,','preserve evidence, and select what','to investigate next.']
+ ] if en else [
+ ['我们从已知机制的执行记录中找到钱包，','再通过交易回执核验其真实执行角色。'],
+ ['我们追踪每个钱包的完整历史，','从重复操作中提出新的机制假设。'],
+ ['我们结合交易证据、执行成本与','协议当前条件，逐个检验候选机制。'],
+ ['我们协调三个研究步骤、保留证据，','并确定下一轮需要研究的对象。']])
+ for i,x in enumerate([40,478,916,1354]):
+  fill,border,accent=PALETTE[i]
+  d.rect(x,820,406,203,fill,border,16)
+  d.text(x+22,853,f'Skill {i+1} · {L["skill_names"][i]}','node',color=accent)
+  for j,line in enumerate(explanations[i]):d.text(x+22,893+26*j,line,'body',color='#344b60')
+  d.text(x+22,1000,SKILLS[i],'small')
+ d.text(40,1070,L['caption'],'small')
  d.save(ROOT.parent/'images'/f'system-architecture-{lang}.svg')
  m=['%% Skill labels belong below the flow in the SVG illustration.','flowchart LR']
  for group,key in [('SEED','seeds'),('WALLET','wallets'),('CANDIDATE','candidates')]:
@@ -89,7 +107,7 @@ def render(lang, L):
   m.append(f'    CANDIDATE{i} --> VALIDATION')
  m.extend([f'    VALIDATION["{L["heads"][3]}"]',f'    NEW["{"<br/>".join(L["new"])}"]',f'    REPORT["{"<br/>".join(L["report"])}"]','    VALIDATION --> NEW','    VALIDATION --> REPORT'])
  m.append('    subgraph SKILLS["Skills"]')
- for i,name in enumerate(SKILLS):m.append(f'        S{i}["Skill {i+1} · {L["skill_names"][i]}<br/>{name}"]')
+ for i,name in enumerate(SKILLS):m.append(f'        S{i}["Skill {i+1} · {L["skill_names"][i]}<br/>{" ".join(explanations[i])}<br/>{name}"]')
  m.append('    end')
  for i in range(4):m.append(f'    style S{i} fill:{PALETTE[i][0]},stroke:{PALETTE[i][1]}')
  (ROOT/f'system-architecture-{lang}.mmd').write_text('\n'.join(m)+'\n')

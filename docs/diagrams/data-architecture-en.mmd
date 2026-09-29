@@ -1,19 +1,13 @@
 flowchart LR
-    subgraph SQLITE["01  COLLECTION STORAGE"]
-        ITEMS["items<br/>PK stream + item_id<br/>timestamp · payload · first_run · last_run"]
-        COVERAGE["coverage<br/>PK run + stream + start_ms + end_ms<br/>status · pages · rows · new_rows · detail"]
-        CHECKPOINTS["checkpoints<br/>PK stream · through_ms"]
-        RAW["Evidence files<br/>runs/ · evidence/ · contracts/"]
-        ITEMS -. stream .-> CHECKPOINTS
-    end
-    subgraph JSON["02  RESEARCH RECORDS · JSON"]
-        W["Strategy Wallets<br/>address · seed_ids[] · evidence[]"]
-        C["Alpha Candidates<br/>candidate_id · originating_wallet<br/>mechanism_hypothesis · source_transactions[]"]
-        V["Validation<br/>candidate_id · mechanism_assessment<br/>current_state · run.input_hash"]
-        R["Research Run<br/>run · provenance · stopping_reason · next_checks"]
-        W -->|address| C
-        C -->|candidate_id| V
-        V -->|summary| R
-    end
-    SQLITE -->|Skills| JSON
-    JSON --> SNAPSHOT["03  SNAPSHOT + ALPHA REPORTS<br/>run · seeds · wallets · candidates · reports · activity"]
+    N0["1. Read historical evidence<br/>Contract calls<br/>Receipts & event logs<br/>Token transfers & fees<br/>Protocol state"]
+    N1["2. Find repeatable behavior<br/>Match known seed actions<br/>Reconstruct the sequence<br/>Compare repeated executions"]
+    N0 --> N1
+    N2["3. Identify strategy wallets<br/>Keep the actual executor<br/>Attach the evidence<br/>Build a research shortlist"]
+    N1 --> N2
+    N3["4. Observe fresh activity<br/>Read new transactions<br/>Compare with wallet history<br/>Recheck protocol conditions"]
+    N2 --> N3
+    N4["5. Form a new Alpha candidate<br/>Describe the possible mechanism<br/>Attach supporting executions<br/>Write a checkable hypothesis"]
+    N3 --> N4
+    N5["6. Validate and learn<br/>Test evidence, costs, and current state<br/>Produce a report for every candidate<br/>Expand only after validation"]
+    N4 --> N5
+    N5 -. "Use an established mechanism as a new seed; repeat with fresh evidence." .-> N0

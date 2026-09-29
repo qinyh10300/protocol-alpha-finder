@@ -48,7 +48,7 @@ Only an established mechanism may become a new Seed Alpha, within the research s
 
 ## Research data
 
-See the [database and research data diagram](DATA_ARCHITECTURE.md) for SQLite tables, JSON handoffs, and report assembly.
+See the [evidence cycle](DATA_ARCHITECTURE.md) for the historical data we analyze and how fresh wallet activity produces new research questions.
 
 ## Sources
 

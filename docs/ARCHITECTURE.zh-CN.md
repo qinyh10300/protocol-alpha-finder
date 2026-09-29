@@ -58,4 +58,4 @@ python3 docs/diagrams/render_architecture.py
 
 ## 研究数据
 
-[数据库与研究数据图](DATA_ARCHITECTURE.zh-CN.md)说明 SQLite 表、JSON 交接文件和报告的关系。
+[数据研究与观察流程](DATA_ARCHITECTURE.zh-CN.md)说明我们分析哪些历史证据，以及如何从钱包的新活动中发现新候选。

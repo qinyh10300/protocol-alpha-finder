@@ -1,7 +1,7 @@
 """Small dependency-free SVG helper shared by the project diagrams."""
 from html import escape
 
-PALETTE = [('#edf4ff', '#bfd3f2', '#6088c5'), ('#f4effc', '#d8caec', '#9774b9'), ('#fff5e6', '#ecd8b5', '#bd934f'), ('#edf6f0', '#c5ddce', '#58826b')]
+PALETTE = [('#eff5ff', '#c8daf8', '#2563b8'), ('#f5f1fc', '#ded2f2', '#7953ad'), ('#fff7ed', '#f1dcc2', '#a8661e'), ('#eef8f4', '#c9e5d9', '#20775b')]
 
 
 class Diagram:
@@ -12,13 +12,13 @@ class Diagram:
             self.parts.append(f'<marker id="a{i}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="{color}"/></marker>')
         self.parts.append('''</defs><style>
 text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#24384d; }
-.title { font-size:32px; font-weight:700; letter-spacing:-.4px; }
+.title { font-size:38px; font-weight:700; letter-spacing:-.4px; }
 .heading { font-size:23px; font-weight:650; }
 .node { font-size:21px; font-weight:600; }
-.body { font-size:18px; fill:#647b90; }
-.small { font-size:16px; fill:#71869a; }
+.body { font-size:18px; fill:#526579; }
+.small { font-size:16px; fill:#61758a; }
 .code { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; }
-.label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#8294a5; }
+.label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#61758a; }
 </style>''')
         self.rect(0, 0, width, height, '#ffffff', 'none', 0)
 
