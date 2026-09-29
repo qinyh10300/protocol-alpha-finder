@@ -68,13 +68,6 @@ const date = (s?: string, locale = "en-GB") =>
         timeZone: "UTC",
       }) + " UTC"
     : "Not recorded";
-const day = (s: string, locale = "en-GB") =>
-  new Date(s).toLocaleDateString(locale, {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 const label = (s: string) =>
   ({
     report_ready: "Report ready",
@@ -273,7 +266,7 @@ function ResearchRunSummary({
   play: () => void;
   pause: () => void;
 }) {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
 
   const run = data.run;
   return (
@@ -287,7 +280,7 @@ function ResearchRunSummary({
           <div className="seed-picker">
             <div className="seed-picker-heading">
               <span id="seed-picker-heading" className="summary-label">
-                {t("Choose current set")}
+                {t("Choose current alpha seed")}
               </span>
             </div>
             <div className="seed-options">
@@ -377,25 +370,8 @@ function ResearchRunSummary({
       </div>
       <div className="summary-bottom">
         <div>
-          <span className="tiny-dot" />
-          {data.mode === "archive"
-            ? t("Saved Skill run")
-            : data.provenance === "mixed"
-              ? t("All seeds replay")
-              : data.provenance === "recorded"
-                ? t("Recorded research replay")
-                : t("Demo replay")}
-          <span className="divider" />{" "}
           <strong>{fmt(run.loadedTransactionCount)}</strong>{" "}
           {t("primary tx loaded")}
-          {data.window && (
-            <>
-              <span className="divider" />
-              <span className="date-range">
-                {day(data.window.from, locale)} – {day(data.window.to, locale)}
-              </span>
-            </>
-          )}
         </div>
         <button className="text-button" onClick={activity}>
           <Activity size={14} />
@@ -552,7 +528,7 @@ function WalletInvestigationList({
             }
             text={
               data.run.status === "idle"
-                ? t("Select a set, then click Replay Demo to begin.")
+                ? t("Select an alpha seed, then click Replay Demo to begin.")
                 : t("No verified wallets for this seed in the recorded window.")
             }
             loading={data.run.status === "running"}

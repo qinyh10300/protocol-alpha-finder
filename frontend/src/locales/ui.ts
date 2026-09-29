@@ -19,7 +19,7 @@ export const uiZh: Record<string, string> = {
   "simulated execution": "次模拟执行",
   "Simulated Executions": "模拟执行",
   "Synthetic USDD scenario data": "USDD 模拟场景数据",
-  "Choose current set": "选择当前种子",
+  "Choose current alpha seed": "选择当前 Alpha 种子",
   Language: "语言",
   unproven: "尚未证实",
   confirmed: "已确认",
@@ -98,7 +98,7 @@ export const uiZh: Record<string, string> = {
   "Bookmarks and watchlists are saved in this browser. New discovery seeds require an established advantage; the saved research has not promoted any candidate.":
     "收藏与观察列表保存在当前浏览器中。新发现种子需要已证实的优势；此次研究尚未将任何候选升级为种子。",
   "Synthetic demo": "合成数据演示",
-  "Illustrative data and simulated job timing. Choose a set and click Replay Demo to explore.":
+  "Illustrative data and simulated job timing. Choose an alpha seed and click Replay Demo to explore.":
     "当前展示示例数据与模拟任务进度。点击“运行发现”体验演示。",
   "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.":
     "当前展示示例数据与模拟任务进度。切换至 Skill 研究结果可查看已保存的真实研究。",
@@ -166,8 +166,8 @@ export const uiZh: Record<string, string> = {
   "History pending": "等待加载历史",
   "Discovering executors": "正在发现执行者",
   "No executors found": "未发现执行者",
-  "Select a set, then click Replay Demo to begin.":
-    "点击重播演示以启动钱包调查。",
+  "Select an alpha seed, then click Replay Demo to begin.":
+    "选择一个 Alpha 种子，再点击重播演示以启动钱包调查。",
   "No verified wallets for this seed in the recorded window.":
     "已记录的时间范围内，此种子没有经过验证的钱包。",
   "Show fewer wallets": "收起钱包",

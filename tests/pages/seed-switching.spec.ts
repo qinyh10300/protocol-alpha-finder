@@ -39,7 +39,7 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
   const chooseSeed = (id: string) =>
     page.locator(`input[name="research-seed"][value="${id}"]`).check();
   await expect(
-    page.getByRole("radiogroup", { name: "Choose current set" }),
+    page.getByRole("radiogroup", { name: "Choose current alpha seed" }),
   ).toBeVisible();
   await expect(page.locator(".seed-options .seed-choice")).toHaveText(
     scenarios.map((scenario) => scenario.name),
