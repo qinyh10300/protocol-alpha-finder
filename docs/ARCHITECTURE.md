@@ -8,15 +8,15 @@
 
 ## Reading the diagram
 
-The workflow contains four stages: **01 Alpha Seeds → 02 Strategy Wallets → 03 Alpha Candidates → 04 Validation**. Each seed leads to two abbreviated, fictitious TRON addresses. Wallet and candidate colors show their seed family; one highlighted wallet-to-candidate arrow demonstrates the investigation step.
+The workflow contains four stages: **01 Alpha Seeds → 02 Strategy Wallets → 03 Alpha Candidates → 04 Validation**. Each seed leads to two abbreviated, fictitious TRON addresses. One wallet is highlighted in green, with three arrows leading to three candidate mechanisms. This illustrates how a wallet can reveal opportunities beyond its original seed.
 
-Skill 1–3 badges sit on the transition arrows. Above them, **Skill 4 coordinates the three Skills through dashed arrows**. The lower part shows the historical evidence we analyze and the new wallet activity we review. The Technical Architecture frame connects TRON data, collection and research, archived evidence, and the research workspace.
+Skill 1–3 badges sit on the transition arrows and use three-word action phrases. Above them, **Skill 4 coordinates the three Skills through dashed arrows**. The lower part shows the historical evidence we analyze and the new wallet activity we review. The Technical Architecture frame connects TRON data, collection and research, archived evidence, and the research workspace.
 
-| Seed | Illustrative wallets | Candidate hypothesis |
-| --- | --- | --- |
-| Energy Rental | Two fictitious addresses | Combining rental and liquidation may reduce execution costs |
-| JustLend | Two fictitious addresses | Redeeming and swapping collateral may recycle capital faster |
-| USDD | Two fictitious addresses | Auction timing may expose temporary discounts worth validating |
+| Candidate example | Why investigate it? |
+| --- | --- |
+| Rental sequence | Combining calls may reduce execution costs |
+| Collateral recycling | Redeeming and swapping collateral may release capital sooner |
+| Auction timing | Temporary discounts may justify checking execution costs |
 
 These six wallets demonstrate the method; they are not the recorded wallet count. The USDD wallets and auction hypothesis are illustrative. In the saved run, USDD has no verified wallet, and the five reports are three Monitor and two Insufficient Evidence. No candidate has been promoted to a new seed. Recorded evidence remains in `validation-handoff.json` and `validation-results.json`.
 

@@ -17,13 +17,12 @@ LABELS = {
    ['Rental sequence',['Bundled calls may lower','execution costs.']],
    ['Collateral recycling',['Redeem and swap may release','capital sooner.']],
    ['Auction timing',['Temporary discounts may offer','an opportunity after costs.']]],
-  'skill_actions':['Find wallets','Investigate','Validate'],
-  'skill_descriptions':[
-   ['We identify','wallets that','executed','seed','mechanisms','and verify','their roles','using','transaction','receipts.'],
-   ['We trace','each wallet’s','history to','uncover','repeated','actions and','propose new','mechanisms.'],
-   ['We test each','candidate','against','transaction','evidence,','execution','costs, and','current','protocol','conditions.'],
-   ['We coordinate the three research steps, preserve','evidence, and select what to investigate next.']],
-  'coordinate':'Skill 4 · Coordinate Skills 1–3',
+  'skill_phrases':[
+   ['Find','Strategy','Wallets'],
+   ['Discover','Alpha','Candidates'],
+   ['Validate','Alpha','Candidates'],
+   ['Coordinate Three Skills']],
+  'coordinate':'Skill 4',
   'checks':['Execution evidence','Rewards minus costs','Current protocol conditions'],
   'report':'Alpha Report',
   'outcomes':['Actionable · Monitor','Rejected · Insufficient Evidence'],
@@ -35,7 +34,7 @@ LABELS = {
   'observe_detail':'New calls · Changed behavior · Returning conditions',
   'observe_note':'Repeat collection and review; current checks start manually.',
   'compare':'Compare',
-  'example':'Illustrative addresses and hypotheses · Matching colors show provenance; one research path is drawn.',
+  'example':'Illustrative addresses and hypotheses · The highlighted wallet leads to three candidate mechanisms.',
   'technical':'Technical Architecture',
   'tech':[
    ['TRON Data','Calls · Receipts · State'],
@@ -57,13 +56,12 @@ LABELS = {
    ['租赁组合操作',['合并调用可能降低','整体执行成本。']],
    ['抵押品回收',['赎回并兑换可能更快','释放占用资金。']],
    ['拍卖时机',['短暂折价可能带来机会，','需要结合执行成本验证。']]],
-  'skill_actions':['发现钱包','研究钱包','验证候选'],
-  'skill_descriptions':[
-   ['我们从已知','机制的执行','记录中找到','钱包，','再通过交易','回执核验其','真实执行','角色。'],
-   ['我们追踪','每个钱包的','完整历史，','从重复操作','中提出新的','机制假设。'],
-   ['我们结合','交易证据、','执行成本与','协议当前','条件，逐个','检验候选','机制。'],
-   ['我们协调三个研究步骤、保留证据，','并确定下一轮需要研究的对象。']],
-  'coordinate':'Skill 4 · 协调 Skill 1–3',
+  'skill_phrases':[
+   ['寻找策略','钱包'],
+   ['发掘 Alpha','候选'],
+   ['验证 Alpha','候选'],
+   ['协调三个 Skill']],
+  'coordinate':'Skill 4',
   'checks':['执行证据','奖励扣除成本','协议当前条件'],
   'report':'Alpha 报告',
   'outcomes':['可执行 · 持续观察','已排除 · 证据不足'],
@@ -75,7 +73,7 @@ LABELS = {
   'observe_detail':'新增调用 · 行为变化 · 再次出现的执行条件',
   'observe_note':'重复采集与复查；当前由手动启动检查。',
   'compare':'对比',
-  'example':'地址与候选均为方法示意 · 相同颜色标明来源关系，图中只展开一条研究路径。',
+  'example':'地址与候选均为方法示意 · 高亮钱包展开为三个候选机制。',
   'technical':'技术架构',
   'tech':[
    ['TRON 链上数据','合约调用 · 回执 · 协议状态'],
@@ -99,13 +97,13 @@ def render(lang, L):
  # All four stages share one research boundary, including the seed entry point.
  d.rect(40,125,1720,674,'#fafcfb','#b8d2c6',8)
  d.text(65,166,L['workflow'],'heading')
- # Keep the coordinator centered at (900, 214), with room for its original introduction.
- d.rect(675,169,450,90,PALETTE[3][0],PALETTE[3][1],8)
- d.text(900,193,L['coordinate'],'node','middle',PALETTE[3][2])
- for j,line in enumerate(L['skill_descriptions'][3]):d.text(900,221+22*j,line,'small','middle')
+ # Keep the existing coordinator center and use a compact action phrase.
+ d.rect(675,182,450,64,PALETTE[3][0],PALETTE[3][1],8)
+ d.text(900,207,L['coordinate'],'node','middle',PALETTE[3][2])
+ d.text(900,232,L['skill_phrases'][3][0],'body','middle',PALETTE[3][2])
  # Dashed control bus terminates at the three Skill badges in the main flow.
- d.parts.append(f'<path data-kind="coordination-bus" d="M 900 259 V 265 M 425 265 H 1330" stroke="{PALETTE[3][2]}" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>')
- for x,stop in [(425,284),(875,284),(1330,294)]:
+ d.parts.append(f'<path data-kind="coordination-bus" d="M 900 246 V 265 M 425 265 H 1330" stroke="{PALETTE[3][2]}" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>')
+ for x,stop in [(425,355),(875,355),(1330,365)]:
   d.arrow(x,265,x,stop,3,'skill-coordination',True,True)
  columns=[(65,300),(485,320),(945,330),(1385,350)]
  for (x,w),title in zip(columns,L['heads']):
@@ -115,28 +113,28 @@ def render(lang, L):
  # Every seed yields two illustrative wallets; only one example is expanded.
  for i,y in enumerate(sy):
   for target in wy[i*2:i*2+2]:d.arrow(345,y,503,target,0,'seed-wallet')
- d.arrow(785,wy[0],963,sy[0],0,'wallet-candidate')
+ for target in sy:d.arrow(785,wy[0],963,target,3,'wallet-candidate')
  d.arrow(1255,sy[0],1403,410,2,'candidate-validation')
  for i,y in enumerate(sy):
   d.rect(85,y-49,260,98,'#ffffff','#c9d6e3',6)
   d.text(215,y-17,L['seeds'][i][0],'node','middle')
   for j,line in enumerate(L['seeds'][i][1]):d.text(215,y+11+23*j,line,'small','middle')
-  fill,border,accent=PALETTE[i]
+  fill,border,accent=PALETTE[3]
   d.rect(965,y-49,290,98,fill,border,6)
   d.text(1110,y-17,L['candidates'][i][0],'node','middle',accent)
   for j,line in enumerate(L['candidates'][i][1]):d.text(1110,y+11+23*j,line,'small','middle')
  for i,y in enumerate(wy):
-  fill,border,accent=PALETTE[i//2]
+  fill,border,accent=(PALETTE[3][2],PALETTE[3][2],'#ffffff') if i==0 else ('#f8fafc','#d3dce6','#61758a')
   d.rect(505,y-21,280,42,fill,border,6)
   d.text(645,y+7,ADDRESSES[i],'node','middle',accent)
- # Preserve the three original arrow-label centers; grow only vertically.
+ # Short phrases stay at the same three transition centers.
  for i,(x,y) in enumerate([(425,400),(875,400),(1330,410)]):
-  top=y-113
-  d.rect(x-52,top,104,226,'#f5f8fb','#9eb0c1',7)
-  d.text(x,top+26,f'Skill {i+1}','small','middle','#24384d')
-  lines=L['skill_descriptions'][i]
-  first=top+50+(10-len(lines))*8.5
-  for j,line in enumerate(lines):d.text(x,first+j*17,line,'skill-description','middle')
+  top=y-42
+  d.rect(x-52,top,104,84,'#f5f8fb','#9eb0c1',7)
+  d.text(x,top+22,f'Skill {i+1}','small','middle','#24384d')
+  lines=L['skill_phrases'][i]
+  first=top+42+(3-len(lines))*8
+  for j,line in enumerate(lines):d.text(x,first+j*16,line,'skill-description','middle')
  d.rect(1405,361,310,124,'#ffffff','#c9d6e3',6)
  for i,line in enumerate(L['checks']):d.text(1560,394+29*i,line,'body','middle')
  d.arrow(1560,489,1560,523,2,'validation-report',False,True)
@@ -184,14 +182,15 @@ def render(lang, L):
   for j in [i*2,i*2+1]:
    edge='-->|Skill 1|' if i==0 and j==0 else '-->'
    m.append(f'        SEED{i} {edge} WALLET{j}')
- m.extend(['        WALLET0 -->|Skill 2| CANDIDATE0','        CANDIDATE0 -->|Skill 3| CHECK','    end'])
- for i,action in enumerate(L['skill_actions']):m.append(f'    S{i+1}["Skill {i+1}<br/>{"<br/>".join(L["skill_descriptions"][i])}"]')
- m.append(f'    S4["{L["coordinate"]}<br/>{"<br/>".join(L["skill_descriptions"][3])}"]')
+ for i in range(3):m.append(f'        WALLET0 -->|Skill 2| CANDIDATE{i}')
+ m.extend(['        CANDIDATE0 -->|Skill 3| CHECK','    end'])
+ for i in range(3):m.append(f'    S{i+1}["Skill {i+1}<br/>{" ".join(L["skill_phrases"][i])}"]')
+ m.append(f'    S4["{L["coordinate"]}<br/>{"<br/>".join(L["skill_phrases"][3])}"]')
  for i in range(1,4):m.append(f'    S4 -.-> S{i}')
  m.extend([f'    HISTORY["{L["history"]}<br/>{L["history_detail"]}"]',f'    OBSERVE["{L["observe"]}<br/>{L["observe_detail"]}"]','    HISTORY --> FLOW','    HISTORY --> OBSERVE','    OBSERVE -.-> FLOW',f'    %% {L["example"]}',f'    %% {L["observe_note"]}'])
- for i in range(3):
-  fill,border,_=PALETTE[i]
-  for name in [f'WALLET{2*i}',f'WALLET{2*i+1}',f'CANDIDATE{i}']:m.append(f'    style {name} fill:{fill},stroke:{border}')
+ m.append(f'    style WALLET0 fill:{PALETTE[3][2]},stroke:{PALETTE[3][2]},color:#ffffff')
+ for i in range(1,6):m.append(f'    style WALLET{i} fill:#f8fafc,stroke:#d3dce6')
+ for i in range(3):m.append(f'    style CANDIDATE{i} fill:{PALETTE[3][0]},stroke:{PALETTE[3][1]}')
  m.extend([f'    subgraph TECH["{L["technical"]}"]','        direction LR'])
  for i,(heading,detail) in enumerate(L['tech']):
   m.append(f'        T{i}["{heading}<br/>{detail}"]')
