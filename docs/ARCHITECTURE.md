@@ -8,7 +8,7 @@
 
 ## Reading the diagram
 
-The four stages are **01 Seeds → 02 Wallets → 03 Candidates → 04 Validation Outcomes**. Each seed has two independent arrows to a pair of wallets. All Skill labels sit below the flow. Blue, purple, and amber match the three groups of arrows; green marks Skill 4, which coordinates the other three Skills.
+The four stages are **01 Seeds → 02 Wallets → 03 Candidates → 04 Validation Outcomes**. Each seed has two independent arrows to a pair of wallets. Large frames group the research stages; smaller boxes hold the seed mechanisms, wallets, candidates, and checks. Solid arrows carry evidence and results. Below the workflow, Skill 4 connects to Skills 1–3 through dashed coordination arrows.
 
 | Seed | Illustrative wallets | Candidate hypothesis |
 | --- | --- | --- |

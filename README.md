@@ -24,7 +24,7 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 ## System architecture
 
-Three seeds lead to strategy wallets, candidate mechanisms, and validation. The four Skills below the flow explain each step.
+Three seeds lead to strategy wallets, candidate mechanisms, and validation. Solid arrows show evidence flow; dashed arrows show how Skill 4 coordinates Skills 1–3.
 
 ![Seed Alpha discovery pipeline](docs/images/system-architecture-en.svg)
 

@@ -1,17 +1,32 @@
-%% Skill labels belong below the flow in the SVG illustration.
+%% Solid lines show evidence/results; dashed lines show Skill coordination.
 flowchart LR
-    SEED0["Energy Rental<br/>Clear depleted rental orders,<br/>recover resources and rewards."]
-    SEED1["JustLend<br/>Repay undercollateralized loans<br/>and receive seized collateral."]
-    SEED2["USDD<br/>Trigger liquidation, restart auctions,<br/>or purchase auction collateral."]
-    WALLET0["Wallet A<br/>Rental liquidations"]
-    WALLET1["Wallet B<br/>Resource bundling"]
-    WALLET2["Wallet C<br/>Lending liquidations"]
-    WALLET3["Wallet D<br/>Collateral redemption"]
-    WALLET4["Wallet E<br/>Keeper actions"]
-    WALLET5["Wallet F<br/>Auction purchases"]
-    CANDIDATE0["Rental sequence<br/>Bundled calls may lower<br/>execution costs."]
-    CANDIDATE1["Collateral recycling<br/>Redeem + swap may release<br/>capital sooner."]
-    CANDIDATE2["Auction timing<br/>Temporary discounts may justify<br/>a closer look at execution costs."]
+    subgraph SEEDS["01  Alpha Seeds"]
+        SEED0["Energy Rental<br/>Clear depleted rental orders,<br/>recover resources and rewards."]
+        SEED1["JustLend<br/>Repay undercollateralized loans<br/>and receive seized collateral."]
+        SEED2["USDD<br/>Trigger liquidation, restart auctions,<br/>or purchase auction collateral."]
+    end
+    subgraph RESEARCH["Research Workflow"]
+    subgraph WALLETS["02  Strategy Wallets"]
+        WALLET0["Wallet A<br/>Rental liquidations"]
+        WALLET1["Wallet B<br/>Resource bundling"]
+        WALLET2["Wallet C<br/>Lending liquidations"]
+        WALLET3["Wallet D<br/>Collateral redemption"]
+        WALLET4["Wallet E<br/>Keeper actions"]
+        WALLET5["Wallet F<br/>Auction purchases"]
+    end
+    subgraph CANDIDATES["03  Alpha Candidates"]
+        CANDIDATE0["Rental sequence<br/>Bundled calls may lower<br/>execution costs."]
+        CANDIDATE1["Collateral recycling<br/>Redeem + swap may release<br/>capital sooner."]
+        CANDIDATE2["Auction timing<br/>Temporary discounts may justify<br/>a closer look at execution costs."]
+    end
+    subgraph VALIDATE["04  Validation"]
+    VALIDATION["Execution evidence<br/>Rewards minus costs<br/>Current protocol conditions"]
+    NEW["New Alpha<br/>Only if validation supports it"]
+    REPORT["Alpha Report<br/>Evidence + next checks<br/>For every candidate<br/>Actionable · Monitor<br/>Rejected · Insufficient Evidence"]
+    VALIDATION --> REPORT
+    REPORT --> NEW
+    end
+    end
     SEED0 --> WALLET0
     WALLET0 --> CANDIDATE0
     SEED0 --> WALLET1
@@ -27,17 +42,15 @@ flowchart LR
     SEED2 --> WALLET5
     WALLET5 --> CANDIDATE2
     CANDIDATE2 --> VALIDATION
-    VALIDATION["04  Validation"]
-    NEW["New Alpha<br/>Only if validation supports it"]
-    REPORT["Alpha Report<br/>Evidence + next checks<br/>For every candidate"]
-    VALIDATION --> NEW
-    VALIDATION --> REPORT
     subgraph SKILLS["Skills"]
         S0["Skill 1 · Find wallets<br/>We identify wallets that executed seed mechanisms and verify their roles using transaction receipts.<br/>alpha-seed-wallets"]
         S1["Skill 2 · Investigate wallets<br/>We trace each wallet’s history to uncover repeated actions and propose new mechanisms.<br/>wallet-alpha-investigation"]
         S2["Skill 3 · Validate candidates<br/>We test each candidate against transaction evidence, execution costs, and current protocol conditions.<br/>protocol-alpha-validation"]
         S3["Skill 4 · Direct the research<br/>We coordinate the three research steps, preserve evidence, and select what to investigate next.<br/>protocol-alpha-discovery"]
     end
+    S3 -. coordinates .-> S0
+    S3 -. coordinates .-> S1
+    S3 -. coordinates .-> S2
     style S0 fill:#eff5ff,stroke:#c8daf8
     style S1 fill:#f5f1fc,stroke:#ded2f2
     style S2 fill:#fff7ed,stroke:#f1dcc2

@@ -1,17 +1,32 @@
-%% Skill labels belong below the flow in the SVG illustration.
+%% Solid lines show evidence/results; dashed lines show Skill coordination.
 flowchart LR
-    SEED0["Energy Rental<br/>清算保证金不足的租赁订单，<br/>回收资源并获得奖励。"]
-    SEED1["JustLend<br/>偿还抵押不足头寸的债务，<br/>获得被清算的抵押品。"]
-    SEED2["USDD<br/>触发清算、重启拍卖，<br/>或购买拍卖中的抵押品。"]
-    WALLET0["钱包 A<br/>租赁清算"]
-    WALLET1["钱包 B<br/>资源组合操作"]
-    WALLET2["钱包 C<br/>借贷清算"]
-    WALLET3["钱包 D<br/>抵押品赎回"]
-    WALLET4["钱包 E<br/>Keeper 操作"]
-    WALLET5["钱包 F<br/>拍卖购买"]
-    CANDIDATE0["租赁组合操作<br/>合并调用可能降低<br/>整体执行成本。"]
-    CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快<br/>释放占用资金。"]
-    CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会，<br/>需要结合执行成本验证。"]
+    subgraph SEEDS["01  ALPHA SEED"]
+        SEED0["Energy Rental<br/>清算保证金不足的租赁订单，<br/>回收资源并获得奖励。"]
+        SEED1["JustLend<br/>偿还抵押不足头寸的债务，<br/>获得被清算的抵押品。"]
+        SEED2["USDD<br/>触发清算、重启拍卖，<br/>或购买拍卖中的抵押品。"]
+    end
+    subgraph RESEARCH["Research Workflow"]
+    subgraph WALLETS["02  策略钱包"]
+        WALLET0["钱包 A<br/>租赁清算"]
+        WALLET1["钱包 B<br/>资源组合操作"]
+        WALLET2["钱包 C<br/>借贷清算"]
+        WALLET3["钱包 D<br/>抵押品赎回"]
+        WALLET4["钱包 E<br/>Keeper 操作"]
+        WALLET5["钱包 F<br/>拍卖购买"]
+    end
+    subgraph CANDIDATES["03  ALPHA 候选"]
+        CANDIDATE0["租赁组合操作<br/>合并调用可能降低<br/>整体执行成本。"]
+        CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快<br/>释放占用资金。"]
+        CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会，<br/>需要结合执行成本验证。"]
+    end
+    subgraph VALIDATE["04  VALIDATION 验证"]
+    VALIDATION["执行证据<br/>奖励扣除成本<br/>协议当前条件"]
+    NEW["新的 Alpha<br/>验证支持后产出"]
+    REPORT["Alpha 报告<br/>证据与后续检查<br/>每个候选均有报告<br/>可执行 · 持续观察<br/>已排除 · 证据不足"]
+    VALIDATION --> REPORT
+    REPORT --> NEW
+    end
+    end
     SEED0 --> WALLET0
     WALLET0 --> CANDIDATE0
     SEED0 --> WALLET1
@@ -27,17 +42,15 @@ flowchart LR
     SEED2 --> WALLET5
     WALLET5 --> CANDIDATE2
     CANDIDATE2 --> VALIDATION
-    VALIDATION["04  VALIDATION 验证"]
-    NEW["新的 Alpha<br/>验证支持后产出"]
-    REPORT["Alpha 报告<br/>证据与后续检查<br/>每个候选均有报告"]
-    VALIDATION --> NEW
-    VALIDATION --> REPORT
     subgraph SKILLS["Skills"]
         S0["Skill 1 · 发现并核验钱包<br/>我们从已知机制的执行记录中找到钱包， 再通过交易回执核验其真实执行角色。<br/>alpha-seed-wallets"]
         S1["Skill 2 · 研究钱包历史<br/>我们追踪每个钱包的完整历史， 从重复操作中提出新的机制假设。<br/>wallet-alpha-investigation"]
         S2["Skill 3 · 验证候选<br/>我们结合交易证据、执行成本与 协议当前条件，逐个检验候选机制。<br/>protocol-alpha-validation"]
         S3["Skill 4 · 协调 Skill 1–3<br/>我们协调三个研究步骤、保留证据， 并确定下一轮需要研究的对象。<br/>protocol-alpha-discovery"]
     end
+    S3 -. coordinates .-> S0
+    S3 -. coordinates .-> S1
+    S3 -. coordinates .-> S2
     style S0 fill:#eff5ff,stroke:#c8daf8
     style S1 fill:#f5f1fc,stroke:#ded2f2
     style S2 fill:#fff7ed,stroke:#f1dcc2

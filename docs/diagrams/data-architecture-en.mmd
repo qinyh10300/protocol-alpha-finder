@@ -1,13 +1,27 @@
-flowchart LR
-    N0["1. Read historical evidence<br/>Contract calls<br/>Receipts & event logs<br/>Token transfers & fees<br/>Protocol state"]
-    N1["2. Find repeatable behavior<br/>Match known seed actions<br/>Reconstruct the sequence<br/>Compare repeated executions"]
-    N0 --> N1
-    N2["3. Identify strategy wallets<br/>Keep the actual executor<br/>Attach the evidence<br/>Build a research shortlist"]
-    N1 --> N2
-    N3["4. Observe fresh activity<br/>Read new transactions<br/>Compare with wallet history<br/>Recheck protocol conditions"]
-    N2 --> N3
-    N4["5. Form a new Alpha candidate<br/>Describe the possible mechanism<br/>Attach supporting executions<br/>Write a checkable hypothesis"]
-    N3 --> N4
-    N5["6. Validate and learn<br/>Test evidence, costs, and current state<br/>Produce a report for every candidate<br/>Expand only after validation"]
-    N4 --> N5
-    N5 -. "Use an established mechanism as a new seed; repeat with fresh evidence." .-> N0
+flowchart TB
+    subgraph HISTORY["Historical Evidence"]
+        direction LR
+        E0["Contract calls<br/>Functions and execution order"]
+        E1["Receipts & event logs<br/>Successful actions and executors"]
+        E2["Asset movements<br/>Token transfers and execution fees"]
+        E3["Protocol state<br/>Conditions at the time of execution"]
+    end
+    subgraph WORKFLOW["Research Workflow"]
+        direction LR
+        N0["01 Analyze executions<br/>Match known seed actions<br/>Trace calls and asset flows<br/>Compare repeated executions"]
+        N1["02 Strategy Wallets<br/>Identify the actual executor<br/>Keep seed and transaction evidence<br/>Extend research beyond the seed"]
+        N0 --> N1
+        N2["03 Observe new activity<br/>Review new contracts and calls<br/>Compare with earlier behavior<br/>Recheck protocol conditions"]
+        N1 --> N2
+        N3["04 Alpha Candidates<br/>Explain the possible mechanism<br/>Attach executions and costs<br/>State how to test the claim"]
+        N2 --> N3
+    end
+    HISTORY --> WORKFLOW
+    V["Validate evidence, costs, and current conditions"]
+    N3 --> V
+    R["A report for every candidate"]
+    A["New Alpha, if supported"]
+    V --> R
+    V --> A
+    A -. "Established mechanism → new seed" .-> N0
+    %% Observation means repeated collection and review. Current checks are started manually.

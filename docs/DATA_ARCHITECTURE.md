@@ -6,6 +6,8 @@ We study successful protocol actions to identify their executors, then review th
 
 ![Historical evidence and wallet observation cycle](images/data-architecture-en.svg)
 
+Large frames group evidence, research, and validation. Solid arrows carry findings forward; the dashed return starts another research round only after a mechanism is established.
+
 ## What we study
 
 | Evidence | Research question |

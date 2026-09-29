@@ -24,7 +24,7 @@
 
 ## 系统架构
 
-从三个 Seed 找到策略钱包，形成候选机制，再进行验证。流程下方的四个 Skill 说明各阶段的工作。
+从三个 Seed 找到策略钱包，形成候选机制，再进行验证。实线表示证据流转，虚线表示 Skill 4 对 Skill 1–3 的编排。
 
 ![Seed Alpha 发现流程](docs/images/system-architecture-zh-CN.svg)
 
