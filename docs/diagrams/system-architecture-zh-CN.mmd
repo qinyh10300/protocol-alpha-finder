@@ -1,14 +1,28 @@
-%% Four-Skill method. render_architecture.py generates the fixed-layout README illustration.
+%% Entity nodes; research Skills label the transitions.
 flowchart LR
-    SEED["Seed Alpha<br/>已知协议机制"]
-    ORCH["1 · 编排研究<br/>protocol-alpha-discovery<br/>研究范围 · 阶段交接 · 停止条件"]
-    FIND["2 · 发现并核验钱包<br/>alpha-seed-wallets<br/>匹配合约调用与成功回执<br/>确认真实执行者<br/>Strategy Wallets · 策略钱包"]
-    INVESTIGATE["3 · 发现候选<br/>wallet-alpha-investigation<br/>研究钱包更广泛的历史活动<br/>形成新的机制假设<br/>Alpha Candidates · 候选"]
-    VALIDATE["4 · 验证候选<br/>protocol-alpha-validation<br/>验证机制与当前状态<br/>核查成本及执行条件<br/>Alpha Reports · 报告"]
-    SEED --> FIND --> INVESTIGATE --> VALIDATE
-    ORCH -.-> FIND
-    ORCH -.-> INVESTIGATE
-    ORCH -.-> VALIDATE
-    VALIDATE -.->|机制得到验证 → 在研究范围内作为新的 Seed Alpha| SEED
-    style ORCH fill:#eaf4ee,stroke:#83a68e
-    style SEED fill:#f1f5fb,stroke:#b2c5df
+    subgraph SEEDS["三个 Alpha Seed"]
+        E["Energy Rental<br/>能量租赁清算"]
+        J["JustLend<br/>借贷清算"]
+        U["USDD<br/>Keeper／拍卖"]
+    end
+    subgraph WALLETS["Strategy Wallets · 策略钱包"]
+        W1["钱包 A"]
+        W2["钱包 B"]
+        W3["钱包 C"]
+    end
+    subgraph CANDIDATES["Alpha 候选"]
+        C1["候选 1"]
+        C2["候选 2"]
+        C3["候选 3"]
+    end
+    subgraph RESULTS["验证结果"]
+        ALPHA["新的 Alpha<br/>机制得到验证后产出"]
+        REPORTS["Alpha 报告<br/>证据与后续检查"]
+    end
+    SEEDS -->|alpha-seed-wallets| WALLETS
+    WALLETS -->|wallet-alpha-investigation| CANDIDATES
+    CANDIDATES -->|protocol-alpha-validation| RESULTS
+    SEEDS -.->|protocol-alpha-discovery| RESULTS
+    style SEEDS fill:#f1f5fb,stroke:#b2c5df
+    style CANDIDATES fill:#f7f4fc,stroke:#d6c9e9
+    style ALPHA fill:#eaf4ee,stroke:#83a68e

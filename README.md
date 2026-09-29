@@ -24,7 +24,7 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 ## System architecture
 
-Start from **Seed Alpha**, verify its executors, then investigate their histories for new opportunities.
+Three seeds—**Energy Rental, JustLend and USDD**—lead to strategy wallets, then candidate mechanisms and validated new Alpha. The Skills label each transition below.
 
 - **Orchestrate:** set scope and coordinate the research.
 - **Find wallets:** verify calls, receipts, and executor roles.

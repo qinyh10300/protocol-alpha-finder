@@ -1,14 +1,28 @@
-%% Four-Skill method. render_architecture.py generates the fixed-layout README illustration.
+%% Entity nodes; research Skills label the transitions.
 flowchart LR
-    SEED["Seed Alpha<br/>Known mechanism"]
-    ORCH["1 · Orchestrate Research<br/>protocol-alpha-discovery<br/>Research scope · Stage handoffs · Stopping rules"]
-    FIND["2 · Find & Verify Wallets<br/>alpha-seed-wallets<br/>Match calls and successful receipts<br/>Identify the actual executor<br/>Strategy Wallets"]
-    INVESTIGATE["3 · Discover Candidates<br/>wallet-alpha-investigation<br/>Study broader wallet history<br/>Form new mechanism hypotheses<br/>Alpha Candidates"]
-    VALIDATE["4 · Validate Candidates<br/>protocol-alpha-validation<br/>Test mechanism and current state<br/>Check costs and execution conditions<br/>Alpha Reports"]
-    SEED --> FIND --> INVESTIGATE --> VALIDATE
-    ORCH -.-> FIND
-    ORCH -.-> INVESTIGATE
-    ORCH -.-> VALIDATE
-    VALIDATE -.->|Established mechanism → next Seed Alpha within research scope| SEED
-    style ORCH fill:#eaf4ee,stroke:#83a68e
-    style SEED fill:#f1f5fb,stroke:#b2c5df
+    subgraph SEEDS["Three Alpha Seeds"]
+        E["Energy Rental<br/>Liquidation"]
+        J["JustLend<br/>Lending liquidation"]
+        U["USDD<br/>Keeper / auction"]
+    end
+    subgraph WALLETS["Strategy Wallets"]
+        W1["Wallet A"]
+        W2["Wallet B"]
+        W3["Wallet C"]
+    end
+    subgraph CANDIDATES["Alpha Candidates"]
+        C1["Candidate 1"]
+        C2["Candidate 2"]
+        C3["Candidate 3"]
+    end
+    subgraph RESULTS["Validation Results"]
+        ALPHA["New Alpha<br/>If validated"]
+        REPORTS["Alpha Reports<br/>Evidence & next checks"]
+    end
+    SEEDS -->|alpha-seed-wallets| WALLETS
+    WALLETS -->|wallet-alpha-investigation| CANDIDATES
+    CANDIDATES -->|protocol-alpha-validation| RESULTS
+    SEEDS -.->|protocol-alpha-discovery| RESULTS
+    style SEEDS fill:#f1f5fb,stroke:#b2c5df
+    style CANDIDATES fill:#f7f4fc,stroke:#d6c9e9
+    style ALPHA fill:#eaf4ee,stroke:#83a68e

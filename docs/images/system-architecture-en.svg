@@ -1,55 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-labelledby="title desc" xml:lang="en">
-<title id="title">Strategy Wallet Discovery Pipeline</title>
-<desc id="desc">Seed Alpha identifies evidenced strategy wallets. Their broader history produces candidate mechanisms, which are validated for current conditions and execution requirements. One Skill orchestrates the three research Skills. Only an established mechanism may become a new seed.</desc>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#64788c" stroke-width="1.5"/></marker></defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="1740" height="650" viewBox="0 0 1740 650" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">From Seed Alpha to New Alpha</title>
+<desc id="desc">Three seeds—Energy Rental liquidation, JustLend lending liquidation and USDD keeper or auction actions—lead to strategy wallets through alpha-seed-wallets. wallet-alpha-investigation studies the wallets to form Alpha candidates. protocol-alpha-validation produces reports and, if a mechanism is established, new Alpha. protocol-alpha-discovery coordinates the entire flow.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#62778c" stroke-width="1.5"/></marker></defs>
 <style>
 text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #253647; }
-.heading { font-size: 30px; font-weight: 700; }
-.box-title { font-size: 24px; font-weight: 600; }
-.sub { font-size: 20px; fill: #60748a; }
-.result { font-size: 22px; font-weight: 600; fill: #365f4b; }
-.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 18px; fill: #486859; }
-.line { fill: none; stroke: #64788c; stroke-width: 1.6; marker-end: url(#arrow); }
-.coord { fill: none; stroke: #98b2a3; stroke-width: 1.5; stroke-dasharray: 5 5; }
-.loop { fill: none; stroke: #64788c; stroke-width: 1.5; stroke-dasharray: 6 5; marker-end: url(#arrow); }
+.heading { font-size: 32px; font-weight: 700; }
+.section { font-size: 23px; font-weight: 600; }
+.node { font-size: 23px; font-weight: 600; }
+.sub { font-size: 19px; fill: #60748a; }
+.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 17px; fill: #38654c; }
+.line { fill: none; stroke: #62778c; stroke-width: 1.6; }
+.arrow { fill: none; stroke: #62778c; stroke-width: 1.6; marker-end: url(#arrow); }
+.orchestrate { fill: none; stroke: #89a998; stroke-width: 1.5; stroke-dasharray: 6 5; marker-end: url(#arrow); }
 </style>
-<rect width="1600" height="700" fill="#ffffff"/>
-<text x="40" y="48" class="heading" text-anchor="start">Strategy Wallet Discovery Pipeline</text>
-<text x="1560" y="47" class="sub" text-anchor="end">Seed Alpha → Strategy Wallet → New Alpha</text>
-<rect x="570" y="106" width="650" height="118" rx="9" fill="#eaf4ee" stroke="#83a68e" stroke-width="1.5"/>
-<text x="895" y="143" class="box-title" text-anchor="middle">1 · Orchestrate Research</text>
-<text x="895" y="175" class="skill" text-anchor="middle">protocol-alpha-discovery</text>
-<text x="895" y="206" class="sub" text-anchor="middle">Research scope · Stage handoffs · Stopping rules</text>
-<path d="M 895 224 V 260 M 500 300 V 260 H 1365 V 300 M 930 260 V 300" class="coord"/>
-<rect x="40" y="300" width="220" height="212" rx="9" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
-<text x="150" y="398" class="box-title" text-anchor="middle">Seed Alpha</text>
-<text x="150" y="432" class="sub" text-anchor="middle">Known mechanism</text>
-<path d="M 270 406 H 300" class="line"/>
-<rect x="310" y="300" width="380" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="500.0" y="338" class="box-title" text-anchor="middle">2 · Find &amp; Verify Wallets</text>
-<text x="500.0" y="369" class="skill" text-anchor="middle">alpha-seed-wallets</text>
-<path d="M 332 389 H 668" stroke="#e4ebe7"/>
-<text x="500.0" y="420" class="sub" text-anchor="middle">Match calls and successful receipts</text>
-<text x="500.0" y="450" class="sub" text-anchor="middle">Identify the actual executor</text>
-<text x="500.0" y="490" class="result" text-anchor="middle">Strategy Wallets</text>
-<rect x="740" y="300" width="380" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="930.0" y="338" class="box-title" text-anchor="middle">3 · Discover Candidates</text>
-<text x="930.0" y="369" class="skill" text-anchor="middle">wallet-alpha-investigation</text>
-<path d="M 762 389 H 1098" stroke="#e4ebe7"/>
-<text x="930.0" y="420" class="sub" text-anchor="middle">Study broader wallet history</text>
-<text x="930.0" y="450" class="sub" text-anchor="middle">Form new mechanism hypotheses</text>
-<text x="930.0" y="490" class="result" text-anchor="middle">Alpha Candidates</text>
-<rect x="1170" y="300" width="390" height="212" rx="9" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
-<text x="1365.0" y="338" class="box-title" text-anchor="middle">4 · Validate Candidates</text>
-<text x="1365.0" y="369" class="skill" text-anchor="middle">protocol-alpha-validation</text>
-<path d="M 1192 389 H 1538" stroke="#e4ebe7"/>
-<text x="1365.0" y="420" class="sub" text-anchor="middle">Test mechanism and current state</text>
-<text x="1365.0" y="450" class="sub" text-anchor="middle">Check costs and execution conditions</text>
-<text x="1365.0" y="490" class="result" text-anchor="middle">Alpha Reports</text>
-<path d="M 700 406 H 730" class="line"/>
-<path d="M 1130 406 H 1160" class="line"/>
-<path d="M 1365 522 V 563 H 150 V 522" class="loop"/>
-<text x="800" y="594" class="sub" text-anchor="middle">Established mechanism → next Seed Alpha within research scope</text>
-<text x="800" y="642" class="sub" text-anchor="middle">Report outcomes: Actionable · Monitor · Rejected · Insufficient Evidence</text>
-<text x="800" y="680" class="sub" text-anchor="middle">TRON seeds: Energy Rental liquidation · JustLend liquidation · USDD keeper / auction</text>
+<rect width="1740" height="650" fill="#ffffff"/>
+<text x="40" y="48" class="heading" text-anchor="start">From Seed Alpha to New Alpha</text>
+<text x="870" y="105" class="skill" text-anchor="middle">protocol-alpha-discovery</text>
+<text x="870" y="132" class="sub" text-anchor="middle">Coordinate discovery, investigation and validation</text>
+<path d="M 150 179 V 153 H 1580 V 179" class="orchestrate"/>
+<text x="150" y="222" class="section" text-anchor="middle">Three Alpha Seeds</text>
+<text x="590" y="222" class="section" text-anchor="middle">Strategy Wallets</text>
+<text x="1070" y="222" class="section" text-anchor="middle">Alpha Candidates</text>
+<text x="1580" y="222" class="section" text-anchor="middle">Validation Results</text>
+<rect x="40" y="270" width="220" height="80" rx="10" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
+<text x="150" y="303" class="node" text-anchor="middle">Energy Rental</text>
+<text x="150" y="331" class="sub" text-anchor="middle">Liquidation</text>
+<rect x="500" y="270" width="180" height="80" rx="10" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="590" y="318" class="node" text-anchor="middle">Wallet A</text>
+<rect x="980" y="270" width="180" height="80" rx="10" fill="#f7f4fc" stroke="#d6c9e9" stroke-width="1.5"/>
+<text x="1070" y="318" class="node" text-anchor="middle">Candidate 1</text>
+<path d="M 260 310 H 280 M 680 310 H 690 M 1160 310 H 1170" class="line"/>
+<path d="M 480 310 H 490" class="arrow"/>
+<path d="M 970 310 H 980" class="arrow"/>
+<rect x="40" y="380" width="220" height="80" rx="10" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
+<text x="150" y="413" class="node" text-anchor="middle">JustLend</text>
+<text x="150" y="441" class="sub" text-anchor="middle">Lending liquidation</text>
+<rect x="500" y="380" width="180" height="80" rx="10" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="590" y="428" class="node" text-anchor="middle">Wallet B</text>
+<rect x="980" y="380" width="180" height="80" rx="10" fill="#f7f4fc" stroke="#d6c9e9" stroke-width="1.5"/>
+<text x="1070" y="428" class="node" text-anchor="middle">Candidate 2</text>
+<path d="M 260 420 H 280 M 680 420 H 690 M 1160 420 H 1170" class="line"/>
+<path d="M 480 420 H 490" class="arrow"/>
+<path d="M 970 420 H 980" class="arrow"/>
+<rect x="40" y="490" width="220" height="80" rx="10" fill="#f1f5fb" stroke="#b2c5df" stroke-width="1.5"/>
+<text x="150" y="523" class="node" text-anchor="middle">USDD</text>
+<text x="150" y="551" class="sub" text-anchor="middle">Keeper / auction</text>
+<rect x="500" y="490" width="180" height="80" rx="10" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="590" y="538" class="node" text-anchor="middle">Wallet C</text>
+<rect x="980" y="490" width="180" height="80" rx="10" fill="#f7f4fc" stroke="#d6c9e9" stroke-width="1.5"/>
+<text x="1070" y="538" class="node" text-anchor="middle">Candidate 3</text>
+<path d="M 260 530 H 280 M 680 530 H 690 M 1160 530 H 1170" class="line"/>
+<path d="M 480 530 H 490" class="arrow"/>
+<path d="M 970 530 H 980" class="arrow"/>
+<path d="M 280 310 V 530" class="line"/>
+<path d="M 480 310 V 530" class="line"/>
+<path d="M 690 310 V 530" class="line"/>
+<path d="M 970 310 V 530" class="line"/>
+<path d="M 1170 310 V 530" class="line"/>
+<text x="380" y="367" class="skill" text-anchor="middle">alpha-seed-wallets</text>
+<text x="380" y="395" class="sub" text-anchor="middle">Find &amp; verify executors</text>
+<path d="M 280 420 H 480" class="line"/>
+<text x="830" y="367" class="skill" text-anchor="middle">wallet-alpha-investigation</text>
+<text x="830" y="395" class="sub" text-anchor="middle">Study wallet histories</text>
+<path d="M 690 420 H 970" class="line"/>
+<text x="1320" y="367" class="skill" text-anchor="middle">protocol-alpha-validation</text>
+<text x="1320" y="395" class="sub" text-anchor="middle">Validate mechanism &amp; conditions</text>
+<path d="M 1170 420 H 1470" class="line"/>
+<path d="M 1470 335 V 525" class="line"/>
+<path d="M 1470 335 H 1480" class="arrow"/>
+<path d="M 1470 525 H 1480" class="arrow"/>
+<rect x="1490" y="287" width="220" height="96" rx="10" fill="#eaf4ee" stroke="#83a68e" stroke-width="1.5"/>
+<text x="1600" y="326" class="node" text-anchor="middle">New Alpha</text>
+<text x="1600" y="358" class="sub" text-anchor="middle">If validated</text>
+<rect x="1490" y="477" width="220" height="96" rx="10" fill="#ffffff" stroke="#cbd6e0" stroke-width="1.5"/>
+<text x="1600" y="516" class="node" text-anchor="middle">Alpha Reports</text>
+<text x="1600" y="548" class="sub" text-anchor="middle">Evidence &amp; next checks</text>
+<text x="870" y="627" class="sub" text-anchor="middle">Wallets and candidates are illustrative. Every candidate receives a report.</text>
 </svg>
