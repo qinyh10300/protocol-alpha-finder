@@ -20,6 +20,8 @@ import {
   Search,
   Share2,
   Wallet,
+  Users,
+  Files,
   X,
   Bookmark,
   Eye,
@@ -37,6 +39,7 @@ import type {
   StrategyWallet,
 } from "./types";
 import "./style.css";
+import { AlphaReportList, AlphaReportPreview } from "./ReportCards";
 
 const api = new ApiResearchDataSource();
 const demo = new MockResearchDataSource();
@@ -174,7 +177,20 @@ function AppHeader({
           navigate("/research");
         }}
       >
-        <span className="brand-mark">α</span>
+        <svg
+          className="brand-mark"
+          viewBox="0 0 56 54"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M28 2 55 50H42L28 25 14 50H1L28 2Z" fill="currentColor" />
+          <path d="M28 15 48 50H38L28 32 18 50H8L28 15Z" fill="white" />
+          <path
+            d="M28 29 40 50H16L21 41H27L24 46H32L26 35Z"
+            fill="currentColor"
+          />
+          <path d="M4 44H15L11 51H0L4 44Z" fill="currentColor" />
+        </svg>
         <span>
           <strong>Protocol Alpha Finder</strong>
           <small>AI-assisted protocol alpha research</small>
@@ -205,11 +221,10 @@ function AppHeader({
             <option value="archive">Skill results</option>
             <option value="demo">Demo mode</option>
           </select>
-          <ChevronDown size={13} />
+          <ChevronDown size={14} />
         </label>
         <span className="network">
-          <span />
-          TRON Mainnet
+          <span className="network-mark">T</span>TRON Mainnet
         </span>
       </div>
     </header>
@@ -236,14 +251,14 @@ function ResearchRunSummary({
 }) {
   const run = data.run;
   return (
-    <section className="run-summary">
+    <section className="run-summary" aria-label="Research run summary">
       <div className="summary-top">
         <div className="seed-object">
-          <span className="object-icon">
-            <Layers3 size={23} />
+          <span className="object-icon seed-icon">
+            <FileText size={26} />
           </span>
           <div>
-            <span className="eyebrow">DISCOVERY SEED</span>
+            <span className="summary-label">Current Seed</span>
             <label className="seed-select">
               <select
                 aria-label="Research seed"
@@ -260,25 +275,43 @@ function ResearchRunSummary({
             </label>
             <p>
               {data.mode === "archive"
-                ? "Known protocol mechanisms → strategy executors"
-                : "Synthetic research · Implementation pack"}
+                ? "TRON · Known protocol alpha"
+                : "JustLend · Synthetic demo seed"}
             </p>
           </div>
         </div>
-        <ArrowRight className="summary-arrow" size={20} />
+        <ArrowRight className="summary-arrow" size={22} />
         <div className="summary-count">
-          <strong>{run.walletCount}</strong>
-          <span>Strategy Wallets</span>
+          <span className="object-icon wallet-icon">
+            <Users size={25} />
+          </span>
+          <div>
+            <strong>{run.walletCount}</strong>
+            <span>Strategy Wallets</span>
+            <small>identified from seed</small>
+          </div>
         </div>
-        <ArrowRight className="summary-arrow" size={20} />
+        <ArrowRight className="summary-arrow" size={22} />
         <div className="summary-count">
-          <strong>{run.candidateCount}</strong>
-          <span>Alpha Candidates</span>
+          <span className="object-icon candidate-icon">
+            <Files size={25} />
+          </span>
+          <div>
+            <strong>{run.candidateCount}</strong>
+            <span>Alpha Candidates</span>
+            <small>discovered</small>
+          </div>
         </div>
-        <ArrowRight className="summary-arrow" size={20} />
+        <ArrowRight className="summary-arrow" size={22} />
         <div className="summary-count">
-          <strong>{run.reportCount}</strong>
-          <span>Alpha Reports</span>
+          <span className="object-icon report-icon">
+            <FileText size={25} />
+          </span>
+          <div>
+            <strong>{run.reportCount}</strong>
+            <span>Alpha Reports</span>
+            <small>ready for review</small>
+          </div>
         </div>
         <div className="run-control">
           <StatusChip status={run.status} />
@@ -295,7 +328,7 @@ function ResearchRunSummary({
                 <Pause size={14} />
               ) : (
                 <Play size={14} />
-              )}{" "}
+              )}
               {run.status === "running"
                 ? "Pause demo"
                 : run.status === "paused"
@@ -319,12 +352,12 @@ function ResearchRunSummary({
       <div className="summary-bottom">
         <div>
           <span className="tiny-dot" />
-          {data.mode === "archive" ? "Saved research run" : "Demo replay"}
-          <span className="divider">/</span>
+          {data.mode === "archive" ? "Saved Skill run" : "Demo replay"}
+          <span className="divider" />{" "}
           <strong>{fmt(run.loadedTransactionCount)}</strong> primary tx loaded
           {data.window && (
             <>
-              <span className="divider">/</span>
+              <span className="divider" />
               <span className="date-range">
                 {day(data.window.from)} – {day(data.window.to)}
               </span>
@@ -351,6 +384,7 @@ function WalletInvestigationRow({
   selected: boolean;
   onClick: () => void;
 }) {
+  const [copied, setCopied] = useState(false);
   const jobs = [wallet.historyJob, wallet.analysisJob, wallet.alphaSearchJob];
   const status = jobs.some((j) => j.status === "failed")
     ? "failed"
@@ -359,35 +393,64 @@ function WalletInvestigationRow({
       : jobs.some((j) => j.status === "running")
         ? "running"
         : "queued";
+  useEffect(() => {
+    if (!copied) return;
+    const id = setTimeout(() => setCopied(false), 1800);
+    return () => clearTimeout(id);
+  }, [copied]);
   return (
-    <button
-      className={`wallet-row ${selected ? "selected" : ""}`}
-      onClick={onClick}
-    >
-      <div className="wallet-top">
-        <span className="row-index">{String(index + 1).padStart(2, "0")}</span>
-        <span className="wallet-address">{short(wallet.address)}</span>
-        <StatusChip status={status} />
-        <ChevronRight size={14} />
-      </div>
-      <div className="wallet-middle">
-        <span>
+    <article className={`wallet-row ${selected ? "selected" : ""}`}>
+      <button
+        className="wallet-details-hit"
+        onClick={onClick}
+        aria-label={`Investigate wallet ${wallet.address}`}
+      />
+      <span className="row-index">{index + 1}</span>
+      <div className="wallet-identity">
+        <div>
+          <span className="wallet-address" title={wallet.address}>
+            {short(wallet.address)}
+          </span>
+          <button
+            className="copy-wallet"
+            aria-label={`Copy address ${wallet.address}`}
+            onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(wallet.address);
+                setCopied(true);
+              } catch {
+                onClick();
+              }
+            }}
+          >
+            {copied ? <Check size={13} /> : <Copy size={13} />}
+          </button>
+        </div>
+        <span className="wallet-volume">
           {wallet.historyJob.txCount == null
             ? "History pending"
-            : `${fmt(wallet.historyJob.txCount)} tx loaded`}
-        </span>
-        <span
-          className={wallet.candidateIds.length ? "candidate-count" : "muted"}
-        >
-          {wallet.candidateIds.length} candidate
-          {wallet.candidateIds.length !== 1 ? "s" : ""}
+            : `${fmt(wallet.historyJob.txCount)} tx`}
         </span>
       </div>
-      <PipelineStatus wallet={wallet} />
+      <div className="wallet-job">
+        <div className="wallet-result">
+          <span
+            className={
+              wallet.candidateIds.length ? "candidate-count" : "zero-count"
+            }
+          >
+            {wallet.candidateIds.length} candidate
+            {wallet.candidateIds.length !== 1 ? "s" : ""}
+          </span>
+          <StatusChip status={status} />
+        </div>
+        <PipelineStatus wallet={wallet} />
+      </div>
+      <ChevronRight className="wallet-chevron" size={16} />
       {jobs.find((j) => j.error)?.error && (
         <p className="error-text">{jobs.find((j) => j.error)?.error}</p>
       )}
-    </button>
+    </article>
   );
 }
 function WalletInvestigationList({
@@ -399,22 +462,27 @@ function WalletInvestigationList({
   wallet: string | null;
   choose: (w: StrategyWallet) => void;
 }) {
+  const [expanded, setExpanded] = useState(false);
+  useEffect(() => {
+    setExpanded(false);
+  }, [data.run.id]);
+  const visible = expanded ? data.wallets : data.wallets.slice(0, 6);
   return (
     <section className="workspace-column wallet-column">
       <div className="column-heading">
         <span className="column-icon">
-          <Wallet size={18} />
+          <Wallet size={22} />
         </span>
         <h2>
-          Wallet Investigations <span>{data.wallets.length}</span>
+          Wallet Investigations <span>({data.wallets.length})</span>
         </h2>
       </div>
       <p className="column-description">
-        Each wallet, an independent research job.
+        Each strategy wallet is investigated as a separate research job.
       </p>
       <div className="column-content wallet-list">
-        {data.wallets.length ? (
-          data.wallets.map((w, i) => (
+        {visible.length ? (
+          visible.map((w, i) => (
             <WalletInvestigationRow
               key={w.address}
               wallet={w}
@@ -438,10 +506,17 @@ function WalletInvestigationList({
             loading={data.run.status === "running"}
           />
         )}
-      </div>
-      <div className="column-footer">
-        <Check size={13} />
-        Transactions are evidence volume.
+        {data.wallets.length > 6 && (
+          <button
+            className="show-more-wallets"
+            onClick={() => setExpanded((v) => !v)}
+          >
+            <ChevronDown size={16} className={expanded ? "rotate" : ""} />
+            {expanded
+              ? "Show fewer wallets"
+              : `Show ${data.wallets.length - 6} more wallets`}
+          </button>
+        )}
       </div>
     </section>
   );
@@ -459,43 +534,77 @@ function AlphaCandidateCard({
 }) {
   return (
     <article className="candidate-card">
-      <div className="card-eyebrow">
-        <span>CANDIDATE {String(index + 1).padStart(2, "0")}</span>
-        <StatusChip status={c.status} />
+      <div className="candidate-top">
+        <span className="row-index">{index + 1}</span>
+        <div className="candidate-title">
+          <h3 title={c.id}>{c.title}</h3>
+          <StatusChip status={c.status} />
+        </div>
       </div>
-      <h3>{c.title}</h3>
-      <p className="candidate-id">{c.id}</p>
-      <p className="card-summary">{c.summary}</p>
-      <div className="evidence-counts">
+      <div className="candidate-evidence">
         <span>
-          <Wallet size={13} />
-          {c.sourceWallets.length} source wallet
+          Found from {c.sourceWallets.length} wallet
           {c.sourceWallets.length !== 1 ? "s" : ""}
         </span>
         {c.historicalExecutionCount != null && (
           <span>
-            <Layers3 size={13} />
             {c.historicalExecutionCount}{" "}
             {c.evidenceCountLabel || "historical executions"}
           </span>
         )}
       </div>
+      <p className="card-summary">{c.summary}</p>
+      <div className="candidate-facts">
+        <div>
+          <span>Source Wallets</span>
+          <strong>
+            {c.sourceWallets.length} wallet
+            {c.sourceWallets.length !== 1 ? "s" : ""}
+          </strong>
+        </div>
+        <div>
+          <span>
+            {c.evidenceCountLabel === "reconciled samples"
+              ? "Reconciled Samples"
+              : "Historical Executions"}
+          </span>
+          <strong>
+            {c.historicalExecutionCount == null
+              ? "Pending"
+              : `${c.historicalExecutionCount} ${c.historicalExecutionCount === 1 ? "sample" : "samples"}`}
+          </strong>
+        </div>
+        <div>
+          <span>Report</span>
+          <strong className={c.reportId ? "report-available" : ""}>
+            {c.reportId
+              ? "Ready"
+              : c.status === "validating"
+                ? "In progress"
+                : "Pending"}
+          </strong>
+        </div>
+      </div>
       <div className="card-actions">
-        <button className="text-button" onClick={sources}>
-          View evidence
-        </button>
         {c.reportId ? (
-          <button className="report-link" onClick={() => open(c.reportId!)}>
+          <button
+            className="secondary report-link"
+            onClick={() => open(c.reportId!)}
+          >
+            <FileText size={15} />
             Open Report
-            <ArrowRight size={14} />
           </button>
         ) : (
-          <span className="muted">
+          <span className="pending-report">
             {c.status === "validating"
               ? "Validation in progress"
               : "Awaiting validation"}
           </span>
         )}
+        <button className="text-button" onClick={sources}>
+          View evidence
+          <ArrowRight size={15} />
+        </button>
       </div>
     </article>
   );
@@ -513,27 +622,52 @@ function AlphaCandidateList({
   sources: (c: AlphaCandidate) => void;
   clear?: () => void;
 }) {
+  const [sort, setSort] = useState("discovery");
+  const sorted = [...candidates].sort((a, b) =>
+    sort === "newest"
+      ? b.createdAt.localeCompare(a.createdAt)
+      : sort === "evidence"
+        ? (b.historicalExecutionCount ?? -1) -
+          (a.historicalExecutionCount ?? -1)
+        : 0,
+  );
   return (
     <section className="workspace-column candidate-column">
       <div className="column-heading">
         <span className="column-icon">
-          <FlaskConical size={18} />
+          <Files size={22} />
         </span>
         <h2>
-          Alpha Candidates <span>{candidates.length}</span>
+          Alpha Candidates <span>({candidates.length})</span>
         </h2>
       </div>
       <p className="column-description">
-        Hypotheses discovered from wallet histories.
+        Protocol opportunities discovered from wallet investigations.
       </p>
-      {clear && (
-        <button className="filter-chip" onClick={clear}>
-          Filtered by wallet <X size={12} />
-        </button>
-      )}
+      <div className="candidate-toolbar">
+        <label>
+          Sort by:{" "}
+          <select
+            aria-label="Sort candidates"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="discovery">Discovery order</option>
+            <option value="newest">Newest first</option>
+            <option value="evidence">Evidence count</option>
+          </select>
+          <ChevronDown size={13} />
+        </label>
+        {clear && (
+          <button className="filter-chip" onClick={clear}>
+            Filtered by wallet
+            <X size={12} />
+          </button>
+        )}
+      </div>
       <div className="column-content">
-        {candidates.length ? (
-          candidates.map((c, i) => (
+        {sorted.length ? (
+          sorted.map((c, i) => (
             <AlphaCandidateCard
               key={c.id}
               candidate={c}
@@ -552,124 +686,6 @@ function AlphaCandidateList({
             }
           />
         )}
-      </div>
-      <div className="column-footer">
-        <FlaskConical size={13} />
-        Every hypothesis gets an assessment.
-      </div>
-    </section>
-  );
-}
-function AlphaReportPreview({
-  report: r,
-  featured,
-  open,
-}: {
-  report: AlphaReport;
-  featured?: boolean;
-  open: (id: string) => void;
-}) {
-  return (
-    <article className={`report-preview ${featured ? "featured" : ""}`}>
-      <div className="card-eyebrow">
-        <span>ALPHA REPORT</span>
-        <StatusChip status={r.outcome} />
-      </div>
-      <h3>{r.title}</h3>
-      <p className="candidate-id">{r.candidateId}</p>
-      <p className="card-summary">{r.executiveSummary}</p>
-      {featured && (
-        <div className="report-findings">
-          <div>
-            <Check size={16} />
-            <p>
-              <strong>Historical mechanism</strong>
-              <span>
-                {r.rawCurrentState
-                  ? "Evidence retained in the original Skill assessment."
-                  : r.mechanism.summary}
-              </span>
-            </p>
-          </div>
-          <div>
-            <Eye size={16} />
-            <p>
-              <strong>Current state</strong>
-              <span>
-                {r.rawCurrentState || r.currentState.summary}
-                {r.rawCurrentState
-                  ? " · Recheck execution conditions and net costs."
-                  : ""}
-              </span>
-            </p>
-          </div>
-        </div>
-      )}
-      <div className="report-meta">
-        <span>
-          {r.sourceWallets.length} wallet
-          {r.sourceWallets.length !== 1 ? "s" : ""}
-        </span>
-        {r.historicalExecutionCount != null && (
-          <span>
-            {r.historicalExecutionCount} {r.evidenceCountLabel || "executions"}
-          </span>
-        )}
-      </div>
-      <p className="last-checked">Checked {date(r.lastCheckedAt)}</p>
-      <button
-        className={featured ? "primary full-width" : "report-link full-width"}
-        onClick={() => open(r.id)}
-      >
-        {featured && <FileText size={15} />}Open Full Report
-        <ArrowRight size={14} />
-      </button>
-    </article>
-  );
-}
-function AlphaReportList({
-  reports,
-  open,
-}: {
-  reports: AlphaReport[];
-  open: (id: string) => void;
-}) {
-  const sorted = [...reports].sort(
-    (a, b) => Number(b.outcome === "MONITOR") - Number(a.outcome === "MONITOR"),
-  );
-  return (
-    <section className="workspace-column report-column">
-      <div className="column-heading">
-        <span className="column-icon">
-          <FileText size={18} />
-        </span>
-        <h2>
-          Alpha Reports <span>{reports.length}</span>
-        </h2>
-      </div>
-      <p className="column-description">
-        Evidence that helps you decide what comes next.
-      </p>
-      <div className="column-content">
-        {sorted.length ? (
-          sorted.map((r, i) => (
-            <AlphaReportPreview
-              key={r.id}
-              report={r}
-              featured={i === 0}
-              open={open}
-            />
-          ))
-        ) : (
-          <Empty
-            title="No reports generated yet"
-            text="Each candidate can produce a report, whatever the outcome."
-          />
-        )}
-      </div>
-      <div className="column-footer">
-        <FileText size={13} />
-        Actionable · Monitor · Rejected · Insufficient evidence
       </div>
     </section>
   );
@@ -1257,7 +1273,9 @@ function App() {
         mode={mode}
         setMode={switchMode}
       />
-      <main>
+      <main
+        className={path === "/research" ? "research-main" : "document-main"}
+      >
         {mode === "demo" && (
           <div className="demo-banner">
             <FlaskConical size={15} />
@@ -1343,29 +1361,7 @@ function App() {
                 </div>
               </>
             ) : (
-              <div className="page-heading">
-                <div className="heading-copy">
-                  <div className="eyebrow">
-                    <span className="live-square" />
-                    PROTOCOL RESEARCH WORKSPACE
-                  </div>
-                  <h1>From known alpha to new possibilities.</h1>
-                  <p>
-                    Follow the wallets. Investigate the mechanism. Review the
-                    evidence.
-                  </p>
-                </div>
-                <div className="workspace-context">
-                  <span>
-                    {mode === "archive" ? "LOCAL RESEARCH" : "INTERACTIVE DEMO"}
-                  </span>
-                  <p>
-                    {data?.run.updatedAt
-                      ? `Updated ${date(data.run.updatedAt)}`
-                      : "Four Skills. One research workflow."}
-                  </p>
-                </div>
-              </div>
+              <h1 className="sr-only">Protocol Alpha Research Workspace</h1>
             )}
             {error && (
               <div className="error-banner" role="alert">
@@ -1451,41 +1447,6 @@ function App() {
                       setRevision((r) => r + 1);
                     }}
                   />
-                  {mode === "archive" && (
-                    <div className="provenance-strip">
-                      <span>
-                        <span className="tiny-dot" />
-                        Real chain evidence{" "}
-                        <span className="muted">· saved Skill results</span>
-                      </span>
-                      <div className="seed-coverage">
-                        {data.seeds
-                          .filter((s) => s.id !== "all")
-                          .map((s) => (
-                            <button
-                              key={s.id}
-                              className={seedId === s.id ? "active" : ""}
-                              onClick={() => {
-                                setSeedId(s.id);
-                                setData(null);
-                                setFilterWallet(null);
-                              }}
-                              title={s.coverage}
-                            >
-                              {s.name.split(" ").slice(0, 2).join(" ")}{" "}
-                              <strong>{s.walletCount}</strong>
-                            </button>
-                          ))}
-                      </div>
-                      <button
-                        className="text-button"
-                        onClick={() => setDrawer("activity")}
-                      >
-                        4 Skill handoffs
-                        <ArrowRight size={13} />
-                      </button>
-                    </div>
-                  )}
                   {seedId === "usdd-keeper-auction" && mode === "archive" && (
                     <div className="coverage-note">
                       <CircleHelp size={17} />

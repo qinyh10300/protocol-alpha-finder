@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { existsSync } from "node:fs";
+import type { Snapshot } from "../../frontend/src/types";
 const hasArchive = existsSync(
   "data/protocol-alpha-discovery-test/research-record.json",
 );
@@ -11,7 +12,7 @@ test.describe("Real Skill integration", () => {
   }) => {
     await page.goto("/research");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
-    await expect(page.locator(".wallet-row")).toHaveCount(10);
+    await expect(page.locator(".wallet-row")).toHaveCount(6);
     await expect(page.locator(".candidate-card")).toHaveCount(5);
     await page.locator(".wallet-row").first().click();
     await expect(page.getByRole("dialog")).toContainText(
@@ -25,6 +26,145 @@ test.describe("Real Skill integration", () => {
     await expect(page.getByRole("dialog")).toHaveCount(0);
     await page.getByRole("button", { name: "Filtered by wallet" }).click();
     await expect(page.locator(".candidate-card")).toHaveCount(5);
+  });
+  test("wallet list expands, collapses and resets for another seed", async ({
+    page,
+  }) => {
+    await page.goto("/research");
+    await expect(page.locator(".wallet-row")).toHaveCount(6);
+    await page.getByRole("button", { name: "Show 4 more wallets" }).click();
+    await expect(page.locator(".wallet-row")).toHaveCount(10);
+    await page.getByRole("button", { name: "Show fewer wallets" }).click();
+    await expect(page.locator(".wallet-row")).toHaveCount(6);
+    await page.getByRole("button", { name: "Show 4 more wallets" }).click();
+    await page
+      .getByLabel("Research seed")
+      .selectOption("justlend-lending-liquidation");
+    await expect(page.locator(".wallet-row")).toHaveCount(5);
+    await expect(
+      page.getByRole("button", { name: /Show .* wallets/ }),
+    ).toHaveCount(0);
+    await page.getByLabel("Research seed").selectOption("all");
+    await expect(page.locator(".wallet-row")).toHaveCount(6);
+  });
+  test("candidate sorting changes discovery, recency and evidence order", async ({
+    page,
+  }) => {
+    const response = await page.request.get(
+      "/api/research-runs/local-all/snapshot",
+    );
+    expect(response.ok()).toBeTruthy();
+    const snapshot: Snapshot = await response.json();
+    // Distinct inputs make each sort observable even when archived timestamps match.
+    const evidenceCounts = [3, 11, 2, 7, 5];
+    snapshot.candidates = snapshot.candidates.map((candidate, index) => ({
+      ...candidate,
+      createdAt: new Date(Date.UTC(2026, 8, 20 + index)).toISOString(),
+      historicalExecutionCount: evidenceCounts[index],
+    }));
+    await page.route("**/api/research-runs/local-all/snapshot", (route) =>
+      route.fulfill({ json: snapshot }),
+    );
+    await page.goto("/research");
+    const titles = page.locator(".candidate-card h3");
+    const discoveryTitles = snapshot.candidates.map(
+      (candidate) => candidate.title,
+    );
+    await expect(titles).toHaveText(discoveryTitles);
+    await expect(page.getByLabel("Sort candidates")).toHaveValue("discovery");
+    await page.getByLabel("Sort candidates").selectOption("newest");
+    await expect(titles).toHaveText([...discoveryTitles].reverse());
+    await page.getByLabel("Sort candidates").selectOption("evidence");
+    await expect(titles).toHaveText(
+      [...snapshot.candidates]
+        .sort(
+          (a, b) =>
+            (b.historicalExecutionCount ?? 0) -
+            (a.historicalExecutionCount ?? 0),
+        )
+        .map((candidate) => candidate.title),
+    );
+    await page.getByLabel("Sort candidates").selectOption("discovery");
+    await expect(titles).toHaveText(discoveryTitles);
+  });
+  test("report preview switches between reports and retains every assessment section", async ({
+    page,
+  }) => {
+    await page.goto("/research");
+    const reports = page.locator(".report-column");
+    const expanded = reports.locator(".report-preview.featured");
+    await expect(reports.locator(".report-preview")).toHaveCount(5);
+    await expect(expanded).toHaveCount(1);
+    const firstTitle = await expanded.locator("h3").innerText();
+    const firstId = await expanded.getAttribute("data-report-id");
+    const nextReport = reports
+      .locator(".compact-report[aria-expanded='false']")
+      .first();
+    const nextTitle = await nextReport.locator("h3").innerText();
+    const nextId = await nextReport
+      .locator("..")
+      .getAttribute("data-report-id");
+    await nextReport.click();
+    await expect(expanded).toHaveCount(1);
+    await expect(expanded.locator("h3")).toHaveText(nextTitle);
+    await expect(expanded).toHaveAttribute("data-report-id", nextId!);
+    await expect(reports.locator(".compact-report")).toHaveCount(4);
+    for (const section of [
+      "Mechanism",
+      "Historical Evidence",
+      "Current State",
+      "Execution Conditions",
+    ]) {
+      await expect(expanded.getByText(section, { exact: true })).toBeVisible();
+    }
+    await reports
+      .locator(`[data-report-id="${firstId}"] .compact-report`)
+      .click();
+    await expect(expanded.locator("h3")).toHaveText(firstTitle);
+    await expanded.getByRole("button", { name: "Open Full Report" }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      firstTitle,
+    );
+  });
+  test("desktop workspace keeps the reference's aligned three-column density", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto("/research");
+    await expect(page.locator(".wallet-row")).toHaveCount(6);
+    const grid = await page.locator(".workspace-grid").boundingBox();
+    expect(grid).not.toBeNull();
+    expect(grid!.y).toBeLessThan(260);
+    const columns = await page
+      .locator(".workspace-grid > .workspace-column")
+      .evaluateAll((elements) =>
+        elements.map((element) => {
+          const { x, y, width } = element.getBoundingClientRect();
+          return { x, y, width };
+        }),
+      );
+    expect(columns).toHaveLength(3);
+    expect(
+      Math.max(...columns.map(({ y }) => y)) -
+        Math.min(...columns.map(({ y }) => y)),
+    ).toBeLessThanOrEqual(1);
+    expect(columns[1].x).toBeGreaterThanOrEqual(
+      columns[0].x + columns[0].width,
+    );
+    expect(columns[2].x).toBeGreaterThanOrEqual(
+      columns[1].x + columns[1].width,
+    );
+    const rowHeights = await page
+      .locator(".wallet-row")
+      .evaluateAll((rows) =>
+        rows.map((row) => row.getBoundingClientRect().height),
+      );
+    expect(Math.max(...rowHeights)).toBeLessThanOrEqual(110);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBeTruthy();
   });
   test("USDD zero coverage and seed selection", async ({ page }) => {
     await page.goto("/research");
@@ -91,7 +231,7 @@ test.describe("Real Skill integration", () => {
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/research");
-    await expect(page.locator(".wallet-row")).toHaveCount(10);
+    await expect(page.locator(".wallet-row")).toHaveCount(6);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
