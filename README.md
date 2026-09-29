@@ -8,7 +8,7 @@
 
 ## 功能
 
-- **Seed 驱动研究**：围绕 Energy Rental、USDD keeper 与条件式 JustLend Seed 组织研究入口。
+- **Seed 驱动研究**：默认从 Energy Rental 清算、JustLend 借贷清算、USDD keeper／拍卖三个入口寻找策略钱包，跨入口去重并保留证据，再研究钱包历史中的新候选。
 - **研究工作台**：Wallet Investigations → Alpha Candidates → Alpha Reports，支持三个 Seed 筛选、证据抽屉和独立报告页。
 - **可复用 Skills**：将研究编排、执行者定位、开放式发现和验证拆分成独立工作流。
 - **证据边界明确**：真实留档的 5 条候选保留原始 `UNCERTAIN` 状态，生成 3 份 Monitor 与 2 份 Insufficient Evidence 报告，并列出映射依据和补证条件。
@@ -47,7 +47,9 @@ Skills 需要支持 `SKILL.md` 的 Agent 环境。四个目录必须一起保留
 
 在支持技能加载的 Agent 中输入：
 
-> 请使用 protocol-alpha-discovery，基于我提供的 TRON 交易与合约材料，从已知 Seed 定位执行者，研究其历史中的其他策略候选，并列出机制验证、当前状态和执行风险所需证据。
+> 请使用 protocol-alpha-discovery，从 Energy Rental 清算、JustLend 借贷清算、USDD keeper／拍卖三个入口寻找策略钱包，再研究钱包历史并验证候选机制。请分别报告三个入口的覆盖情况和缺失证据。
+
+三类入口的取证流程已写入 Skills；当前 Python 采集器覆盖 Energy Rental，其余两类需要宿主提供链上工具或交易材料。默认范围和交接格式见 [Skills 使用说明](skills/README.md)。
 
 ## 系统架构
 
@@ -55,7 +57,7 @@ Skills 需要支持 `SKILL.md` 的 Agent 环境。四个目录必须一起保留
 | --- | --- | --- |
 | `frontend/` | 钱包调查、候选验证、报告工作台 | 已接真实 Skill 留档；独立合成 Demo |
 | `protocol-alpha-discovery` | 主 Skill：编排研究、记录证据边界和停止条件 | 已编写工作流 |
-| `alpha-seed-wallets` | 从 Seed 的成功执行记录定位研究钱包 | 已编写工作流 |
+| `alpha-seed-wallets` | 从三个入口的成功执行记录定位研究钱包，保留跨入口来源 | 已编写工作流 |
 | `wallet-alpha-investigation` | 跨交易分析、形成非标准策略假设 | 已编写工作流 |
 | `protocol-alpha-validation` | 核验机制、当前状态与执行条件 | 已编写工作流 |
 | `demo/` | 合成数据和可复现演示脚本 | 可本地运行 |
@@ -85,7 +87,7 @@ Agent 负责语义理解和提出假设；确定性代码负责资金流、成�
 - [中英双语 Pitch Guide v2](docs/Protocol_Alpha_Finder_Pitch_Guide_v2_Bilingual.md)
 - [TRON Pitch PPTX](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)
 
-v2 文档将 JustLend lending liquidation 定位为条件式 Seed。正式对外演示前，需要核验原 PPT 中的奖励参数和协议现状，详见 [材料差异](pitch-deck/README.md#材料间需要统一的口径)。
+原始 v2 文档将 JustLend lending liquidation 定位为条件式 Seed；当前 Skills 已将其纳入三个默认发现入口，并在筛选时区分普通执行者与有技术行为证据的钱包。正式对外演示前，需要核验原 PPT 中的奖励参数和协议现状，详见 [材料差异](pitch-deck/README.md#材料间需要统一的口径)。
 
 ## 下一步
 

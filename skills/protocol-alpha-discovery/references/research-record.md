@@ -3,9 +3,9 @@
 Use this structure when reporting a run; unknown values remain explicit.
 
 - **Run:** chain, network, source mode (real/synthetic), query time, covered blocks/dates, retrieval completeness.
-- **Seed:** name, mechanism, contract identity, source references and executor-selection rationale.
-- **Wallet:** address, executor/proxy/reward-recipient roles, supporting transactions and ambiguities.
-- **Candidate:** name, observed sequence, source transaction references, hypothesis, alternative explanations and falsification checks.
+- **Seeds:** every requested seed ID/name, mechanism, contract identity/version, query status and coverage, source references, verified wallet count, executor-selection rationale and missing checks. Include unavailable seeds explicitly.
+- **Wallet:** chain/network/address key, all originating seed IDs, executor/proxy/reward-recipient roles, supporting transactions and ambiguities. Deduplicate the same wallet across seeds while preserving its evidence.
+- **Candidate:** candidate ID/name, originating wallet and seed IDs, its own mechanism, observed sequence, source transaction references, hypothesis, alternative explanations and falsification checks. Its mechanism may differ from the original seeds.
 - **Mechanism:** capital in/out, reward source, asset units, deterministic method, historical costs and remaining gaps.
 - **Current state:** observation block/time, parameters, liquidity, oracle, upgrade/pause status, current economics and source references.
 - **Assessment:** mechanism established/unproven; ACTIVE/DEGRADED/EXPIRED/UNCERTAIN; reasons.
