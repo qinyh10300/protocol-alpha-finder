@@ -4,7 +4,7 @@
 
 > **Alpha finds Wallets. Wallets find more Alpha.**
 
-当前版本是研究原型：包含可交互静态前端、4 个 Agent Skills、合成数据 Demo，以及原始 TRON Pitch Deck。链上采集、模型调用与自动验证尚待实现。
+当前版本包含可交互静态前端、4 个 Agent Skills、合成数据 Demo、原始 TRON Pitch Deck，以及 Energy Rental 真实链上数据采集脚本。采集脚本可独立运行；前端尚未连接真实数据，模型调用与策略自动验证尚待实现。
 
 ## 功能
 
@@ -27,6 +27,17 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 **数据说明：** 当前 Demo 使用合成钱包、合成行为序列与合成候选，不连接链上 API、不调用模型，也未证明真实盈利机会。尚未部署在线 Demo，尚无录屏。
 
+## 真实数据采集
+
+已提供 Energy Rental 清算事件发现、真实发起钱包筛选、历史分页抓取与增量检查脚本，详见 [数据采集说明](docs/energy-rental-collection.md)。本地数据保存到 `data/energy-rental/`，已从 Git 跟踪中排除。
+
+```bash
+python3 scripts/collect_energy_rental.py update --max-pages 300
+python3 scripts/summarize_energy_rental.py
+```
+
+以上增量命令要求已经完成首次发现并生成本地 watchlist；首次运行方式见采集说明。
+
 ## 安装与使用
 
 前端只需要 Python 3 和现代浏览器，无构建步骤或第三方依赖。
@@ -47,6 +58,7 @@ Skills 需要支持 `SKILL.md` 的 Agent 环境。四个目录必须一起保留
 | `wallet-alpha-investigation` | 跨交易分析、形成非标准策略假设 | 已编写工作流 |
 | `protocol-alpha-validation` | 核验机制、当前状态与执行条件 | 已编写工作流 |
 | `demo/` | 合成数据和可复现演示脚本 | 可本地运行 |
+| `scripts/` | 主网清算事件、钱包历史与本地增量检查 | 已接入只读 TronGrid API |
 | `pitch-deck/` | 原始演示文稿与材料口径说明 | 已收录 |
 
 ```mermaid
@@ -76,7 +88,7 @@ v2 文档将 JustLend lending liquidation 定位为条件式 Seed。正式对外
 
 ## 下一步
 
-- [ ] 接入只读 TRON 数据源，保留交易、区块、时间与原始响应。
+- [x] 接入只读 TRON 数据源，保留交易、区块、时间与原始响应。
 - [ ] 用真实 Seed 执行记录替换合成 Demo，验证钱包筛选依据。
 - [ ] 实现确定性资金流和成本核算，记录价格来源与时间。
 - [ ] 接入 Agent 运行层和前端事件流。
