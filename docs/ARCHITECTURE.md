@@ -6,6 +6,18 @@
 
 ![Strategy Wallet discovery pipeline](images/system-architecture-en.svg)
 
+## Examples in the diagram
+
+The wallet cards are selected saved research examples. Candidate cards group related hypotheses; the connectors show stage handoffs rather than one-to-one wallet mappings.
+
+| Wallet | Observed activity | Candidate mechanisms |
+| --- | --- | --- |
+| A · `TNQ8…GDW2m` | Energy Rental liquidation with resource rental and return | Rent → Liquidate → Return (`WAI-ENERGY-01`) |
+| B · `TUAA…uqrSS` | JustLend liquidation and cross-pool swaps | Liquidate → Redeem → Swap (`WAI-LENDING-01`); cross-pool round trip (`WAI-CYCLE-01`) |
+| C · `TFaz…hVFB` | JustLend liquidation with collateral redemption | Liquidate → Redeem → Swap (`WAI-LENDING-02`) |
+
+Sources: the saved `validation-handoff.json` and `validation-results.json`. The cost and capital benefits are hypotheses. USDD has no verified wallet in this bounded run. The five saved reports are three Monitor and two Insufficient Evidence; none has been promoted to a new seed.
+
 ## Four Skills
 
 ### 1. Orchestrate — `protocol-alpha-discovery`

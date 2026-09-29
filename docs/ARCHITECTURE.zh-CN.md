@@ -6,6 +6,18 @@
 
 ![Strategy Wallet 发现与验证流程](images/system-architecture-zh-CN.svg)
 
+## 图中的研究样本
+
+钱包卡片选取自已保存的研究结果。候选卡片按相近假设归类；连线表示阶段交接，不表示钱包与候选按行一一对应。
+
+| 钱包 | 已观察到的活动 | 候选机制 |
+| --- | --- | --- |
+| A · `TNQ8…GDW2m` | Energy Rental 清算，同时包含资源租赁与归还 | 租赁 → 清算 → 归还（`WAI-ENERGY-01`） |
+| B · `TUAA…uqrSS` | JustLend 清算及跨池兑换 | 清算 → 赎回 → 兑换（`WAI-LENDING-01`）；跨池循环兑换（`WAI-CYCLE-01`） |
+| C · `TFaz…hVFB` | JustLend 清算及抵押品赎回 | 清算 → 赎回 → 兑换（`WAI-LENDING-02`） |
+
+来源为已保存的 `validation-handoff.json` 与 `validation-results.json`。成本和资金效率方面的收益仍是假设。本次有限范围查询中，USDD 没有已核验钱包。五份留档报告为三份持续观察、两份证据不足，尚无候选被提升为新 Seed。
+
 ## 四个 Skill
 
 ### 1. 编排研究 — `protocol-alpha-discovery`

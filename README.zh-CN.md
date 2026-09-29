@@ -24,7 +24,7 @@
 
 ## 系统架构
 
-从 **Energy Rental、JustLend 和 USDD** 三个 Seed 出发，找到策略钱包，再形成候选机制，验证后产出新的 Alpha。图中箭头标明各步使用的 Skill。
+从 **Energy Rental、JustLend 和 USDD** 三个 Seed 出发，找到策略钱包，再形成候选机制，验证后产出新的 Alpha。彩色框标明箭头上使用的 Skill；卡片说明钱包的 Alpha 行为及候选入选理由。
 
 - **编排研究：** 确定范围，协调各阶段。
 - **发现钱包：** 核验调用、回执与执行者身份。

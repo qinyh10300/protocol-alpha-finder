@@ -1,28 +1,33 @@
-%% Entity nodes; research Skills label the transitions.
+%% Colored Skill nodes annotate the transitions between research artifacts.
 flowchart LR
-    subgraph SEEDS["Three Alpha Seeds"]
-        E["Energy Rental<br/>Liquidation"]
-        J["JustLend<br/>Lending liquidation"]
-        U["USDD<br/>Keeper / auction"]
+    subgraph SEEDS["Alpha Seeds"]
+        SEEDS0["Energy Rental<br/>Liquidate rental orders<br/>Resources + rewards"]
+        SEEDS1["JustLend<br/>Liquidate unhealthy debt<br/>Receive collateral"]
+        SEEDS2["USDD<br/>Trigger / reset / buy<br/>Keeper / auction actions"]
     end
     subgraph WALLETS["Strategy Wallets"]
-        W1["Wallet A"]
-        W2["Wallet B"]
-        W3["Wallet C"]
+        WALLETS0["Wallet A<br/>TNQ8…GDW2m<br/>Energy Rental liquidations<br/>Also rents and returns resources"]
+        WALLETS1["Wallet B<br/>TUAA…uqrSS<br/>JustLend liquidations<br/>Also executes cross-pool swaps"]
+        WALLETS2["Wallet C<br/>TFaz…hVFB<br/>JustLend liquidations<br/>Also redeems seized collateral"]
     end
-    subgraph CANDIDATES["Alpha Candidates"]
-        C1["Candidate 1"]
-        C2["Candidate 2"]
-        C3["Candidate 3"]
+    subgraph CANDIDATES["Candidate Mechanisms"]
+        CANDIDATES0["Rent → Liquidate → Return<br/>Bundling rental and liquidation<br/>may lower execution costs.<br/>Evidence: ordered receipt events"]
+        CANDIDATES1["Liquidate → Redeem → Swap<br/>Redeeming and swapping collateral<br/>may recycle capital in one transaction.<br/>Evidence: liquidation + asset flows"]
+        CANDIDATES2["Cross-pool round trip<br/>Same-token round trips may capture<br/>price differences between pools.<br/>Evidence: decoded swaps + transfers"]
     end
-    subgraph RESULTS["Validation Results"]
-        ALPHA["New Alpha<br/>If validated"]
-        REPORTS["Alpha Reports<br/>Evidence & next checks"]
-    end
-    SEEDS -->|alpha-seed-wallets| WALLETS
-    WALLETS -->|wallet-alpha-investigation| CANDIDATES
-    CANDIDATES -->|protocol-alpha-validation| RESULTS
-    SEEDS -.->|protocol-alpha-discovery| RESULTS
-    style SEEDS fill:#f1f5fb,stroke:#b2c5df
-    style CANDIDATES fill:#f7f4fc,stroke:#d6c9e9
-    style ALPHA fill:#eaf4ee,stroke:#83a68e
+    S0["protocol-alpha-discovery<br/>Set scope · Coordinate evidence handoffs · Decide next checks"]
+    S1["alpha-seed-wallets<br/>Find & verify executors<br/>Calls · Receipts · Executor roles"]
+    S2["wallet-alpha-investigation<br/>Investigate wallet history<br/>Sequences · Flows · Hypotheses"]
+    S3["protocol-alpha-validation<br/>Validate each candidate<br/>Mechanism · State · Costs / risks"]
+    ALPHA["New Alpha<br/>If the mechanism is established<br/>Record its execution conditions<br/>Consider it as a new seed"]
+    REPORT["Alpha Report<br/>Mechanism + evidence<br/>Current state + next checks<br/>Actionable · Monitor<br/>Rejected · Insufficient Evidence"]
+    SEEDS --> S1 --> WALLETS --> S2 --> CANDIDATES --> S3
+    S3 --> ALPHA
+    S3 --> REPORT
+    S0 -.-> S1
+    S0 -.-> S2
+    S0 -.-> S3
+    style S0 fill:#eaf6ef,stroke:#7caa90
+    style S1 fill:#eaf3ff,stroke:#84abe0
+    style S2 fill:#f4edff,stroke:#b79ad8
+    style S3 fill:#fff4df,stroke:#d4ad65
