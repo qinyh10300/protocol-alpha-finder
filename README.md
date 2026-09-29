@@ -26,10 +26,10 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 Three seeds—**Energy Rental, JustLend and USDD**—lead to strategy wallets, then candidate mechanisms and validated new Alpha. Colored Skill labels mark each transition; the cards show wallet behavior and why each mechanism is a candidate.
 
-- **Orchestrate:** set scope and coordinate the research.
-- **Find wallets:** verify calls, receipts, and executor roles.
-- **Investigate:** turn wallet activity into candidate mechanisms.
-- **Validate:** check the mechanism, current state, and execution conditions.
+- **Skill 1 — Find wallets:** verify calls, receipts, and executor roles.
+- **Skill 2 — Investigate:** turn wallet activity into candidate mechanisms.
+- **Skill 3 — Validate:** check mechanisms, current state, and execution conditions.
+- **Skill 4 — Orchestrate:** set scope and coordinate the research.
 
 ![System architecture](docs/images/system-architecture-en.svg)
 

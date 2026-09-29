@@ -1,34 +1,53 @@
-%% Compact entity groups; colored Skills annotate the transitions.
-%% SVG uses cubic S curves; edit its layout in render_architecture.py.
+%% Skill 1 labels six seed-to-wallet arrows once. Wallets are illustrative.
 flowchart LR
-    subgraph SEEDS["Alpha Seed"]
-        SEEDS0["Energy Rental<br/>能量租赁清算"]
-        SEEDS1["JustLend<br/>借贷清算"]
-        SEEDS2["USDD<br/>Keeper／拍卖"]
+    subgraph SEEDS["01 · Alpha Seed"]
+        SEEDS0["Energy Rental<br/>清算保证金不足的订单，<br/>回收资源，<br/>并获得协议奖励。"]
+        SEEDS1["JustLend<br/>偿还抵押不足头寸的债务，<br/>通过协议清算，<br/>获得被清算的抵押品。"]
+        SEEDS2["USDD<br/>触发清算、重启拍卖，<br/>或通过 keeper 操作<br/>购买抵押品。"]
     end
-    subgraph WALLETS["策略钱包"]
-        WALLETS0["钱包 A · 租赁清算<br/>租赁 → 清算 → 归还"]
-        WALLETS1["钱包 B · 借贷清算<br/>清算 + 跨池兑换"]
-        WALLETS2["钱包 C · 借贷清算<br/>清算 + 抵押品赎回"]
+    subgraph WALLETS["02 · 策略钱包"]
+        WALLETS0["钱包 A<br/>租赁清算"]
+        WALLETS1["钱包 B<br/>资源组合操作"]
+        WALLETS2["钱包 C<br/>借贷清算"]
+        WALLETS3["钱包 D<br/>抵押品赎回"]
+        WALLETS4["钱包 E<br/>Keeper 操作"]
+        WALLETS5["钱包 F<br/>拍卖购买"]
     end
-    subgraph CANDIDATES["Alpha 候选"]
-        CANDIDATES0["租赁组合操作<br/>合并调用可能降低执行成本。"]
-        CANDIDATES1["抵押品回收<br/>赎回并兑换可能加快资金回收。"]
-        CANDIDATES2["跨池循环兑换<br/>往返兑换可能利用池间价差。"]
+    subgraph CANDIDATES["03 · Alpha 候选"]
+        CANDIDATES0["租赁组合操作<br/>在同一交易中组合租赁与清算，<br/>可能降低<br/>整体执行成本。"]
+        CANDIDATES1["抵押品回收<br/>清算后赎回并兑换抵押品，<br/>可能更快地<br/>回收占用资金。"]
+        CANDIDATES2["拍卖时机<br/>拍卖重启可能出现短暂折价，<br/>需要结合执行成本<br/>验证是否成立。"]
     end
-    S0["协调整条研究流程<br/>protocol-alpha-discovery"]
-    S1["发现并核验<br/>alpha-seed-wallets"]
-    S2["研究钱包历史<br/>wallet-alpha-investigation"]
-    S3["验证机制<br/>protocol-alpha-validation"]
-    ALPHA["新的 Alpha<br/>验证成立后产出"]
-    REPORT["Alpha 报告<br/>证据与后续检查"]
-    SEEDS --> S1 --> WALLETS --> S2 --> CANDIDATES --> S3
-    S3 --> ALPHA
-    S3 --> REPORT
-    S0 -.-> S1
-    S0 -.-> S2
-    S0 -.-> S3
-    style S0 fill:#edf6f0,stroke:#bad8c6
-    style S1 fill:#edf4ff,stroke:#b7cff5
-    style S2 fill:#f4effc,stroke:#d3c2ee
-    style S3 fill:#fff5e5,stroke:#ecd1a2
+    subgraph RESULTS["04 · Validation · 验证结果"]
+        ALPHA["新的 Alpha<br/>验证支持后产出"]
+        REPORT["Alpha 报告<br/>证据与后续检查<br/>每个候选均有报告"]
+    end
+    SEEDS0 --> WALLETS0
+    WALLETS0 --> CANDIDATES0
+    SEEDS0 --> WALLETS1
+    WALLETS1 --> CANDIDATES0
+    CANDIDATES0 --> RESULTS
+    SEEDS1 --> WALLETS2
+    WALLETS2 --> CANDIDATES1
+    SEEDS1 --> WALLETS3
+    WALLETS3 --> CANDIDATES1
+    CANDIDATES1 --> RESULTS
+    SEEDS2 --> WALLETS4
+    WALLETS4 --> CANDIDATES2
+    SEEDS2 --> WALLETS5
+    WALLETS5 --> CANDIDATES2
+    CANDIDATES2 --> RESULTS
+    S0["Skill 1 · 发现并核验钱包<br/>alpha-seed-wallets"]
+    style S0 fill:#edf4ff,stroke:#b7cff5
+    S1["Skill 2 · 研究钱包历史<br/>wallet-alpha-investigation"]
+    style S1 fill:#f4effc,stroke:#d3c2ee
+    S2["Skill 3 · 验证候选<br/>protocol-alpha-validation"]
+    style S2 fill:#fff5e5,stroke:#ecd1a2
+    S3["Skill 4 · 协调整条研究流程<br/>protocol-alpha-discovery"]
+    style S3 fill:#edf6f0,stroke:#bad8c6
+    S0 -.- WALLETS
+    S1 -.- CANDIDATES
+    S2 -.- RESULTS
+    S3 -.-> S0
+    S3 -.-> S1
+    S3 -.-> S2

@@ -1,34 +1,53 @@
-%% Compact entity groups; colored Skills annotate the transitions.
-%% SVG uses cubic S curves; edit its layout in render_architecture.py.
+%% Skill 1 labels six seed-to-wallet arrows once. Wallets are illustrative.
 flowchart LR
-    subgraph SEEDS["Alpha Seeds"]
-        SEEDS0["Energy Rental<br/>Rental liquidation"]
-        SEEDS1["JustLend<br/>Lending liquidation"]
-        SEEDS2["USDD<br/>Keeper / auction"]
+    subgraph SEEDS["01 · Alpha Seeds"]
+        SEEDS0["Energy Rental<br/>Liquidate depleted rental<br/>orders to recover resources<br/>and earn rewards."]
+        SEEDS1["JustLend<br/>Repay undercollateralized<br/>loans and receive seized<br/>collateral through liquidation."]
+        SEEDS2["USDD<br/>Trigger liquidations, restart<br/>auctions, or buy collateral<br/>through keeper actions."]
     end
-    subgraph WALLETS["Strategy Wallets"]
-        WALLETS0["Wallet A · Rental<br/>Rent → liquidate → return"]
-        WALLETS1["Wallet B · Lending<br/>Liquidation + cross-pool swaps"]
-        WALLETS2["Wallet C · Lending<br/>Liquidation + redemption"]
+    subgraph WALLETS["02 · Strategy Wallets"]
+        WALLETS0["Wallet A<br/>Rental liquidations"]
+        WALLETS1["Wallet B<br/>Resource bundling"]
+        WALLETS2["Wallet C<br/>Lending liquidations"]
+        WALLETS3["Wallet D<br/>Collateral redemption"]
+        WALLETS4["Wallet E<br/>Keeper actions"]
+        WALLETS5["Wallet F<br/>Auction purchases"]
     end
-    subgraph CANDIDATES["Alpha Candidates"]
-        CANDIDATES0["Rental sequence<br/>Bundled calls may lower costs."]
-        CANDIDATES1["Collateral recycling<br/>Redeem + swap may free capital."]
-        CANDIDATES2["Cross-pool loop<br/>Price gaps may reward a round trip."]
+    subgraph CANDIDATES["03 · Alpha Candidates"]
+        CANDIDATES0["Rental sequence<br/>Bundled rental and liquidation<br/>may lower execution costs<br/>within one transaction."]
+        CANDIDATES1["Collateral recycling<br/>Redeeming collateral for swaps<br/>may recycle capital faster<br/>after a liquidation."]
+        CANDIDATES2["Auction timing<br/>Auction resets may create<br/>temporary discounts worth testing<br/>against execution costs."]
     end
-    S0["Coordinate the pipeline<br/>protocol-alpha-discovery"]
-    S1["Find & verify<br/>alpha-seed-wallets"]
-    S2["Investigate history<br/>wallet-alpha-investigation"]
-    S3["Validate mechanism<br/>protocol-alpha-validation"]
-    ALPHA["New Alpha<br/>If validated"]
-    REPORT["Alpha Report<br/>Evidence + next checks"]
-    SEEDS --> S1 --> WALLETS --> S2 --> CANDIDATES --> S3
-    S3 --> ALPHA
-    S3 --> REPORT
-    S0 -.-> S1
-    S0 -.-> S2
-    S0 -.-> S3
-    style S0 fill:#edf6f0,stroke:#bad8c6
-    style S1 fill:#edf4ff,stroke:#b7cff5
-    style S2 fill:#f4effc,stroke:#d3c2ee
-    style S3 fill:#fff5e5,stroke:#ecd1a2
+    subgraph RESULTS["04 · Validation Outcomes"]
+        ALPHA["New Alpha<br/>If validation supports it"]
+        REPORT["Alpha Report<br/>Evidence + next checks<br/>For every candidate"]
+    end
+    SEEDS0 --> WALLETS0
+    WALLETS0 --> CANDIDATES0
+    SEEDS0 --> WALLETS1
+    WALLETS1 --> CANDIDATES0
+    CANDIDATES0 --> RESULTS
+    SEEDS1 --> WALLETS2
+    WALLETS2 --> CANDIDATES1
+    SEEDS1 --> WALLETS3
+    WALLETS3 --> CANDIDATES1
+    CANDIDATES1 --> RESULTS
+    SEEDS2 --> WALLETS4
+    WALLETS4 --> CANDIDATES2
+    SEEDS2 --> WALLETS5
+    WALLETS5 --> CANDIDATES2
+    CANDIDATES2 --> RESULTS
+    S0["Skill 1 · Find & verify wallets<br/>alpha-seed-wallets"]
+    style S0 fill:#edf4ff,stroke:#b7cff5
+    S1["Skill 2 · Investigate history<br/>wallet-alpha-investigation"]
+    style S1 fill:#f4effc,stroke:#d3c2ee
+    S2["Skill 3 · Validate Alpha<br/>protocol-alpha-validation"]
+    style S2 fill:#fff5e5,stroke:#ecd1a2
+    S3["Skill 4 · Coordinate the pipeline<br/>protocol-alpha-discovery"]
+    style S3 fill:#edf6f0,stroke:#bad8c6
+    S0 -.- WALLETS
+    S1 -.- CANDIDATES
+    S2 -.- RESULTS
+    S3 -.-> S0
+    S3 -.-> S1
+    S3 -.-> S2

@@ -6,41 +6,41 @@
 
 ![Strategy Wallet discovery pipeline](images/system-architecture-en.svg)
 
-## Examples in the diagram
+## Reading the diagram
 
-The wallet cards are selected saved research examples. Candidate cards group related hypotheses; the connectors show stage handoffs rather than one-to-one wallet mappings.
+The four stages are **01 Seeds → 02 Wallets → 03 Candidates → 04 Validation Outcomes**. Each seed has two independent arrows to a pair of wallets. Each transition displays its Skill label once; Skill 4 coordinates the other three Skills.
 
-| Wallet | Observed activity | Candidate mechanisms |
+| Seed | Illustrative wallets | Candidate hypothesis |
 | --- | --- | --- |
-| A · `TNQ8…GDW2m` | Energy Rental liquidation with resource rental and return | Rent → Liquidate → Return (`WAI-ENERGY-01`) |
-| B · `TUAA…uqrSS` | JustLend liquidation and cross-pool swaps | Liquidate → Redeem → Swap (`WAI-LENDING-01`); cross-pool round trip (`WAI-CYCLE-01`) |
-| C · `TFaz…hVFB` | JustLend liquidation with collateral redemption | Liquidate → Redeem → Swap (`WAI-LENDING-02`) |
+| Energy Rental | A: rental liquidation; B: resource bundling | Combining rental and liquidation may reduce execution costs |
+| JustLend | C: lending liquidation; D: collateral redemption | Redeeming and swapping collateral may recycle capital faster |
+| USDD | E: keeper actions; F: auction purchases | Auction timing may expose temporary discounts worth validating |
 
-Sources: the saved `validation-handoff.json` and `validation-results.json`. The cost and capital benefits are hypotheses. USDD has no verified wallet in this bounded run. The five saved reports are three Monitor and two Insufficient Evidence; none has been promoted to a new seed.
+These six wallets demonstrate the method; they are not the recorded wallet count. The USDD wallets and auction hypothesis are illustrative. In the saved run, USDD has no verified wallet, and the five reports are three Monitor and two Insufficient Evidence. No candidate has been promoted to a new seed. Recorded evidence remains in `validation-handoff.json` and `validation-results.json`.
 
 ## Four Skills
 
-### 1. Orchestrate — `protocol-alpha-discovery`
-
-Set the chain, time window, and research limits. Coordinate wallet discovery, investigation, and validation while retaining evidence and unresolved questions. Stop when scope is covered or necessary evidence is unavailable.
-
-### 2. Find and verify wallets — `alpha-seed-wallets`
+### Skill 1. Find and verify wallets — `alpha-seed-wallets`
 
 Start from Energy Rental liquidation, JustLend liquidation, or USDD keeper / auction actions. Match calls to successful receipts and identify the actual executor, distinguishing it from relayers, helper contracts, and reward recipients.
 
 **Output:** deduplicated strategy wallet candidates with execution evidence and seed provenance. Selection is based on demonstrated protocol activity; execution alone does not establish an advantage or profit.
 
-### 3. Discover candidates — `wallet-alpha-investigation`
+### Skill 2. Discover candidates — `wallet-alpha-investigation`
 
 Investigate each wallet's broader history, including activity outside the original seed. Examine repeated call sequences and asset movements to form mechanism hypotheses, with supporting transactions and alternative explanations.
 
 **Output:** Alpha candidates with evidence, coverage limits, and checks that could disprove each hypothesis.
 
-### 4. Validate candidates — `protocol-alpha-validation`
+### Skill 3. Validate candidates — `protocol-alpha-validation`
 
 Reconstruct the mechanism and asset flows, account for known costs, check current protocol state, and assess execution conditions. Keep historical observations separate from current availability; missing inputs remain unknown.
 
 **Output:** an Alpha report with mechanism findings, current status, execution requirements, and next checks. Review outcomes are Actionable, Monitor, Rejected, or Insufficient Evidence.
+
+### Skill 4. Orchestrate — `protocol-alpha-discovery`
+
+Set the chain, time window, and research limits. Coordinate wallet discovery, investigation, and validation while retaining evidence and unresolved questions. Stop when scope is covered or necessary evidence is unavailable.
 
 ## When the loop continues
 
