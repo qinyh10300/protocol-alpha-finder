@@ -30,7 +30,10 @@ function OutcomeBadge({ outcome }: { outcome: Outcome }) {
 }
 
 function sampleLabel(report: AlphaReport) {
-  return report.evidenceCountLabel || "historical executions";
+  const label = report.evidenceCountLabel || "historical executions";
+  return report.historicalExecutionCount === 1
+    ? label.replace(/s$/, "")
+    : label;
 }
 
 function reportDate(value?: string, full = false) {
@@ -131,9 +134,17 @@ export function AlphaReportPreview({
           <FileText size={24} strokeWidth={1.9} />
         </span>
         <div className="report-title-block">
-          <h3>{report.title}</h3>
+          <h3 tabIndex={featured ? -1 : undefined}>{report.title}</h3>
           <div className="report-disposition">
             <OutcomeBadge outcome={report.outcome} />
+            {featured && (
+              <span
+                className="report-checked"
+                title={reportDate(report.lastCheckedAt, true)}
+              >
+                Checked {reportDate(report.lastCheckedAt)}
+              </span>
+            )}
             {!featured && (
               <span className="report-candidate-reference">
                 {report.candidateId}
@@ -154,7 +165,10 @@ export function AlphaReportPreview({
           id={`report-details-${report.id}`}
         >
           {findings(report).map(({ title, icon: Icon, text }) => (
-            <section className="report-section-row" key={title}>
+            <section
+              className={`report-section-row section-${title.toLowerCase().replaceAll(" ", "-")}`}
+              key={title}
+            >
               <Icon size={20} strokeWidth={1.7} aria-hidden="true" />
               <div>
                 <h4>{title}</h4>
@@ -165,33 +179,35 @@ export function AlphaReportPreview({
         </div>
       )}
 
-      <dl className="report-evidence-strip">
-        <div>
-          <dt>Source wallets</dt>
-          <dd>
-            {report.sourceWallets.length} wallet
-            {report.sourceWallets.length === 1 ? "" : "s"}
-          </dd>
-        </div>
-        {report.historicalExecutionCount != null && (
+      {!featured && (
+        <dl className="report-evidence-strip">
           <div>
-            <dt>{sampleLabel(report)}</dt>
-            <dd>{report.historicalExecutionCount.toLocaleString("en-US")}</dd>
+            <dt>Source wallets</dt>
+            <dd>
+              {report.sourceWallets.length} wallet
+              {report.sourceWallets.length === 1 ? "" : "s"}
+            </dd>
           </div>
-        )}
-        <div>
-          <dt>Last checked</dt>
-          <dd title={reportDate(report.lastCheckedAt, true)}>
-            {report.lastCheckedAt ? (
-              <time dateTime={report.lastCheckedAt}>
-                {reportDate(report.lastCheckedAt)}
-              </time>
-            ) : (
-              "Not recorded"
-            )}
-          </dd>
-        </div>
-      </dl>
+          {report.historicalExecutionCount != null && (
+            <div>
+              <dt>{sampleLabel(report)}</dt>
+              <dd>{report.historicalExecutionCount.toLocaleString("en-US")}</dd>
+            </div>
+          )}
+          <div>
+            <dt>Last checked</dt>
+            <dd title={reportDate(report.lastCheckedAt, true)}>
+              {report.lastCheckedAt ? (
+                <time dateTime={report.lastCheckedAt}>
+                  {reportDate(report.lastCheckedAt)}
+                </time>
+              ) : (
+                "Not recorded"
+              )}
+            </dd>
+          </div>
+        </dl>
+      )}
 
       <div className="report-preview-actions">
         <button className="report-open-button" onClick={() => open(report.id)}>
@@ -240,11 +256,21 @@ export function AlphaReportList({
   const selected =
     sorted.find((report) => report.id === selectedId) || sorted[0];
   const contentRef = useRef<HTMLDivElement>(null);
+  const focusSelection = useRef(false);
+  useEffect(() => {
+    if (focusSelection.current) {
+      contentRef.current
+        ?.querySelector<HTMLElement>(".featured h3")
+        ?.focus({ preventScroll: true });
+      focusSelection.current = false;
+    }
+  }, [selected?.id]);
   useEffect(() => {
     if (selected?.id !== selectedId) setSelectedId(selected?.id);
   }, [selected?.id, selectedId]);
 
   function selectReport(id: string) {
+    focusSelection.current = true;
     setSelectedId(id);
     contentRef.current?.scrollTo({ top: 0, behavior: "instant" });
   }
@@ -288,16 +314,17 @@ export function AlphaReportList({
                     <span className="report-document-icon" aria-hidden="true">
                       <FileText size={20} />
                     </span>
-                    <span className="compact-report-description">
+                    <div className="compact-report-description">
                       <h3>{report.title}</h3>
                       <span>
-                        {report.sourceWallets.length} wallet
-                        {report.sourceWallets.length === 1 ? "" : "s"}
+                        {report.sourceWallets.length === 1
+                          ? `${report.sourceWallets[0].slice(0, 6)}…${report.sourceWallets[0].slice(-5)}`
+                          : `${report.sourceWallets.length} wallets`}
                         {report.historicalExecutionCount != null &&
                           ` · ${report.historicalExecutionCount} ${sampleLabel(report)}`}
                       </span>
                       <OutcomeBadge outcome={report.outcome} />
-                    </span>
+                    </div>
                     <ChevronRight size={16} aria-hidden="true" />
                   </button>
                 </article>

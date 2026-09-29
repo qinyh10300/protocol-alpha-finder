@@ -506,6 +506,8 @@ function WalletInvestigationList({
             loading={data.run.status === "running"}
           />
         )}
+      </div>
+      <div className="wallet-list-footer">
         {data.wallets.length > 6 && (
           <button
             className="show-more-wallets"
@@ -571,7 +573,7 @@ function AlphaCandidateCard({
           <strong>
             {c.historicalExecutionCount == null
               ? "Pending"
-              : `${c.historicalExecutionCount} ${c.historicalExecutionCount === 1 ? "sample" : "samples"}`}
+              : `${c.historicalExecutionCount} ${c.evidenceCountLabel === "reconciled samples" ? (c.historicalExecutionCount === 1 ? "sample" : "samples") : c.historicalExecutionCount === 1 ? "execution" : "executions"}`}
           </strong>
         </div>
         <div>

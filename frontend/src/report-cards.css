@@ -78,6 +78,15 @@
   margin-top: 5px;
 }
 
+.report-checked {
+  color: #617ba4;
+  font-size: 12px;
+}
+
+.report-card.featured .report-preview-actions {
+  margin-top: 10px;
+}
+
 .report-outcome {
   display: inline-flex;
   align-items: center;
@@ -130,10 +139,6 @@
   overflow: hidden;
 }
 
-.report-card.featured .report-excerpt {
-  -webkit-line-clamp: 1;
-}
-
 .report-section-preview {
   padding: 0 10px;
   border-radius: 9px;
@@ -177,7 +182,7 @@
   line-height: 1.35;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   overflow: hidden;
 }
 
@@ -394,5 +399,25 @@
   .report-preview-actions button {
     padding: 8px;
     gap: 5px;
+  }
+}
+
+/* Preserve the current-state conclusion even when it needs another line. */
+.report-section-row.section-current-state p {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+.report-card .report-title-block h3:focus-visible {
+  outline: 2px solid #87b4fb;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+@media (max-width: 1000px) {
+  .report-section-row p,
+  .report-card.featured .report-excerpt {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
   }
 }

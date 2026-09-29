@@ -1963,9 +1963,12 @@ main {
 
 /* Six compact wallet jobs fit the reference workspace before expansion. */
 @media (min-width: 1280px) {
+  .wallet-list {
+    gap: 6px;
+  }
   .wallet-row {
-    height: 88px;
-    min-height: 88px;
+    height: 84px;
+    min-height: 84px;
     padding-top: 8px;
     padding-bottom: 8px;
   }
@@ -1973,6 +1976,94 @@ main {
     height: auto;
   }
   .workspace-column {
-    max-height: max(650px, calc(100vh - 237px));
+    max-height: calc(100vh - 237px);
+    min-height: 400px;
+  }
+}
+
+.wallet-list-footer {
+  flex-shrink: 0;
+  padding: 0 10px 10px;
+  background: #fff;
+}
+.wallet-list-footer:empty {
+  display: none;
+}
+.wallet-list-footer .show-more-wallets {
+  width: 100%;
+}
+@media (max-width: 1000px) {
+  .candidate-column .column-content,
+  .wallet-list {
+    max-height: none;
+    overflow: visible;
+  }
+}
+@media (max-width: 600px) {
+  .wallet-row {
+    grid-template-columns: 25px minmax(0, 1fr) 12px;
+    grid-template-rows: auto auto;
+    gap: 8px;
+    min-height: 126px;
+    padding: 12px 9px;
+    height: auto;
+  }
+  .wallet-row > .row-index {
+    grid-column: 1;
+    grid-row: 1/3;
+    align-self: start;
+    margin-top: 1px;
+  }
+  .wallet-row > .wallet-identity {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .wallet-row > .wallet-job {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .wallet-row > .wallet-chevron {
+    grid-column: 3;
+    grid-row: 1/3;
+    width: 14px;
+  }
+  .wallet-address {
+    font-size: 14px;
+    letter-spacing: -0.2px;
+  }
+  .wallet-volume {
+    font-size: 12px;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .copy-wallet svg {
+    width: 13px;
+  }
+  .wallet-identity > div {
+    gap: 4px;
+  }
+  .wallet-result {
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .wallet-result .chip,
+  .candidate-count,
+  .zero-count {
+    font-size: 12px;
+    padding: 4px 7px;
+  }
+  .pipeline-step small {
+    font-size: 12px;
+  }
+  .wallet-list-footer {
+    padding: 0 7px 8px;
+  }
+  .app-footer {
+    display: none;
   }
 }

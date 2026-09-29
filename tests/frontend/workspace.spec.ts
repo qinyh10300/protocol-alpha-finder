@@ -108,6 +108,11 @@ test.describe("Real Skill integration", () => {
     await expect(expanded).toHaveCount(1);
     await expect(expanded.locator("h3")).toHaveText(nextTitle);
     await expect(expanded).toHaveAttribute("data-report-id", nextId!);
+    await expect(expanded.locator("h3")).toBeFocused();
+    const stateText = expanded.locator(".section-current-state p");
+    expect(
+      await stateText.evaluate((el) => el.scrollHeight <= el.clientHeight),
+    ).toBeTruthy();
     await expect(reports.locator(".compact-report")).toHaveCount(4);
     for (const section of [
       "Mechanism",
@@ -135,6 +140,15 @@ test.describe("Real Skill integration", () => {
     const grid = await page.locator(".workspace-grid").boundingBox();
     expect(grid).not.toBeNull();
     expect(grid!.y).toBeLessThan(260);
+    await expect(
+      page.getByRole("button", { name: "Show 4 more wallets" }),
+    ).toBeInViewport({ ratio: 1 });
+    await expect(page.locator(".wallet-row").nth(5)).toBeInViewport({
+      ratio: 1,
+    });
+    await expect(page.locator(".compact-report h3").first()).toBeInViewport({
+      ratio: 1,
+    });
     const columns = await page
       .locator(".workspace-grid > .workspace-column")
       .evaluateAll((elements) =>
@@ -237,6 +251,17 @@ test.describe("Real Skill integration", () => {
         () => document.documentElement.scrollWidth <= window.innerWidth,
       ),
     ).toBeTruthy();
+    expect(
+      await page
+        .locator(".candidate-column .column-content")
+        .evaluate((el) => el.scrollHeight <= el.clientHeight),
+    ).toBeTruthy();
+    expect(
+      await page
+        .locator(".wallet-row .pipeline-step small")
+        .first()
+        .evaluate((el) => parseFloat(getComputedStyle(el).fontSize)),
+    ).toBeGreaterThanOrEqual(12);
     await page.locator(".wallet-row").first().click();
     await page.keyboard.press("Tab");
     expect(
