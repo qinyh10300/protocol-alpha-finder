@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import type { AlphaReport, Outcome } from "./types";
 import { useI18n } from "./i18n";
+import { SeedOrigin } from "./SeedOrigin";
 import { routeUrl } from "./routing";
 import "./report-cards.css";
 
@@ -153,6 +154,7 @@ export function AlphaReportPreview({
       className={`report-preview report-card ${featured ? "featured" : "report-library-card"} report-card-${report.outcome.toLowerCase()}`}
       data-report-id={report.id}
     >
+      <SeedOrigin ids={report.sourceSeedIds} provenance={report.provenance} />
       <header className="report-card-heading">
         <span className="report-document-icon" aria-hidden="true">
           <FileText size={24} strokeWidth={1.9} />
@@ -354,6 +356,10 @@ export function AlphaReportList({
                       <FileText size={20} />
                     </span>
                     <div className="compact-report-description">
+                      <SeedOrigin
+                        ids={report.sourceSeedIds}
+                        provenance={report.provenance}
+                      />
                       <h3>{report.title}</h3>
                       <span>
                         {report.sourceWallets.length === 1

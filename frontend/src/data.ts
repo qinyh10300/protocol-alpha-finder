@@ -1,7 +1,13 @@
 import lendingReplay from "../public/research/justlend-lending-liquidation.json";
 import usddReplay from "../public/research/usdd-keeper-auction.json";
 import mockPayload from "../../Protocol_Alpha_Finder_Frontend_Implementation_Pack/06_MOCK_DATA.json";
-import { DEFAULT_DEMO_SEED, DEMO_SCENARIOS, PROTOCOL_SEEDS } from "./seeds";
+import {
+  ALL_SEEDS,
+  DEFAULT_DEMO_SEED,
+  DEMO_SCENARIOS,
+  PROTOCOL_SEEDS,
+} from "./seeds";
+import { combineSeedSnapshots } from "./seed-snapshots";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -95,7 +101,10 @@ export class MockResearchDataSource implements ResearchDataSource {
     );
   }
   selectSeed(seedId: string) {
-    if (!PROTOCOL_SEEDS.some((seed) => seed.id === seedId)) {
+    if (
+      seedId !== "all" &&
+      !PROTOCOL_SEEDS.some((seed) => seed.id === seedId)
+    ) {
       throw new Error("Unknown demo seed");
     }
     if (this.seedId === seedId) return;
@@ -122,10 +131,20 @@ export class MockResearchDataSource implements ResearchDataSource {
     this.paused = false;
   }
   async getSnapshot(): Promise<Snapshot> {
-    const recorded = recordedReplays[this.seedId];
+    if (this.seedId === "all") {
+      return combineSeedSnapshots(
+        await Promise.all(
+          PROTOCOL_SEEDS.map((seed) => this.getSeedSnapshot(seed.id)),
+        ),
+      );
+    }
+    return this.getSeedSnapshot(this.seedId);
+  }
+  private async getSeedSnapshot(seedId: string): Promise<Snapshot> {
+    const recorded = recordedReplays[seedId];
     const data = structuredClone(recorded || mockPayload);
     if (!recorded) {
-      const scenario = DEMO_SCENARIOS[this.seedId];
+      const scenario = DEMO_SCENARIOS[seedId];
       data.wallets = data.wallets.filter((wallet) =>
         scenario.wallets.includes(wallet.address),
       );
@@ -156,7 +175,7 @@ export class MockResearchDataSource implements ResearchDataSource {
             });
             return {
               ...w,
-              sourceSeedId: this.seedId,
+              sourceSeedId: seedId,
               historyJob: {
                 ...job(1, 4, w.historyJob),
                 txCount: phase >= 4 ? w.historyJob.txCount : undefined,
@@ -199,8 +218,8 @@ export class MockResearchDataSource implements ResearchDataSource {
       })) as AlphaReport[];
     const run: ResearchRun = {
       ...data.run,
-      id: `run-demo-${this.seedId}`,
-      seedId: this.seedId,
+      id: `run-demo-${seedId}`,
+      seedId: seedId,
       walletCount: wallets.length,
       candidateCount: candidates.length,
       reportCount: reports.length,
@@ -254,12 +273,15 @@ export class MockResearchDataSource implements ResearchDataSource {
       .map((event) => ({ ...event, runId: run.id }));
     return {
       run,
-      seeds: PROTOCOL_SEEDS.map((seed) => ({
-        ...seed,
-        ...recordedReplays[seed.id]?.seeds.find(
-          (entry) => entry.id === seed.id,
-        ),
-      })),
+      seeds: [
+        ALL_SEEDS,
+        ...PROTOCOL_SEEDS.map((seed) => ({
+          ...seed,
+          ...recordedReplays[seed.id]?.seeds.find(
+            (entry) => entry.id === seed.id,
+          ),
+        })),
+      ],
       wallets,
       candidates,
       reports,

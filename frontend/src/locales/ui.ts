@@ -6,6 +6,14 @@ export const uiZh: Record<string, string> = {
   "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search.":
     "回放已保存的链上研究，播放节奏为模拟。点击开始发现会重播历史结果，不会发起新的搜寻。",
   "Published Skill snapshot": "已发布的 Skill 研究快照",
+  "All seeds replay": "全部种子回放",
+  "TRON · All three alpha seeds": "TRON · 全部三类 Alpha 种子",
+  "Alpha seed": "Alpha 种子",
+  "Wallet seed filter": "钱包种子筛选",
+  Synthetic: "模拟",
+  Recorded: "历史记录",
+  "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.":
+    "全部种子 · Energy Rental 使用模拟示例，JustLend 和 USDD 使用已保存的研究记录。回放不会发起新的链上搜寻。",
   Language: "语言",
   unproven: "尚未证实",
   confirmed: "已确认",

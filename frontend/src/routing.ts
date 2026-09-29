@@ -21,7 +21,8 @@ export function currentMode(): "archive" | "demo" {
 
 export function currentSeed(mode = currentMode()) {
   const seed = new URLSearchParams(location.search).get("seed");
-  if (PROTOCOL_SEEDS.some((entry) => entry.id === seed)) return seed!;
+  if (seed === "all" || PROTOCOL_SEEDS.some((entry) => entry.id === seed))
+    return seed!;
   return mode === "demo" ? DEFAULT_DEMO_SEED : "all";
 }
 

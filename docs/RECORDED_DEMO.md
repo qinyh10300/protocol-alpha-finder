@@ -1,6 +1,8 @@
 # Demo seed data
 
-The GitHub Pages frontend offers three seeds. Select one under **Current Seed**, then select **Run Discovery**. Switching seeds resets playback and wallet filters. Share links retain the selected seed; full reports also work after a page reload.
+The GitHub Pages frontend offers three seeds. Select one under **Current Seed**, then select **Run Discovery**. Choose **All** to combine all three seeds in the wallet, candidate and report columns. The seed selector in **Wallet Investigations** stays synchronized with the top selector. All currently includes 10 wallets, 6 candidates and 6 reports; badges identify each seed and distinguish synthetic examples from recorded research. USDD retains its zero-result coverage note. Shared identities are merged, and a shared wallet history is counted once.
+
+Switching seeds resets playback and wallet filters. Share links retain the selected seed; full reports also work after a page reload.
 
 | Seed | Published data | Wallets | Candidates / reports |
 | --- | --- | --- | --- |

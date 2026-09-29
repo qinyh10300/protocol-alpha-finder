@@ -36,6 +36,7 @@ export type ResearchRun = {
   loadedTransactionCount: number;
 };
 export type StrategyWallet = {
+  provenance?: "recorded" | "synthetic";
   address: string;
   sourceSeedId: string;
   sourceSeedIds?: string[];
@@ -51,6 +52,8 @@ export type StrategyWallet = {
   coverageNote?: string;
 };
 export type AlphaCandidate = {
+  provenance?: "recorded" | "synthetic";
+  sourceSeedIds?: string[];
   id: string;
   title: string;
   summary: string;
@@ -72,6 +75,7 @@ export type ReportSection = {
   items?: { label: string; value: string }[];
 };
 export type AlphaReport = {
+  sourceSeedIds?: string[];
   provenance?: "recorded" | "synthetic";
   id: string;
   candidateId: string;
@@ -115,7 +119,7 @@ export type SkillStage = {
   artifactUrl: string;
 };
 export type Snapshot = {
-  provenance?: "recorded" | "synthetic";
+  provenance?: "recorded" | "synthetic" | "mixed";
   run: ResearchRun;
   seeds: Seed[];
   wallets: StrategyWallet[];

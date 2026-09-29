@@ -36,9 +36,10 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
   await page.clock.install();
   await page.goto(entry);
   const select = page.getByLabel("Research seed");
-  await expect(select.locator("option")).toHaveText(
-    scenarios.map((scenario) => scenario.name),
-  );
+  await expect(select.locator("option")).toHaveText([
+    "All",
+    ...scenarios.map((scenario) => scenario.name),
+  ]);
   for (const scenario of scenarios) {
     await select.selectOption(scenario.id);
     await expect(select).toHaveValue(scenario.id);

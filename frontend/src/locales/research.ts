@@ -18,6 +18,8 @@ const sourceTitles: Record<string, string> = {
 };
 const chinese: Record<string, string> = {
   ...chineseCatalog,
+  "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.":
+    "全部种子 · Energy Rental 使用模拟示例，JustLend 和 USDD 使用已保存的研究记录。回放不会发起新的链上搜寻。",
   "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.":
     "历史研究回放 · 使用已保存的 Skill 证据，时间范围和核查时间见页面及报告。播放节奏为模拟，不会发起新的链上搜寻。",
   "Published Skill snapshot": "已发布的 Skill 研究快照",

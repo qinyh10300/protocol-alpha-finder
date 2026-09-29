@@ -36,6 +36,7 @@ import {
   routeUrl,
 } from "./routing";
 import { DEFAULT_DEMO_SEED } from "./seeds";
+import { SeedOrigin } from "./SeedOrigin";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -301,11 +302,13 @@ function ResearchRunSummary({
               <ChevronDown size={16} />
             </label>
             <p>
-              {data.mode === "archive" || data.provenance === "recorded"
-                ? t("TRON · Recorded Skill evidence")
-                : t("{protocol} · Synthetic demo seed", {
-                    protocol: selectedSeed?.protocol || "TRON",
-                  })}
+              {data.provenance === "mixed"
+                ? t("TRON · All three alpha seeds")
+                : data.mode === "archive" || data.provenance === "recorded"
+                  ? t("TRON · Recorded Skill evidence")
+                  : t("{protocol} · Synthetic demo seed", {
+                      protocol: selectedSeed?.protocol || "TRON",
+                    })}
             </p>
           </div>
         </div>
@@ -383,9 +386,11 @@ function ResearchRunSummary({
           <span className="tiny-dot" />
           {data.mode === "archive"
             ? t("Saved Skill run")
-            : data.provenance === "recorded"
-              ? t("Recorded research replay")
-              : t("Demo replay")}
+            : data.provenance === "mixed"
+              ? t("All seeds replay")
+              : data.provenance === "recorded"
+                ? t("Recorded research replay")
+                : t("Demo replay")}
           <span className="divider" />{" "}
           <strong>{fmt(run.loadedTransactionCount)}</strong>{" "}
           {t("primary tx loaded")}
@@ -412,7 +417,9 @@ function WalletInvestigationRow({
   index,
   selected,
   onClick,
+  showSeed,
 }: {
+  showSeed?: boolean;
   wallet: StrategyWallet;
   index: number;
   selected: boolean;
@@ -469,6 +476,12 @@ function WalletInvestigationRow({
                 : t("{count} tx", { count: fmt(wallet.historyJob.txCount) })}
             </span>
           </div>
+          {showSeed && (
+            <SeedOrigin
+              ids={wallet.sourceSeedIds || [wallet.sourceSeedId]}
+              provenance={wallet.provenance}
+            />
+          )}
           <span
             className={
               wallet.candidateIds.length ? "candidate-count" : "zero-count"
@@ -495,7 +508,9 @@ function WalletInvestigationList({
   data,
   wallet,
   choose,
+  changeSeed,
 }: {
+  changeSeed: (id: string) => void;
   data: Snapshot;
   wallet: string | null;
   choose: (w: StrategyWallet) => void;
@@ -506,7 +521,10 @@ function WalletInvestigationList({
   useEffect(() => {
     setExpanded(false);
   }, [data.run.id]);
-  const visible = expanded ? data.wallets : data.wallets.slice(0, 6);
+  const allSeeds = data.mode === "demo" && data.run.seedId === "all";
+  const visible =
+    expanded || allSeeds ? data.wallets : data.wallets.slice(0, 6);
+  const usdd = data.seeds.find((seed) => seed.id === "usdd-keeper-auction");
   return (
     <section className="workspace-column wallet-column">
       <div className="column-heading">
@@ -520,6 +538,33 @@ function WalletInvestigationList({
       <p className="column-description">
         {t("Each strategy wallet is investigated as a separate research job.")}
       </p>
+      <div className="wallet-seed-controls">
+        <label>
+          <span>{t("Alpha seed")}</span>
+          <select
+            aria-label={t("Wallet seed filter")}
+            value={data.run.seedId}
+            onChange={(e) => changeSeed(e.target.value)}
+          >
+            {data.seeds.map((seed) => (
+              <option key={seed.id} value={seed.id}>
+                {seed.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        {allSeeds && usdd?.coverage && (
+          <details className="seed-coverage-detail">
+            <summary>
+              {t("USDD: zero verified executors in this window.")}
+            </summary>
+            <p>{usdd.coverage}</p>
+            {usdd.gaps?.map((gap) => (
+              <p key={gap}>{gap}</p>
+            ))}
+          </details>
+        )}
+      </div>
       <div className="column-content wallet-list">
         {visible.length ? (
           visible.map((w, i) => (
@@ -528,6 +573,7 @@ function WalletInvestigationList({
               wallet={w}
               index={i}
               selected={wallet === w.address}
+              showSeed={allSeeds}
               onClick={() => choose(w)}
             />
           ))
@@ -548,7 +594,7 @@ function WalletInvestigationList({
         )}
       </div>
       <div className="wallet-list-footer">
-        {data.wallets.length > 6 && (
+        {!allSeeds && data.wallets.length > 6 && (
           <button
             className="show-more-wallets"
             onClick={() => setExpanded((v) => !v)}
@@ -580,6 +626,7 @@ function AlphaCandidateCard({
 
   return (
     <article className="candidate-card">
+      <SeedOrigin ids={c.sourceSeedIds} provenance={c.provenance} />
       <div className="candidate-top">
         <span className="row-index">{index + 1}</span>
         <div className="candidate-title">
@@ -853,11 +900,15 @@ function ResearchActivityDrawer({
   return (
     <Drawer title={t("Research run activity")} close={close}>
       <p className="drawer-note">
-        {data.mode === "archive" || data.provenance === "recorded"
+        {data.provenance === "mixed"
           ? t(
-              "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times.",
+              "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.",
             )
-          : t("Synthetic demo events from the mock payload.")}
+          : data.mode === "archive" || data.provenance === "recorded"
+            ? t(
+                "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times.",
+              )
+            : t("Synthetic demo events from the mock payload.")}
       </p>
       <h3>{t("Skill workflow")}</h3>
       <div className="skill-stages">
@@ -1290,6 +1341,15 @@ function App() {
     setDrawer(null);
     window.scrollTo(0, 0);
   }
+  function changeSeed(id: string) {
+    setSeedId(id);
+    setData(null);
+    setFilterWallet(null);
+    setDrawer(null);
+    setSearch("");
+    setOutcome("all");
+    history.pushState({}, "", routeUrl("/research", mode, id));
+  }
   function switchMode(next: "archive" | "demo") {
     setMode(next);
     setData(null);
@@ -1388,6 +1448,7 @@ function App() {
       setMessage("Clipboard unavailable. Select the full address to copy.");
     }
   }
+  const provenance = reportId ? report?.provenance : data?.provenance;
   return (
     <>
       <AppHeader
@@ -1404,20 +1465,22 @@ function App() {
             <FlaskConical size={15} />
             <strong>
               {t(
-                (reportId ? report?.provenance : data?.provenance) ===
-                  "recorded"
-                  ? "Recorded research replay"
-                  : "Synthetic demo",
+                provenance === "mixed"
+                  ? "All seeds replay"
+                  : provenance === "recorded"
+                    ? "Recorded research replay"
+                    : "Synthetic demo",
               )}
             </strong>
             <span>
               {t(
-                (reportId ? report?.provenance : data?.provenance) ===
-                  "recorded"
-                  ? "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search."
-                  : isPagesBuild
-                    ? "Illustrative data and simulated job timing. Run Discovery to explore the demo."
-                    : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
+                provenance === "mixed"
+                  ? "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search."
+                  : provenance === "recorded"
+                    ? "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search."
+                    : isPagesBuild
+                      ? "Illustrative data and simulated job timing. Run Discovery to explore the demo."
+                      : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
               )}
             </span>
           </div>
@@ -1570,19 +1633,7 @@ function App() {
                   <ResearchRunSummary
                     data={data}
                     seedId={seedId}
-                    changeSeed={(id) => {
-                      setSeedId(id);
-                      setData(null);
-                      setFilterWallet(null);
-                      setDrawer(null);
-                      setSearch("");
-                      setOutcome("all");
-                      history.pushState(
-                        {},
-                        "",
-                        routeUrl("/research", mode, id),
-                      );
-                    }}
+                    changeSeed={changeSeed}
                     refresh={() => setRevision((r) => r + 1)}
                     busy={busy}
                     activity={() => setDrawer("activity")}
@@ -1618,6 +1669,7 @@ function App() {
                     )}
                   <div className="workspace-grid">
                     <WalletInvestigationList
+                      changeSeed={changeSeed}
                       data={data}
                       wallet={filterWallet}
                       choose={(w) => setDrawer(w)}

@@ -22,6 +22,13 @@ export const PROTOCOL_SEEDS: Seed[] = [
   },
 ];
 
+export const ALL_SEEDS: Seed = { id: "all", name: "All", chain: "TRON" };
+export const SEED_SHORT_NAMES: Record<string, string> = {
+  "energy-rental-liquidation": "Energy Rental",
+  "justlend-lending-liquidation": "JustLend Lending",
+  "usdd-keeper-auction": "USDD Keeper",
+};
+
 export const DEFAULT_DEMO_SEED = PROTOCOL_SEEDS[0].id;
 
 // The original Energy Rental scenario remains synthetic. Other seeds replay saved evidence.
