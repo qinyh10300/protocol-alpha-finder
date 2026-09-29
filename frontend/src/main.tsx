@@ -412,13 +412,6 @@ function WalletInvestigationRow({
 
   const [copied, setCopied] = useState(false);
   const jobs = [wallet.historyJob, wallet.analysisJob, wallet.alphaSearchJob];
-  const status = jobs.some((j) => j.status === "failed")
-    ? "failed"
-    : jobs.every((j) => j.status === "completed")
-      ? "completed"
-      : jobs.some((j) => j.status === "running")
-        ? "running"
-        : "queued";
   useEffect(() => {
     if (!copied) return;
     const id = setTimeout(() => setCopied(false), 1800);
@@ -434,38 +427,38 @@ function WalletInvestigationRow({
         })}
       />
       <span className="row-index">{index + 1}</span>
-      <div className="wallet-identity">
-        <div>
-          <span className="wallet-address" title={wallet.address}>
-            {wallet.address.length > 10
-              ? `${wallet.address.slice(0, 4)}…${wallet.address.slice(-4)}`
-              : wallet.address}
-          </span>
-          <button
-            className="copy-wallet"
-            aria-label={t("Copy address {address}", {
-              address: wallet.address,
-            })}
-            onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(wallet.address);
-                setCopied(true);
-              } catch {
-                onClick();
-              }
-            }}
-          >
-            {copied ? <Check size={13} /> : <Copy size={13} />}
-          </button>
-        </div>
-        <span className="wallet-volume">
-          {wallet.historyJob.txCount == null
-            ? t("History pending")
-            : t("{count} tx", { count: fmt(wallet.historyJob.txCount) })}
-        </span>
-      </div>
       <div className="wallet-job">
         <div className="wallet-result">
+          <div className="wallet-identity">
+            <div>
+              <span className="wallet-address" title={wallet.address}>
+                {wallet.address.length > 10
+                  ? `${wallet.address.slice(0, 4)}…${wallet.address.slice(-4)}`
+                  : wallet.address}
+              </span>
+              <button
+                className="copy-wallet"
+                aria-label={t("Copy address {address}", {
+                  address: wallet.address,
+                })}
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(wallet.address);
+                    setCopied(true);
+                  } catch {
+                    onClick();
+                  }
+                }}
+              >
+                {copied ? <Check size={13} /> : <Copy size={13} />}
+              </button>
+            </div>
+            <span className="wallet-volume">
+              {wallet.historyJob.txCount == null
+                ? t("History pending")
+                : t("{count} tx", { count: fmt(wallet.historyJob.txCount) })}
+            </span>
+          </div>
           <span
             className={
               wallet.candidateIds.length ? "candidate-count" : "zero-count"
@@ -478,7 +471,6 @@ function WalletInvestigationRow({
               { count: wallet.candidateIds.length },
             )}
           </span>
-          <StatusChip status={status} />
         </div>
         <PipelineStatus wallet={wallet} />
       </div>
