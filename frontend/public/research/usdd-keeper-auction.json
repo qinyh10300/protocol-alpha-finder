@@ -1,0 +1,81 @@
+{
+  "run": {
+    "id": "local-usdd-keeper-auction",
+    "seedId": "usdd-keeper-auction",
+    "status": "completed",
+    "startedAt": "2026-09-29T13:43:53.340723+00:00",
+    "updatedAt": "2026-09-29T14:14:28.463902+00:00",
+    "walletCount": 0,
+    "candidateCount": 0,
+    "reportCount": 0,
+    "loadedTransactionCount": 0
+  },
+  "seeds": [
+    {
+      "id": "usdd-keeper-auction",
+      "name": "USDD Keeper / Auction",
+      "chain": "TRON",
+      "walletCount": 0,
+      "coverage": "27 bounded provider queries completed. Empty indexes do not prove absence from the whole chain.",
+      "gaps": [
+        "Deployed Dog/Clip metadata returned empty ABI; no in-window receipt available for action decoding.",
+        "Historical deployment changes and indirect zero-value calls may not be fully represented by these address indexes.",
+        "No independent block-wide log/call scan or historical bytecode-to-source verification."
+      ]
+    }
+  ],
+  "wallets": [],
+  "candidates": [],
+  "reports": [],
+  "activity": [
+    {
+      "id": "archive-0",
+      "runId": "local-usdd-keeper-auction",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "seed_scan",
+      "message": "27 bounded provider queries completed. Empty indexes do not prove absence from the whole chain.",
+      "sourceUrl": "./research/usdd-keeper-auction.json",
+      "skill": "alpha-seed-wallets"
+    }
+  ],
+  "skills": [
+    {
+      "id": "alpha-seed-wallets",
+      "name": "Seed → strategy wallets",
+      "summary": "27 bounded provider queries completed. Empty indexes do not prove absence from the whole chain.",
+      "status": "completed",
+      "completedAt": "2026-09-29T13:43:53.340723+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/alpha-seed-wallets/SKILL.md",
+      "artifactUrl": "./research/usdd-keeper-auction.json"
+    }
+  ],
+  "mode": "demo",
+  "window": {
+    "from": "2026-07-01T13:25:05.785000+00:00",
+    "to": "2026-09-29T13:25:05.785000+00:00"
+  },
+  "note": "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.",
+  "provenance": "recorded",
+  "sourceArtifacts": [
+    {
+      "path": "strategy-wallet-discovery/strategy-wallets.json",
+      "sha256": "e64cf35b9f891e67bd58dd94508cef0daf2997ed0e0657436959f5d909abea33"
+    },
+    {
+      "path": "wallet-alpha-investigation/history-summary.json",
+      "sha256": "c3c82d196fe122c379034c5707f8b5559f4c70d0a78e419d7624f61e4c3ea73f"
+    },
+    {
+      "path": "wallet-alpha-investigation/validation-handoff.json",
+      "sha256": "43b10b70bb8cc7bf0b7fc9e07c738de5024b91488f50b54450becdb3874f2a50"
+    },
+    {
+      "path": "protocol-alpha-validation/validation-results.json",
+      "sha256": "473eabe64ba706b7da9e20622bd0977c58eb78c322ed05671180dfc6d3d1a5e5"
+    },
+    {
+      "path": "protocol-alpha-discovery-test/research-record.json",
+      "sha256": "3dbe51644bf60810772f7bdfdda57510d74d0a842b9ccd22501ff940cc2b99e5"
+    }
+  ]
+}

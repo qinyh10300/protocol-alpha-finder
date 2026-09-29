@@ -1,5 +1,11 @@
 /** English source strings are also the fallback for untranslated UI copy. */
 export const uiZh: Record<string, string> = {
+  "Read Skill": "查看 Skill",
+  "Recorded research replay": "历史研究回放",
+  "TRON · Recorded Skill evidence": "TRON · 已保存的 Skill 证据",
+  "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search.":
+    "回放已保存的链上研究，播放节奏为模拟。点击开始发现会重播历史结果，不会发起新的搜寻。",
+  "Published Skill snapshot": "已发布的 Skill 研究快照",
   Language: "语言",
   unproven: "尚未证实",
   confirmed: "已确认",

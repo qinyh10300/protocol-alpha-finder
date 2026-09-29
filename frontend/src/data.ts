@@ -1,3 +1,5 @@
+import lendingReplay from "../public/research/justlend-lending-liquidation.json";
+import usddReplay from "../public/research/usdd-keeper-auction.json";
 import mockPayload from "../../Protocol_Alpha_Finder_Frontend_Implementation_Pack/06_MOCK_DATA.json";
 import { DEFAULT_DEMO_SEED, DEMO_SCENARIOS, PROTOCOL_SEEDS } from "./seeds";
 import type {
@@ -8,6 +10,12 @@ import type {
   Snapshot,
   StrategyWallet,
 } from "./types";
+
+// Checked-in exports are usable on GitHub Pages without the local Python API.
+const recordedReplays: Record<string, Snapshot> = {
+  "justlend-lending-liquidation": lendingReplay as Snapshot,
+  "usdd-keeper-auction": usddReplay as Snapshot,
+};
 
 export interface ResearchDataSource {
   createRun(seedId: string): Promise<ResearchRun>;
@@ -114,37 +122,47 @@ export class MockResearchDataSource implements ResearchDataSource {
     this.paused = false;
   }
   async getSnapshot(): Promise<Snapshot> {
-    const data = structuredClone(mockPayload);
-    const scenario = DEMO_SCENARIOS[this.seedId];
-    data.wallets = data.wallets.filter((wallet) =>
-      scenario.wallets.includes(wallet.address),
-    );
-    data.candidates = data.candidates.filter((candidate) =>
-      scenario.candidates.includes(candidate.id),
-    );
+    const recorded = recordedReplays[this.seedId];
+    const data = structuredClone(recorded || mockPayload);
+    if (!recorded) {
+      const scenario = DEMO_SCENARIOS[this.seedId];
+      data.wallets = data.wallets.filter((wallet) =>
+        scenario.wallets.includes(wallet.address),
+      );
+      data.candidates = data.candidates.filter((candidate) =>
+        scenario.candidates.includes(candidate.id),
+      );
+    }
     const t = this.seconds;
     const wallets: StrategyWallet[] = this.started
       ? data.wallets
           .filter((_, i) => t >= 0.5 + i * 0.4)
           .map((w, i) => {
             const phase = t - i * 0.7;
-            const job = (start: number, end: number) => ({
+            const job = (
+              start: number,
+              end: number,
+              final: StrategyWallet["analysisJob"],
+            ) => ({
+              ...(recorded ? final : {}),
               status:
                 phase < start
                   ? ("queued" as const)
                   : phase < end
                     ? ("running" as const)
-                    : ("completed" as const),
+                    : recorded
+                      ? final.status
+                      : ("completed" as const),
             });
             return {
               ...w,
               sourceSeedId: this.seedId,
               historyJob: {
-                ...job(1, 4),
+                ...job(1, 4, w.historyJob),
                 txCount: phase >= 4 ? w.historyJob.txCount : undefined,
               },
-              analysisJob: job(4, 6),
-              alphaSearchJob: job(6, 9),
+              analysisJob: job(4, 6, w.analysisJob),
+              alphaSearchJob: job(6, 9, w.alphaSearchJob),
               candidateIds: data.candidates
                 .filter(
                   (candidate, index) =>
@@ -162,7 +180,9 @@ export class MockResearchDataSource implements ResearchDataSource {
             ...c,
             status:
               t >= 13 + i * 1.8
-                ? "report_ready"
+                ? c.reportId
+                  ? "report_ready"
+                  : "discovered"
                 : t >= 10 + i * 1.4
                   ? "validating"
                   : "discovered",
@@ -216,18 +236,58 @@ export class MockResearchDataSource implements ResearchDataSource {
         entityId: r.id,
       }),
     );
+    const recordedActivity = recorded?.activity
+      .filter((event) => {
+        if (event.entityType === "wallet")
+          return wallets.some(
+            (w) =>
+              w.address === event.entityId &&
+              (event.eventType !== "history_loaded" ||
+                w.historyJob.txCount != null),
+          );
+        if (event.entityType === "candidate")
+          return candidates.some((c) => c.id === event.entityId);
+        if (event.entityType === "report")
+          return reports.some((r) => r.id === event.entityId);
+        return this.started && t >= 1;
+      })
+      .map((event) => ({ ...event, runId: run.id }));
     return {
       run,
-      seeds: structuredClone(PROTOCOL_SEEDS),
+      seeds: PROTOCOL_SEEDS.map((seed) => ({
+        ...seed,
+        ...recordedReplays[seed.id]?.seeds.find(
+          (entry) => entry.id === seed.id,
+        ),
+      })),
       wallets,
       candidates,
       reports,
-      activity,
-      skills: [],
+      activity: recordedActivity || activity,
+      skills: recorded
+        ? recorded.skills.map((skill, index) => ({
+            ...skill,
+            status:
+              !this.started || t < [0, 3, 12][index]
+                ? "queued"
+                : t >= [3, 12, 17][index]
+                  ? skill.status
+                  : "running",
+            completedAt:
+              this.started && t >= [3, 12, 17][index]
+                ? skill.completedAt
+                : undefined,
+          }))
+        : [],
       mode: "demo",
-      note: "Synthetic demo · Timed replay of the implementation-pack mock data. Addresses, opportunity claims and timestamps are illustrative.",
+      provenance: recorded ? "recorded" : "synthetic",
+      window: recorded?.window,
+      note:
+        recorded?.note ||
+        "Synthetic demo · Timed replay of the implementation-pack mock data. Addresses, opportunity claims and timestamps are illustrative.",
     };
   }
+
   async getRun() {
     return (await this.getSnapshot()).run;
   }
@@ -241,6 +301,10 @@ export class MockResearchDataSource implements ResearchDataSource {
     return (await this.getSnapshot()).reports;
   }
   async getReport(id: string) {
+    const recorded = Object.values(recordedReplays)
+      .flatMap((snapshot) => snapshot.reports)
+      .find((report) => report.id === id);
+    if (recorded) return structuredClone(recorded);
     const report = mockPayload.reports.find((r) => r.id === id);
     if (!report) throw new Error("Report not found");
     return {

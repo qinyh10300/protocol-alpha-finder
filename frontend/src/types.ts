@@ -72,6 +72,7 @@ export type ReportSection = {
   items?: { label: string; value: string }[];
 };
 export type AlphaReport = {
+  provenance?: "recorded" | "synthetic";
   id: string;
   candidateId: string;
   title: string;
@@ -114,6 +115,7 @@ export type SkillStage = {
   artifactUrl: string;
 };
 export type Snapshot = {
+  provenance?: "recorded" | "synthetic";
   run: ResearchRun;
   seeds: Seed[];
   wallets: StrategyWallet[];

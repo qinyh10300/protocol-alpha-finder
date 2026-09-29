@@ -1,0 +1,959 @@
+{
+  "run": {
+    "id": "local-justlend-lending-liquidation",
+    "seedId": "justlend-lending-liquidation",
+    "status": "completed",
+    "startedAt": "2026-09-29T13:43:53.340723+00:00",
+    "updatedAt": "2026-09-29T14:14:28.463902+00:00",
+    "walletCount": 5,
+    "candidateCount": 3,
+    "reportCount": 3,
+    "loadedTransactionCount": 3814
+  },
+  "seeds": [
+    {
+      "id": "justlend-lending-liquidation",
+      "name": "JustLend Lending Liquidation",
+      "chain": "TRON",
+      "walletCount": 5,
+      "coverage": "All pages of the documented provider queries completed, not an independent whole-chain audit.",
+      "gaps": [
+        "All wallet history, beneficial ownership, net profit, and unsampled transaction sender attribution remain unverified."
+      ]
+    }
+  ],
+  "wallets": [
+    {
+      "address": "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS",
+      "sourceSeedId": "justlend-lending-liquidation",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 1333,
+        "fromTime": "2026-07-01T14:04:42+00:00",
+        "toTime": "2026-09-29T10:45:00+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "WAI-LENDING-01",
+        "WAI-CYCLE-01"
+      ],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "a92b33aecb99abbd07ff1b55399c7523b90c2d90ce93196ef6adb3ddfc3b45a8",
+          "url": "https://tronscan.org/#/transaction/a92b33aecb99abbd07ff1b55399c7523b90c2d90ce93196ef6adb3ddfc3b45a8"
+        },
+        {
+          "type": "transaction",
+          "txHash": "74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9",
+          "url": "https://tronscan.org/#/transaction/74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9"
+        }
+      ]
+    },
+    {
+      "address": "TEe2PXchaVdLWG1to1fdoYwGC7JieZ8qNH",
+      "sourceSeedId": "justlend-lending-liquidation",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 867,
+        "fromTime": "2026-07-08T07:41:54+00:00",
+        "toTime": "2026-09-15T15:38:12+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "bb76efbf0520b2527b2f4977ecaee740d1f8b2ef5a2fa40e4b14dafae508ed2a",
+          "url": "https://tronscan.org/#/transaction/bb76efbf0520b2527b2f4977ecaee740d1f8b2ef5a2fa40e4b14dafae508ed2a"
+        },
+        {
+          "type": "transaction",
+          "txHash": "09205de02de320431c63824aa3139c2989937921aec4a91eee24558a12d976c4",
+          "url": "https://tronscan.org/#/transaction/09205de02de320431c63824aa3139c2989937921aec4a91eee24558a12d976c4"
+        }
+      ]
+    },
+    {
+      "address": "TS8fpf9YRWaKkA57RRg2KsuDv66m3F3za4",
+      "sourceSeedId": "justlend-lending-liquidation",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 1008,
+        "fromTime": "2026-07-01T14:03:00+00:00",
+        "toTime": "2026-09-29T12:51:00+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "84be730110a350f591530f96a0378712247386682472ccff483932924c4456f2",
+          "url": "https://tronscan.org/#/transaction/84be730110a350f591530f96a0378712247386682472ccff483932924c4456f2"
+        },
+        {
+          "type": "transaction",
+          "txHash": "06b52acb164fc5ecd9a284ce6565c1da230022efce40933af5d94d3cff8720e8",
+          "url": "https://tronscan.org/#/transaction/06b52acb164fc5ecd9a284ce6565c1da230022efce40933af5d94d3cff8720e8"
+        }
+      ]
+    },
+    {
+      "address": "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
+      "sourceSeedId": "justlend-lending-liquidation",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 60,
+        "fromTime": "2026-07-21T19:44:30+00:00",
+        "toTime": "2026-09-28T02:44:15+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "WAI-LENDING-02"
+      ],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "314c96c3dd499f635fdba2f5ae7931da1b8b52ca85cbd5c7708b2d040f133caf",
+          "url": "https://tronscan.org/#/transaction/314c96c3dd499f635fdba2f5ae7931da1b8b52ca85cbd5c7708b2d040f133caf"
+        },
+        {
+          "type": "transaction",
+          "txHash": "e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008",
+          "url": "https://tronscan.org/#/transaction/e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008"
+        }
+      ]
+    },
+    {
+      "address": "TRCZGydLtU8S3XFt2DUFaoLpkwCH1tCa8B",
+      "sourceSeedId": "justlend-lending-liquidation",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 546,
+        "fromTime": "2026-07-02T09:56:33+00:00",
+        "toTime": "2026-09-24T03:13:12+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "05f02336cd59a945efe48b8d9e04b7597404613d4a44958953fa0c2cb4e76555",
+          "url": "https://tronscan.org/#/transaction/05f02336cd59a945efe48b8d9e04b7597404613d4a44958953fa0c2cb4e76555"
+        },
+        {
+          "type": "transaction",
+          "txHash": "f5b1dd734ca170d5a1ad75b579982cebcd792beffa52899b07d89eb1c7d4f871",
+          "url": "https://tronscan.org/#/transaction/f5b1dd734ca170d5a1ad75b579982cebcd792beffa52899b07d89eb1c7d4f871"
+        }
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "id": "WAI-LENDING-01",
+      "title": "借贷清算与抵押品赎回、兑换组合",
+      "summary": "Combine funding conversion, liquidation, collateral redemption and asset conversion in one transaction to reduce inventory exposure and recycle capital.",
+      "sourceWallets": [
+        "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS"
+      ],
+      "historicalExecutionCount": 2,
+      "evidenceCountLabel": "reconciled samples",
+      "status": "report_ready",
+      "createdAt": "2026-09-29T13:56:33.170079+00:00",
+      "reportId": "report-WAI-LENDING-01",
+      "validation": {
+        "mechanism": "established",
+        "historicalEvidence": "confirmed",
+        "currentState": "UNCERTAIN",
+        "executionConditions": "uncertain"
+      }
+    },
+    {
+      "id": "WAI-LENDING-02",
+      "title": "借贷清算与抵押品赎回、兑换组合",
+      "summary": "Combine funding conversion, liquidation, collateral redemption and asset conversion in one transaction to reduce inventory exposure and recycle capital.",
+      "sourceWallets": [
+        "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB"
+      ],
+      "historicalExecutionCount": 2,
+      "evidenceCountLabel": "reconciled samples",
+      "status": "report_ready",
+      "createdAt": "2026-09-29T13:56:33.170079+00:00",
+      "reportId": "report-WAI-LENDING-02",
+      "validation": {
+        "mechanism": "established",
+        "historicalEvidence": "confirmed",
+        "currentState": "UNCERTAIN",
+        "executionConditions": "uncertain"
+      }
+    },
+    {
+      "id": "WAI-CYCLE-01",
+      "title": "清算钱包的跨池循环兑换",
+      "summary": "Cross-pool price differences may support a same-asset round trip after trading fees, provided resource and failure costs do not exceed the proceeds. This mechanism differs from the originating lending-liquidation seed.",
+      "sourceWallets": [
+        "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS"
+      ],
+      "historicalExecutionCount": 2,
+      "evidenceCountLabel": "reconciled samples",
+      "status": "report_ready",
+      "createdAt": "2026-09-29T13:56:33.170079+00:00",
+      "reportId": "report-WAI-CYCLE-01",
+      "validation": {
+        "mechanism": "established",
+        "historicalEvidence": "confirmed",
+        "currentState": "UNCERTAIN",
+        "executionConditions": "uncertain"
+      }
+    }
+  ],
+  "reports": [
+    {
+      "id": "report-WAI-LENDING-01",
+      "candidateId": "WAI-LENDING-01",
+      "title": "借贷清算与抵押品赎回、兑换组合",
+      "outcome": "MONITOR",
+      "outcomeReason": "Historical operation is supported; current execution and net economics still need evidence. Monitor is a research disposition, not an ACTIVE opportunity.",
+      "rawCurrentState": "UNCERTAIN",
+      "executiveSummary": "Debt repayment, collateral seizure, redemption and exchange flow are established in successful samples. The four historical borrower samples have zero current shortfall; these examples are not current liquidation targets. Net economics remain unknown; current opportunity status is UNCERTAIN.",
+      "mechanism": {
+        "summary": "Combine funding conversion, liquidation, collateral redemption and asset conversion in one transaction to reduce inventory exposure and recycle capital.",
+        "items": [
+          {
+            "label": "Step 01",
+            "value": "Obtain the borrowed asset from wallet funding or a conversion"
+          },
+          {
+            "label": "Step 02",
+            "value": "Repay debt and receive seized jTokens"
+          },
+          {
+            "label": "Step 03",
+            "value": "Redeem jTokens into underlying collateral"
+          },
+          {
+            "label": "Step 04",
+            "value": "Convert assets and settle proceeds where supported by transfer logs"
+          },
+          {
+            "label": "Executor / router",
+            "value": "TS5v9Z9frcc6zerQmUsLBCEp28fdabNZC7"
+          }
+        ]
+      },
+      "historicalEvidence": {
+        "summary": "2 historical samples reconciled for this candidate. This count is not the full strategy execution volume.",
+        "items": [
+          {
+            "label": "Evidence 01",
+            "value": "a92b33aecb99abbd07ff1b55399c7523b90c2d90ce93196ef6adb3ddfc3b45a8 · block 86662744 · 2026-09-29T05:44:57+00:00"
+          },
+          {
+            "label": "Evidence 02",
+            "value": "74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9 · block 84506183 · 2026-07-16T07:59:18+00:00"
+          },
+          {
+            "label": "Economics",
+            "value": "Receipt fees may be null. Token and native-call deltas are gross observations; principal, deposit refunds, resource costs and failed attempts must be reconciled before a net-profit claim."
+          }
+        ]
+      },
+      "currentState": {
+        "summary": "UNCERTAIN · Last checked 2026-09-29T14:12:42.075416+00:00",
+        "items": [
+          {
+            "label": "Finding 01",
+            "value": "The four historical borrower samples have zero current shortfall; these examples are not current liquidation targets."
+          },
+          {
+            "label": "Finding 02",
+            "value": "Gross collateral and returned principal are kept separate from profit."
+          },
+          {
+            "label": "Finding 03",
+            "value": "Borrower TBaQmPCBReSSZopZNM2xVXkBq315bUiVVa: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 04",
+            "value": "Borrower TGdi5GLPzbvhkjHggWh1RNx9r7DFzhSJwd: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 05",
+            "value": "Borrower TMRYaCJDDv3nT6HgQABQ3hvuB3fgn3w5iw: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 06",
+            "value": "Borrower TUTUdJjRShj4uYbrGUREj8xvZyzEP4XHXW: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 07",
+            "value": "Read blocks: 86672751–86672818; supplement: 86672840–86672855. Sequential latest-state reads bracketed by these blocks, not atomic or historical block-pinned calls."
+          }
+        ]
+      },
+      "executionConditions": {
+        "summary": "All of these conditions require verification before execution.",
+        "items": [
+          {
+            "label": "Condition 01",
+            "value": "A currently undercollateralized eligible borrower"
+          },
+          {
+            "label": "Condition 02",
+            "value": "Repayment capital or proved funding source and required approvals"
+          },
+          {
+            "label": "Condition 03",
+            "value": "Redeemable collateral liquidity and usable exit pools"
+          },
+          {
+            "label": "Condition 04",
+            "value": "Oracle, close factor, incentive, pause and upgrade state compatible with execution"
+          },
+          {
+            "label": "Condition 05",
+            "value": "Proceeds exceed repayment, funding, resource and failed-attempt costs"
+          }
+        ]
+      },
+      "sourceWallets": [
+        "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS"
+      ],
+      "historicalExecutionCount": 2,
+      "evidenceCountLabel": "reconciled samples",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "a92b33aecb99abbd07ff1b55399c7523b90c2d90ce93196ef6adb3ddfc3b45a8",
+          "url": "https://tronscan.org/#/transaction/a92b33aecb99abbd07ff1b55399c7523b90c2d90ce93196ef6adb3ddfc3b45a8"
+        },
+        {
+          "type": "transaction",
+          "txHash": "74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9",
+          "url": "https://tronscan.org/#/transaction/74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9"
+        },
+        {
+          "type": "contract",
+          "address": "TS5v9Z9frcc6zerQmUsLBCEp28fdabNZC7",
+          "url": "https://tronscan.org/#/contract/TS5v9Z9frcc6zerQmUsLBCEp28fdabNZC7"
+        },
+        {
+          "type": "document",
+          "title": "Published Skill snapshot",
+          "url": "./research/justlend-lending-liquidation.json"
+        }
+      ],
+      "generatedAt": "2026-09-29T14:12:42.075416+00:00",
+      "lastCheckedAt": "2026-09-29T14:12:42.075416+00:00",
+      "missingEvidence": [
+        "Liquidation composition is established; advantage over standard liquidation tooling is not established.",
+        "Current oracle address is read, but feed freshness/deviation and full risk state are unverified.",
+        "Historical exchange rates, full funding attribution, helper control and all costs remain incomplete.",
+        "No currently eligible borrower/executable opportunity established."
+      ],
+      "nextChecks": [
+        "Match every debt repayment and collateral redemption to token/native flows in raw receipts.",
+        "Identify all pool/token contracts and actual withdrawal beneficiaries.",
+        "Aggregate successful and failed execution costs and funding costs over the same window.",
+        "If complete accounting is non-positive or unavailable liquidity blocks redemption, reject the opportunity."
+      ],
+      "alternativeExplanations": [
+        "This is standard liquidation tooling rather than a distinct edge.",
+        "A helper may use pre-existing inventory or third-party funding.",
+        "Retained tokens, capital costs and failed attempts can offset the visible inflow."
+      ],
+      "provenance": "recorded"
+    },
+    {
+      "id": "report-WAI-LENDING-02",
+      "candidateId": "WAI-LENDING-02",
+      "title": "借贷清算与抵押品赎回、兑换组合",
+      "outcome": "MONITOR",
+      "outcomeReason": "Historical operation is supported; current execution and net economics still need evidence. Monitor is a research disposition, not an ACTIVE opportunity.",
+      "rawCurrentState": "UNCERTAIN",
+      "executiveSummary": "Debt repayment, collateral seizure, redemption and exchange flow are established in successful samples. The four historical borrower samples have zero current shortfall; these examples are not current liquidation targets. Net economics remain unknown; current opportunity status is UNCERTAIN.",
+      "mechanism": {
+        "summary": "Combine funding conversion, liquidation, collateral redemption and asset conversion in one transaction to reduce inventory exposure and recycle capital.",
+        "items": [
+          {
+            "label": "Step 01",
+            "value": "Obtain the borrowed asset from wallet funding or a conversion"
+          },
+          {
+            "label": "Step 02",
+            "value": "Repay debt and receive seized jTokens"
+          },
+          {
+            "label": "Step 03",
+            "value": "Redeem jTokens into underlying collateral"
+          },
+          {
+            "label": "Step 04",
+            "value": "Convert assets and settle proceeds where supported by transfer logs"
+          },
+          {
+            "label": "Executor / router",
+            "value": "TLL5c615mFqnJ8n7hkvSPyhBqyA5tY2SMP"
+          }
+        ]
+      },
+      "historicalEvidence": {
+        "summary": "2 historical samples reconciled for this candidate. This count is not the full strategy execution volume.",
+        "items": [
+          {
+            "label": "Evidence 01",
+            "value": "314c96c3dd499f635fdba2f5ae7931da1b8b52ca85cbd5c7708b2d040f133caf · block 86630337 · 2026-09-28T02:44:12+00:00"
+          },
+          {
+            "label": "Evidence 02",
+            "value": "e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008 · block 84882360 · 2026-07-29T09:36:18+00:00"
+          },
+          {
+            "label": "Economics",
+            "value": "Receipt fees may be null. Token and native-call deltas are gross observations; principal, deposit refunds, resource costs and failed attempts must be reconciled before a net-profit claim."
+          }
+        ]
+      },
+      "currentState": {
+        "summary": "UNCERTAIN · Last checked 2026-09-29T14:12:42.075416+00:00",
+        "items": [
+          {
+            "label": "Finding 01",
+            "value": "The four historical borrower samples have zero current shortfall; these examples are not current liquidation targets."
+          },
+          {
+            "label": "Finding 02",
+            "value": "Gross collateral and returned principal are kept separate from profit."
+          },
+          {
+            "label": "Finding 03",
+            "value": "Borrower TBaQmPCBReSSZopZNM2xVXkBq315bUiVVa: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 04",
+            "value": "Borrower TGdi5GLPzbvhkjHggWh1RNx9r7DFzhSJwd: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 05",
+            "value": "Borrower TMRYaCJDDv3nT6HgQABQ3hvuB3fgn3w5iw: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 06",
+            "value": "Borrower TUTUdJjRShj4uYbrGUREj8xvZyzEP4XHXW: shortfall 0 (raw), error 0."
+          },
+          {
+            "label": "Finding 07",
+            "value": "Read blocks: 86672751–86672818; supplement: 86672840–86672855. Sequential latest-state reads bracketed by these blocks, not atomic or historical block-pinned calls."
+          }
+        ]
+      },
+      "executionConditions": {
+        "summary": "All of these conditions require verification before execution.",
+        "items": [
+          {
+            "label": "Condition 01",
+            "value": "A currently undercollateralized eligible borrower"
+          },
+          {
+            "label": "Condition 02",
+            "value": "Repayment capital or proved funding source and required approvals"
+          },
+          {
+            "label": "Condition 03",
+            "value": "Redeemable collateral liquidity and usable exit pools"
+          },
+          {
+            "label": "Condition 04",
+            "value": "Oracle, close factor, incentive, pause and upgrade state compatible with execution"
+          },
+          {
+            "label": "Condition 05",
+            "value": "Proceeds exceed repayment, funding, resource and failed-attempt costs"
+          }
+        ]
+      },
+      "sourceWallets": [
+        "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB"
+      ],
+      "historicalExecutionCount": 2,
+      "evidenceCountLabel": "reconciled samples",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "314c96c3dd499f635fdba2f5ae7931da1b8b52ca85cbd5c7708b2d040f133caf",
+          "url": "https://tronscan.org/#/transaction/314c96c3dd499f635fdba2f5ae7931da1b8b52ca85cbd5c7708b2d040f133caf"
+        },
+        {
+          "type": "transaction",
+          "txHash": "e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008",
+          "url": "https://tronscan.org/#/transaction/e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008"
+        },
+        {
+          "type": "contract",
+          "address": "TLL5c615mFqnJ8n7hkvSPyhBqyA5tY2SMP",
+          "url": "https://tronscan.org/#/contract/TLL5c615mFqnJ8n7hkvSPyhBqyA5tY2SMP"
+        },
+        {
+          "type": "document",
+          "title": "Published Skill snapshot",
+          "url": "./research/justlend-lending-liquidation.json"
+        }
+      ],
+      "generatedAt": "2026-09-29T14:12:42.075416+00:00",
+      "lastCheckedAt": "2026-09-29T14:12:42.075416+00:00",
+      "missingEvidence": [
+        "Liquidation composition is established; advantage over standard liquidation tooling is not established.",
+        "Current oracle address is read, but feed freshness/deviation and full risk state are unverified.",
+        "Historical exchange rates, full funding attribution, helper control and all costs remain incomplete.",
+        "No currently eligible borrower/executable opportunity established."
+      ],
+      "nextChecks": [
+        "Match every debt repayment and collateral redemption to token/native flows in raw receipts.",
+        "Identify all pool/token contracts and actual withdrawal beneficiaries.",
+        "Aggregate successful and failed execution costs and funding costs over the same window.",
+        "If complete accounting is non-positive or unavailable liquidity blocks redemption, reject the opportunity."
+      ],
+      "alternativeExplanations": [
+        "This is standard liquidation tooling rather than a distinct edge.",
+        "A helper may use pre-existing inventory or third-party funding.",
+        "Retained tokens, capital costs and failed attempts can offset the visible inflow."
+      ],
+      "provenance": "recorded"
+    },
+    {
+      "id": "report-WAI-CYCLE-01",
+      "candidateId": "WAI-CYCLE-01",
+      "title": "清算钱包的跨池循环兑换",
+      "outcome": "MONITOR",
+      "outcomeReason": "Historical operation is supported; current execution and net economics still need evidence. Monitor is a research disposition, not an ACTIVE opportunity.",
+      "rawCurrentState": "UNCERTAIN",
+      "executiveSummary": "Two historical same-token loops settle positive WTRX transfer-log deltas to the sender. Latest sample four pool identities match router pair lookups and historical Swap emitters; token pairs and current reserves match. Net economics remain unknown; current opportunity status is UNCERTAIN.",
+      "mechanism": {
+        "summary": "Cross-pool price differences may support a same-asset round trip after trading fees, provided resource and failure costs do not exceed the proceeds. This mechanism differs from the originating lending-liquidation seed.",
+        "items": [
+          {
+            "label": "Step 01",
+            "value": "Wallet sends the starting token"
+          },
+          {
+            "label": "Step 02",
+            "value": "Router exchanges through intermediate pools/assets"
+          },
+          {
+            "label": "Step 03",
+            "value": "Final pool returns the same token to the wallet"
+          },
+          {
+            "label": "Executor / router",
+            "value": "TNJVzGqKBWkJxJB5XYSqGAwUTV15U24pPq"
+          }
+        ]
+      },
+      "historicalEvidence": {
+        "summary": "2 historical samples reconciled for this candidate. This count is not the full strategy execution volume.",
+        "items": [
+          {
+            "label": "Evidence 01",
+            "value": "4e5e2268b8fe281095337067868f4b0aaab2e030db947563cbcb85a99d68285e · block 84093205 · 2026-07-01T23:43:03+00:00"
+          },
+          {
+            "label": "Evidence 02",
+            "value": "8b6617d3d65122aa4e9bb68eacf2c41c7c88770a65dd6ef2f32263c0294b2b19 · block 86661638 · 2026-09-29T04:49:39+00:00"
+          },
+          {
+            "label": "Economics",
+            "value": "Receipt fees may be null. Token and native-call deltas are gross observations; principal, deposit refunds, resource costs and failed attempts must be reconciled before a net-profit claim."
+          }
+        ]
+      },
+      "currentState": {
+        "summary": "UNCERTAIN · Last checked 2026-09-29T14:12:42.075416+00:00",
+        "items": [
+          {
+            "label": "Finding 01",
+            "value": "Latest sample four pool identities match router pair lookups and historical Swap emitters; token pairs and current reserves match."
+          },
+          {
+            "label": "Finding 02",
+            "value": "Current sample quote deltas have deteriorated: one negative, one small positive."
+          },
+          {
+            "label": "Finding 03",
+            "value": "Router consumes 1% theoretical caller Energy, capped deployer contribution and available deployer Energy determine actual sharing."
+          },
+          {
+            "label": "Finding 04",
+            "value": "Sample 4e5e2268b8fe…: historical transfer delta 0.336521 WTRX; checked quote gross delta -0.433764 WTRX. Fees and failed attempts are not deducted."
+          },
+          {
+            "label": "Finding 05",
+            "value": "Sample 8b6617d3d651…: historical transfer delta 0.336132 WTRX; checked quote gross delta 0.002182 WTRX. Fees and failed attempts are not deducted."
+          },
+          {
+            "label": "Finding 06",
+            "value": "Read blocks: 86672751–86672818; supplement: 86672840–86672855. Sequential latest-state reads bracketed by these blocks, not atomic or historical block-pinned calls."
+          }
+        ]
+      },
+      "executionConditions": {
+        "summary": "All of these conditions require verification before execution.",
+        "items": [
+          {
+            "label": "Condition 01",
+            "value": "Sufficient input WTRX and token allowance"
+          },
+          {
+            "label": "Condition 02",
+            "value": "Positive output after pool fees, resource cost and failed attempts"
+          },
+          {
+            "label": "Condition 03",
+            "value": "Adequate deployer Energy for the expected subsidy, or viable caller-funded fallback"
+          },
+          {
+            "label": "Condition 04",
+            "value": "Deadline/slippage conditions and unchanged pool state until inclusion"
+          }
+        ]
+      },
+      "sourceWallets": [
+        "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS"
+      ],
+      "historicalExecutionCount": 2,
+      "evidenceCountLabel": "reconciled samples",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "4e5e2268b8fe281095337067868f4b0aaab2e030db947563cbcb85a99d68285e",
+          "url": "https://tronscan.org/#/transaction/4e5e2268b8fe281095337067868f4b0aaab2e030db947563cbcb85a99d68285e"
+        },
+        {
+          "type": "transaction",
+          "txHash": "8b6617d3d65122aa4e9bb68eacf2c41c7c88770a65dd6ef2f32263c0294b2b19",
+          "url": "https://tronscan.org/#/transaction/8b6617d3d65122aa4e9bb68eacf2c41c7c88770a65dd6ef2f32263c0294b2b19"
+        },
+        {
+          "type": "contract",
+          "address": "TNJVzGqKBWkJxJB5XYSqGAwUTV15U24pPq",
+          "url": "https://tronscan.org/#/contract/TNJVzGqKBWkJxJB5XYSqGAwUTV15U24pPq"
+        },
+        {
+          "type": "document",
+          "title": "Published Skill snapshot",
+          "url": "./research/justlend-lending-liquidation.json"
+        }
+      ],
+      "generatedAt": "2026-09-29T14:12:42.075416+00:00",
+      "lastCheckedAt": "2026-09-29T14:12:42.075416+00:00",
+      "missingEvidence": [
+        "Historical positive token flow is not full-window net profit.",
+        "Current quotes are views, not an executable swap simulation.",
+        "Caller and sponsor resources, allowances, competition and full cost must be rechecked before any opportunity claim.",
+        "Source/bytecode equivalence, token behavior and historical upgrades not independently proved."
+      ],
+      "nextChecks": [
+        "Reconcile actual input/output transfers with route calldata and historical pool reserves.",
+        "Calculate costs across all 245 attempts, not just the two successful samples.",
+        "Reconstruct execution at the historical block and test whether current reserves still support positive all-in economics.",
+        "Reject profitability if all-in token-equivalent costs consume the observed difference."
+      ],
+      "alternativeExplanations": [
+        "Visible token increase can be smaller than total resource and failed-transaction costs.",
+        "A sampled route may be a one-off price imbalance with limited capacity.",
+        "Token/pool accounting or subsidies may explain the flows; deployment identities need further verification."
+      ],
+      "provenance": "recorded"
+    }
+  ],
+  "activity": [
+    {
+      "id": "archive-0",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "seed_scan",
+      "message": "All pages of the documented provider queries completed, not an independent whole-chain audit.",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-1",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS",
+      "entityType": "wallet",
+      "entityId": "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-3",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TEe2PXchaVdLWG1to1fdoYwGC7JieZ8qNH",
+      "entityType": "wallet",
+      "entityId": "TEe2PXchaVdLWG1to1fdoYwGC7JieZ8qNH",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-5",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TS8fpf9YRWaKkA57RRg2KsuDv66m3F3za4",
+      "entityType": "wallet",
+      "entityId": "TS8fpf9YRWaKkA57RRg2KsuDv66m3F3za4",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-7",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
+      "entityType": "wallet",
+      "entityId": "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-9",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TRCZGydLtU8S3XFt2DUFaoLpkwCH1tCa8B",
+      "entityType": "wallet",
+      "entityId": "TRCZGydLtU8S3XFt2DUFaoLpkwCH1tCa8B",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-2",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "1,333 primary transactions retained for TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS",
+      "entityType": "wallet",
+      "entityId": "TUAAqYySyBJDLJDxnQKqtcPBW1JXJuqrSS",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-4",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "867 primary transactions retained for TEe2PXchaVdLWG1to1fdoYwGC7JieZ8qNH",
+      "entityType": "wallet",
+      "entityId": "TEe2PXchaVdLWG1to1fdoYwGC7JieZ8qNH",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-6",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "1,008 primary transactions retained for TS8fpf9YRWaKkA57RRg2KsuDv66m3F3za4",
+      "entityType": "wallet",
+      "entityId": "TS8fpf9YRWaKkA57RRg2KsuDv66m3F3za4",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-8",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "60 primary transactions retained for TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
+      "entityType": "wallet",
+      "entityId": "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-10",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "546 primary transactions retained for TRCZGydLtU8S3XFt2DUFaoLpkwCH1tCa8B",
+      "entityType": "wallet",
+      "entityId": "TRCZGydLtU8S3XFt2DUFaoLpkwCH1tCa8B",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-11",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "candidate_created",
+      "message": "借贷清算与抵押品赎回、兑换组合 · WAI-LENDING-01",
+      "entityType": "candidate",
+      "entityId": "WAI-LENDING-01",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-12",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "candidate_created",
+      "message": "借贷清算与抵押品赎回、兑换组合 · WAI-LENDING-02",
+      "entityType": "candidate",
+      "entityId": "WAI-LENDING-02",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-13",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "candidate_created",
+      "message": "清算钱包的跨池循环兑换 · WAI-CYCLE-01",
+      "entityType": "candidate",
+      "entityId": "WAI-CYCLE-01",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-14",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T14:12:42.075416+00:00",
+      "eventType": "report_generated",
+      "message": "借贷清算与抵押品赎回、兑换组合 · MONITOR",
+      "entityType": "report",
+      "entityId": "report-WAI-LENDING-01",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "protocol-alpha-validation"
+    },
+    {
+      "id": "archive-15",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T14:12:42.075416+00:00",
+      "eventType": "report_generated",
+      "message": "借贷清算与抵押品赎回、兑换组合 · MONITOR",
+      "entityType": "report",
+      "entityId": "report-WAI-LENDING-02",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "protocol-alpha-validation"
+    },
+    {
+      "id": "archive-16",
+      "runId": "local-justlend-lending-liquidation",
+      "timestamp": "2026-09-29T14:12:42.075416+00:00",
+      "eventType": "report_generated",
+      "message": "清算钱包的跨池循环兑换 · MONITOR",
+      "entityType": "report",
+      "entityId": "report-WAI-CYCLE-01",
+      "sourceUrl": "./research/justlend-lending-liquidation.json",
+      "skill": "protocol-alpha-validation"
+    }
+  ],
+  "skills": [
+    {
+      "id": "alpha-seed-wallets",
+      "name": "Seed → strategy wallets",
+      "summary": "All pages of the documented provider queries completed, not an independent whole-chain audit.",
+      "status": "completed",
+      "completedAt": "2026-09-29T13:43:53.340723+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/alpha-seed-wallets/SKILL.md",
+      "artifactUrl": "./research/justlend-lending-liquidation.json"
+    },
+    {
+      "id": "wallet-alpha-investigation",
+      "name": "Independent wallet research",
+      "summary": "5 histories · 3,814 primary transactions · 3 candidates",
+      "status": "completed",
+      "completedAt": "2026-09-29T13:56:33.170079+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/wallet-alpha-investigation/SKILL.md",
+      "artifactUrl": "./research/justlend-lending-liquidation.json"
+    },
+    {
+      "id": "protocol-alpha-validation",
+      "name": "Candidate validation & reports",
+      "summary": "3 saved assessments · mechanism, history, current state and execution conditions",
+      "status": "completed",
+      "completedAt": "2026-09-29T14:12:42.075416+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/protocol-alpha-validation/SKILL.md",
+      "artifactUrl": "./research/justlend-lending-liquidation.json"
+    }
+  ],
+  "mode": "demo",
+  "window": {
+    "from": "2026-07-01T13:25:05.785000+00:00",
+    "to": "2026-09-29T13:25:05.785000+00:00"
+  },
+  "note": "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.",
+  "provenance": "recorded",
+  "sourceArtifacts": [
+    {
+      "path": "strategy-wallet-discovery/strategy-wallets.json",
+      "sha256": "e64cf35b9f891e67bd58dd94508cef0daf2997ed0e0657436959f5d909abea33"
+    },
+    {
+      "path": "wallet-alpha-investigation/history-summary.json",
+      "sha256": "c3c82d196fe122c379034c5707f8b5559f4c70d0a78e419d7624f61e4c3ea73f"
+    },
+    {
+      "path": "wallet-alpha-investigation/validation-handoff.json",
+      "sha256": "43b10b70bb8cc7bf0b7fc9e07c738de5024b91488f50b54450becdb3874f2a50"
+    },
+    {
+      "path": "protocol-alpha-validation/validation-results.json",
+      "sha256": "473eabe64ba706b7da9e20622bd0977c58eb78c322ed05671180dfc6d3d1a5e5"
+    },
+    {
+      "path": "protocol-alpha-discovery-test/research-record.json",
+      "sha256": "3dbe51644bf60810772f7bdfdda57510d74d0a842b9ccd22501ff940cc2b99e5"
+    }
+  ]
+}

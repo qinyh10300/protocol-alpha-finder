@@ -24,7 +24,7 @@ export const PROTOCOL_SEEDS: Seed[] = [
 
 export const DEFAULT_DEMO_SEED = PROTOCOL_SEEDS[0].id;
 
-// Synthetic scenario membership only; these are not chain-discovery results.
+// The original Energy Rental scenario remains synthetic. Other seeds replay saved evidence.
 // Reuse the implementation-pack examples so reports retain stable IDs and links.
 export const DEMO_SCENARIOS: Record<
   string,
@@ -39,13 +39,5 @@ export const DEMO_SCENARIOS: Record<
       "TF6m...9Lp1",
     ],
     candidates: ["cand-usdd-keeper", "cand-settlement", "cand-auction-reset"],
-  },
-  "justlend-lending-liquidation": {
-    wallets: ["TJ8e...3K2a", "TNQ8...GDW2m", "TWqF...Vp7x", "TA9k...2dx8"],
-    candidates: ["cand-settlement"],
-  },
-  "usdd-keeper-auction": {
-    wallets: ["TJ8e...3K2a", "TNQ8...GDW2m", "TF6m...9Lp1"],
-    candidates: ["cand-usdd-keeper", "cand-auction-reset"],
   },
 };

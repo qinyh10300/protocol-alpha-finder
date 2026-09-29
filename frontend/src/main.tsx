@@ -157,12 +157,18 @@ function Empty({
     </div>
   );
 }
+function evidenceUrl(url?: string) {
+  if (!url) return undefined;
+  if (/^\.\/research\/[a-z0-9-]+\.json$/.test(url)) {
+    return `${import.meta.env.BASE_URL}${url.slice(2)}`;
+  }
+  return /^https?:\/\//.test(url) || url.startsWith("/api/artifacts/")
+    ? url
+    : undefined;
+}
 function EvidenceLink({ e }: { e: EvidenceRef }) {
   const name = e.title || short(e.txHash || e.address || String(e.blockNumber));
-  const url =
-    e.url && (/^https?:\/\//.test(e.url) || e.url.startsWith("/api/artifacts/"))
-      ? e.url
-      : undefined;
+  const url = evidenceUrl(e.url);
   return url ? (
     <a className="evidence-link" href={url} target="_blank" rel="noreferrer">
       <FileText size={15} />
@@ -295,8 +301,8 @@ function ResearchRunSummary({
               <ChevronDown size={16} />
             </label>
             <p>
-              {data.mode === "archive"
-                ? t("TRON · Known protocol alpha")
+              {data.mode === "archive" || data.provenance === "recorded"
+                ? t("TRON · Recorded Skill evidence")
                 : t("{protocol} · Synthetic demo seed", {
                     protocol: selectedSeed?.protocol || "TRON",
                   })}
@@ -375,7 +381,11 @@ function ResearchRunSummary({
       <div className="summary-bottom">
         <div>
           <span className="tiny-dot" />
-          {data.mode === "archive" ? t("Saved Skill run") : t("Demo replay")}
+          {data.mode === "archive"
+            ? t("Saved Skill run")
+            : data.provenance === "recorded"
+              ? t("Recorded research replay")
+              : t("Demo replay")}
           <span className="divider" />{" "}
           <strong>{fmt(run.loadedTransactionCount)}</strong>{" "}
           {t("primary tx loaded")}
@@ -843,7 +853,7 @@ function ResearchActivityDrawer({
   return (
     <Drawer title={t("Research run activity")} close={close}>
       <p className="drawer-note">
-        {data.mode === "archive"
+        {data.mode === "archive" || data.provenance === "recorded"
           ? t(
               "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times.",
             )
@@ -861,11 +871,23 @@ function ResearchActivityDrawer({
             <p>{s.summary}</p>
             <small>{t(date(s.completedAt, locale))}</small>
             <div className="inline-links">
-              <a href={s.sourceUrl} target="_blank" rel="noreferrer">
-                {t("Read Skill report")}
+              <a
+                href={evidenceUrl(s.sourceUrl)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t(
+                  data.provenance === "recorded"
+                    ? "Read Skill"
+                    : "Read Skill report",
+                )}
                 <ExternalLink size={12} />
               </a>
-              <a href={s.artifactUrl} target="_blank" rel="noreferrer">
+              <a
+                href={evidenceUrl(s.artifactUrl)}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {t("JSON handoff")}
                 <ExternalLink size={12} />
               </a>
@@ -890,7 +912,11 @@ function ResearchActivityDrawer({
               </button>
             ) : (
               e.sourceUrl && (
-                <a href={e.sourceUrl} target="_blank" rel="noreferrer">
+                <a
+                  href={evidenceUrl(e.sourceUrl)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {t("Source artifact ↗")}
                 </a>
               )
@@ -1054,7 +1080,7 @@ function AlphaReportPage({
           <div className="toc-note">
             <FileText size={20} />
             <p>
-              {mode === "demo"
+              {mode === "demo" && r.provenance !== "recorded"
                 ? t("Synthetic demo report")
                 : t("Based on saved Skill evidence")}
             </p>
@@ -1106,7 +1132,7 @@ function AlphaReportPage({
             <h3>{t("Source wallets")}</h3>
             {r.sourceWallets.map((w) => (
               <p className="mono wrap" key={w}>
-                {mode === "archive" ? (
+                {mode === "archive" || r.provenance === "recorded" ? (
                   <a
                     target="_blank"
                     rel="noreferrer"
@@ -1373,15 +1399,25 @@ function App() {
       <main
         className={path === "/research" ? "research-main" : "document-main"}
       >
-        {mode === "demo" && (
+        {mode === "demo" && (reportId ? report : data) && (
           <div className="demo-banner">
             <FlaskConical size={15} />
-            <strong>{t("Synthetic demo")}</strong>
+            <strong>
+              {t(
+                (reportId ? report?.provenance : data?.provenance) ===
+                  "recorded"
+                  ? "Recorded research replay"
+                  : "Synthetic demo",
+              )}
+            </strong>
             <span>
               {t(
-                isPagesBuild
-                  ? "Illustrative data and simulated job timing. Run Discovery to explore the demo."
-                  : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
+                (reportId ? report?.provenance : data?.provenance) ===
+                  "recorded"
+                  ? "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search."
+                  : isPagesBuild
+                    ? "Illustrative data and simulated job timing. Run Discovery to explore the demo."
+                    : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
               )}
             </span>
           </div>
@@ -1561,24 +1597,25 @@ function App() {
                       setRevision((r) => r + 1);
                     }}
                   />
-                  {seedId === "usdd-keeper-auction" && mode === "archive" && (
-                    <div className="coverage-note">
-                      <CircleHelp size={17} />
-                      <div>
-                        <strong>
-                          {t("USDD: zero verified executors in this window.")}
-                        </strong>
-                        <p>
-                          {data.seeds.find((s) => s.id === seedId)?.coverage}
-                        </p>
-                        {data.seeds
-                          .find((s) => s.id === seedId)
-                          ?.gaps?.map((g) => (
-                            <p key={g}>{g}</p>
-                          ))}
+                  {seedId === "usdd-keeper-auction" &&
+                    (mode === "archive" || data.provenance === "recorded") && (
+                      <div className="coverage-note">
+                        <CircleHelp size={17} />
+                        <div>
+                          <strong>
+                            {t("USDD: zero verified executors in this window.")}
+                          </strong>
+                          <p>
+                            {data.seeds.find((s) => s.id === seedId)?.coverage}
+                          </p>
+                          {data.seeds
+                            .find((s) => s.id === seedId)
+                            ?.gaps?.map((g) => (
+                              <p key={g}>{g}</p>
+                            ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                   <div className="workspace-grid">
                     <WalletInvestigationList
                       data={data}

@@ -16,7 +16,12 @@ const sourceTitles: Record<string, string> = {
     "Lending Liquidation, Collateral Redemption & Swap",
   清算钱包的跨池循环兑换: "Cross-pool Round Trip by a Liquidation Wallet",
 };
-const chinese: Record<string, string> = chineseCatalog;
+const chinese: Record<string, string> = {
+  ...chineseCatalog,
+  "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.":
+    "历史研究回放 · 使用已保存的 Skill 证据，时间范围和核查时间见页面及报告。播放节奏为模拟，不会发起新的链上搜寻。",
+  "Published Skill snapshot": "已发布的 Skill 研究快照",
+};
 const english = Object.fromEntries(
   Object.entries(chinese).map(([en, zh]) => [zh, en]),
 );
