@@ -24,16 +24,19 @@
 
 ## 系统架构
 
-从 **Energy Rental、JustLend 和 USDD** 三个 Seed 出发，找到策略钱包，再形成候选机制，验证后产出新的 Alpha。彩色框标明箭头上使用的 Skill；卡片说明钱包的 Alpha 行为及候选入选理由。
+从三个 Seed 找到策略钱包，形成候选机制，再进行验证。流程下方的四个 Skill 说明各阶段的工作。
 
-- **Skill 1 — 发现钱包：** 核验调用、回执与执行者身份。
-- **Skill 2 — 研究钱包：** 从历史活动中形成候选机制。
-- **Skill 3 — 验证候选：** 检查机制、当前状态与执行条件。
-- **Skill 4 — 编排研究：** 确定范围，协调各阶段。
+![Seed Alpha 发现流程](docs/images/system-architecture-zh-CN.svg)
 
-![系统架构](docs/images/system-architecture-zh-CN.svg)
+[方法与 Skills](docs/ARCHITECTURE.zh-CN.md)
 
-[架构详解](docs/ARCHITECTURE.zh-CN.md)
+## 数据架构
+
+SQLite 索引采集证据；JSON 记录关联钱包、候选与验证结果。
+
+![数据库与研究数据](docs/images/data-architecture-zh-CN.svg)
+
+[数据模型](docs/DATA_ARCHITECTURE.zh-CN.md)
 
 ## 本地运行
 

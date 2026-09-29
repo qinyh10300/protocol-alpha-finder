@@ -1,134 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2280" height="1140" viewBox="0 0 2280 1140" role="img" aria-labelledby="title desc" xml:lang="en">
-<title id="title">From Three Alpha Seeds to New Alpha</title><desc id="desc">Skill 1 finds two illustrative wallets from each of three Alpha seeds through six arrows. Skill 2 investigates all six wallets to form three candidate mechanisms. Skill 3 validates mechanisms and current conditions to produce reports and conditional new Alpha. Skill 4 coordinates the full workflow. Stages are numbered separately from Skills.</desc><defs>
-<marker id="arrow-0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#5c88cc"/></marker>
-<marker id="arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#9671be"/></marker>
-<marker id="arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#c19349"/></marker>
-<marker id="arrow-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#4d8064"/></marker>
+<svg xmlns="http://www.w3.org/2000/svg" width="2100" height="960" viewBox="0 0 2100 960" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">From Seed Alpha to New Alpha</title><desc id="desc">Method illustration · Two wallets per seed · USDD wallets and auction hypothesis are illustrative, not recorded findings.</desc><defs>
+<marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#6088c5"/></marker>
+<marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#9774b9"/></marker>
+<marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#bd934f"/></marker>
+<marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#58826b"/></marker>
 </defs><style>
-text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #23374c; }
-.heading { font-size: 34px; font-weight: 700; }
-.section { font-size: 22px; font-weight: 650; }
-.node { font-size: 22px; font-weight: 600; }
-.sub { font-size: 17px; fill: #647b91; }
-.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 15px; }
-.action { font-size: 19px; font-weight: 600; }
-.number { font-size: 17px; font-weight: 700; fill: #748a9e; }
-.caption { font-size: 17px; fill: #7c8d9e; }
-</style><rect width="2280" height="1140" fill="#ffffff"/>
-<text x="40" y="54" class="heading" text-anchor="start">From Three Alpha Seeds to New Alpha</text>
-<path data-kind="orchestration" d="M 1140 197 C 1140 238 500 220 500 266" fill="none" stroke="#4d8064" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.5" marker-end="url(#arrow-3)"/>
-<path data-kind="orchestration" d="M 1140 197 C 1140 238 1120 220 1120 266" fill="none" stroke="#4d8064" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.5" marker-end="url(#arrow-3)"/>
-<path data-kind="orchestration" d="M 1140 197 C 1140 238 1770 220 1770 266" fill="none" stroke="#4d8064" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.5" marker-end="url(#arrow-3)"/>
-<rect x="40" y="360" width="300" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="64" y="403" class="number" text-anchor="start">01</text>
-<text x="102" y="403" class="section" text-anchor="start">Alpha Seeds</text>
-<text x="64" y="439" class="sub" text-anchor="start">Three known mechanisms</text>
-<text x="64" y="463" class="sub" text-anchor="start">provide starting points</text>
-<text x="64" y="487" class="sub" text-anchor="start">for wallet discovery.</text>
-<path d="M 64 506 H 316" stroke="#e5ebf2"/>
-<rect x="660" y="360" width="300" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="684" y="403" class="number" text-anchor="start">02</text>
-<text x="722" y="403" class="section" text-anchor="start">Strategy Wallets</text>
-<text x="684" y="439" class="sub" text-anchor="start">Wallets with verified execution</text>
-<text x="684" y="463" class="sub" text-anchor="start">become targets for</text>
-<text x="684" y="487" class="sub" text-anchor="start">deeper research.</text>
-<path d="M 684 506 H 936" stroke="#e5ebf2"/>
-<rect x="1280" y="360" width="340" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1304" y="403" class="number" text-anchor="start">03</text>
-<text x="1342" y="403" class="section" text-anchor="start">Alpha Candidates</text>
-<text x="1304" y="439" class="sub" text-anchor="start">Repeated wallet behaviors</text>
-<text x="1304" y="463" class="sub" text-anchor="start">suggest mechanisms worth</text>
-<text x="1304" y="487" class="sub" text-anchor="start">testing with evidence.</text>
-<path d="M 1304 506 H 1596" stroke="#e5ebf2"/>
-<rect x="1920" y="360" width="320" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1944" y="403" class="number" text-anchor="start">04</text>
-<text x="1982" y="403" class="section" text-anchor="start">Validation Outcomes</text>
-<text x="1944" y="439" class="sub" text-anchor="start">Validate mechanisms and current</text>
-<text x="1944" y="463" class="sub" text-anchor="start">conditions before reporting</text>
-<text x="1944" y="487" class="sub" text-anchor="start">new Alpha.</text>
-<path d="M 1944 506 H 2216" stroke="#e5ebf2"/>
-<path data-kind="seed-wallet" d="M 320 595 C 491.84000000000003 595 506.15999999999997 550 678 550" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 595 C 491.84000000000003 595 506.15999999999997 640 678 640" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 775 C 491.84000000000003 775 506.15999999999997 730 678 730" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 775 C 491.84000000000003 775 506.15999999999997 820 678 820" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 955 C 491.84000000000003 955 506.15999999999997 910 678 910" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 955 C 491.84000000000003 955 506.15999999999997 1000 678 1000" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="wallet-candidate" d="M 940 550 C 1111.84 550 1126.16 595 1298 595" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 640 C 1111.84 640 1126.16 595 1298 595" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 730 C 1111.84 730 1126.16 775 1298 775" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 820 C 1111.84 820 1126.16 775 1298 775" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 910 C 1111.84 910 1126.16 955 1298 955" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 1000 C 1111.84 1000 1126.16 955 1298 955" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="candidate-validation" d="M 1600 595 C 1748.8 595 1761.2 775 1910 775" fill="none" stroke="#c19349" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-2)"/>
-<path data-kind="candidate-validation" d="M 1600 775 C 1748.8 775 1761.2 775 1910 775" fill="none" stroke="#c19349" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-2)"/>
-<path data-kind="candidate-validation" d="M 1600 955 C 1748.8 955 1761.2 775 1910 775" fill="none" stroke="#c19349" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-2)"/>
-<rect x="60" y="522" width="260" height="146" rx="13" fill="#f5f9ff" stroke="#d7e5f7" stroke-width="1.3"/>
-<text x="80" y="559" class="node" text-anchor="start">Energy Rental</text>
-<text x="80" y="590" class="sub" text-anchor="start">Liquidate depleted rental</text>
-<text x="80" y="615" class="sub" text-anchor="start">orders to recover resources</text>
-<text x="80" y="640" class="sub" text-anchor="start">and earn rewards.</text>
-<rect x="1300" y="522" width="300" height="146" rx="13" fill="#faf7ff" stroke="#e2d9f0" stroke-width="1.3"/>
-<text x="1320" y="559" class="node" text-anchor="start">Rental sequence</text>
-<text x="1320" y="590" class="sub" text-anchor="start">Bundled rental and liquidation</text>
-<text x="1320" y="615" class="sub" text-anchor="start">may lower execution costs</text>
-<text x="1320" y="640" class="sub" text-anchor="start">within one transaction.</text>
-<rect x="60" y="702" width="260" height="146" rx="13" fill="#f5f9ff" stroke="#d7e5f7" stroke-width="1.3"/>
-<text x="80" y="739" class="node" text-anchor="start">JustLend</text>
-<text x="80" y="770" class="sub" text-anchor="start">Repay undercollateralized</text>
-<text x="80" y="795" class="sub" text-anchor="start">loans and receive seized</text>
-<text x="80" y="820" class="sub" text-anchor="start">collateral through liquidation.</text>
-<rect x="1300" y="702" width="300" height="146" rx="13" fill="#faf7ff" stroke="#e2d9f0" stroke-width="1.3"/>
-<text x="1320" y="739" class="node" text-anchor="start">Collateral recycling</text>
-<text x="1320" y="770" class="sub" text-anchor="start">Redeeming collateral for swaps</text>
-<text x="1320" y="795" class="sub" text-anchor="start">may recycle capital faster</text>
-<text x="1320" y="820" class="sub" text-anchor="start">after a liquidation.</text>
-<rect x="60" y="882" width="260" height="146" rx="13" fill="#f5f9ff" stroke="#d7e5f7" stroke-width="1.3"/>
-<text x="80" y="919" class="node" text-anchor="start">USDD</text>
-<text x="80" y="950" class="sub" text-anchor="start">Trigger liquidations, restart</text>
-<text x="80" y="975" class="sub" text-anchor="start">auctions, or buy collateral</text>
-<text x="80" y="1000" class="sub" text-anchor="start">through keeper actions.</text>
-<rect x="1300" y="882" width="300" height="146" rx="13" fill="#faf7ff" stroke="#e2d9f0" stroke-width="1.3"/>
-<text x="1320" y="919" class="node" text-anchor="start">Auction timing</text>
-<text x="1320" y="950" class="sub" text-anchor="start">Auction resets may create</text>
-<text x="1320" y="975" class="sub" text-anchor="start">temporary discounts worth testing</text>
-<text x="1320" y="1000" class="sub" text-anchor="start">against execution costs.</text>
-<rect x="680" y="516" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="546" class="node" text-anchor="start">Wallet A</text>
-<text x="700" y="571" class="sub" text-anchor="start">Rental liquidations</text>
-<rect x="680" y="606" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="636" class="node" text-anchor="start">Wallet B</text>
-<text x="700" y="661" class="sub" text-anchor="start">Resource bundling</text>
-<rect x="680" y="696" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="726" class="node" text-anchor="start">Wallet C</text>
-<text x="700" y="751" class="sub" text-anchor="start">Lending liquidations</text>
-<rect x="680" y="786" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="816" class="node" text-anchor="start">Wallet D</text>
-<text x="700" y="841" class="sub" text-anchor="start">Collateral redemption</text>
-<rect x="680" y="876" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="906" class="node" text-anchor="start">Wallet E</text>
-<text x="700" y="931" class="sub" text-anchor="start">Keeper actions</text>
-<rect x="680" y="966" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="996" class="node" text-anchor="start">Wallet F</text>
-<text x="700" y="1021" class="sub" text-anchor="start">Auction purchases</text>
-<rect x="360.0" y="268" width="280" height="86" rx="14" fill="#edf4ff" stroke="#b7cff5" stroke-width="1.3"/>
-<text x="500" y="295" class="action" text-anchor="middle" style="fill:#5c88cc">Skill 1 · Find &amp; verify wallets</text>
-<text x="500" y="327" class="skill" text-anchor="middle" style="fill:#5c88cc">alpha-seed-wallets</text>
-<rect x="980.0" y="268" width="280" height="86" rx="14" fill="#f4effc" stroke="#d3c2ee" stroke-width="1.3"/>
-<text x="1120" y="295" class="action" text-anchor="middle" style="fill:#9671be">Skill 2 · Investigate history</text>
-<text x="1120" y="327" class="skill" text-anchor="middle" style="fill:#9671be">wallet-alpha-investigation</text>
-<rect x="1640.0" y="268" width="260" height="86" rx="14" fill="#fff5e5" stroke="#ecd1a2" stroke-width="1.3"/>
-<text x="1770" y="295" class="action" text-anchor="middle" style="fill:#c19349">Skill 3 · Validate Alpha</text>
-<text x="1770" y="327" class="skill" text-anchor="middle" style="fill:#c19349">protocol-alpha-validation</text>
-<rect x="850" y="108" width="580" height="88" rx="16" fill="#edf6f0" stroke="#bad8c6" stroke-width="1.3"/>
-<text x="1140" y="141" class="action" text-anchor="middle" style="fill:#4d8064">Skill 4 · Coordinate the pipeline</text>
-<text x="1140" y="172" class="skill" text-anchor="middle" style="fill:#4d8064">protocol-alpha-discovery</text>
-<text x="2080" y="547" class="sub" text-anchor="middle">Mechanism · State · Costs</text>
-<rect x="1944" y="600" width="272" height="130" rx="14" fill="#edf6f0" stroke="#cce2d5" stroke-width="1.3"/>
-<text x="1968" y="650" class="node" text-anchor="start" style="fill:#4d8064">New Alpha</text>
-<text x="1968" y="686" class="sub" text-anchor="start">If validation supports it</text>
-<rect x="1944" y="840" width="272" height="155" rx="14" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="1968" y="885" class="node" text-anchor="start">Alpha Report</text>
-<text x="1968" y="921" class="sub" text-anchor="start">Evidence + next checks</text>
-<text x="1968" y="956" class="sub" text-anchor="start">For every candidate</text>
-<text x="1140" y="1114" class="caption" text-anchor="middle">Method illustration: two wallets per seed. USDD wallets and the auction candidate are illustrative, not recorded findings.</text>
+text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#24384d; }
+.title { font-size:32px; font-weight:700; letter-spacing:-.4px; }
+.heading { font-size:23px; font-weight:650; }
+.node { font-size:21px; font-weight:600; }
+.body { font-size:18px; fill:#647b90; }
+.small { font-size:16px; fill:#71869a; }
+.code { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; }
+.label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#8294a5; }
+</style>
+<rect x="0" y="0" width="2100" height="960" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
+<text x="40" y="55" class="title" text-anchor="start">From Seed Alpha to New Alpha</text>
+<text x="40" y="137" class="heading" text-anchor="start">01  ALPHA SEEDS</text>
+<text x="40" y="173" class="small" text-anchor="start">Known mechanisms to start from</text>
+<text x="570" y="137" class="heading" text-anchor="start">02  STRATEGY WALLETS</text>
+<text x="570" y="173" class="small" text-anchor="start">Verified executors to investigate</text>
+<text x="1110" y="137" class="heading" text-anchor="start">03  ALPHA CANDIDATES</text>
+<text x="1110" y="173" class="small" text-anchor="start">Hypotheses from wallet behavior</text>
+<text x="1700" y="137" class="heading" text-anchor="start">04  VALIDATION</text>
+<text x="1700" y="173" class="small" text-anchor="start">Mechanism · State · Costs</text>
+<path data-kind="seed-wallet" d="M 320 310 C 444.0 310 444.0 270 568 270" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 310 C 444.0 310 444.0 350 568 350" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 470 C 444.0 470 444.0 430 568 430" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 470 C 444.0 470 444.0 510 568 510" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 630 C 444.0 630 444.0 590 568 590" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 630 C 444.0 630 444.0 670 568 670" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="wallet-candidate" d="M 840 270 C 974.0 270 974.0 310 1108 310" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 350 C 974.0 350 974.0 310 1108 310" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 430 C 974.0 430 974.0 470 1108 470" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 510 C 974.0 510 974.0 470 1108 470" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 590 C 974.0 590 974.0 630 1108 630" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 670 C 974.0 670 974.0 630 1108 630" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="candidate-validation" d="M 1440 310 C 1565.0 310 1565.0 470 1690 470" stroke="#bd934f" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<path data-kind="candidate-validation" d="M 1440 470 C 1565.0 470 1565.0 470 1690 470" stroke="#bd934f" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<path data-kind="candidate-validation" d="M 1440 630 C 1565.0 630 1565.0 470 1690 470" stroke="#bd934f" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<rect x="40" y="249" width="280" height="122" rx="16" fill="#f7faff" stroke="#dce6f4" stroke-width="1.3"/>
+<text x="60" y="288" class="node" text-anchor="start">Energy Rental</text>
+<text x="60" y="321" class="small" text-anchor="start">Clear depleted rental orders,</text>
+<text x="60" y="346" class="small" text-anchor="start">recover resources and rewards.</text>
+<rect x="1110" y="249" width="330" height="122" rx="16" fill="#fcfaff" stroke="#e4dcef" stroke-width="1.3"/>
+<text x="1130" y="288" class="node" text-anchor="start">Rental sequence</text>
+<text x="1130" y="321" class="body" text-anchor="start">Bundled calls may lower</text>
+<text x="1130" y="346" class="body" text-anchor="start">execution costs.</text>
+<rect x="40" y="409" width="280" height="122" rx="16" fill="#f7faff" stroke="#dce6f4" stroke-width="1.3"/>
+<text x="60" y="448" class="node" text-anchor="start">JustLend</text>
+<text x="60" y="481" class="small" text-anchor="start">Repay undercollateralized loans</text>
+<text x="60" y="506" class="small" text-anchor="start">and receive seized collateral.</text>
+<rect x="1110" y="409" width="330" height="122" rx="16" fill="#fcfaff" stroke="#e4dcef" stroke-width="1.3"/>
+<text x="1130" y="448" class="node" text-anchor="start">Collateral recycling</text>
+<text x="1130" y="481" class="body" text-anchor="start">Redeem + swap may release</text>
+<text x="1130" y="506" class="body" text-anchor="start">capital sooner.</text>
+<rect x="40" y="569" width="280" height="122" rx="16" fill="#f7faff" stroke="#dce6f4" stroke-width="1.3"/>
+<text x="60" y="608" class="node" text-anchor="start">USDD</text>
+<text x="60" y="641" class="small" text-anchor="start">Trigger liquidation, restart auctions,</text>
+<text x="60" y="666" class="small" text-anchor="start">or purchase auction collateral.</text>
+<rect x="1110" y="569" width="330" height="122" rx="16" fill="#fcfaff" stroke="#e4dcef" stroke-width="1.3"/>
+<text x="1130" y="608" class="node" text-anchor="start">Auction timing</text>
+<text x="1130" y="641" class="body" text-anchor="start">Temporary discounts may justify</text>
+<text x="1130" y="666" class="body" text-anchor="start">a closer look at execution costs.</text>
+<rect x="570" y="239" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="267" class="node" text-anchor="start">Wallet A</text>
+<text x="590" y="291" class="small" text-anchor="start">Rental liquidations</text>
+<rect x="570" y="319" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="347" class="node" text-anchor="start">Wallet B</text>
+<text x="590" y="371" class="small" text-anchor="start">Resource bundling</text>
+<rect x="570" y="399" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="427" class="node" text-anchor="start">Wallet C</text>
+<text x="590" y="451" class="small" text-anchor="start">Lending liquidations</text>
+<rect x="570" y="479" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="507" class="node" text-anchor="start">Wallet D</text>
+<text x="590" y="531" class="small" text-anchor="start">Collateral redemption</text>
+<rect x="570" y="559" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="587" class="node" text-anchor="start">Wallet E</text>
+<text x="590" y="611" class="small" text-anchor="start">Keeper actions</text>
+<rect x="570" y="639" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="667" class="node" text-anchor="start">Wallet F</text>
+<text x="590" y="691" class="small" text-anchor="start">Auction purchases</text>
+<rect x="1700" y="249" width="360" height="452" rx="16" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
+<rect x="1720" y="291" width="320" height="126" rx="16" fill="#edf6f0" stroke="#c5ddce" stroke-width="1.3"/>
+<text x="1744" y="340" class="node" text-anchor="start" style="fill:#58826b">New Alpha</text>
+<text x="1744" y="376" class="body" text-anchor="start">Only if validation supports it</text>
+<path d="M 1724 462 L 2036 462" stroke="#e8eef4" fill="none"/>
+<text x="1744" y="538" class="node" text-anchor="start">Alpha Report</text>
+<text x="1744" y="577" class="body" text-anchor="start">Evidence + next checks</text>
+<text x="1744" y="610" class="small" text-anchor="start">For every candidate</text>
+<text x="1744" y="649" class="label" text-anchor="start">Actionable · Monitor</text>
+<text x="1744" y="673" class="label" text-anchor="start">Rejected · Insufficient Evidence</text>
+<path d="M 40 751 L 2060 751" stroke="#e8eef4" fill="none"/>
+<rect x="40" y="786" width="475" height="92" rx="14" fill="#edf4ff" stroke="#bfd3f2" stroke-width="1.3"/>
+<text x="62" y="823" class="node" text-anchor="start" style="fill:#6088c5">Skill 1 · Find &amp; verify wallets</text>
+<text x="62" y="854" class="code" text-anchor="start" style="fill:#6088c5">alpha-seed-wallets</text>
+<rect x="555" y="786" width="475" height="92" rx="14" fill="#f4effc" stroke="#d8caec" stroke-width="1.3"/>
+<text x="577" y="823" class="node" text-anchor="start" style="fill:#9774b9">Skill 2 · Investigate history</text>
+<text x="577" y="854" class="code" text-anchor="start" style="fill:#9774b9">wallet-alpha-investigation</text>
+<rect x="1070" y="786" width="475" height="92" rx="14" fill="#fff5e6" stroke="#ecd8b5" stroke-width="1.3"/>
+<text x="1092" y="823" class="node" text-anchor="start" style="fill:#bd934f">Skill 3 · Validate candidates</text>
+<text x="1092" y="854" class="code" text-anchor="start" style="fill:#bd934f">protocol-alpha-validation</text>
+<rect x="1585" y="786" width="475" height="92" rx="14" fill="#edf6f0" stroke="#c5ddce" stroke-width="1.3"/>
+<text x="1607" y="823" class="node" text-anchor="start" style="fill:#58826b">Skill 4 · Coordinate Skills 1–3</text>
+<text x="1607" y="854" class="code" text-anchor="start" style="fill:#58826b">protocol-alpha-discovery</text>
+<text x="1050" y="924" class="small" text-anchor="middle">Method illustration · Two wallets per seed · USDD wallets and auction hypothesis are illustrative, not recorded findings.</text>
 </svg>

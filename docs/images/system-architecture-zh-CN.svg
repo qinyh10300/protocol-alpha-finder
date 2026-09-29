@@ -1,130 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2280" height="1140" viewBox="0 0 2280 1140" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
-<title id="title">从三个 Alpha Seed 发现新的 Alpha</title><desc id="desc">Skill 1 通过六条箭头从三个 Alpha Seed 各找到两个示意钱包，Skill 2 研究六个钱包形成三类候选机制，Skill 3 核验机制与当前条件并输出报告及有条件的新 Alpha，Skill 4 协调全流程。阶段编号与 Skill 编号分别标注。</desc><defs>
-<marker id="arrow-0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#5c88cc"/></marker>
-<marker id="arrow-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#9671be"/></marker>
-<marker id="arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#c19349"/></marker>
-<marker id="arrow-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#4d8064"/></marker>
+<svg xmlns="http://www.w3.org/2000/svg" width="2100" height="960" viewBox="0 0 2100 960" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
+<title id="title">从 Seed Alpha 发现新的 Alpha</title><desc id="desc">方法示意 · 每个 Seed 展开两个钱包 · USDD 钱包与拍卖假设属于示例，不是本次留档发现。</desc><defs>
+<marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#6088c5"/></marker>
+<marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#9774b9"/></marker>
+<marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#bd934f"/></marker>
+<marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#58826b"/></marker>
 </defs><style>
-text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #23374c; }
-.heading { font-size: 34px; font-weight: 700; }
-.section { font-size: 22px; font-weight: 650; }
-.node { font-size: 22px; font-weight: 600; }
-.sub { font-size: 17px; fill: #647b91; }
-.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 15px; }
-.action { font-size: 19px; font-weight: 600; }
-.number { font-size: 17px; font-weight: 700; fill: #748a9e; }
-.caption { font-size: 17px; fill: #7c8d9e; }
-</style><rect width="2280" height="1140" fill="#ffffff"/>
-<text x="40" y="54" class="heading" text-anchor="start">从三个 Alpha Seed 发现新的 Alpha</text>
-<path data-kind="orchestration" d="M 1140 197 C 1140 238 500 220 500 266" fill="none" stroke="#4d8064" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.5" marker-end="url(#arrow-3)"/>
-<path data-kind="orchestration" d="M 1140 197 C 1140 238 1120 220 1120 266" fill="none" stroke="#4d8064" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.5" marker-end="url(#arrow-3)"/>
-<path data-kind="orchestration" d="M 1140 197 C 1140 238 1770 220 1770 266" fill="none" stroke="#4d8064" stroke-width="1.6" stroke-dasharray="4 7" opacity="0.5" marker-end="url(#arrow-3)"/>
-<rect x="40" y="360" width="300" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="64" y="403" class="number" text-anchor="start">01</text>
-<text x="102" y="403" class="section" text-anchor="start">Alpha Seed</text>
-<text x="64" y="439" class="sub" text-anchor="start">从三个已知协议机制出发，</text>
-<text x="64" y="463" class="sub" text-anchor="start">寻找真实执行过它们的钱包。</text>
-<path d="M 64 506 H 316" stroke="#e5ebf2"/>
-<rect x="660" y="360" width="300" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="684" y="403" class="number" text-anchor="start">02</text>
-<text x="722" y="403" class="section" text-anchor="start">策略钱包</text>
-<text x="684" y="439" class="sub" text-anchor="start">以已核验的执行行为为依据，</text>
-<text x="684" y="463" class="sub" text-anchor="start">筛选值得进一步研究的钱包。</text>
-<path d="M 684 506 H 936" stroke="#e5ebf2"/>
-<rect x="1280" y="360" width="340" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1304" y="403" class="number" text-anchor="start">03</text>
-<text x="1342" y="403" class="section" text-anchor="start">Alpha 候选</text>
-<text x="1304" y="439" class="sub" text-anchor="start">从重复的钱包行为形成假设，</text>
-<text x="1304" y="463" class="sub" text-anchor="start">再用交易证据逐项检验。</text>
-<path d="M 1304 506 H 1596" stroke="#e5ebf2"/>
-<rect x="1920" y="360" width="320" height="710" rx="18" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
-<text x="1944" y="403" class="number" text-anchor="start">04</text>
-<text x="1982" y="403" class="section" text-anchor="start">Validation · 验证结果</text>
-<text x="1944" y="439" class="sub" text-anchor="start">核验机制与当前执行条件，</text>
-<text x="1944" y="463" class="sub" text-anchor="start">再判断能否形成新的 Alpha。</text>
-<path d="M 1944 506 H 2216" stroke="#e5ebf2"/>
-<path data-kind="seed-wallet" d="M 320 595 C 491.84000000000003 595 506.15999999999997 550 678 550" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 595 C 491.84000000000003 595 506.15999999999997 640 678 640" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 775 C 491.84000000000003 775 506.15999999999997 730 678 730" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 775 C 491.84000000000003 775 506.15999999999997 820 678 820" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 955 C 491.84000000000003 955 506.15999999999997 910 678 910" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="seed-wallet" d="M 320 955 C 491.84000000000003 955 506.15999999999997 1000 678 1000" fill="none" stroke="#5c88cc" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-0)"/>
-<path data-kind="wallet-candidate" d="M 940 550 C 1111.84 550 1126.16 595 1298 595" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 640 C 1111.84 640 1126.16 595 1298 595" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 730 C 1111.84 730 1126.16 775 1298 775" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 820 C 1111.84 820 1126.16 775 1298 775" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 910 C 1111.84 910 1126.16 955 1298 955" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="wallet-candidate" d="M 940 1000 C 1111.84 1000 1126.16 955 1298 955" fill="none" stroke="#9671be" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-1)"/>
-<path data-kind="candidate-validation" d="M 1600 595 C 1748.8 595 1761.2 775 1910 775" fill="none" stroke="#c19349" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-2)"/>
-<path data-kind="candidate-validation" d="M 1600 775 C 1748.8 775 1761.2 775 1910 775" fill="none" stroke="#c19349" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-2)"/>
-<path data-kind="candidate-validation" d="M 1600 955 C 1748.8 955 1761.2 775 1910 775" fill="none" stroke="#c19349" stroke-width="3.2" stroke-linecap="round" marker-end="url(#arrow-2)"/>
-<rect x="60" y="522" width="260" height="146" rx="13" fill="#f5f9ff" stroke="#d7e5f7" stroke-width="1.3"/>
-<text x="80" y="559" class="node" text-anchor="start">Energy Rental</text>
-<text x="80" y="590" class="sub" text-anchor="start">清算保证金不足的订单，</text>
-<text x="80" y="615" class="sub" text-anchor="start">回收资源，</text>
-<text x="80" y="640" class="sub" text-anchor="start">并获得协议奖励。</text>
-<rect x="1300" y="522" width="300" height="146" rx="13" fill="#faf7ff" stroke="#e2d9f0" stroke-width="1.3"/>
-<text x="1320" y="559" class="node" text-anchor="start">租赁组合操作</text>
-<text x="1320" y="590" class="sub" text-anchor="start">在同一交易中组合租赁与清算，</text>
-<text x="1320" y="615" class="sub" text-anchor="start">可能降低</text>
-<text x="1320" y="640" class="sub" text-anchor="start">整体执行成本。</text>
-<rect x="60" y="702" width="260" height="146" rx="13" fill="#f5f9ff" stroke="#d7e5f7" stroke-width="1.3"/>
-<text x="80" y="739" class="node" text-anchor="start">JustLend</text>
-<text x="80" y="770" class="sub" text-anchor="start">偿还抵押不足头寸的债务，</text>
-<text x="80" y="795" class="sub" text-anchor="start">通过协议清算，</text>
-<text x="80" y="820" class="sub" text-anchor="start">获得被清算的抵押品。</text>
-<rect x="1300" y="702" width="300" height="146" rx="13" fill="#faf7ff" stroke="#e2d9f0" stroke-width="1.3"/>
-<text x="1320" y="739" class="node" text-anchor="start">抵押品回收</text>
-<text x="1320" y="770" class="sub" text-anchor="start">清算后赎回并兑换抵押品，</text>
-<text x="1320" y="795" class="sub" text-anchor="start">可能更快地</text>
-<text x="1320" y="820" class="sub" text-anchor="start">回收占用资金。</text>
-<rect x="60" y="882" width="260" height="146" rx="13" fill="#f5f9ff" stroke="#d7e5f7" stroke-width="1.3"/>
-<text x="80" y="919" class="node" text-anchor="start">USDD</text>
-<text x="80" y="950" class="sub" text-anchor="start">触发清算、重启拍卖，</text>
-<text x="80" y="975" class="sub" text-anchor="start">或通过 keeper 操作</text>
-<text x="80" y="1000" class="sub" text-anchor="start">购买抵押品。</text>
-<rect x="1300" y="882" width="300" height="146" rx="13" fill="#faf7ff" stroke="#e2d9f0" stroke-width="1.3"/>
-<text x="1320" y="919" class="node" text-anchor="start">拍卖时机</text>
-<text x="1320" y="950" class="sub" text-anchor="start">拍卖重启可能出现短暂折价，</text>
-<text x="1320" y="975" class="sub" text-anchor="start">需要结合执行成本</text>
-<text x="1320" y="1000" class="sub" text-anchor="start">验证是否成立。</text>
-<rect x="680" y="516" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="546" class="node" text-anchor="start">钱包 A</text>
-<text x="700" y="571" class="sub" text-anchor="start">租赁清算</text>
-<rect x="680" y="606" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="636" class="node" text-anchor="start">钱包 B</text>
-<text x="700" y="661" class="sub" text-anchor="start">资源组合操作</text>
-<rect x="680" y="696" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="726" class="node" text-anchor="start">钱包 C</text>
-<text x="700" y="751" class="sub" text-anchor="start">借贷清算</text>
-<rect x="680" y="786" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="816" class="node" text-anchor="start">钱包 D</text>
-<text x="700" y="841" class="sub" text-anchor="start">抵押品赎回</text>
-<rect x="680" y="876" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="906" class="node" text-anchor="start">钱包 E</text>
-<text x="700" y="931" class="sub" text-anchor="start">Keeper 操作</text>
-<rect x="680" y="966" width="260" height="68" rx="12" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="700" y="996" class="node" text-anchor="start">钱包 F</text>
-<text x="700" y="1021" class="sub" text-anchor="start">拍卖购买</text>
-<rect x="360.0" y="268" width="280" height="86" rx="14" fill="#edf4ff" stroke="#b7cff5" stroke-width="1.3"/>
-<text x="500" y="295" class="action" text-anchor="middle" style="fill:#5c88cc">Skill 1 · 发现并核验钱包</text>
-<text x="500" y="327" class="skill" text-anchor="middle" style="fill:#5c88cc">alpha-seed-wallets</text>
-<rect x="980.0" y="268" width="280" height="86" rx="14" fill="#f4effc" stroke="#d3c2ee" stroke-width="1.3"/>
-<text x="1120" y="295" class="action" text-anchor="middle" style="fill:#9671be">Skill 2 · 研究钱包历史</text>
-<text x="1120" y="327" class="skill" text-anchor="middle" style="fill:#9671be">wallet-alpha-investigation</text>
-<rect x="1640.0" y="268" width="260" height="86" rx="14" fill="#fff5e5" stroke="#ecd1a2" stroke-width="1.3"/>
-<text x="1770" y="295" class="action" text-anchor="middle" style="fill:#c19349">Skill 3 · 验证候选</text>
-<text x="1770" y="327" class="skill" text-anchor="middle" style="fill:#c19349">protocol-alpha-validation</text>
-<rect x="850" y="108" width="580" height="88" rx="16" fill="#edf6f0" stroke="#bad8c6" stroke-width="1.3"/>
-<text x="1140" y="141" class="action" text-anchor="middle" style="fill:#4d8064">Skill 4 · 协调整条研究流程</text>
-<text x="1140" y="172" class="skill" text-anchor="middle" style="fill:#4d8064">protocol-alpha-discovery</text>
-<text x="2080" y="547" class="sub" text-anchor="middle">机制 · 当前状态 · 成本</text>
-<rect x="1944" y="600" width="272" height="130" rx="14" fill="#edf6f0" stroke="#cce2d5" stroke-width="1.3"/>
-<text x="1968" y="650" class="node" text-anchor="start" style="fill:#4d8064">新的 Alpha</text>
-<text x="1968" y="686" class="sub" text-anchor="start">验证支持后产出</text>
-<rect x="1944" y="840" width="272" height="155" rx="14" fill="#ffffff" stroke="#e0e7ef" stroke-width="1.3"/>
-<text x="1968" y="885" class="node" text-anchor="start">Alpha 报告</text>
-<text x="1968" y="921" class="sub" text-anchor="start">证据与后续检查</text>
-<text x="1968" y="956" class="sub" text-anchor="start">每个候选均有报告</text>
-<text x="1140" y="1114" class="caption" text-anchor="middle">方法示意：每个 Seed 展开两个钱包。USDD 钱包与拍卖候选是流程示例，不是本次留档发现。</text>
+text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#24384d; }
+.title { font-size:32px; font-weight:700; letter-spacing:-.4px; }
+.heading { font-size:23px; font-weight:650; }
+.node { font-size:21px; font-weight:600; }
+.body { font-size:18px; fill:#647b90; }
+.small { font-size:16px; fill:#71869a; }
+.code { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; }
+.label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#8294a5; }
+</style>
+<rect x="0" y="0" width="2100" height="960" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
+<text x="40" y="55" class="title" text-anchor="start">从 Seed Alpha 发现新的 Alpha</text>
+<text x="40" y="137" class="heading" text-anchor="start">01  ALPHA SEED</text>
+<text x="40" y="173" class="small" text-anchor="start">从已知协议机制出发</text>
+<text x="570" y="137" class="heading" text-anchor="start">02  策略钱包</text>
+<text x="570" y="173" class="small" text-anchor="start">寻找值得研究的真实执行者</text>
+<text x="1110" y="137" class="heading" text-anchor="start">03  ALPHA 候选</text>
+<text x="1110" y="173" class="small" text-anchor="start">从钱包行为形成候选假设</text>
+<text x="1700" y="137" class="heading" text-anchor="start">04  VALIDATION 验证</text>
+<text x="1700" y="173" class="small" text-anchor="start">机制 · 当前状态 · 成本</text>
+<path data-kind="seed-wallet" d="M 320 310 C 444.0 310 444.0 270 568 270" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 310 C 444.0 310 444.0 350 568 350" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 470 C 444.0 470 444.0 430 568 430" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 470 C 444.0 470 444.0 510 568 510" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 630 C 444.0 630 444.0 590 568 590" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 320 630 C 444.0 630 444.0 670 568 670" stroke="#6088c5" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="wallet-candidate" d="M 840 270 C 974.0 270 974.0 310 1108 310" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 350 C 974.0 350 974.0 310 1108 310" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 430 C 974.0 430 974.0 470 1108 470" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 510 C 974.0 510 974.0 470 1108 470" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 590 C 974.0 590 974.0 630 1108 630" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="wallet-candidate" d="M 840 670 C 974.0 670 974.0 630 1108 630" stroke="#9774b9" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="candidate-validation" d="M 1440 310 C 1565.0 310 1565.0 470 1690 470" stroke="#bd934f" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<path data-kind="candidate-validation" d="M 1440 470 C 1565.0 470 1565.0 470 1690 470" stroke="#bd934f" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<path data-kind="candidate-validation" d="M 1440 630 C 1565.0 630 1565.0 470 1690 470" stroke="#bd934f" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<rect x="40" y="249" width="280" height="122" rx="16" fill="#f7faff" stroke="#dce6f4" stroke-width="1.3"/>
+<text x="60" y="288" class="node" text-anchor="start">Energy Rental</text>
+<text x="60" y="321" class="small" text-anchor="start">清算保证金不足的租赁订单，</text>
+<text x="60" y="346" class="small" text-anchor="start">回收资源并获得奖励。</text>
+<rect x="1110" y="249" width="330" height="122" rx="16" fill="#fcfaff" stroke="#e4dcef" stroke-width="1.3"/>
+<text x="1130" y="288" class="node" text-anchor="start">租赁组合操作</text>
+<text x="1130" y="321" class="body" text-anchor="start">合并调用可能降低</text>
+<text x="1130" y="346" class="body" text-anchor="start">整体执行成本。</text>
+<rect x="40" y="409" width="280" height="122" rx="16" fill="#f7faff" stroke="#dce6f4" stroke-width="1.3"/>
+<text x="60" y="448" class="node" text-anchor="start">JustLend</text>
+<text x="60" y="481" class="small" text-anchor="start">偿还抵押不足头寸的债务，</text>
+<text x="60" y="506" class="small" text-anchor="start">获得被清算的抵押品。</text>
+<rect x="1110" y="409" width="330" height="122" rx="16" fill="#fcfaff" stroke="#e4dcef" stroke-width="1.3"/>
+<text x="1130" y="448" class="node" text-anchor="start">抵押品回收</text>
+<text x="1130" y="481" class="body" text-anchor="start">赎回并兑换可能更快</text>
+<text x="1130" y="506" class="body" text-anchor="start">释放占用资金。</text>
+<rect x="40" y="569" width="280" height="122" rx="16" fill="#f7faff" stroke="#dce6f4" stroke-width="1.3"/>
+<text x="60" y="608" class="node" text-anchor="start">USDD</text>
+<text x="60" y="641" class="small" text-anchor="start">触发清算、重启拍卖，</text>
+<text x="60" y="666" class="small" text-anchor="start">或购买拍卖中的抵押品。</text>
+<rect x="1110" y="569" width="330" height="122" rx="16" fill="#fcfaff" stroke="#e4dcef" stroke-width="1.3"/>
+<text x="1130" y="608" class="node" text-anchor="start">拍卖时机</text>
+<text x="1130" y="641" class="body" text-anchor="start">短暂折价可能带来机会，</text>
+<text x="1130" y="666" class="body" text-anchor="start">需要结合执行成本验证。</text>
+<rect x="570" y="239" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="267" class="node" text-anchor="start">钱包 A</text>
+<text x="590" y="291" class="small" text-anchor="start">租赁清算</text>
+<rect x="570" y="319" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="347" class="node" text-anchor="start">钱包 B</text>
+<text x="590" y="371" class="small" text-anchor="start">资源组合操作</text>
+<rect x="570" y="399" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="427" class="node" text-anchor="start">钱包 C</text>
+<text x="590" y="451" class="small" text-anchor="start">借贷清算</text>
+<rect x="570" y="479" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="507" class="node" text-anchor="start">钱包 D</text>
+<text x="590" y="531" class="small" text-anchor="start">抵押品赎回</text>
+<rect x="570" y="559" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="587" class="node" text-anchor="start">钱包 E</text>
+<text x="590" y="611" class="small" text-anchor="start">Keeper 操作</text>
+<rect x="570" y="639" width="270" height="62" rx="16" fill="#ffffff" stroke="#dce5ef" stroke-width="1.3"/>
+<text x="590" y="667" class="node" text-anchor="start">钱包 F</text>
+<text x="590" y="691" class="small" text-anchor="start">拍卖购买</text>
+<rect x="1700" y="249" width="360" height="452" rx="16" fill="#fbfcfe" stroke="#dce5ef" stroke-width="1.3"/>
+<rect x="1720" y="291" width="320" height="126" rx="16" fill="#edf6f0" stroke="#c5ddce" stroke-width="1.3"/>
+<text x="1744" y="340" class="node" text-anchor="start" style="fill:#58826b">新的 Alpha</text>
+<text x="1744" y="376" class="body" text-anchor="start">验证支持后产出</text>
+<path d="M 1724 462 L 2036 462" stroke="#e8eef4" fill="none"/>
+<text x="1744" y="538" class="node" text-anchor="start">Alpha 报告</text>
+<text x="1744" y="577" class="body" text-anchor="start">证据与后续检查</text>
+<text x="1744" y="610" class="small" text-anchor="start">每个候选均有报告</text>
+<text x="1744" y="649" class="label" text-anchor="start">可执行 · 持续观察</text>
+<text x="1744" y="673" class="label" text-anchor="start">已排除 · 证据不足</text>
+<path d="M 40 751 L 2060 751" stroke="#e8eef4" fill="none"/>
+<rect x="40" y="786" width="475" height="92" rx="14" fill="#edf4ff" stroke="#bfd3f2" stroke-width="1.3"/>
+<text x="62" y="823" class="node" text-anchor="start" style="fill:#6088c5">Skill 1 · 发现并核验钱包</text>
+<text x="62" y="854" class="code" text-anchor="start" style="fill:#6088c5">alpha-seed-wallets</text>
+<rect x="555" y="786" width="475" height="92" rx="14" fill="#f4effc" stroke="#d8caec" stroke-width="1.3"/>
+<text x="577" y="823" class="node" text-anchor="start" style="fill:#9774b9">Skill 2 · 研究钱包历史</text>
+<text x="577" y="854" class="code" text-anchor="start" style="fill:#9774b9">wallet-alpha-investigation</text>
+<rect x="1070" y="786" width="475" height="92" rx="14" fill="#fff5e6" stroke="#ecd8b5" stroke-width="1.3"/>
+<text x="1092" y="823" class="node" text-anchor="start" style="fill:#bd934f">Skill 3 · 验证候选</text>
+<text x="1092" y="854" class="code" text-anchor="start" style="fill:#bd934f">protocol-alpha-validation</text>
+<rect x="1585" y="786" width="475" height="92" rx="14" fill="#edf6f0" stroke="#c5ddce" stroke-width="1.3"/>
+<text x="1607" y="823" class="node" text-anchor="start" style="fill:#58826b">Skill 4 · 协调 Skill 1–3</text>
+<text x="1607" y="854" class="code" text-anchor="start" style="fill:#58826b">protocol-alpha-discovery</text>
+<text x="1050" y="924" class="small" text-anchor="middle">方法示意 · 每个 Seed 展开两个钱包 · USDD 钱包与拍卖假设属于示例，不是本次留档发现。</text>
 </svg>

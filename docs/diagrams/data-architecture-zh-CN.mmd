@@ -1,0 +1,19 @@
+flowchart LR
+    subgraph SQLITE["01  采集数据存储"]
+        ITEMS["items<br/>PK stream + item_id<br/>timestamp · payload · first_run · last_run"]
+        COVERAGE["coverage<br/>PK run + stream + start_ms + end_ms<br/>status · pages · rows · new_rows · detail"]
+        CHECKPOINTS["checkpoints<br/>PK stream · through_ms"]
+        RAW["证据文件<br/>runs/ · evidence/ · contracts/"]
+        ITEMS -. stream .-> CHECKPOINTS
+    end
+    subgraph JSON["02  研究记录 · JSON"]
+        W["策略钱包<br/>address · seed_ids[] · evidence[]"]
+        C["Alpha 候选<br/>candidate_id · originating_wallet<br/>mechanism_hypothesis · source_transactions[]"]
+        V["验证结果<br/>candidate_id · mechanism_assessment<br/>current_state · run.input_hash"]
+        R["研究运行记录<br/>run · provenance · stopping_reason · next_checks"]
+        W -->|address| C
+        C -->|candidate_id| V
+        V -->|汇总结论| R
+    end
+    SQLITE -->|Skills| JSON
+    JSON --> SNAPSHOT["03  前端快照与 ALPHA 报告<br/>运行 · 入口 · 钱包 · 候选 · 报告 · 活动"]

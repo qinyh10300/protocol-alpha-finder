@@ -8,7 +8,7 @@
 
 ## 如何阅读流程图
 
-四个阶段依次为 **01 入口 → 02 钱包 → 03 候选 → 04 Validation 验证结果**。每个 Seed 用两条独立箭头连接一对钱包，每组箭头仅标注一次对应的 Skill；Skill 4 协调其余三个 Skill。
+四个阶段依次为 **01 入口 → 02 钱包 → 03 候选 → 04 Validation 验证结果**。每个 Seed 用两条独立箭头连接一对钱包，所有 Skill 标签统一放在流程下方。蓝、紫、橙分别对应三组箭头；绿色的 Skill 4 协调其余三个 Skill。
 
 | Seed | 示意钱包 | 候选假设 |
 | --- | --- | --- |
@@ -55,3 +55,7 @@
 ```bash
 python3 docs/diagrams/render_architecture.py
 ```
+
+## 研究数据
+
+[数据库与研究数据图](DATA_ARCHITECTURE.zh-CN.md)说明 SQLite 表、JSON 交接文件和报告的关系。

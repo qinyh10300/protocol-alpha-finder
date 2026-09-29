@@ -8,7 +8,7 @@
 
 ## Reading the diagram
 
-The four stages are **01 Seeds → 02 Wallets → 03 Candidates → 04 Validation Outcomes**. Each seed has two independent arrows to a pair of wallets. Each transition displays its Skill label once; Skill 4 coordinates the other three Skills.
+The four stages are **01 Seeds → 02 Wallets → 03 Candidates → 04 Validation Outcomes**. Each seed has two independent arrows to a pair of wallets. All Skill labels sit below the flow. Blue, purple, and amber match the three groups of arrows; green marks Skill 4, which coordinates the other three Skills.
 
 | Seed | Illustrative wallets | Candidate hypothesis |
 | --- | --- | --- |
@@ -45,6 +45,10 @@ Set the chain, time window, and research limits. Coordinate wallet discovery, in
 ## When the loop continues
 
 Only an established mechanism may become a new Seed Alpha, within the research scope and with its current limitations preserved. A plausible hypothesis is insufficient. The saved run has not promoted a candidate to a new seed.
+
+## Research data
+
+See the [database and research data diagram](DATA_ARCHITECTURE.md) for SQLite tables, JSON handoffs, and report assembly.
 
 ## Sources
 
