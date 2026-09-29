@@ -1,101 +1,190 @@
-# Protocol Alpha Finder
+<p align="center">
+  <img src="docs/images/workspace-en.png" alt="Protocol Alpha Finder research workspace with real saved Skill results" width="100%">
+</p>
 
-基于已知 **Protocol Alpha** 的策略发现项目。从协议机制找到实际执行者，再研究这些 **Strategy Wallets** 的历史，提出新的策略假设，并验证机制、当前状态和执行条件。
+<h1 align="center">Protocol Alpha Finder</h1>
 
-> **Alpha finds Wallets. Wallets find more Alpha.**
+<p align="center">
+  <strong>Alpha finds Wallets. Wallets find more Alpha.</strong><br>
+  Discover protocol opportunities through the wallets that executed known mechanisms.
+</p>
 
-当前版本包含 React + TypeScript 研究前端、4 个 Agent Skills、独立合成 Demo、原始 TRON Pitch Deck，以及 Energy Rental 真实链上采集脚本。前端通过本地 API 读取四个 Skill 的真实运行产物，呈现钱包调查、候选与研究报告；实时 Agent 调度仍需后续接入。
+<p align="center">
+  <img src="https://img.shields.io/badge/status-research_prototype-3979ed?style=flat-square" alt="Research prototype">
+  <img src="https://img.shields.io/badge/ecosystem-TRON-eb3747?style=flat-square" alt="TRON ecosystem">
+  <img src="https://img.shields.io/badge/React-19-149eca?style=flat-square" alt="React 19">
+  <img src="https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square" alt="TypeScript 5">
+  <img src="https://img.shields.io/badge/Python-local_API-3776ab?style=flat-square" alt="Python local API">
+  <img src="https://img.shields.io/badge/Agent_Skills-4-8054db?style=flat-square" alt="Four Agent Skills">
+</p>
 
-## 功能
+<p align="center">
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="#pitch-deck">Pitch Deck</a> ·
+  <a href="https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html">Live Demo</a> ·
+  <a href="#system-architecture">Architecture</a> ·
+  <a href="#product-experience">Product</a> ·
+  <a href="#quick-start">Quick Start</a>
+</p>
 
-- **Seed 驱动研究**：默认从 Energy Rental 清算、JustLend 借贷清算、USDD keeper／拍卖三个入口寻找策略钱包，跨入口去重并保留证据，再研究钱包历史中的新候选。
-- **研究工作台**：Wallet Investigations → Alpha Candidates → Alpha Reports，支持三个 Seed 筛选、证据抽屉和独立报告页。
-- **可复用 Skills**：将研究编排、执行者定位、开放式发现和验证拆分成独立工作流。
-- **证据边界明确**：真实留档的 5 条候选保留原始 `UNCERTAIN` 状态，生成 3 份 Monitor 与 2 份 Insufficient Evidence 报告，并列出映射依据和补证条件。
+## Pitch Deck
 
-## Demo
+**[Download the TRON Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · [Slide guide and implementation notes](pitch-deck/README.md) · [Bilingual pitch guide](docs/Protocol_Alpha_Finder_Pitch_Guide_v2_Bilingual.md)
 
-[前端代码与运行方式](frontend/README.md) · [演示脚本](demo/README.md) · [示例数据](demo/scenarios.json)
+The 11-slide deck introduces the research problem, the Alpha–Wallet discovery loop, TRON seeds, Agent reasoning, and the long-term Protocol Alpha Graph. The system diagram below expands that story into the current implementation, including the four Skills, evidence handoffs, local API, and research workspace.
+
+> [!NOTE]
+> This is a local research prototype. The screenshots show the saved research run validated on **29 September 2026**. Its five candidates retain the original `UNCERTAIN` opportunity status. The original deck includes planned capabilities; the [pitch notes](pitch-deck/README.md) explain how they relate to the current code.
+
+## What is Protocol Alpha Finder?
+
+Protocol Alpha comes from protocol rules and smart-contract execution: liquidation incentives, keeper actions, or a less obvious sequence of contract calls. A known mechanism gives the research a starting point: identify its actual executors, then investigate what else those wallets have done.
+
+A host Agent uses four reusable Skills to turn wallet history into candidate hypotheses and evidence-based assessments. Each wallet is an independent research job. Each candidate can produce a report, including when the evidence supports continued observation or further investigation.
+
+The product focuses on **Wallet Investigations → Alpha Candidates → Alpha Reports**. Transaction counts communicate evidence volume; reports explain the mechanism, historical observations, current conditions, and remaining checks.
+
+## Product at a glance
+
+- **Three TRON discovery seeds:** Energy Rental liquidation, JustLend lending liquidation, and USDD keeper / auction actions.
+- **Independent wallet jobs:** History → Analyze → Search Alpha, with source evidence and coverage attached to each wallet.
+- **Open-ended candidate research:** investigate broader wallet activity, including mechanisms outside the original seed.
+- **Reports for every outcome:** `ACTIONABLE`, `MONITOR`, `REJECTED`, and `INSUFFICIENT_EVIDENCE`.
+- **English by default:** switch to Chinese in the header. The choice persists across pages, reloads, Demo playback, and report exports.
+- **Evidence on demand:** wallet and candidate drawers, four-Skill activity, original artifact links, and Markdown report export.
+
+## Product experience
+
+| Stage | What the user sees | Evidence behind it |
+| --- | --- | --- |
+| Select a seed | Research scope and wallet / candidate / report counts | Per-seed coverage, verified executors, missing inputs |
+| Investigate wallets | Each wallet's history, analysis, and discovery progress | Bounded history, transaction counts, source membership |
+| Review candidates | Hypotheses with source wallets and reconciled samples | Cross-transaction observations and alternative explanations |
+| Read a report | Mechanism, historical evidence, current state, execution conditions | Validation handoffs, ledgers, state reads, evidence gaps |
+| Continue research | Save, export, or add a report to a local watchlist | Next checks recorded for the next research pass |
+
+![A report showing its evidence, current-state limitations, and review outcome](docs/images/report-en.png)
+
+Saved reports and watchlists live in the current browser. Refreshing results reloads saved research files. Automatic watchlist checks and backend Skill execution are planned.
+
+## System architecture
+
+![Protocol Alpha Finder system architecture](docs/images/system-architecture-en.svg)
+
+[Architecture details](docs/ARCHITECTURE.md) · [Editable Mermaid source](docs/diagrams/system-architecture-en.mmd) · [Chinese diagram](docs/images/system-architecture-zh-CN.svg)
+
+| Layer | Responsibility | Current implementation |
+| --- | --- | --- |
+| Evidence | Collect provider responses, receipts, histories, and contract materials | Energy Rental Python collector; host tools or supplied evidence for other seeds |
+| Research orchestration | Set scope, coordinate stages, retain gaps and stopping conditions | `protocol-alpha-discovery`, executed by the host Agent |
+| Wallet discovery | Verify executors, merge wallet identities, preserve seed provenance | `alpha-seed-wallets` |
+| Investigation and validation | Form hypotheses and assess mechanism, history, current state, and execution conditions | `wallet-alpha-investigation` + `protocol-alpha-validation` |
+| Saved research | Preserve source references and stage handoffs | Local JSON / Markdown under Git-ignored `data/` |
+| Application | Check handoff consistency and expose research views | Python adapter and local HTTP API |
+| Experience | Display jobs, candidates, reports, and supporting activity | React 19 + TypeScript + Vite; English / Chinese |
+
+The Agent supplies interpretation and hypotheses. Evidence and deterministic checks support the assessment. The adapter verifies candidate, wallet, transaction, and input-hash consistency before displaying saved validation. General profit accounting and integrated Agent scheduling remain on the roadmap.
+
+### Four Skills, one research workflow
+
+| Skill | Output handed to the next stage |
+| --- | --- |
+| [`protocol-alpha-discovery`](skills/protocol-alpha-discovery/SKILL.md) | Research scope, stage coordination, final record, stopping reason |
+| [`alpha-seed-wallets`](skills/alpha-seed-wallets/SKILL.md) | Deduplicated strategy wallets, per-seed coverage, executor evidence |
+| [`wallet-alpha-investigation`](skills/wallet-alpha-investigation/SKILL.md) | Candidate IDs, source transactions, hypotheses, alternative explanations |
+| [`protocol-alpha-validation`](skills/protocol-alpha-validation/SKILL.md) | Mechanism assessment, current opportunity status, execution conditions, next checks |
+
+The orchestrator spans the other three Skills. A mechanism supported by evidence may be proposed as a new seed with its limitations preserved. Automated expansion into an Alpha Graph is a future capability.
+
+## Recorded research
+
+The local archive covers **1 July–29 September 2026** and contains:
+
+| Record | Saved result |
+| --- | ---: |
+| Verified strategy wallets | 10 |
+| Energy Rental / JustLend / USDD wallets | 5 / 5 / 0 |
+| Unique primary transactions | 52,582 |
+| Alpha candidates / reports | 5 / 5 |
+| Report outcomes | 3 `MONITOR`, 2 `INSUFFICIENT_EVIDENCE` |
+| Original opportunity status | All five `UNCERTAIN` |
+
+A Monitor report preserves a supported historical mechanism for another research pass. It does not establish a currently executable or profitable opportunity. USDD's zero-wallet result applies to bounded provider queries with recorded coverage gaps. Reconciled sample counts are distinct from total execution volume.
+
+The real archive is local and excluded from Git. A new clone can immediately run the synthetic Demo; displaying the recorded research requires restoring its saved artifacts.
+
+## Quick start
+
+**[Try the hosted Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** to explore the workflow without installing anything. GitHub Pages serves the synthetic replay; saved Skill results use the local application below.
+
+### Requirements
+
+- Node.js 20.19+ or 22.12+
+- Python 3.10+
+- A modern browser
+
+### 1. Start the workspace
 
 ```bash
 git clone https://github.com/qinyh10300/protocol-alpha-finder.git
 cd protocol-alpha-finder
-npm install
+npm ci
 npm run dev
 ```
 
-打开 <http://127.0.0.1:5173/research>。默认读取本地 Skill 结果；右上角切到 Demo mode 后，点击 Run Discovery 可重播合成工作流。
+Open [the synthetic Demo](http://127.0.0.1:5173/research?mode=demo) and select **Run Discovery**. The replay takes about 17 seconds and supports pause, resume, and replay.
 
-**数据说明：** 本地 `data/` 留档包含 10 个钱包、52,582 笔主交易和 5 条候选。该目录未纳入 Git，新克隆需另行恢复留档或使用 Demo。Refresh results 读取文件更新，不触发新的链上研究。Demo 明确标为合成数据。
+With the local research archive restored, open [Skill results](http://127.0.0.1:5173/research). The app reads the saved handoffs and checks for updates every five seconds. The development command starts Vite on `5173` and the Python API on `5174`.
 
-## 真实数据采集
-
-已提供 Energy Rental 清算事件发现、真实发起钱包筛选、历史分页抓取与增量检查脚本，详见 [数据采集说明](docs/energy-rental-collection.md)。本地数据保存到 `data/energy-rental/`，已从 Git 跟踪中排除。
+### 2. Build and serve locally
 
 ```bash
-python3 scripts/collect_energy_rental.py update --max-pages 300
-python3 scripts/summarize_energy_rental.py
+npm run build
+npm start
 ```
 
-以上增量命令要求已经完成首次发现并生成本地 watchlist；首次运行方式见采集说明。
+The production build and API are served together at <http://127.0.0.1:4173/research>.
 
-## 安装与使用
+### 3. Run research with an Agent
 
-前端需要 Node.js 20.19+ / 22.12+、Python 3.10+ 和现代浏览器。构建与 API 说明见 [前端 README](frontend/README.md)。
+Keep all four Skill directories together in an environment that supports `SKILL.md`. Supply chain tools or verifiable transaction / contract materials, then ask:
 
-Skills 需要支持 `SKILL.md` 的 Agent 环境。四个目录必须一起保留，详见 [Skills 使用说明](skills/README.md)。真实研究还需要用户提供的取证材料，或运行环境已连接的链上读取工具；本仓库尚未提供这些连接器。
+> Use protocol-alpha-discovery to find strategy wallets through Energy Rental liquidation, JustLend lending liquidation, and USDD keeper / auction actions. Investigate their broader histories and validate candidate mechanisms. Report coverage and missing evidence for each seed.
 
-在支持技能加载的 Agent 中输入：
+The default research scope is TRON Mainnet, an initial 90-day window, and up to five evidenced wallets per seed. The repository collector currently supports Energy Rental; the other seeds need host tools or supplied evidence. See [Skill setup](skills/README.md) and [collection setup](docs/energy-rental-collection.md).
 
-> 请使用 protocol-alpha-discovery，从 Energy Rental 清算、JustLend 借贷清算、USDD keeper／拍卖三个入口寻找策略钱包，再研究钱包历史并验证候选机制。请分别报告三个入口的覆盖情况和缺失证据。
+### 4. Verify changes
 
-三类入口的取证流程已写入 Skills；当前 Python 采集器覆盖 Energy Rental，其余两类需要宿主提供链上工具或交易材料。默认范围和交接格式见 [Skills 使用说明](skills/README.md)。
-
-## 系统架构
-
-| 模块 | 职责 | 当前状态 |
-| --- | --- | --- |
-| `frontend/` | 钱包调查、候选验证、报告工作台 | 已接真实 Skill 留档；独立合成 Demo |
-| `protocol-alpha-discovery` | 主 Skill：编排研究、记录证据边界和停止条件 | 已编写工作流 |
-| `alpha-seed-wallets` | 从三个入口的成功执行记录定位研究钱包，保留跨入口来源 | 已编写工作流 |
-| `wallet-alpha-investigation` | 跨交易分析、形成非标准策略假设 | 已编写工作流 |
-| `protocol-alpha-validation` | 核验机制、当前状态与执行条件 | 已编写工作流 |
-| `demo/` | 合成数据和可复现演示脚本 | 可本地运行 |
-| `scripts/` | 主网清算事件、钱包历史与本地增量检查 | 已接入只读 TronGrid API |
-| `pitch-deck/` | 原始演示文稿与材料口径说明 | 已收录 |
-
-```mermaid
-flowchart LR
-  A[Known Alpha Seed] --> B[Find Executors]
-  B --> C[Strategy Wallets]
-  C --> D[Agent Investigation]
-  D --> E[Alpha Candidates]
-  E --> F[Mechanism / Current State / Risk]
-  F --> G[Evidence-backed Alpha]
-  G --> A
+```bash
+npm run build
+python3 -m unittest discover -s tests -p 'test_*.py'
+npm run test:e2e
 ```
 
-Agent 负责语义理解和提出假设；确定性代码负责资金流、成本核算、状态读取与可复现验证。Skills 由宿主 Agent 执行；前端的本地 API 将已保存的交接产物转换为 UI 数据，并轮询文件更新。当前不包含自动执行 Skills 的后端 Agent Loop。
+The browser tests use Google Chrome. Tests of the real research require the local archive; they skip explicitly when those files are absent. See [frontend documentation](frontend/README.md) for the API contract and data modes.
 
-## Pitch Deck
+## Repository map
 
-[下载 TRON Pitch Deck（11 页）](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx) · [讲稿与口径说明](pitch-deck/README.md)
+| Path | Contents |
+| --- | --- |
+| [`frontend/`](frontend/) | Research workspace, bilingual UI, report library, Demo data source |
+| [`skills/`](skills/) | Four host-executed research Skills and handoff references |
+| [`scripts/`](scripts/) | Chain collector, evidence verification, archive adapter, local API |
+| [`tests/`](tests/) | Collector, API, browser, and translation checks |
+| [`docs/`](docs/) | Architecture, product positioning, collection notes, bilingual pitch guide |
+| [`pitch-deck/`](pitch-deck/) | Original 11-slide deck and bilingual slide / status notes |
+| [`Protocol_Alpha_Finder_Frontend_Implementation_Pack/`](Protocol_Alpha_Finder_Frontend_Implementation_Pack/) | Product specifications, interaction contract, reference designs, mock data |
+| [`demo/`](demo/) | Original synthetic scenario and demonstration script |
 
-三个原始文件完整保留：
+## Roadmap
 
-- [产品定位 v2](docs/Protocol_Alpha_Finder_Product_Positioning_v2.md)
-- [中英双语 Pitch Guide v2](docs/Protocol_Alpha_Finder_Pitch_Guide_v2_Bilingual.md)
-- [TRON Pitch PPTX](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)
+- [x] Connect the workspace to saved outputs from all four Skills.
+- [x] Show independent wallet investigations, candidate evidence, and report outcomes.
+- [x] Support English and Chinese, report export, and local review actions.
+- [x] Preserve collection intervals and explicit coverage limits.
+- [ ] Integrate an Agent runner with live progress events.
+- [ ] Generalize deterministic cash-flow, cost, and current-state validation.
+- [ ] Add explicit monitoring jobs and reviewed seed expansion.
+- [ ] Build the Protocol Alpha Graph and record an updated research demo.
 
-原始 v2 文档将 JustLend lending liquidation 定位为条件式 Seed；当前 Skills 已将其纳入三个默认发现入口，并在筛选时区分普通执行者与有技术行为证据的钱包。正式对外演示前，需要核验原 PPT 中的奖励参数和协议现状，详见 [材料差异](pitch-deck/README.md#材料间需要统一的口径)。
-
-## 下一步
-
-- [x] 接入只读 TRON 数据源，保留交易、区块、时间与原始响应。
-- [x] 展示真实 Seed 执行记录、钱包来源和候选证据，保留独立合成 Demo。
-- [ ] 实现确定性资金流和成本核算，记录价格来源与时间。
-- [ ] 接入 Agent 运行层和前端事件流。
-- [x] 展示 5 条真实候选的机制、当前状态、执行条件及缺口报告；当前可盈利性仍未证实。
-- [ ] 录制真实研究 Demo，并将验证结果更新到 Pitch Deck。
-
-README 的章节组织参考 [novel-scene-to-image-skill](https://github.com/eggry/novel-scene-to-image-skill)，按功能、Demo、安装与使用、系统架构展开。
+README organization takes inspiration from [Soulink-Web](https://github.com/qinyh10300/Soulink-Web). Product screenshots show this repository's local application, captured on 30 September 2026.

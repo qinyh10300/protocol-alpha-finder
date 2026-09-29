@@ -1,0 +1,21 @@
+{
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Arial, PingFang SC, Microsoft YaHei, sans-serif",
+    "fontSize": "16px",
+    "primaryTextColor": "#13234b",
+    "lineColor": "#7291b5",
+    "edgeLabelBackground": "#ffffff",
+    "clusterBkg": "#fbfdff",
+    "clusterBorder": "#d7e4f7"
+  },
+  "flowchart": {
+    "htmlLabels": false,
+    "curve": "basis",
+    "nodeSpacing": 24,
+    "rankSpacing": 28,
+    "padding": 16,
+    "useMaxWidth": false,
+    "wrappingWidth": 300
+  }
+}

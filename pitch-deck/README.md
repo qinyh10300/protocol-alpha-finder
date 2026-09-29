@@ -1,15 +1,54 @@
 # Pitch Deck
 
-[下载原始 TRON Pitch Deck（11 页）](Protocol_Alpha_Finder_TRON_Pitch.pptx) · [中英双语讲稿](../docs/Protocol_Alpha_Finder_Pitch_Guide_v2_Bilingual.md) · [产品定位 v2](../docs/Protocol_Alpha_Finder_Product_Positioning_v2.md)
+**English** · [简体中文](README.zh-CN.md) · [Project home](../README.md)
 
-原始 PPTX 完整保留。项目当前处于原型阶段，PPT 中的产品架构与 MVP 目标描述的是计划能力。
+## Download
 
-## 讲述顺序
+**[Download the original TRON pitch deck · 11 slides](Protocol_Alpha_Finder_TRON_Pitch.pptx)**
 
-个人 liquidation 研究经历 → Protocol Alpha → Known Alpha as Seed → Strategy Wallet → 开放式发现 → 机制、当前状态与执行风险验证 → TRON Demo → Alpha Graph。
+[Bilingual speaker guide](../docs/Protocol_Alpha_Finder_Pitch_Guide_v2_Bilingual.md) · [Original product positioning](../docs/Protocol_Alpha_Finder_Product_Positioning_v2.md) · [Current system architecture](../docs/ARCHITECTURE.md)
 
-## 材料间需要统一的口径
+The original PPTX remains available as the project's founding pitch. The notes below connect its product vision to the current implementation.
 
-- PPT 第 4 页将 JustLend lending liquidation 称为 Broad Seed；v2 定位将它列为 Secondary / Conditional Seed。后续内容以 v2 为准，需要进一步识别 direct-contract、bot-like 或非标准执行行为。
-- PPT 中的 8% reward、keeper 激励与协议接口描述是原材料中的说法，本仓库尚未独立核验其当前链上状态。正式演示应补齐合约、交易、区块和查询时间。
-- 示例 Demo 只用于展示研究流程，不能作为“已找到真实盈利 Alpha”的证据。
+## The story
+
+An executor has already demonstrated one protocol insight on-chain. What else can we learn from that wallet's history?
+
+Protocol Alpha Finder starts with known protocol mechanisms, finds their executors, and investigates each wallet for new candidates. Every candidate can produce a report that explains the mechanism, evidence, current state, and execution conditions.
+
+**Alpha finds wallets. Wallets find more Alpha.**
+
+## Slide outline
+
+| Slide | Topic |
+| --- | --- |
+| 1 | Protocol Alpha Finder |
+| 2 | The liquidation research problem |
+| 3 | Protocol Alpha and trading alpha |
+| 4 | TRON discovery seeds |
+| 5 | Alpha → Wallet → Alpha |
+| 6 | Open-ended discovery with an Agent |
+| 7 | Technical architecture |
+| 8 | TRON as the launch ecosystem |
+| 9 | Related products and positioning |
+| 10 | Hackathon MVP and Alpha Graph vision |
+| 11 | Source appendix |
+
+## Current demo and presentation notes
+
+| Topic | Current implementation |
+| --- | --- |
+| Discovery seeds | The Skills default to Energy Rental liquidation, JustLend lending liquidation, and USDD keeper / auction actions. They retain evidence and coverage gaps for each seed. The Python collector currently covers Energy Rental; the other entries need host tools or supplied evidence. |
+| Research workflow | Four Skills guide a host Agent through orchestration, wallet discovery, wallet investigation, and validation. Each wallet has its own History → Analyze → Search Alpha job. |
+| Product output | Wallet Investigations → Alpha Candidates → Alpha Reports. Transactions appear as evidence volume and supporting sources. Every candidate can receive a report. |
+| Report outcomes | `ACTIONABLE`, `MONITOR`, `REJECTED`, or `INSUFFICIENT_EVIDENCE`. The local archived run contains five reports: three Monitor and two Insufficient Evidence. All five preserve the original `UNCERTAIN` current state. |
+| Runtime | The frontend reads saved Skill artifacts through a local API and refreshes them when files change. A host Agent executes the Skills. The API does not run an autonomous research loop. |
+
+The archived reports support research review. They do not establish current profitability or an actionable opportunity. Monitor means that a candidate has reasons to be checked again when the stated evidence or conditions become available.
+
+### Differences from the original materials
+
+- Slide 4 calls JustLend lending liquidation a “Broad Seed.” The original v2 positioning calls it a conditional seed. The current Skills include it among the three default entry points and require evidence to distinguish ordinary participation from technical execution patterns.
+- Slide 7 illustrates an actionable output. The current product supports all four report outcomes above, including useful reports for inconclusive or inactive candidates.
+- The deck describes a target architecture for deterministic accounting, live state checks, and validation. Complete profitability accounting and an autonomous backend Agent loop remain future work.
+- Reward rates, keeper incentives, and protocol interfaces in the original deck need current contract, transaction, block, and query-time evidence before being presented as live facts. Demo data illustrates the workflow and is separate from archived research results.

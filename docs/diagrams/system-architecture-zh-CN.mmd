@@ -1,0 +1,52 @@
+%% 当前实现，明确标注后续计划。
+flowchart TB
+    subgraph EVIDENCE["01  只读研究证据"]
+        direction LR
+        SEEDS["已知 TRON 种子<br/>Energy Rental · JustLend 借贷 · USDD keeper"]
+        DATA["交易、回执与钱包历史<br/>合约 ABI、协议文档与状态读数"]
+    end
+
+    subgraph RESEARCH["02  宿主 Agent 研究流程<br/>protocol-alpha-discovery 编排研究范围、阶段与停止条件"]
+        direction LR
+        FIND["alpha-seed-wallets<br/>验证执行者，保留种子来源<br/>策略钱包交接"]
+        INVESTIGATE["wallet-alpha-investigation<br/>独立钱包任务<br/>历史 → 分析 → 发现 Alpha<br/>Alpha 候选假设"]
+        VALIDATE["protocol-alpha-validation<br/>机制 · 历史证据<br/>当前状态 · 执行条件"]
+        FIND --> INVESTIGATE
+        INVESTIGATE --> VALIDATE
+    end
+
+    EVIDENCE --> RESEARCH
+
+    STORE[("03  研究留档 · data/<br/>钱包 · 历史 · 候选<br/>验证 · 运行记录")]
+    RESEARCH --> STORE
+
+    subgraph APP["04  本地应用"]
+        direction LR
+        ADAPTER["Python 研究适配器<br/>交接一致性与输入哈希校验"]
+        API["本地 HTTP API<br/>留档结果与原始产物<br/>每 5 秒刷新快照"]
+        UI["React + TypeScript<br/>钱包调查 → 候选 → 报告<br/>默认英文，可切换中文"]
+        ADAPTER --> API
+        API --> UI
+    end
+    STORE --> APP
+    MOCK["合成数据演示<br/>浏览器内独立回放<br/>直接为 React 界面提供数据"] --> APP
+    APP --> REPORT["ALPHA 研究报告<br/>可执行 · 持续观察<br/>已排除 · 证据不足<br/>证据 · 后续检查 · 导出"]
+
+    FUTURE["后续计划<br/>Agent 调度与实时事件<br/>经济核算引擎 · Alpha Graph"]
+    REPORT -.-> FUTURE
+
+    classDef evidence fill:#edf5ff,stroke:#b9d5fb,color:#183960;
+    classDef skill fill:#f3efff,stroke:#c8b8ec,color:#382864;
+    classDef storage fill:#f0f8f7,stroke:#8cc7bc,color:#164c41;
+    classDef app fill:#edf5ff,stroke:#a6c9f8,color:#153c71;
+    classDef report fill:#e8f7f1,stroke:#68b89c,color:#125540;
+    classDef planned fill:#f6f7fa,stroke:#a7b1c2,color:#53627c,stroke-dasharray:5 5;
+    class SEEDS,DATA evidence;
+    class FIND,INVESTIGATE,VALIDATE skill;
+    class STORE storage;
+    class ADAPTER,API,UI,MOCK app;
+    class REPORT report;
+    class FUTURE planned;
+    style EVIDENCE fill:#fbfdff,stroke:#d6e5f7,color:#4d678c
+    style RESEARCH fill:#fcfbff,stroke:#ded4f0,color:#635083
+    style APP fill:#fbfdff,stroke:#d6e5f7,color:#4d678c

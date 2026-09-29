@@ -1,0 +1,52 @@
+%% Current implementation, with future work explicitly marked.
+flowchart TB
+    subgraph EVIDENCE["01  EVIDENCE · READ-ONLY"]
+        direction LR
+        SEEDS["Known TRON seeds<br/>Energy Rental · JustLend lending · USDD keeper"]
+        DATA["Transactions, receipts and wallet history<br/>Contract ABIs, protocol docs and state reads"]
+    end
+
+    subgraph RESEARCH["02  HOST AGENT RESEARCH<br/>protocol-alpha-discovery coordinates scope, stages and stopping conditions"]
+        direction LR
+        FIND["alpha-seed-wallets<br/>Verify executors + seed provenance<br/>Strategy wallet handoff"]
+        INVESTIGATE["wallet-alpha-investigation<br/>Independent wallet jobs<br/>History → Analyze → Search Alpha<br/>Alpha candidate hypotheses"]
+        VALIDATE["protocol-alpha-validation<br/>Mechanism · History<br/>Current state · Conditions"]
+        FIND --> INVESTIGATE
+        INVESTIGATE --> VALIDATE
+    end
+
+    EVIDENCE --> RESEARCH
+
+    STORE[("03  SAVED RESEARCH · data/<br/>Wallets · histories · candidates<br/>Validation · run record")]
+    RESEARCH --> STORE
+
+    subgraph APP["04  LOCAL APPLICATION"]
+        direction LR
+        ADAPTER["Python research adapter<br/>Handoff + input-hash checks"]
+        API["Local HTTP API<br/>Saved results + source artifacts<br/>Snapshot refresh every 5 seconds"]
+        UI["React + TypeScript<br/>Wallets → Candidates → Reports<br/>English default / Chinese switch"]
+        ADAPTER --> API
+        API --> UI
+    end
+    STORE --> APP
+    MOCK["Synthetic Demo<br/>Browser mock replay<br/>Direct input to React UI"] --> APP
+    APP --> REPORT["ALPHA REPORTS<br/>ACTIONABLE · MONITOR<br/>REJECTED · INSUFFICIENT_EVIDENCE<br/>Evidence · next checks · export"]
+
+    FUTURE["PLANNED<br/>Agent runner + live events<br/>Economics engine · Alpha Graph"]
+    REPORT -.-> FUTURE
+
+    classDef evidence fill:#edf5ff,stroke:#b9d5fb,color:#183960;
+    classDef skill fill:#f3efff,stroke:#c8b8ec,color:#382864;
+    classDef storage fill:#f0f8f7,stroke:#8cc7bc,color:#164c41;
+    classDef app fill:#edf5ff,stroke:#a6c9f8,color:#153c71;
+    classDef report fill:#e8f7f1,stroke:#68b89c,color:#125540;
+    classDef planned fill:#f6f7fa,stroke:#a7b1c2,color:#53627c,stroke-dasharray:5 5;
+    class SEEDS,DATA evidence;
+    class FIND,INVESTIGATE,VALIDATE skill;
+    class STORE storage;
+    class ADAPTER,API,UI,MOCK app;
+    class REPORT report;
+    class FUTURE planned;
+    style EVIDENCE fill:#fbfdff,stroke:#d6e5f7,color:#4d678c
+    style RESEARCH fill:#fcfbff,stroke:#ded4f0,color:#635083
+    style APP fill:#fbfdff,stroke:#d6e5f7,color:#4d678c
