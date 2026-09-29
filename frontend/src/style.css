@@ -216,29 +216,6 @@ code {
 .mode-select .demo {
   color: #d3951e;
 }
-.network {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  padding: 8px 12px;
-  border: 1px solid #dfe8f7;
-  border-radius: 7px;
-  color: #203e74;
-  white-space: nowrap;
-}
-.network-mark {
-  display: grid;
-  place-items: center;
-  background: #f1f5ff;
-  color: #3865ac;
-  border: 1px solid #e2eaff;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  font-weight: 650;
-  font-size: 13px;
-}
 main {
   max-width: 1900px;
   margin: auto;
@@ -1459,10 +1436,6 @@ main {
   .header-controls {
     gap: 8px;
   }
-  .network {
-    font-size: 12px;
-    padding: 7px 9px;
-  }
   .summary-top {
     flex-wrap: wrap;
     gap: 14px;
@@ -1531,9 +1504,6 @@ main {
   }
 }
 @media (max-width: 1000px) {
-  .network {
-    display: none;
-  }
   .app-header nav {
     gap: 24px;
   }
@@ -2084,22 +2054,9 @@ main {
   }
 }
 
-.language-select {
-  min-width: 88px;
-  justify-content: space-between;
-}
-.language-select select {
-  min-width: 50px;
-}
 @media (max-width: 760px) {
   .header-controls {
     gap: 6px;
-  }
-  .language-select {
-    min-width: 80px;
-  }
-  .language-select select {
-    font-size: 12px;
   }
 }
 @media (max-width: 600px) {

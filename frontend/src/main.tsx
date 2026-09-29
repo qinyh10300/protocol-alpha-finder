@@ -177,7 +177,7 @@ function AppHeader({
   mode: string;
   setMode: (s: "archive" | "demo") => void;
 }) {
-  const { t, language, setLanguage } = useI18n();
+  const { t } = useI18n();
 
   return (
     <header className="app-header">
@@ -237,21 +237,6 @@ function AppHeader({
           </select>
           <ChevronDown size={14} />
         </label>
-        <label className="mode-select language-select">
-          <select
-            aria-label={t("Language")}
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as "en" | "zh")}
-          >
-            <option value="en">{t("English")}</option>
-            <option value="zh">{t("Chinese")}</option>
-          </select>
-          <ChevronDown size={14} />
-        </label>
-        <span className="network">
-          <span className="network-mark">T</span>
-          {t("TRON Mainnet")}
-        </span>
       </div>
     </header>
   );

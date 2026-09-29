@@ -50,7 +50,7 @@ The product focuses on **Wallet Investigations → Alpha Candidates → Alpha Re
 - **Independent wallet jobs:** History → Analyze → Search Alpha, with source evidence and coverage attached to each wallet.
 - **Open-ended candidate research:** investigate broader wallet activity, including mechanisms outside the original seed.
 - **Reports for every outcome:** `ACTIONABLE`, `MONITOR`, `REJECTED`, and `INSUFFICIENT_EVIDENCE`.
-- **English by default:** switch to Chinese in the header. The choice persists across pages, reloads, Demo playback, and report exports.
+- **English by default:** existing saved language preferences persist across pages, reloads, Demo playback, and report exports.
 - **Evidence on demand:** wallet and candidate drawers, four-Skill activity, original artifact links, and Markdown report export.
 
 ## Product experience

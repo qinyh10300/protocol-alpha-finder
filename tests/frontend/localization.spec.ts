@@ -8,11 +8,12 @@ const hasArchive = existsSync(
 );
 const han = /\p{Script=Han}/u;
 
-function languageSelect(page: Page) {
-  // The label itself is translated; option values remain language independent.
-  return page.locator("select").filter({
-    has: page.locator('option[value="en"]'),
-  });
+async function setSavedLanguage(page: Page, language: "en" | "zh") {
+  await page.evaluate(
+    (value) => localStorage.setItem("protocol-alpha-language", value),
+    language,
+  );
+  await page.reload();
 }
 
 async function expectEnglish(page: Page) {
@@ -39,7 +40,7 @@ test.describe("Bilingual research workspace", () => {
   }) => {
     await page.goto("/research");
     await expect(page.locator(".candidate-card")).toHaveCount(5);
-    await expect(languageSelect(page)).toHaveValue("en");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
     await expectEnglish(page);
 
@@ -118,7 +119,7 @@ test.describe("Bilingual research workspace", () => {
       .evaluateAll((headings) =>
         headings.map((heading) => heading.getAttribute("title")),
       );
-    await languageSelect(page).selectOption("zh");
+    await setSavedLanguage(page, "zh");
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
     await expect(page.locator(".candidate-card h3").first()).toContainText(han);
     await expect(page.locator(".candidate-card h3").first()).not.toHaveText(
@@ -144,7 +145,7 @@ test.describe("Bilingual research workspace", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(han);
     await page.reload();
     await expect(page.locator(".report-memo")).toBeVisible();
-    await expect(languageSelect(page)).toHaveValue("zh");
+    await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(han);
 
@@ -170,19 +171,19 @@ test.describe("Bilingual research workspace", () => {
         ),
     ).toEqual(candidateIds);
 
-    await languageSelect(page).selectOption("en");
+    await setSavedLanguage(page, "en");
     await expect(page.locator(".candidate-card h3").first()).toHaveText(
       englishTitle,
     );
     await expectEnglish(page);
     await page.reload();
     await expect(page.locator(".candidate-card")).toHaveCount(5);
-    await expect(languageSelect(page)).toHaveValue("en");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expectEnglish(page);
   });
 });
 
-test("demo progression and replay keep the selected language", async ({
+test("demo progression and replay keep the saved language", async ({
   page,
 }) => {
   await page.clock.install();
@@ -191,8 +192,8 @@ test("demo progression and replay keep the selected language", async ({
     page.getByRole("button", { name: "Run Discovery" }),
   ).toBeVisible();
   await expectEnglish(page);
-  await page.getByRole("button", { name: "Run Discovery" }).click();
-  await languageSelect(page).selectOption("zh");
+  await setSavedLanguage(page, "zh");
+  await page.locator(".run-control button").click();
   await page.clock.runFor(18000);
   await expect(page.locator(".candidate-card")).toHaveCount(3);
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
@@ -200,10 +201,10 @@ test("demo progression and replay keep the selected language", async ({
   await expect(
     page.locator(".candidate-card .card-summary").first(),
   ).toContainText(han);
-  await languageSelect(page).selectOption("en");
-  await expectEnglish(page);
-  await page.getByRole("button", { name: "Replay Demo" }).click();
+  await page.locator(".run-control button").click();
   await expect(page.locator(".candidate-card")).toHaveCount(0);
-  await expect(languageSelect(page)).toHaveValue("en");
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
+  await setSavedLanguage(page, "en");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expectEnglish(page);
 });

@@ -32,9 +32,10 @@ function watchStaticPage(page: Page) {
     expect(apiRequests, "Pages must work without the local Python API").toEqual(
       [],
     );
-    expect(errors, "Static assets and the browser app must load cleanly").toEqual(
-      [],
-    );
+    expect(
+      errors,
+      "Static assets and the browser app must load cleanly",
+    ).toEqual([]);
   };
 }
 
@@ -52,6 +53,7 @@ test("static entry runs the demo and preserves report navigation and share links
   await page.clock.install();
   await page.goto(entry);
   await expect(page.getByLabel("Data mode")).toHaveValue("demo");
+  await expect(page.locator(".language-select, .network")).toHaveCount(0);
   await expect(page.locator('option[value="archive"]')).toHaveCount(0);
   await expect(page.locator("main")).toHaveClass("research-main");
   await page.getByRole("button", { name: "Run Discovery" }).click();
@@ -101,7 +103,10 @@ test("direct reports retain language and section anchors without enabling the AP
   await page.goto(`${entry}?${query}`);
   await expect(page.getByLabel("Data mode")).toHaveValue("demo");
   await expect(page.locator(".report-memo")).toBeVisible();
-  await page.getByLabel("Language").selectOption("zh");
+  await page.evaluate(() =>
+    localStorage.setItem("protocol-alpha-language", "zh"),
+  );
+  await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await page.locator('.report-toc a[href="#section-3"]').click();
   expectReportUrl(page.url(), "report-usdd-keeper");
@@ -110,7 +115,7 @@ test("direct reports retain language and section anchors without enabling the AP
   await page.reload();
   await expect(page.locator(".report-memo")).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
-  await expect(page.locator(".language-select select")).toHaveValue("zh");
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   expectReportUrl(page.url(), "report-usdd-keeper");
   expect(new URL(page.url()).hash).toBe("#section-3");
 
@@ -119,6 +124,6 @@ test("direct reports retain language and section anchors without enabling the AP
   expect(new URL(page.url()).pathname).toBe(entry);
   await page.reload();
   await expect(page.locator("main")).toHaveClass("research-main");
-  await expect(page.locator(".language-select select")).toHaveValue("zh");
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   verifyPage();
 });

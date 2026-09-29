@@ -49,7 +49,7 @@ npm start
 
 ## Languages
 
-English is the default. Use the language selector in the header to switch between English and Chinese. The choice is stored under `protocol-alpha-language` in this browser and survives navigation, refreshes, seed changes, and data polling.
+English is the default. The header contains the data-mode selector; the language selector and network badge have been removed. Existing language preferences stored under `protocol-alpha-language` are still respected across navigation, refreshes, seed changes, and data polling.
 
 UI labels, archived research titles and narratives, evidence drawers, reports, dates, and Markdown exports follow the selected language. Identifiers, addresses, evidence links, raw status codes, and original Skill artifacts remain unchanged.
 
