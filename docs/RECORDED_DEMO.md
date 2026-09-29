@@ -1,6 +1,6 @@
 # Demo seed data
 
-The GitHub Pages frontend offers three seeds. Select one under **Current Seed**, then select **Run Discovery**. Choose **All** to combine all three seeds in the wallet, candidate and report columns. The seed selector in **Wallet Investigations** stays synchronized with the top selector. All currently includes 13 wallets, 8 candidates and 8 reports; badges identify each seed and distinguish synthetic examples from recorded research. USDD now includes an explicitly synthetic scenario; its original zero-result research snapshot remains separate. Shared identities are merged, and a shared wallet history is counted once.
+The GitHub Pages frontend offers three seeds. Select one of the three visible radio options under **Choose current set**, then click **Replay Demo**. Selection alone does not start playback. Choose **All** to combine all three seeds in the wallet, candidate and report columns. The compact **All** option remains in the same selection group. **Wallet Investigations** has no duplicate seed selector. All currently includes 13 wallets, 8 candidates and 8 reports; badges identify each seed and distinguish synthetic examples from recorded research. USDD now includes an explicitly synthetic scenario; its original zero-result research snapshot remains separate. Shared identities are merged, and a shared wallet history is counted once.
 
 Switching seeds resets playback and wallet filters. Share links retain the selected seed; full reports also work after a page reload.
 
@@ -16,7 +16,7 @@ USDD's demo uses `frontend/public/research/usdd-synthetic-demo.json`: three clea
 
 The saved real USDD scan remains unchanged at `frontend/public/research/usdd-keeper-auction.json`: 27 bounded provider queries and zero verified executors. That file retains its query limitations and is not used to support the synthetic reports. The local Skill-results mode still shows the recorded scan. The large zero-result note is absent from the synthetic Demo and All view.
 
-JustLend displays **Recorded research replay**. Energy Rental and USDD display **Synthetic demo**. All labels the source of each result. Playback timing is simulated; Run Discovery does not query the chain.
+JustLend displays **Recorded research replay**. Energy Rental and USDD display **Synthetic demo**. All labels the source of each result. Playback timing is simulated; Replay Demo does not query the chain.
 
 ## Refresh the published snapshots
 

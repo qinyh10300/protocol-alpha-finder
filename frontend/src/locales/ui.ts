@@ -3,8 +3,8 @@ export const uiZh: Record<string, string> = {
   "Read Skill": "查看 Skill",
   "Recorded research replay": "历史研究回放",
   "TRON · Recorded Skill evidence": "TRON · 已保存的 Skill 证据",
-  "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search.":
-    "回放已保存的链上研究，播放节奏为模拟。点击开始发现会重播历史结果，不会发起新的搜寻。",
+  "Saved chain research with simulated playback. Replay Demo replays the recorded results; it does not start a new search.":
+    "回放已保存的链上研究，播放节奏为模拟。点击重播演示会重播历史结果，不会发起新的搜寻。",
   "Published Skill snapshot": "已发布的 Skill 研究快照",
   "All seeds replay": "全部种子回放",
   "TRON · All three alpha seeds": "TRON · 全部三类 Alpha 种子",
@@ -19,6 +19,7 @@ export const uiZh: Record<string, string> = {
   "simulated execution": "次模拟执行",
   "Simulated Executions": "模拟执行",
   "Synthetic USDD scenario data": "USDD 模拟场景数据",
+  "Choose current set": "选择当前种子",
   Language: "语言",
   unproven: "尚未证实",
   confirmed: "已确认",
@@ -69,7 +70,7 @@ export const uiZh: Record<string, string> = {
   "JSON handoff": "JSON 交接文件",
   "Recorded activity": "已记录的活动",
   "Source artifact ↗": "原始产物 ↗",
-  "Activity appears when discovery starts.": "开始发现后会显示活动记录。",
+  "Activity appears when discovery starts.": "重播演示后会显示活动记录。",
   "Back to research": "返回研究",
   "ALPHA RESEARCH REPORT": "ALPHA 研究报告",
   "Last checked": "最近检查",
@@ -96,7 +97,7 @@ export const uiZh: Record<string, string> = {
   "Bookmarks and watchlists are saved in this browser. New discovery seeds require an established advantage; the saved research has not promoted any candidate.":
     "收藏与观察列表保存在当前浏览器中。新发现种子需要已证实的优势；此次研究尚未将任何候选升级为种子。",
   "Synthetic demo": "合成数据演示",
-  "Illustrative data and simulated job timing. Run Discovery to explore the demo.":
+  "Illustrative data and simulated job timing. Choose a set and click Replay Demo to explore.":
     "当前展示示例数据与模拟任务进度。点击“运行发现”体验演示。",
   "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.":
     "当前展示示例数据与模拟任务进度。切换至 Skill 研究结果可查看已保存的真实研究。",
@@ -159,14 +160,13 @@ export const uiZh: Record<string, string> = {
   "Pause demo": "暂停演示",
   "Resume demo": "继续演示",
   "Replay Demo": "重播演示",
-  "Run Discovery": "开始发现",
   "Saved Skill run": "已保存的 Skill 研究",
   "Demo replay": "演示回放",
   "History pending": "等待加载历史",
   "Discovering executors": "正在发现执行者",
   "No executors found": "未发现执行者",
-  "Run Discovery to begin the wallet investigation.":
-    "点击开始发现以启动钱包调查。",
+  "Select a set, then click Replay Demo to begin.":
+    "点击重播演示以启动钱包调查。",
   "No verified wallets for this seed in the recorded window.":
     "已记录的时间范围内，此种子没有经过验证的钱包。",
   "Show fewer wallets": "收起钱包",

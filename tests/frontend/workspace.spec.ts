@@ -39,13 +39,15 @@ test.describe("Real Skill integration", () => {
     await expect(page.locator(".wallet-row")).toHaveCount(6);
     await page.getByRole("button", { name: "Show 4 more wallets" }).click();
     await page
-      .getByLabel("Research seed")
-      .selectOption("justlend-lending-liquidation");
+      .locator(
+        'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
+      )
+      .check();
     await expect(page.locator(".wallet-row")).toHaveCount(5);
     await expect(
       page.getByRole("button", { name: /Show .* wallets/ }),
     ).toHaveCount(0);
-    await page.getByLabel("Research seed").selectOption("all");
+    await page.locator('input[name=\"research-seed\"][value=\"all\"]').check();
     await expect(page.locator(".wallet-row")).toHaveCount(6);
   });
   test("candidate sorting changes discovery, recency and evidence order", async ({
@@ -184,7 +186,9 @@ test.describe("Real Skill integration", () => {
   });
   test("USDD zero coverage and seed selection", async ({ page }) => {
     await page.goto("/research");
-    await page.getByLabel("Research seed").selectOption("usdd-keeper-auction");
+    await page
+      .locator('input[name=\"research-seed\"][value=\"usdd-keeper-auction\"]')
+      .check();
     await expect(
       page.getByText("USDD: zero verified executors in this window."),
     ).toBeVisible();
@@ -193,8 +197,10 @@ test.describe("Real Skill integration", () => {
       page.getByText("No executors found", { exact: true }),
     ).toBeVisible();
     await page
-      .getByLabel("Research seed")
-      .selectOption("justlend-lending-liquidation");
+      .locator(
+        'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
+      )
+      .check();
     await expect(page.locator(".wallet-row")).toHaveCount(5);
     await expect(page.locator(".candidate-card")).toHaveCount(3);
   });
@@ -283,11 +289,9 @@ test("demo starts empty, progresses independently, pauses and replays", async ({
 }) => {
   await page.clock.install();
   await page.goto("/research?mode=demo");
-  await expect(
-    page.getByRole("button", { name: "Run Discovery" }),
-  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
   await expect(page.locator(".wallet-row")).toHaveCount(0);
-  await page.getByRole("button", { name: "Run Discovery" }).click();
+  await page.getByRole("button", { name: "Replay Demo" }).click();
   await page.clock.runFor(5500);
   await expect(page.locator(".wallet-row")).toHaveCount(5);
   expect(await page.locator(".pipeline-step.running").count()).toBeGreaterThan(
@@ -320,9 +324,7 @@ test("missing artifacts show a recoverable error, never silently use mock", asyn
   );
   await expect(page.locator(".candidate-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Open Demo" }).click();
-  await expect(
-    page.getByRole("button", { name: "Run Discovery" }),
-  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
 });
 
 test("invalid report shows not-found state", async ({ page }) => {

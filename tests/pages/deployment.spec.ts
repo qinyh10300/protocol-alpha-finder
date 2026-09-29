@@ -56,7 +56,7 @@ test("static entry runs the demo and preserves report navigation and share links
   await expect(page.locator(".language-select, .network")).toHaveCount(0);
   await expect(page.locator('option[value="archive"]')).toHaveCount(0);
   await expect(page.locator("main")).toHaveClass("research-main");
-  await page.getByRole("button", { name: "Run Discovery" }).click();
+  await page.getByRole("button", { name: "Replay Demo" }).click();
   await page.clock.runFor(18000);
   await expect(page.locator(".candidate-card")).toHaveCount(3);
   await expect(page.locator(".report-preview")).toHaveCount(3);

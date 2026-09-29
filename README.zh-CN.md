@@ -4,7 +4,7 @@
 
 从执行过清算或 keeper 操作的钱包出发，在 TRON 上寻找协议机会。
 
-**[Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[在线 Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** — 点击 **Run Discovery** 播放流程。Energy Rental 和 USDD 使用明确标注的模拟示例，JustLend 回放已保存的链上研究记录。
+**[Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[在线 Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** — 点击 **Replay Demo** 播放流程。Energy Rental 和 USDD 使用明确标注的模拟示例，JustLend 回放已保存的链上研究记录。
 
 ## 工作流程
 

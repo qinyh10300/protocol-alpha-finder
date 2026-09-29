@@ -281,26 +281,43 @@ function ResearchRunSummary({
   return (
     <section className="run-summary" aria-label={t("Research run summary")}>
       <div className="summary-top">
-        <div className="seed-object">
-          <span className="object-icon seed-icon">
-            <FileText size={26} />
-          </span>
-          <div>
-            <span className="summary-label">{t("Current Seed")}</span>
-            <label className="seed-select">
-              <select
-                aria-label={t("Research seed")}
-                value={seedId}
-                onChange={(e) => changeSeed(e.target.value)}
-              >
-                {data.seeds.map((s) => (
-                  <option value={s.id} key={s.id}>
-                    {s.name}
-                  </option>
+        <div
+          className="seed-object"
+          role="radiogroup"
+          aria-labelledby="seed-picker-heading"
+        >
+          <div className="seed-picker">
+            <div className="seed-picker-heading">
+              <span id="seed-picker-heading" className="summary-label">
+                {t("Choose current set")}
+              </span>
+              <label className="seed-choice all-choice">
+                <input
+                  type="radio"
+                  name="research-seed"
+                  value="all"
+                  checked={seedId === "all"}
+                  onChange={() => changeSeed("all")}
+                />
+                <span>{t("All")}</span>
+              </label>
+            </div>
+            <div className="seed-options">
+              {data.seeds
+                .filter((seed) => seed.id !== "all")
+                .map((seed) => (
+                  <label className="seed-choice" key={seed.id}>
+                    <input
+                      type="radio"
+                      name="research-seed"
+                      value={seed.id}
+                      checked={seedId === seed.id}
+                      onChange={() => changeSeed(seed.id)}
+                    />
+                    <span>{seed.name}</span>
+                  </label>
                 ))}
-              </select>
-              <ChevronDown size={16} />
-            </label>
+            </div>
             <p>
               {data.provenance === "mixed"
                 ? t("TRON · All three alpha seeds")
@@ -365,9 +382,7 @@ function ResearchRunSummary({
                 ? t("Pause demo")
                 : run.status === "paused"
                   ? t("Resume demo")
-                  : run.status === "completed"
-                    ? t("Replay Demo")
-                    : t("Run Discovery")}
+                  : t("Replay Demo")}
             </button>
           ) : (
             <button
@@ -508,9 +523,7 @@ function WalletInvestigationList({
   data,
   wallet,
   choose,
-  changeSeed,
 }: {
-  changeSeed: (id: string) => void;
   data: Snapshot;
   wallet: string | null;
   choose: (w: StrategyWallet) => void;
@@ -524,7 +537,6 @@ function WalletInvestigationList({
   const allSeeds = data.mode === "demo" && data.run.seedId === "all";
   const visible =
     expanded || allSeeds ? data.wallets : data.wallets.slice(0, 6);
-  const usdd = data.seeds.find((seed) => seed.id === "usdd-keeper-auction");
   return (
     <section className="workspace-column wallet-column">
       <div className="column-heading">
@@ -538,33 +550,6 @@ function WalletInvestigationList({
       <p className="column-description">
         {t("Each strategy wallet is investigated as a separate research job.")}
       </p>
-      <div className="wallet-seed-controls">
-        <label>
-          <span>{t("Alpha seed")}</span>
-          <select
-            aria-label={t("Wallet seed filter")}
-            value={data.run.seedId}
-            onChange={(e) => changeSeed(e.target.value)}
-          >
-            {data.seeds.map((seed) => (
-              <option key={seed.id} value={seed.id}>
-                {seed.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        {allSeeds && usdd?.coverage && (
-          <details className="seed-coverage-detail">
-            <summary>
-              {t("USDD: zero verified executors in this window.")}
-            </summary>
-            <p>{usdd.coverage}</p>
-            {usdd.gaps?.map((gap) => (
-              <p key={gap}>{gap}</p>
-            ))}
-          </details>
-        )}
-      </div>
       <div className="column-content wallet-list">
         {visible.length ? (
           visible.map((w, i) => (
@@ -586,7 +571,7 @@ function WalletInvestigationList({
             }
             text={
               data.run.status === "idle"
-                ? t("Run Discovery to begin the wallet investigation.")
+                ? t("Select a set, then click Replay Demo to begin.")
                 : t("No verified wallets for this seed in the recorded window.")
             }
             loading={data.run.status === "running"}
@@ -1475,9 +1460,9 @@ function App() {
                 provenance === "mixed"
                   ? "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search."
                   : provenance === "recorded"
-                    ? "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search."
+                    ? "Saved chain research with simulated playback. Replay Demo replays the recorded results; it does not start a new search."
                     : isPagesBuild
-                      ? "Illustrative data and simulated job timing. Run Discovery to explore the demo."
+                      ? "Illustrative data and simulated job timing. Choose a set and click Replay Demo to explore."
                       : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
               )}
             </span>
@@ -1667,7 +1652,6 @@ function App() {
                     )}
                   <div className="workspace-grid">
                     <WalletInvestigationList
-                      changeSeed={changeSeed}
                       data={data}
                       wallet={filterWallet}
                       choose={(w) => setDrawer(w)}

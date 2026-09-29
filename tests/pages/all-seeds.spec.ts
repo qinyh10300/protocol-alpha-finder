@@ -28,19 +28,19 @@ test("All merges shared identities without double-counting a wallet's history", 
   expect(first).toEqual(lending);
 });
 
-test("All fills all three columns with seed provenance and both dropdowns stay in sync", async ({
+test("All fills all three columns with seed provenance and the visible choices are mutually exclusive", async ({
   page,
 }) => {
   await page.clock.install();
   await page.goto("/frontend/index.html?seed=all");
-  await expect(page.getByLabel("Research seed")).toHaveValue("all");
-  await expect(page.getByLabel("Wallet seed filter")).toHaveValue("all");
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
+    "all",
+  );
+  await expect(page.locator(".wallet-column select")).toHaveCount(0);
   await expect(page.locator(".demo-banner")).toContainText(
     "Energy Rental and USDD use synthetic examples",
   );
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
   await expect(page.locator(".summary-count strong")).toHaveText([
     "13",
@@ -71,9 +71,11 @@ test("All fills all three columns with seed provenance and both dropdowns stay i
     page.getByRole("button", { name: "Filtered by wallet" }),
   ).toBeVisible();
   await page
-    .getByLabel("Wallet seed filter")
-    .selectOption("justlend-lending-liquidation");
-  await expect(page.getByLabel("Research seed")).toHaveValue(
+    .locator(
+      'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
+    )
+    .check();
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
     "justlend-lending-liquidation",
   );
   await expect(
@@ -82,13 +84,13 @@ test("All fills all three columns with seed provenance and both dropdowns stay i
   await expect(
     page.locator(".wallet-row, .candidate-card, .report-preview"),
   ).toHaveCount(0);
-  await page.getByLabel("Research seed").selectOption("all");
-  await expect(page.getByLabel("Wallet seed filter")).toHaveValue("all");
+  await page.locator('input[name=\"research-seed\"][value=\"all\"]').check();
+  await expect(page.locator(".wallet-column select")).toHaveCount(0);
   await page.reload();
-  await expect(page.getByLabel("Research seed")).toHaveValue("all");
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
+    "all",
+  );
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(6000);
   await page.getByRole("button", { name: "Pause demo", exact: true }).click();
   await page.clock.runFor(18000);
@@ -111,5 +113,7 @@ test("All fills all three columns with seed provenance and both dropdowns stay i
   await page
     .getByRole("button", { name: "Back to research", exact: true })
     .click();
-  await expect(page.getByLabel("Research seed")).toHaveValue("all");
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
+    "all",
+  );
 });

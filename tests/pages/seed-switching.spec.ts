@@ -35,19 +35,24 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
 }) => {
   await page.clock.install();
   await page.goto(entry);
-  const select = page.getByLabel("Research seed");
-  await expect(select.locator("option")).toHaveText([
-    "All",
-    ...scenarios.map((scenario) => scenario.name),
-  ]);
+  const select = page.locator('input[name="research-seed"]:checked');
+  const chooseSeed = (id: string) =>
+    page.locator(`input[name="research-seed"][value="${id}"]`).check();
+  await expect(
+    page.getByRole("radiogroup", { name: "Choose current set" }),
+  ).toBeVisible();
+  await expect(page.locator(".seed-options .seed-choice")).toHaveText(
+    scenarios.map((scenario) => scenario.name),
+  );
+  await expect(page.locator(".wallet-column select")).toHaveCount(0);
   for (const scenario of scenarios) {
-    await select.selectOption(scenario.id);
+    await chooseSeed(scenario.id);
     await expect(select).toHaveValue(scenario.id);
     await expect(
       page.locator(".candidate-card, .report-preview, .wallet-row"),
     ).toHaveCount(0);
     await page
-      .getByRole("button", { name: "Run Discovery", exact: true })
+      .getByRole("button", { name: "Replay Demo", exact: true })
       .click();
     await page.clock.runFor(18000);
     await expect(page.locator(".wallet-row")).toHaveCount(scenario.wallets);
@@ -71,17 +76,15 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
   );
   await expect(page.locator(".coverage-note")).toHaveCount(0);
   await expect(page.locator(".demo-banner")).toContainText("Synthetic demo");
-  await select.selectOption(scenarios[1].id);
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await chooseSeed(scenarios[1].id);
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
   await page.locator(".wallet-details-hit").first().click();
   await page.getByRole("button", { name: "Show related candidates" }).click();
   await expect(
     page.getByRole("button", { name: "Filtered by wallet" }),
   ).toBeVisible();
-  await select.selectOption(scenarios[2].id);
+  await chooseSeed(scenarios[2].id);
   await expect(
     page.getByRole("button", { name: "Filtered by wallet" }),
   ).toHaveCount(0);
@@ -95,17 +98,17 @@ test("switching a paused run resets progress and the chosen seed survives sharin
 }) => {
   await page.clock.install();
   await page.goto(entry);
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(6000);
   await page.getByRole("button", { name: "Pause demo" }).click();
   await page
-    .getByLabel("Research seed")
-    .selectOption("justlend-lending-liquidation");
+    .locator(
+      'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
+    )
+    .check();
   await page.clock.runFor(18000);
   await expect(
-    page.getByRole("button", { name: "Run Discovery", exact: true }),
+    page.getByRole("button", { name: "Replay Demo", exact: true }),
   ).toBeVisible();
   await expect(
     page.locator(".wallet-row, .candidate-card, .report-preview"),
@@ -114,12 +117,10 @@ test("switching a paused run resets progress and the chosen seed survives sharin
     "justlend-lending-liquidation",
   );
   await page.reload();
-  await expect(page.getByLabel("Research seed")).toHaveValue(
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
     "justlend-lending-liquidation",
   );
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
   const preview = page.locator(".report-preview.featured");
   const title = await preview.locator("h3").innerText();
@@ -149,23 +150,25 @@ test("switching a paused run resets progress and the chosen seed survives sharin
   await page
     .getByRole("button", { name: "Back to research", exact: true })
     .click();
-  await expect(page.getByLabel("Research seed")).toHaveValue(
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
     "justlend-lending-liquidation",
   );
-  await page.getByLabel("Research seed").selectOption("usdd-keeper-auction");
+  await page
+    .locator('input[name=\"research-seed\"][value=\"usdd-keeper-auction\"]')
+    .check();
   await page.goBack();
-  await expect(page.getByLabel("Research seed")).toHaveValue(
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
     "justlend-lending-liquidation",
   );
 });
 
 test("invalid seed links fall back to a valid demo seed", async ({ page }) => {
   await page.goto(`${entry}?seed=unknown`);
-  await expect(page.getByLabel("Research seed")).toHaveValue(
+  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
     "energy-rental-liquidation",
   );
   await expect(
-    page.getByRole("button", { name: "Run Discovery", exact: true }),
+    page.getByRole("button", { name: "Replay Demo", exact: true }),
   ).toBeVisible();
 });
 
@@ -204,9 +207,7 @@ test("synthetic USDD runs independently while recorded research remains unchange
   }
   await page.clock.install();
   await page.goto(entry + "?seed=usdd-keeper-auction");
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(4000);
   await page.getByRole("button", { name: "Pause demo", exact: true }).click();
   await page.clock.runFor(18000);
@@ -271,9 +272,7 @@ test("USDD demo reports keep synthetic labels and evidence after sharing and rel
   }
   await page.clock.install();
   await page.goto(entry + "?seed=usdd-keeper-auction");
-  await page
-    .getByRole("button", { name: "Run Discovery", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
   const preview = page.locator(".report-preview.featured");
   await expect(preview.locator(".seed-origin")).toContainText("Synthetic");

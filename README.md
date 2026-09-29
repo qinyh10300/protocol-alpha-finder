@@ -4,7 +4,7 @@
 
 Find protocol opportunities on TRON by studying wallets that executed known liquidations or keeper actions.
 
-**[Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** — choose a seed and select **Run Discovery**. Energy Rental and USDD use labeled synthetic examples; JustLend replays saved chain research. [Demo data and refresh instructions](docs/RECORDED_DEMO.md).
+**[Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** — choose a seed and select **Replay Demo**. Energy Rental and USDD use labeled synthetic examples; JustLend replays saved chain research. [Demo data and refresh instructions](docs/RECORDED_DEMO.md).
 
 ## How it works
 

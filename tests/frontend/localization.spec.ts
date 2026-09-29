@@ -70,7 +70,9 @@ test.describe("Bilingual research workspace", () => {
     await expect(page.locator(".skill-stages article")).toHaveCount(4);
     await expectEnglish(page);
     await page.keyboard.press("Escape");
-    await page.getByLabel("Research seed").selectOption("usdd-keeper-auction");
+    await page
+      .locator('input[name=\"research-seed\"][value=\"usdd-keeper-auction\"]')
+      .check();
     await expect(page.locator(".candidate-card")).toHaveCount(0);
     await expectEnglish(page);
   });
@@ -151,11 +153,14 @@ test.describe("Bilingual research workspace", () => {
 
     await page.locator("header nav button").first().click();
     await expect(page.locator(".candidate-card")).toHaveCount(5);
-    const seeds = page.locator(".seed-select select");
-    await seeds.selectOption("justlend-lending-liquidation");
+    await page
+      .locator(
+        'input[name="research-seed"][value="justlend-lending-liquidation"]',
+      )
+      .check();
     await expect(page.locator(".candidate-card")).toHaveCount(3);
     await expect(page.locator(".candidate-card h3").first()).toContainText(han);
-    await seeds.selectOption("all");
+    await page.locator('input[name="research-seed"][value="all"]').check();
     await expect(page.locator(".candidate-card")).toHaveCount(5);
     await page.waitForResponse(
       (response) =>
@@ -188,9 +193,7 @@ test("demo progression and replay keep the saved language", async ({
 }) => {
   await page.clock.install();
   await page.goto("/research?mode=demo");
-  await expect(
-    page.getByRole("button", { name: "Run Discovery" }),
-  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
   await expectEnglish(page);
   await setSavedLanguage(page, "zh");
   await page.locator(".run-control button").click();
