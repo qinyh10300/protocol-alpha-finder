@@ -31,7 +31,7 @@ export const SEED_SHORT_NAMES: Record<string, string> = {
 
 export const DEFAULT_DEMO_SEED = PROTOCOL_SEEDS[0].id;
 
-// The original Energy Rental scenario remains synthetic. Other seeds replay saved evidence.
+// Energy Rental uses the original mock payload. USDD has a separate synthetic fixture; JustLend replays saved evidence.
 // Reuse the implementation-pack examples so reports retain stable IDs and links.
 export const DEMO_SCENARIOS: Record<
   string,

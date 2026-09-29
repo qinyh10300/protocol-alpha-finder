@@ -12,8 +12,13 @@ export const uiZh: Record<string, string> = {
   "Wallet seed filter": "钱包种子筛选",
   Synthetic: "模拟",
   Recorded: "历史记录",
-  "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.":
-    "全部种子 · Energy Rental 使用模拟示例，JustLend 和 USDD 使用已保存的研究记录。回放不会发起新的链上搜寻。",
+  "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search.":
+    "全部种子 · Energy Rental 和 USDD 使用模拟示例，JustLend 使用已保存的研究记录。回放不会发起新的链上搜寻。",
+  "Simulated state": "模拟状态",
+  "simulated executions": "次模拟执行",
+  "simulated execution": "次模拟执行",
+  "Simulated Executions": "模拟执行",
+  "Synthetic USDD scenario data": "USDD 模拟场景数据",
   Language: "语言",
   unproven: "尚未证实",
   confirmed: "已确认",

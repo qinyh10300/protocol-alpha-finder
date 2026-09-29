@@ -18,8 +18,16 @@ const sourceTitles: Record<string, string> = {
 };
 const chinese: Record<string, string> = {
   ...chineseCatalog,
-  "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.":
-    "全部种子 · Energy Rental 使用模拟示例，JustLend 和 USDD 使用已保存的研究记录。回放不会发起新的链上搜寻。",
+  "USDD Auction Reset Reward": "USDD 拍卖重置奖励",
+  "USDD Auction Purchase Path": "USDD 拍卖购买流程",
+  "Synthetic USDD scenario data": "USDD 模拟场景数据",
+  "Synthetic USDD wallet identifier and transaction count. This is not an observed on-chain executor.":
+    "USDD 钱包标识和交易数量均为模拟值，并非实际观测到的链上执行者。",
+  "Synthetic USDD demo · Wallet identifiers, transaction counts, auction states, outcomes and playback timestamps are illustrative. The saved real USDD scan remains a separate zero-result record.":
+    "USDD 模拟演示 · 钱包标识、交易数量、拍卖状态、结果和回放时间均为示例。真实 USDD 搜寻的零结果记录独立保留。",
+
+  "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search.":
+    "全部种子 · Energy Rental 和 USDD 使用模拟示例，JustLend 使用已保存的研究记录。回放不会发起新的链上搜寻。",
   "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.":
     "历史研究回放 · 使用已保存的 Skill 证据，时间范围和核查时间见页面及报告。播放节奏为模拟，不会发起新的链上搜寻。",
   "Published Skill snapshot": "已发布的 Skill 研究快照",

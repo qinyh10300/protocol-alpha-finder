@@ -36,37 +36,34 @@ test("All fills all three columns with seed provenance and both dropdowns stay i
   await expect(page.getByLabel("Research seed")).toHaveValue("all");
   await expect(page.getByLabel("Wallet seed filter")).toHaveValue("all");
   await expect(page.locator(".demo-banner")).toContainText(
-    "Energy Rental uses synthetic examples",
+    "Energy Rental and USDD use synthetic examples",
   );
   await page
     .getByRole("button", { name: "Run Discovery", exact: true })
     .click();
   await page.clock.runFor(18000);
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "10",
-    "6",
-    "6",
+    "13",
+    "8",
+    "8",
   ]);
-  await expect(page.locator(".wallet-row")).toHaveCount(10);
-  await expect(page.locator(".candidate-card")).toHaveCount(6);
-  await expect(page.locator(".report-preview")).toHaveCount(6);
+  await expect(page.locator(".wallet-row")).toHaveCount(13);
+  await expect(page.locator(".candidate-card")).toHaveCount(8);
+  await expect(page.locator(".report-preview")).toHaveCount(8);
   await expect(page.locator(".wallet-row .seed-origin.synthetic")).toHaveCount(
-    5,
+    8,
   );
   await expect(page.locator(".wallet-row .seed-origin.recorded")).toHaveCount(
     5,
   );
   await expect(
     page.locator(".candidate-card > .seed-origin.synthetic"),
-  ).toHaveCount(3);
+  ).toHaveCount(5);
   await expect(
     page.locator(".candidate-card > .seed-origin.recorded"),
   ).toHaveCount(3);
-  await page.locator(".seed-coverage-detail summary").click();
-  await expect(page.locator(".seed-coverage-detail")).toContainText(
-    "27 bounded provider queries completed",
-  );
-  await expect(page.locator(".summary-bottom")).toContainText("9,623");
+  await expect(page.locator(".seed-coverage-detail")).toHaveCount(0);
+  await expect(page.locator(".summary-bottom")).toContainText("11,603");
 
   await page.locator(".wallet-details-hit").last().click();
   await page.getByRole("button", { name: "Show related candidates" }).click();
@@ -98,7 +95,7 @@ test("All fills all three columns with seed provenance and both dropdowns stay i
   await expect(page.locator(".candidate-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Resume demo", exact: true }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".report-preview")).toHaveCount(6);
+  await expect(page.locator(".report-preview")).toHaveCount(8);
   const preview = page.locator(".report-preview.featured");
   const title = await preview.locator("h3").innerText();
   await preview.getByRole("button", { name: "Copy link", exact: true }).click();

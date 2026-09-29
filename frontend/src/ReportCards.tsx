@@ -168,9 +168,11 @@ export function AlphaReportPreview({
                 className="report-checked"
                 title={reportDate(report.lastCheckedAt, locale, t, true)}
               >
-                {t("Checked {date}", {
-                  date: reportDate(report.lastCheckedAt, locale, t),
-                })}
+                {report.provenance === "synthetic"
+                  ? t("Simulated state")
+                  : t("Checked {date}", {
+                      date: reportDate(report.lastCheckedAt, locale, t),
+                    })}
               </span>
             )}
             {!featured && (

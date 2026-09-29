@@ -4,7 +4,7 @@
 
 Find protocol opportunities on TRON by studying wallets that executed known liquidations or keeper actions.
 
-**[Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** — choose a seed and select **Run Discovery**. Energy Rental uses synthetic examples; JustLend and USDD replay saved chain research. [Demo data and refresh instructions](docs/RECORDED_DEMO.md).
+**[Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)** — choose a seed and select **Run Discovery**. Energy Rental and USDD use labeled synthetic examples; JustLend replays saved chain research. [Demo data and refresh instructions](docs/RECORDED_DEMO.md).
 
 ## How it works
 
@@ -46,6 +46,6 @@ npm ci
 npm run dev
 ```
 
-Open [the local Demo](http://127.0.0.1:5173/research?mode=demo). The JustLend and USDD replays include published research snapshots. The full local Skill-results mode requires the saved `data/` artifacts, which are excluded from Git.
+Open [the local Demo](http://127.0.0.1:5173/research?mode=demo). JustLend replays a published research snapshot; USDD uses a labeled synthetic fixture and preserves its original zero-result research snapshot separately. The full local Skill-results mode requires the saved `data/` artifacts, which are excluded from Git.
 
 [Skill setup](skills/README.md) · [Development guide](frontend/README.md) · [Pitch notes](pitch-deck/README.md)

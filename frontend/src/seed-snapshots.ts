@@ -124,6 +124,6 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
         name: `${SEED_SHORT_NAMES[snapshot.run.seedId]} · ${skill.name}`,
       })),
     ),
-    note: "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.",
+    note: "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search.",
   };
 }

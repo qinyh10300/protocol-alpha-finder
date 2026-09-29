@@ -1,5 +1,5 @@
 import lendingReplay from "../public/research/justlend-lending-liquidation.json";
-import usddReplay from "../public/research/usdd-keeper-auction.json";
+import usddDemo from "../public/research/usdd-synthetic-demo.json";
 import mockPayload from "../../Protocol_Alpha_Finder_Frontend_Implementation_Pack/06_MOCK_DATA.json";
 import {
   ALL_SEEDS,
@@ -20,7 +20,10 @@ import type {
 // Checked-in exports are usable on GitHub Pages without the local Python API.
 const recordedReplays: Record<string, Snapshot> = {
   "justlend-lending-liquidation": lendingReplay as Snapshot,
-  "usdd-keeper-auction": usddReplay as Snapshot,
+};
+
+const syntheticReplays: Record<string, Snapshot> = {
+  "usdd-keeper-auction": usddDemo as Snapshot,
 };
 
 export interface ResearchDataSource {
@@ -142,8 +145,9 @@ export class MockResearchDataSource implements ResearchDataSource {
   }
   private async getSeedSnapshot(seedId: string): Promise<Snapshot> {
     const recorded = recordedReplays[seedId];
-    const data = structuredClone(recorded || mockPayload);
-    if (!recorded) {
+    const scenario = recorded || syntheticReplays[seedId];
+    const data = structuredClone(scenario || mockPayload);
+    if (!scenario) {
       const scenario = DEMO_SCENARIOS[seedId];
       data.wallets = data.wallets.filter((wallet) =>
         scenario.wallets.includes(wallet.address),
@@ -255,7 +259,7 @@ export class MockResearchDataSource implements ResearchDataSource {
         entityId: r.id,
       }),
     );
-    const recordedActivity = recorded?.activity
+    const scenarioActivity = scenario?.activity
       .filter((event) => {
         if (event.entityType === "wallet")
           return wallets.some(
@@ -277,17 +281,17 @@ export class MockResearchDataSource implements ResearchDataSource {
         ALL_SEEDS,
         ...PROTOCOL_SEEDS.map((seed) => ({
           ...seed,
-          ...recordedReplays[seed.id]?.seeds.find(
-            (entry) => entry.id === seed.id,
-          ),
+          ...(
+            recordedReplays[seed.id] || syntheticReplays[seed.id]
+          )?.seeds.find((entry) => entry.id === seed.id),
         })),
       ],
       wallets,
       candidates,
       reports,
-      activity: recordedActivity || activity,
-      skills: recorded
-        ? recorded.skills.map((skill, index) => ({
+      activity: scenarioActivity || activity,
+      skills: scenario
+        ? scenario.skills.map((skill, index) => ({
             ...skill,
             status:
               !this.started || t < [0, 3, 12][index]
@@ -305,7 +309,7 @@ export class MockResearchDataSource implements ResearchDataSource {
       provenance: recorded ? "recorded" : "synthetic",
       window: recorded?.window,
       note:
-        recorded?.note ||
+        scenario?.note ||
         "Synthetic demo · Timed replay of the implementation-pack mock data. Addresses, opportunity claims and timestamps are illustrative.",
     };
   }
@@ -323,10 +327,13 @@ export class MockResearchDataSource implements ResearchDataSource {
     return (await this.getSnapshot()).reports;
   }
   async getReport(id: string) {
-    const recorded = Object.values(recordedReplays)
+    const scenarioReport = Object.values({
+      ...recordedReplays,
+      ...syntheticReplays,
+    })
       .flatMap((snapshot) => snapshot.reports)
       .find((report) => report.id === id);
-    if (recorded) return structuredClone(recorded);
+    if (scenarioReport) return structuredClone(scenarioReport);
     const report = mockPayload.reports.find((r) => r.id === id);
     if (!report) throw new Error("Report not found");
     return {

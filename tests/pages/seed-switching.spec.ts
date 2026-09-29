@@ -25,8 +25,8 @@ const scenarios = [
   {
     id: "usdd-keeper-auction",
     name: "USDD Keeper / Auction",
-    wallets: 0,
-    titles: [],
+    wallets: 3,
+    titles: ["USDD Auction Reset Reward", "USDD Auction Purchase Path"],
   },
 ];
 
@@ -67,14 +67,10 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
     ).toBeVisible();
   }
   await expect(page.locator(".seed-object p")).toHaveText(
-    "TRON · Recorded Skill evidence",
+    "USDD · Synthetic demo seed",
   );
-  await expect(page.locator(".coverage-note")).toContainText(
-    "27 bounded provider queries completed",
-  );
-  await expect(page.locator(".demo-banner")).toContainText(
-    "Recorded research replay",
-  );
+  await expect(page.locator(".coverage-note")).toHaveCount(0);
+  await expect(page.locator(".demo-banner")).toContainText("Synthetic demo");
   await select.selectOption(scenarios[1].id);
   await page
     .getByRole("button", { name: "Run Discovery", exact: true })
@@ -173,7 +169,7 @@ test("invalid seed links fall back to a valid demo seed", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("recorded seed evidence is static, internally consistent, and keeps USDD empty", async ({
+test("synthetic USDD runs independently while recorded research remains unchanged", async ({
   page,
   request,
 }) => {
@@ -219,21 +215,91 @@ test("recorded seed evidence is static, internally consistent, and keeps USDD em
   ).toBeVisible();
   await page.getByRole("button", { name: "Resume demo", exact: true }).click();
   await page.clock.runFor(18000);
-  await expect(
-    page.locator(".wallet-row, .candidate-card, .report-preview"),
-  ).toHaveCount(0);
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "0",
-    "0",
-    "0",
+    "3",
+    "2",
+    "2",
   ]);
-  await expect(page.locator(".coverage-note")).toContainText(
-    "Empty indexes do not prove absence from the whole chain",
+  await expect(page.locator(".wallet-row .seed-origin.synthetic")).toHaveCount(
+    3,
   );
+  await expect(
+    page.locator(".candidate-card > .seed-origin.synthetic"),
+  ).toHaveCount(2);
+  await expect(
+    page.locator(".coverage-note, .seed-coverage-detail"),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "View run activity" }).click();
-  await expect(page.locator(".skill-stages article")).toHaveCount(1);
+  await expect(page.locator(".skill-stages article")).toHaveCount(3);
   await expect(page.getByRole("dialog")).toContainText(
+    "Simulated discovery of 3 fictional USDD wallets",
+  );
+  const saved = await request.get(
+    "/frontend/research/usdd-keeper-auction.json",
+  );
+  const original = await saved.json();
+  expect(original.provenance).toBe("recorded");
+  expect(original.wallets).toEqual([]);
+  expect(original.reports).toEqual([]);
+  expect(original.seeds[0].coverage).toContain(
     "27 bounded provider queries completed",
   );
   expect(apiRequests).toEqual([]);
+});
+
+test("USDD demo reports keep synthetic labels and evidence after sharing and reload", async ({
+  page,
+  request,
+}) => {
+  const fixtureResponse = await request.get(
+    "/frontend/research/usdd-synthetic-demo.json",
+  );
+  expect(fixtureResponse.ok()).toBe(true);
+  const fixture = await fixtureResponse.json();
+  expect(fixture.provenance).toBe("synthetic");
+  for (const wallet of fixture.wallets) {
+    expect(wallet.address).toMatch(/^DEMO-USDD-/);
+  }
+  for (const report of fixture.reports) {
+    expect(report.provenance).toBe("synthetic");
+    expect(
+      report.evidenceRefs.every(
+        (ref: { type: string }) => ref.type === "document",
+      ),
+    ).toBe(true);
+    expect(report.lastCheckedAt).toBeUndefined();
+  }
+  await page.clock.install();
+  await page.goto(entry + "?seed=usdd-keeper-auction");
+  await page
+    .getByRole("button", { name: "Run Discovery", exact: true })
+    .click();
+  await page.clock.runFor(18000);
+  const preview = page.locator(".report-preview.featured");
+  await expect(preview.locator(".seed-origin")).toContainText("Synthetic");
+  await expect(preview).toContainText("Simulated state");
+  await preview.getByRole("button", { name: "Copy link", exact: true }).click();
+  const shared = new URL(
+    await page.evaluate(() => navigator.clipboard.readText()),
+  );
+  expect(shared.searchParams.get("seed")).toBe("usdd-keeper-auction");
+  expect(shared.searchParams.get("view")).toContain("report-demo-usdd-");
+  await page.goto(shared.href);
+  await page.reload();
+  await expect(page.locator(".demo-banner")).toContainText("Synthetic demo");
+  await expect(page.locator(".toc-note")).toContainText(
+    "Synthetic demo report",
+  );
+  await expect(page.locator(".executive-summary")).toContainText(
+    "fictional demonstration",
+  );
+  await expect(page.locator('a[href*="tronscan.org"]')).toHaveCount(0);
+  const source = page.getByRole("link", {
+    name: "Synthetic USDD scenario data",
+  });
+  const sourceResponse = await request.get(
+    new URL((await source.getAttribute("href"))!, page.url()).href,
+  );
+  expect(sourceResponse.ok()).toBe(true);
+  expect((await sourceResponse.json()).provenance).toBe("synthetic");
 });

@@ -573,7 +573,7 @@ function WalletInvestigationList({
               wallet={w}
               index={i}
               selected={wallet === w.address}
-              showSeed={allSeeds}
+              showSeed={allSeeds || w.provenance === "synthetic"}
               onClick={() => choose(w)}
             />
           ))
@@ -672,9 +672,11 @@ function AlphaCandidateCard({
         </div>
         <div>
           <span>
-            {c.evidenceCountLabel === "reconciled samples"
-              ? t("Reconciled Samples")
-              : t("Historical Executions")}
+            {c.evidenceCountLabel === "simulated executions"
+              ? t("Simulated Executions")
+              : c.evidenceCountLabel === "reconciled samples"
+                ? t("Reconciled Samples")
+                : t("Historical Executions")}
           </span>
           <strong>
             {c.historicalExecutionCount == null
@@ -902,7 +904,7 @@ function ResearchActivityDrawer({
       <p className="drawer-note">
         {data.provenance === "mixed"
           ? t(
-              "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search.",
+              "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search.",
             )
           : data.mode === "archive" || data.provenance === "recorded"
             ? t(
@@ -927,11 +929,7 @@ function ResearchActivityDrawer({
                 target="_blank"
                 rel="noreferrer"
               >
-                {t(
-                  data.provenance === "recorded"
-                    ? "Read Skill"
-                    : "Read Skill report",
-                )}
+                {t(data.mode === "demo" ? "Read Skill" : "Read Skill report")}
                 <ExternalLink size={12} />
               </a>
               <a
@@ -1475,7 +1473,7 @@ function App() {
             <span>
               {t(
                 provenance === "mixed"
-                  ? "All seeds · Energy Rental uses synthetic examples. JustLend and USDD use recorded research. Playback does not start a new on-chain search."
+                  ? "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search."
                   : provenance === "recorded"
                     ? "Saved chain research with simulated playback. Run Discovery replays the recorded results; it does not start a new search."
                     : isPagesBuild
