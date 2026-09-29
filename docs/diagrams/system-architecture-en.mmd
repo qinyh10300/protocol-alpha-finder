@@ -1,33 +1,34 @@
-%% Colored Skill nodes annotate the transitions between research artifacts.
+%% Compact entity groups; colored Skills annotate the transitions.
+%% SVG uses cubic S curves; edit its layout in render_architecture.py.
 flowchart LR
     subgraph SEEDS["Alpha Seeds"]
-        SEEDS0["Energy Rental<br/>Liquidate rental orders<br/>Resources + rewards"]
-        SEEDS1["JustLend<br/>Liquidate unhealthy debt<br/>Receive collateral"]
-        SEEDS2["USDD<br/>Trigger / reset / buy<br/>Keeper / auction actions"]
+        SEEDS0["Energy Rental<br/>Rental liquidation"]
+        SEEDS1["JustLend<br/>Lending liquidation"]
+        SEEDS2["USDD<br/>Keeper / auction"]
     end
     subgraph WALLETS["Strategy Wallets"]
-        WALLETS0["Wallet A<br/>TNQ8…GDW2m<br/>Energy Rental liquidations<br/>Also rents and returns resources"]
-        WALLETS1["Wallet B<br/>TUAA…uqrSS<br/>JustLend liquidations<br/>Also executes cross-pool swaps"]
-        WALLETS2["Wallet C<br/>TFaz…hVFB<br/>JustLend liquidations<br/>Also redeems seized collateral"]
+        WALLETS0["Wallet A · Rental<br/>Rent → liquidate → return"]
+        WALLETS1["Wallet B · Lending<br/>Liquidation + cross-pool swaps"]
+        WALLETS2["Wallet C · Lending<br/>Liquidation + redemption"]
     end
-    subgraph CANDIDATES["Candidate Mechanisms"]
-        CANDIDATES0["Rent → Liquidate → Return<br/>Bundling rental and liquidation<br/>may lower execution costs.<br/>Evidence: ordered receipt events"]
-        CANDIDATES1["Liquidate → Redeem → Swap<br/>Redeeming and swapping collateral<br/>may recycle capital in one transaction.<br/>Evidence: liquidation + asset flows"]
-        CANDIDATES2["Cross-pool round trip<br/>Same-token round trips may capture<br/>price differences between pools.<br/>Evidence: decoded swaps + transfers"]
+    subgraph CANDIDATES["Alpha Candidates"]
+        CANDIDATES0["Rental sequence<br/>Bundled calls may lower costs."]
+        CANDIDATES1["Collateral recycling<br/>Redeem + swap may free capital."]
+        CANDIDATES2["Cross-pool loop<br/>Price gaps may reward a round trip."]
     end
-    S0["protocol-alpha-discovery<br/>Set scope · Coordinate evidence handoffs · Decide next checks"]
-    S1["alpha-seed-wallets<br/>Find & verify executors<br/>Calls · Receipts · Executor roles"]
-    S2["wallet-alpha-investigation<br/>Investigate wallet history<br/>Sequences · Flows · Hypotheses"]
-    S3["protocol-alpha-validation<br/>Validate each candidate<br/>Mechanism · State · Costs / risks"]
-    ALPHA["New Alpha<br/>If the mechanism is established<br/>Record its execution conditions<br/>Consider it as a new seed"]
-    REPORT["Alpha Report<br/>Mechanism + evidence<br/>Current state + next checks<br/>Actionable · Monitor<br/>Rejected · Insufficient Evidence"]
+    S0["Coordinate the pipeline<br/>protocol-alpha-discovery"]
+    S1["Find & verify<br/>alpha-seed-wallets"]
+    S2["Investigate history<br/>wallet-alpha-investigation"]
+    S3["Validate mechanism<br/>protocol-alpha-validation"]
+    ALPHA["New Alpha<br/>If validated"]
+    REPORT["Alpha Report<br/>Evidence + next checks"]
     SEEDS --> S1 --> WALLETS --> S2 --> CANDIDATES --> S3
     S3 --> ALPHA
     S3 --> REPORT
     S0 -.-> S1
     S0 -.-> S2
     S0 -.-> S3
-    style S0 fill:#eaf6ef,stroke:#7caa90
-    style S1 fill:#eaf3ff,stroke:#84abe0
-    style S2 fill:#f4edff,stroke:#b79ad8
-    style S3 fill:#fff4df,stroke:#d4ad65
+    style S0 fill:#edf6f0,stroke:#bad8c6
+    style S1 fill:#edf4ff,stroke:#b7cff5
+    style S2 fill:#f4effc,stroke:#d3c2ee
+    style S3 fill:#fff5e5,stroke:#ecd1a2

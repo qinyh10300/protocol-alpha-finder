@@ -1,33 +1,34 @@
-%% Colored Skill nodes annotate the transitions between research artifacts.
+%% Compact entity groups; colored Skills annotate the transitions.
+%% SVG uses cubic S curves; edit its layout in render_architecture.py.
 flowchart LR
     subgraph SEEDS["Alpha Seed"]
-        SEEDS0["Energy Rental<br/>清算符合条件的租赁订单<br/>回收资源并获得协议奖励"]
-        SEEDS1["JustLend<br/>清算抵押不足的借贷头寸<br/>获得被清算的抵押品"]
-        SEEDS2["USDD<br/>清算／重启／购买<br/>检查 keeper 与拍卖操作"]
+        SEEDS0["Energy Rental<br/>能量租赁清算"]
+        SEEDS1["JustLend<br/>借贷清算"]
+        SEEDS2["USDD<br/>Keeper／拍卖"]
     end
-    subgraph WALLETS["Strategy Wallets · 策略钱包"]
-        WALLETS0["钱包 A<br/>TNQ8…GDW2m<br/>执行 Energy Rental 清算<br/>同时出现资源租赁与归还操作"]
-        WALLETS1["钱包 B<br/>TUAA…uqrSS<br/>执行 JustLend 清算<br/>其他历史中还存在跨池兑换"]
-        WALLETS2["钱包 C<br/>TFaz…hVFB<br/>执行 JustLend 清算<br/>还会赎回获得的抵押品"]
+    subgraph WALLETS["策略钱包"]
+        WALLETS0["钱包 A · 租赁清算<br/>租赁 → 清算 → 归还"]
+        WALLETS1["钱包 B · 借贷清算<br/>清算 + 跨池兑换"]
+        WALLETS2["钱包 C · 借贷清算<br/>清算 + 抵押品赎回"]
     end
-    subgraph CANDIDATES["候选机制"]
-        CANDIDATES0["租赁 → 清算 → 归还<br/>同笔组合租赁与清算，<br/>可能降低执行成本。<br/>证据：回执中的有序事件"]
-        CANDIDATES1["清算 → 赎回 → 兑换<br/>赎回并兑换抵押品，<br/>可能在一笔交易中回收资金。<br/>证据：清算记录与资产流"]
-        CANDIDATES2["跨池循环兑换<br/>同一资产跨池兑换后回到起点，<br/>可能利用池间价差。<br/>证据：已解码兑换与转账"]
+    subgraph CANDIDATES["Alpha 候选"]
+        CANDIDATES0["租赁组合操作<br/>合并调用可能降低执行成本。"]
+        CANDIDATES1["抵押品回收<br/>赎回并兑换可能加快资金回收。"]
+        CANDIDATES2["跨池循环兑换<br/>往返兑换可能利用池间价差。"]
     end
-    S0["protocol-alpha-discovery<br/>确定研究范围 · 协调证据交接 · 决定后续检查"]
-    S1["alpha-seed-wallets<br/>发现并核验执行者<br/>调用 · 成功回执 · 执行者身份"]
-    S2["wallet-alpha-investigation<br/>研究钱包历史<br/>调用序列 · 资产流 · 机制假设"]
-    S3["protocol-alpha-validation<br/>逐个验证候选<br/>机制 · 当前状态 · 成本与风险"]
-    ALPHA["新的 Alpha<br/>机制得到验证后产出<br/>记录适用的执行条件<br/>评估是否成为新的 Seed"]
-    REPORT["Alpha 报告<br/>机制判断与支持证据<br/>当前状态与后续检查<br/>可执行 · 持续观察<br/>已排除 · 证据不足"]
+    S0["协调整条研究流程<br/>protocol-alpha-discovery"]
+    S1["发现并核验<br/>alpha-seed-wallets"]
+    S2["研究钱包历史<br/>wallet-alpha-investigation"]
+    S3["验证机制<br/>protocol-alpha-validation"]
+    ALPHA["新的 Alpha<br/>验证成立后产出"]
+    REPORT["Alpha 报告<br/>证据与后续检查"]
     SEEDS --> S1 --> WALLETS --> S2 --> CANDIDATES --> S3
     S3 --> ALPHA
     S3 --> REPORT
     S0 -.-> S1
     S0 -.-> S2
     S0 -.-> S3
-    style S0 fill:#eaf6ef,stroke:#7caa90
-    style S1 fill:#eaf3ff,stroke:#84abe0
-    style S2 fill:#f4edff,stroke:#b79ad8
-    style S3 fill:#fff4df,stroke:#d4ad65
+    style S0 fill:#edf6f0,stroke:#bad8c6
+    style S1 fill:#edf4ff,stroke:#b7cff5
+    style S2 fill:#f4effc,stroke:#d3c2ee
+    style S3 fill:#fff5e5,stroke:#ecd1a2

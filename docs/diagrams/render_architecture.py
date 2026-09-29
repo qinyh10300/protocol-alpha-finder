@@ -1,191 +1,169 @@
-"""Render bilingual, evidence-backed examples of the four-Skill discovery pipeline."""
+"""Render a compact bilingual discovery pipeline with curved, Skill-labeled transitions."""
 from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SKILLS = ["protocol-alpha-discovery", "alpha-seed-wallets", "wallet-alpha-investigation", "protocol-alpha-validation"]
-COLORS = [("#eaf6ef", "#7caa90"), ("#eaf3ff", "#84abe0"), ("#f4edff", "#b79ad8"), ("#fff4df", "#d4ad65")]
+COLORS = [
+    ("#edf6f0", "#bad8c6", "#4d8064"),
+    ("#edf4ff", "#b7cff5", "#5c88cc"),
+    ("#f4effc", "#d3c2ee", "#9671be"),
+    ("#fff5e5", "#ecd1a2", "#c19349"),
+]
 LABELS = {
     "en": {
         "title": "From Seed Alpha to New Alpha",
-        "orchestrate": "Orchestrate the research",
-        "scope": "Set scope · Coordinate evidence handoffs · Decide next checks",
-        "headers": ["Alpha Seeds", "Strategy Wallets", "Candidate Mechanisms", "Validation Results"],
+        "orchestrate": "Coordinate the pipeline",
+        "headers": ["Alpha Seeds", "Strategy Wallets", "Alpha Candidates", "Outcomes"],
         "seeds": [
-            ["Energy Rental", "Liquidate rental orders", "Resources + rewards"],
-            ["JustLend", "Liquidate unhealthy debt", "Receive collateral"],
-            ["USDD", "Trigger / reset / buy", "Keeper / auction actions"],
+            ["Energy Rental", "Rental liquidation"],
+            ["JustLend", "Lending liquidation"],
+            ["USDD", "Keeper / auction"],
         ],
         "wallets": [
-            ["Wallet A", "TNQ8…GDW2m", "Energy Rental liquidations", "Also rents and returns resources"],
-            ["Wallet B", "TUAA…uqrSS", "JustLend liquidations", "Also executes cross-pool swaps"],
-            ["Wallet C", "TFaz…hVFB", "JustLend liquidations", "Also redeems seized collateral"],
+            ["Wallet A · Rental", "Rent → liquidate → return"],
+            ["Wallet B · Lending", "Liquidation + cross-pool swaps"],
+            ["Wallet C · Lending", "Liquidation + redemption"],
         ],
         "candidates": [
-            ["Rent → Liquidate → Return", ["Bundling rental and liquidation", "may lower execution costs."], "Evidence: ordered receipt events"],
-            ["Liquidate → Redeem → Swap", ["Redeeming and swapping collateral", "may recycle capital in one transaction."], "Evidence: liquidation + asset flows"],
-            ["Cross-pool round trip", ["Same-token round trips may capture", "price differences between pools."], "Evidence: decoded swaps + transfers"],
+            ["Rental sequence", "Bundled calls may lower costs."],
+            ["Collateral recycling", "Redeem + swap may free capital."],
+            ["Cross-pool loop", "Price gaps may reward a round trip."],
         ],
-        "actions": [
-            ["Find & verify executors", "Calls · Receipts · Executor roles"],
-            ["Investigate wallet history", "Sequences · Flows · Hypotheses"],
-            ["Validate each candidate", "Mechanism · State · Costs / risks"],
-        ],
-        "new_alpha": ["New Alpha", "If the mechanism is established", "Record its execution conditions", "Consider it as a new seed"],
-        "report": ["Alpha Report", "Mechanism + evidence", "Current state + next checks", "Actionable · Monitor", "Rejected · Insufficient Evidence"],
-        "caption": "Selected wallets from the saved run; candidate cards group related mechanisms. USDD has no verified wallet in this run.",
-        "status": "Saved results: 3 Monitor · 2 Insufficient Evidence · No candidate promoted to a new seed",
-        "description": "Three Alpha seeds lead through colored Skill arrows to real example wallets and candidate mechanisms. Wallet A executes Energy Rental liquidation; wallets B and C execute JustLend liquidation. Their activity motivates rental-liquidation-return, liquidation-redemption-swap and cross-pool round-trip hypotheses. Validation produces evidence reports and may establish new Alpha. The saved run has not promoted any new seed.",
+        "actions": ["Find & verify", "Investigate history", "Validate mechanism"],
+        "new_alpha": ["New Alpha", "If validated"],
+        "report": ["Alpha Report", "Evidence + next checks"],
+        "caption": "Saved research examples · USDD: no verified wallet in this run · New Alpha remains conditional",
+        "description": "Energy Rental, JustLend and USDD seed a four-Skill pipeline. Curved blue, purple and amber arrows connect seed mechanisms, selected wallet behaviors, candidate hypotheses and validation outcomes. A green orchestration Skill coordinates the research. The saved run has no promoted new seed; sources and evidence limits are described in the architecture document.",
     },
     "zh-CN": {
         "title": "从 Seed Alpha 发现新的 Alpha",
-        "orchestrate": "编排整条研究流程",
-        "scope": "确定研究范围 · 协调证据交接 · 决定后续检查",
-        "headers": ["Alpha Seed", "Strategy Wallets · 策略钱包", "候选机制", "验证结果"],
+        "orchestrate": "协调整条研究流程",
+        "headers": ["Alpha Seed", "策略钱包", "Alpha 候选", "验证结果"],
         "seeds": [
-            ["Energy Rental", "清算符合条件的租赁订单", "回收资源并获得协议奖励"],
-            ["JustLend", "清算抵押不足的借贷头寸", "获得被清算的抵押品"],
-            ["USDD", "清算／重启／购买", "检查 keeper 与拍卖操作"],
+            ["Energy Rental", "能量租赁清算"],
+            ["JustLend", "借贷清算"],
+            ["USDD", "Keeper／拍卖"],
         ],
         "wallets": [
-            ["钱包 A", "TNQ8…GDW2m", "执行 Energy Rental 清算", "同时出现资源租赁与归还操作"],
-            ["钱包 B", "TUAA…uqrSS", "执行 JustLend 清算", "其他历史中还存在跨池兑换"],
-            ["钱包 C", "TFaz…hVFB", "执行 JustLend 清算", "还会赎回获得的抵押品"],
+            ["钱包 A · 租赁清算", "租赁 → 清算 → 归还"],
+            ["钱包 B · 借贷清算", "清算 + 跨池兑换"],
+            ["钱包 C · 借贷清算", "清算 + 抵押品赎回"],
         ],
         "candidates": [
-            ["租赁 → 清算 → 归还", ["同笔组合租赁与清算，", "可能降低执行成本。"], "证据：回执中的有序事件"],
-            ["清算 → 赎回 → 兑换", ["赎回并兑换抵押品，", "可能在一笔交易中回收资金。"], "证据：清算记录与资产流"],
-            ["跨池循环兑换", ["同一资产跨池兑换后回到起点，", "可能利用池间价差。"], "证据：已解码兑换与转账"],
+            ["租赁组合操作", "合并调用可能降低执行成本。"],
+            ["抵押品回收", "赎回并兑换可能加快资金回收。"],
+            ["跨池循环兑换", "往返兑换可能利用池间价差。"],
         ],
-        "actions": [
-            ["发现并核验执行者", "调用 · 成功回执 · 执行者身份"],
-            ["研究钱包历史", "调用序列 · 资产流 · 机制假设"],
-            ["逐个验证候选", "机制 · 当前状态 · 成本与风险"],
-        ],
-        "new_alpha": ["新的 Alpha", "机制得到验证后产出", "记录适用的执行条件", "评估是否成为新的 Seed"],
-        "report": ["Alpha 报告", "机制判断与支持证据", "当前状态与后续检查", "可执行 · 持续观察", "已排除 · 证据不足"],
-        "caption": "钱包取自留档中的部分真实样本；候选按相近机制归类。本次 USDD 查询未找到已核验钱包。",
-        "status": "留档结果：3 份持续观察 · 2 份证据不足 · 尚无候选被提升为新 Seed",
-        "description": "三个 Alpha Seed 通过不同颜色的 Skill 箭头找到真实钱包样本，再形成候选机制。钱包 A 执行 Energy Rental 清算，钱包 B 和 C 执行 JustLend 清算。钱包活动形成租赁清算归还、清算赎回兑换和跨池循环兑换三类假设。候选验证产出证据报告，机制成立后可形成新 Alpha。本次留档尚未产生新的 Seed。",
+        "actions": ["发现并核验", "研究钱包历史", "验证机制"],
+        "new_alpha": ["新的 Alpha", "验证成立后产出"],
+        "report": ["Alpha 报告", "证据与后续检查"],
+        "caption": "留档研究样本 · 本次 USDD 查询无已核验钱包 · 新 Alpha 仍需验证",
+        "description": "Energy Rental、JustLend 与 USDD 构成三个研究入口。蓝、紫、橙色曲线及 Skill 标签连接入口机制、钱包行为、候选假设与验证结果，绿色编排 Skill 协调整条流程。留档中尚无候选被提升为新 Seed，样本来源和证据限制见架构文档。",
     },
 }
 
 
 def render(lang, labels):
-    parts = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="2180" height="1090" viewBox="0 0 2180 1090" role="img" aria-labelledby="title desc" xml:lang="{lang}">
+    parts = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="1960" height="830" viewBox="0 0 1960 830" role="img" aria-labelledby="title desc" xml:lang="{lang}">
 <title id="title">{escape(labels['title'])}</title>
 <desc id="desc">{escape(labels['description'])}</desc>
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#62778c" stroke-width="1.5"/></marker></defs>
+<defs>''']
+    for i, (_, _, accent) in enumerate(COLORS):
+        size = 7 if i == 0 else 12
+        parts.append(f'<marker id="arrow-{i}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="{size}" markerHeight="{size}" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="{accent}"/></marker>')
+    parts.append('''</defs>
 <style>
-text {{ font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #253647; }}
-.heading {{ font-size: 34px; font-weight: 700; }}
-.section {{ font-size: 24px; font-weight: 600; }}
-.node {{ font-size: 23px; font-weight: 600; }}
-.sub {{ font-size: 19px; fill: #536d82; }}
-.detail {{ font-size: 17px; fill: #60788b; }}
-.skill {{ font-family: 'SFMono-Regular', Consolas, monospace; font-size: 16px; font-weight: 600; }}
-.line {{ fill: none; stroke: #788c9e; stroke-width: 1.6; }}
-.arrow {{ fill: none; stroke: #788c9e; stroke-width: 1.6; marker-end: url(#arrow); }}
-.orchestrate {{ fill: none; stroke: #89a998; stroke-width: 1.5; stroke-dasharray: 6 5; marker-end: url(#arrow); }}
+text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill: #23374c; }
+.heading { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; }
+.section { font-size: 23px; font-weight: 650; }
+.node { font-size: 21px; font-weight: 600; }
+.sub { font-size: 17px; fill: #677c91; }
+.skill { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 14px; }
+.action { font-size: 19px; font-weight: 600; }
+.caption { font-size: 16px; fill: #7c8d9e; }
 </style>
-<rect width="2180" height="1090" fill="#ffffff"/>''']
+<rect width="1960" height="830" fill="#ffffff"/>
+''')
 
-    def text(x, y, value, cls="sub", anchor="middle"):
-        parts.append(f'<text x="{x}" y="{y}" class="{cls}" text-anchor="{anchor}">{escape(value)}</text>')
+    def text(x, y, value, cls="sub", anchor="middle", color=None):
+        fill = f' style="fill:{color}"' if color else ''
+        parts.append(f'<text x="{x}" y="{y}" class="{cls}" text-anchor="{anchor}"{fill}>{escape(value)}</text>')
 
-    def rect(x, y, w, h, fill="#ffffff", stroke="#cbd6e0"):
-        parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="11" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>')
+    def rect(x, y, w, h, fill="#ffffff", stroke="#dce5ef", radius=20):
+        parts.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{radius}" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>')
 
-    def path(d, cls="line"):
-        parts.append(f'<path d="{d}" class="{cls}"/>')
+    def curve(d, color_index, width=4, dashed=False):
+        accent = COLORS[color_index][2]
+        dash = ' stroke-dasharray="4 7" opacity="0.4"' if dashed else ''
+        parts.append(f'<path d="{d}" fill="none" stroke="{accent}" stroke-width="{width}" stroke-linecap="round" marker-end="url(#arrow-{color_index})"{dash}/>')
 
     text(40, 52, labels["title"], "heading", "start")
-    path("M 150 240 V 170 H 2005 V 240", "orchestrate")
-    rect(740, 100, 700, 138, *COLORS[0])
-    text(1090, 138, labels["orchestrate"], "node")
-    text(1090, 174, SKILLS[0], "skill")
-    text(1090, 210, labels["scope"])
 
-    for x, heading in zip([150, 710, 1350, 2005], labels["headers"]):
-        text(x, 294, heading, "section")
+    # Soft orchestration links and stronger S curves establish the visual hierarchy.
+    curve("M 980 177 C 980 252 400 250 400 393", 0, 1.6, True)
+    curve("M 980 177 C 980 250 945 300 945 393", 0, 1.6, True)
+    curve("M 980 177 C 980 210 1555 190 1555 393", 0, 1.6, True)
+    curve("M 280 475 C 390 475 410 535 512 535", 1)
+    curve("M 800 535 C 930 535 958 475 1082 475", 2)
+    curve("M 1410 475 C 1540 475 1560 505 1692 505", 3)
 
-    # Column cards: factual behavior on wallets; one-sentence hypotheses on candidates.
-    for i, y in enumerate([340, 560, 780]):
-        cy = y + 85
-        seed = labels["seeds"][i]
-        wallet = labels["wallets"][i]
-        candidate = labels["candidates"][i]
-        rect(40, y, 220, 170, "#f7faff", "#bfd0e5")
-        text(150, y + 43, seed[0], "node")
-        text(150, y + 91, seed[1], "detail")
-        text(150, y + 121, seed[2], "detail")
-        rect(570, y, 280, 170)
-        text(710, y + 36, wallet[0], "node")
-        text(710, y + 65, wallet[1], "detail")
-        text(710, y + 110, wallet[2], "detail")
-        text(710, y + 139, wallet[3], "detail")
-        rect(1170, y, 360, 170, "#fcfaff", "#d8cce8")
-        text(1350, y + 36, candidate[0], "node")
-        for dy, line in zip([77, 104], candidate[1]):
-            text(1350, y + dy, line)
-        text(1350, y + 144, candidate[2], "detail")
-        path(f"M 260 {cy} H 270 M 850 {cy} H 860 M 1530 {cy} H 1540")
-        path(f"M 560 {cy} H 570", "arrow")
-        path(f"M 1160 {cy} H 1170", "arrow")
+    # One calm panel per entity group, with compact rows instead of nested boxes.
+    panels = [(40, 270, 240, 'seeds'), (520, 330, 280, 'wallets'), (1090, 270, 320, 'candidates')]
+    for column, (x, y, w, key) in enumerate(panels):
+        rect(x, y, w, 410, "#fbfcfe")
+        text(x + 24, y + 44, labels["headers"][column], "section", "start")
+        parts.append(f'<path d="M {x+24} {y+65} H {x+w-24}" stroke="#e5ebf2"/>')
+        for i, row in enumerate(labels[key]):
+            ry = y + 109 + 103 * i
+            text(x + 24, ry, row[0], "node", "start")
+            text(x + 24, ry + 29, row[1], "sub", "start")
+            if i < 2:
+                parts.append(f'<path d="M {x+24} {ry+57} H {x+w-24}" stroke="#edf1f6"/>')
 
-    # Buses collect sets of evidence; they do not imply one-to-one row mappings.
-    for x in [270, 560, 860, 1160, 1540]:
-        path(f"M {x} 425 V 865")
-    path("M 270 645 H 560")
-    path("M 860 645 H 1160")
-    path("M 1540 645 H 1860")
-    path("M 1860 450 V 795")
-    path("M 1860 450 H 1870", "arrow")
-    path("M 1860 795 H 1870", "arrow")
+    # The colored label boxes annotate the curves, leaving the arrow direction visible.
+    for i, (x, y, w) in enumerate([(294, 394, 212), (820, 394, 250), (1430, 394, 250)], start=1):
+        fill, border, accent = COLORS[i]
+        rect(x, y, w, 70, fill, border, 14)
+        text(x + w/2, y + 27, labels['actions'][i-1], 'action', color=accent)
+        text(x + w/2, y + 51, SKILLS[i], 'skill', color=accent)
 
-    # Colored Skill labels sit on each transition arrow.
-    for i, (cx, width) in enumerate([(415, 260), (1010, 280), (1700, 280)], start=1):
-        rect(cx - width / 2, 579, width, 132, *COLORS[i])
-        text(cx, 611, SKILLS[i], "skill")
-        text(cx, 651, labels["actions"][i - 1][0])
-        text(cx, 684, labels["actions"][i - 1][1], "detail")
+    rect(740, 92, 480, 84, COLORS[0][0], COLORS[0][1], 17)
+    text(980, 126, labels['orchestrate'], 'action', color=COLORS[0][2])
+    text(980, 152, SKILLS[0], 'skill', color=COLORS[0][2])
 
-    rect(1870, 350, 270, 200, "#eaf6ef", "#7caa90")
-    for dy, value in zip([46, 92, 127, 162], labels["new_alpha"]):
-        text(2005, 350 + dy, value, "node" if dy == 46 else "detail")
-    rect(1870, 685, 270, 220)
-    for dy, value in zip([43, 85, 119, 162, 190], labels["report"]):
-        text(2005, 685 + dy, value, "node" if dy == 43 else "detail")
-    text(1090, 1014, labels["caption"])
-    text(1090, 1054, labels["status"])
-    parts.append("</svg>\n")
-    (ROOT.parent / "images" / f"system-architecture-{lang}.svg").write_text("\n".join(parts))
+    rect(1700, 360, 220, 290, '#fbfcfe')
+    text(1724, 404, labels['headers'][3], 'section', 'start')
+    rect(1715, 426, 190, 90, '#edf6f0', '#edf6f0', 12)
+    text(1730, 462, labels['new_alpha'][0], 'node', 'start', COLORS[0][2])
+    text(1730, 491, labels['new_alpha'][1], 'sub', 'start')
+    text(1724, 569, labels['report'][0], 'node', 'start')
+    text(1724, 600, labels['report'][1], 'sub', 'start')
+    text(980, 792, labels['caption'], 'caption')
+    parts.append('</svg>\n')
+    (ROOT.parent / 'images' / f'system-architecture-{lang}.svg').write_text('\n'.join(parts))
 
-    def lines(values):
-        return "<br/>".join(values)
-
-    m = ['%% Colored Skill nodes annotate the transitions between research artifacts.', 'flowchart LR']
-    for group, key in [('SEEDS', 'seeds'), ('WALLETS', 'wallets'), ('CANDIDATES', 'candidates')]:
-        m.append(f'    subgraph {group}["{labels["headers"][["SEEDS", "WALLETS", "CANDIDATES"].index(group)]}"]')
+    m = ['%% Compact entity groups; colored Skills annotate the transitions.', '%% SVG uses cubic S curves; edit its layout in render_architecture.py.', 'flowchart LR']
+    for j, (group, key) in enumerate([('SEEDS', 'seeds'), ('WALLETS', 'wallets'), ('CANDIDATES', 'candidates')]):
+        m.append(f'    subgraph {group}["{labels["headers"][j]}"]')
         for i, card in enumerate(labels[key]):
-            flattened = [card[0], *card[1], card[2]] if key == 'candidates' else card
-            m.append(f'        {group}{i}["{lines(flattened)}"]')
+            m.append(f'        {group}{i}["{"<br/>".join(card)}"]')
         m.append('    end')
     for i, skill in enumerate(SKILLS):
-        action = labels['scope'] if i == 0 else lines(labels['actions'][i-1])
-        m.append(f'    S{i}["{skill}<br/>{action}"]')
+        action = labels['orchestrate'] if i == 0 else labels['actions'][i-1]
+        m.append(f'    S{i}["{action}<br/>{skill}"]')
     m.extend([
-        f'    ALPHA["{lines(labels["new_alpha"])}"]',
-        f'    REPORT["{lines(labels["report"])}"]',
+        f'    ALPHA["{"<br/>".join(labels["new_alpha"])}"]',
+        f'    REPORT["{"<br/>".join(labels["report"])}"]',
         '    SEEDS --> S1 --> WALLETS --> S2 --> CANDIDATES --> S3',
         '    S3 --> ALPHA', '    S3 --> REPORT',
         '    S0 -.-> S1', '    S0 -.-> S2', '    S0 -.-> S3',
     ])
-    for i, (fill, stroke) in enumerate(COLORS):
+    for i, (fill, stroke, _) in enumerate(COLORS):
         m.append(f'    style S{i} fill:{fill},stroke:{stroke}')
-    (ROOT / f"system-architecture-{lang}.mmd").write_text('\n'.join(m) + '\n')
+    (ROOT / f'system-architecture-{lang}.mmd').write_text('\n'.join(m) + '\n')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     for language, content in LABELS.items():
         render(language, content)
