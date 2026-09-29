@@ -148,7 +148,6 @@ def render(lang, L):
  d.arrow(1560,624,1560,659,3,'report-new-alpha',False,True)
  d.rect(1405,666,310,59,PALETTE[3][0],PALETTE[3][1],6)
  d.text(1560,702,L['new'],'body','middle',PALETTE[3][2])
- d.text(65,784,L['example'],'small')
  # Evidence and observation are one compact support layer beneath the workflow.
  d.arrow(435,845,435,804,0,'history-workflow',False,True)
  d.parts.append(f'<path data-kind="observation-review" d="M 1365 845 V 820 H 875 V 804" fill="none" stroke="{PALETTE[3][2]}" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#a3)"/>')
