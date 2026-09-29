@@ -88,7 +88,12 @@ LABELS = {
 
 def render(lang, L):
  d=Diagram(1800,1210,L['title'],L['example'],lang)
- d.parts.append('<style>.skill-description { font-size:14.5px; fill:#526579; }</style>')
+ d.parts.append('''<style>
+.skill-title { font-size:18px; font-weight:700; fill:#24384d; }
+.skill-description { font-size:16px; font-weight:700; fill:#526579; }
+.coordinator-title { font-size:23px; font-weight:700; }
+.coordinator-description { font-size:20px; font-weight:700; }
+</style>''')
  d.text(40,55,L['title'],'title')
  d.arrow(1200,90,1250,90,0,'legend-evidence')
  d.text(1262,96,L['solid'],'small')
@@ -99,8 +104,8 @@ def render(lang, L):
  d.text(65,166,L['workflow'],'heading')
  # Keep the existing coordinator center and use a compact action phrase.
  d.rect(675,182,450,64,PALETTE[3][0],PALETTE[3][1],8)
- d.text(900,207,L['coordinate'],'node','middle',PALETTE[3][2])
- d.text(900,232,L['skill_phrases'][3][0],'body','middle',PALETTE[3][2])
+ d.text(900,207,L['coordinate'],'coordinator-title','middle',PALETTE[3][2])
+ d.text(900,232,L['skill_phrases'][3][0],'coordinator-description','middle',PALETTE[3][2])
  # Dashed control bus terminates at the three Skill badges in the main flow.
  d.parts.append(f'<path data-kind="coordination-bus" d="M 900 246 V 265 M 425 265 H 1330" stroke="{PALETTE[3][2]}" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>')
  for x,stop in [(425,355),(875,355),(1330,365)]:
@@ -131,10 +136,10 @@ def render(lang, L):
  for i,(x,y) in enumerate([(425,400),(875,400),(1330,410)]):
   top=y-42
   d.rect(x-52,top,104,84,'#f5f8fb','#9eb0c1',7)
-  d.text(x,top+22,f'Skill {i+1}','small','middle','#24384d')
+  d.text(x,top+18,f'Skill {i+1}','skill-title','middle','#24384d')
   lines=L['skill_phrases'][i]
-  first=top+42+(3-len(lines))*8
-  for j,line in enumerate(lines):d.text(x,first+j*16,line,'skill-description','middle')
+  first=top+38+(3-len(lines))*9
+  for j,line in enumerate(lines):d.text(x,first+j*18,line,'skill-description','middle')
  d.rect(1405,361,310,124,'#ffffff','#c9d6e3',6)
  for i,line in enumerate(L['checks']):d.text(1560,394+29*i,line,'body','middle')
  d.arrow(1560,489,1560,523,2,'validation-report',False,True)
