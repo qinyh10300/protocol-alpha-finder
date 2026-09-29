@@ -956,38 +956,6 @@ main {
   color: #b34e5c;
   font-size: 12px;
 }
-.candidate-toolbar {
-  position: absolute;
-  right: 13px;
-  top: 17px;
-  display: flex;
-  gap: 8px;
-  font-size: 11px;
-}
-.candidate-toolbar > label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border: 1px solid #dce7f7;
-  border-radius: 5px;
-  padding: 5px 6px;
-  background: #fff;
-  color: #49638d;
-}
-.candidate-toolbar select {
-  background: none;
-  border: 0;
-  font-size: 11px;
-  color: #223c68;
-  max-width: 96px;
-}
-.candidate-toolbar svg {
-  pointer-events: none;
-  flex-shrink: 0;
-}
-.candidate-column .column-heading {
-  padding-right: 155px;
-}
 .candidate-column .column-heading h2 {
   font-size: 17px;
 }
@@ -997,6 +965,10 @@ main {
 .candidate-column .column-icon {
   width: 26px;
   height: 28px;
+}
+.candidate-toolbar {
+  display: flex;
+  padding: 0 12px 10px;
 }
 .filter-chip {
   display: flex;
@@ -1008,11 +980,6 @@ main {
   font-size: 11px;
   padding: 4px 7px;
   color: #295a9b;
-}
-.candidate-toolbar:has(.filter-chip) {
-  position: static;
-  justify-content: space-between;
-  padding: 0 12px 10px;
 }
 .candidate-card {
   padding: 13px 14px 10px;
@@ -1447,22 +1414,8 @@ main {
   .column-icon {
     width: 25px;
   }
-  .candidate-toolbar {
-    right: 10px;
-  }
-  .candidate-toolbar > label {
-    font-size: 10px;
-    gap: 3px;
-  }
-  .candidate-toolbar select {
-    font-size: 10px;
-    max-width: 88px;
-  }
   .candidate-column .column-heading h2 {
     font-size: 16px;
-  }
-  .candidate-column .column-heading {
-    padding-right: 125px;
   }
   .candidate-column .column-icon {
     width: 24px;
@@ -1540,9 +1493,6 @@ main {
   }
   .report-column .column-content {
     overflow: visible;
-  }
-  .candidate-toolbar {
-    top: 17px;
   }
   .column-heading h2 {
     font-size: 18px;
@@ -1637,9 +1587,6 @@ main {
   }
   .candidate-column .column-heading h2 {
     font-size: 19px;
-  }
-  .candidate-toolbar {
-    right: 16px;
   }
   .candidate-title h3 {
     font-size: 18px;
@@ -1873,18 +1820,6 @@ main {
     gap: 7px;
   }
   .show-more-wallets {
-    font-size: 12px;
-  }
-  .candidate-column .column-heading {
-    padding-right: 12px;
-  }
-  .candidate-toolbar {
-    position: static;
-    padding: 0 12px 10px;
-    justify-content: flex-end;
-  }
-  .candidate-toolbar > label,
-  .candidate-toolbar select {
     font-size: 12px;
   }
   .candidate-column .column-heading h2 {

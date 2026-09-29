@@ -50,7 +50,7 @@ test.describe("Real Skill integration", () => {
     await page.goto("/?seed=all");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
   });
-  test("candidate sorting changes discovery, recency and evidence order", async ({
+  test("candidates retain discovery order without a sorting control", async ({
     page,
   }) => {
     const response = await page.request.get(
@@ -58,13 +58,6 @@ test.describe("Real Skill integration", () => {
     );
     expect(response.ok()).toBeTruthy();
     const snapshot: Snapshot = await response.json();
-    // Distinct inputs make each sort observable even when archived timestamps match.
-    const evidenceCounts = [3, 11, 2, 7, 5];
-    snapshot.candidates = snapshot.candidates.map((candidate, index) => ({
-      ...candidate,
-      createdAt: new Date(Date.UTC(2026, 8, 20 + index)).toISOString(),
-      historicalExecutionCount: evidenceCounts[index],
-    }));
     await page.route("**/api/research-runs/local-all/snapshot", (route) =>
       route.fulfill({ json: snapshot }),
     );
@@ -75,21 +68,7 @@ test.describe("Real Skill integration", () => {
       (candidate) => candidate.title,
     );
     await expect(titles).toHaveText(discoveryTitles);
-    await expect(page.getByLabel("Sort candidates")).toHaveValue("discovery");
-    await page.getByLabel("Sort candidates").selectOption("newest");
-    await expect(titles).toHaveText([...discoveryTitles].reverse());
-    await page.getByLabel("Sort candidates").selectOption("evidence");
-    await expect(titles).toHaveText(
-      [...englishSnapshot.candidates]
-        .sort(
-          (a, b) =>
-            (b.historicalExecutionCount ?? 0) -
-            (a.historicalExecutionCount ?? 0),
-        )
-        .map((candidate) => candidate.title),
-    );
-    await page.getByLabel("Sort candidates").selectOption("discovery");
-    await expect(titles).toHaveText(discoveryTitles);
+    await expect(page.locator(".candidate-column select")).toHaveCount(0);
   });
   test("report preview switches between reports and retains every assessment section", async ({
     page,

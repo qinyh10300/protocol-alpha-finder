@@ -708,15 +708,6 @@ function AlphaCandidateList({
 }) {
   const { t } = useI18n();
 
-  const [sort, setSort] = useState("discovery");
-  const sorted = [...candidates].sort((a, b) =>
-    sort === "newest"
-      ? b.createdAt.localeCompare(a.createdAt)
-      : sort === "evidence"
-        ? (b.historicalExecutionCount ?? -1) -
-          (a.historicalExecutionCount ?? -1)
-        : 0,
-  );
   return (
     <section className="workspace-column candidate-column">
       <div className="column-heading">
@@ -730,30 +721,17 @@ function AlphaCandidateList({
       <p className="column-description">
         {t("Protocol opportunities discovered from wallet investigations.")}
       </p>
-      <div className="candidate-toolbar">
-        <label>
-          {t("Sort by:")}{" "}
-          <select
-            aria-label={t("Sort candidates")}
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="discovery">{t("Discovery order")}</option>
-            <option value="newest">{t("Newest first")}</option>
-            <option value="evidence">{t("Evidence count")}</option>
-          </select>
-          <ChevronDown size={13} />
-        </label>
-        {clear && (
+      {clear && (
+        <div className="candidate-toolbar">
           <button className="filter-chip" onClick={clear}>
             {t("Filtered by wallet")}
             <X size={12} />
           </button>
-        )}
-      </div>
+        </div>
+      )}
       <div className="column-content">
-        {sorted.length ? (
-          sorted.map((c, i) => (
+        {candidates.length ? (
+          candidates.map((c, i) => (
             <AlphaCandidateCard
               key={c.id}
               candidate={c}
