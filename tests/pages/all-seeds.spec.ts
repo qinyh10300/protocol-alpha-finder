@@ -28,14 +28,12 @@ test("All merges shared identities without double-counting a wallet's history", 
   expect(first).toEqual(lending);
 });
 
-test("All fills all three columns with seed provenance and the visible choices are mutually exclusive", async ({
+test("Legacy All links retain combined results without an All selector", async ({
   page,
 }) => {
   await page.clock.install();
   await page.goto("/frontend/index.html?seed=all");
-  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
-    "all",
-  );
+  await expect(page.locator('input[name="research-seed"][value="all"]')).toHaveCount(0);
   await expect(page.locator(".wallet-column select")).toHaveCount(0);
   await expect(page.locator(".demo-banner")).toContainText(
     "Energy Rental and USDD use synthetic examples",
@@ -84,12 +82,10 @@ test("All fills all three columns with seed provenance and the visible choices a
   await expect(
     page.locator(".wallet-row, .candidate-card, .report-preview"),
   ).toHaveCount(0);
-  await page.locator('input[name=\"research-seed\"][value=\"all\"]').check();
+  await page.goto("/frontend/index.html?seed=all");
   await expect(page.locator(".wallet-column select")).toHaveCount(0);
   await page.reload();
-  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
-    "all",
-  );
+  await expect(page.locator('input[name="research-seed"][value="all"]')).toHaveCount(0);
   await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(6000);
   await page.getByRole("button", { name: "Pause demo", exact: true }).click();
@@ -113,7 +109,5 @@ test("All fills all three columns with seed provenance and the visible choices a
   await page
     .getByRole("button", { name: "Back to research", exact: true })
     .click();
-  await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
-    "all",
-  );
+  await expect(page.locator('input[name="research-seed"][value="all"]')).toHaveCount(0);
 });

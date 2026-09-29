@@ -160,7 +160,7 @@ test.describe("Bilingual research workspace", () => {
       .check();
     await expect(page.locator(".candidate-card")).toHaveCount(3);
     await expect(page.locator(".candidate-card h3").first()).toContainText(han);
-    await page.locator('input[name="research-seed"][value="all"]').check();
+    await page.goto("/?seed=all");
     await expect(page.locator(".candidate-card")).toHaveCount(5);
     await page.waitForResponse(
       (response) =>

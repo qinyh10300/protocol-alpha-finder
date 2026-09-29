@@ -324,15 +324,6 @@ main {
   flex-shrink: 0;
   cursor: pointer;
 }
-.seed-choice.all-choice {
-  padding: 3px 7px;
-  font-size: 11px;
-}
-.seed-object p {
-  font-size: 12px;
-  color: #647da8;
-  margin-top: 2px;
-}
 .summary-arrow {
   color: #3679e2;
   flex-shrink: 0;
@@ -1740,9 +1731,6 @@ main {
   .seed-object {
     gap: 11px;
     min-width: 0;
-  }
-  .seed-object p {
-    font-size: 11px;
   }
   .seed-object .object-icon {
     width: 43px;

@@ -47,7 +47,7 @@ test.describe("Real Skill integration", () => {
     await expect(
       page.getByRole("button", { name: /Show .* wallets/ }),
     ).toHaveCount(0);
-    await page.locator('input[name=\"research-seed\"][value=\"all\"]').check();
+    await page.goto("/?seed=all");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
   });
   test("candidate sorting changes discovery, recency and evidence order", async ({

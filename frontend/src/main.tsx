@@ -277,7 +277,6 @@ function ResearchRunSummary({
   const { t, locale } = useI18n();
 
   const run = data.run;
-  const selectedSeed = data.seeds.find((seed) => seed.id === run.seedId);
   return (
     <section className="run-summary" aria-label={t("Research run summary")}>
       <div className="summary-top">
@@ -291,16 +290,6 @@ function ResearchRunSummary({
               <span id="seed-picker-heading" className="summary-label">
                 {t("Choose current set")}
               </span>
-              <label className="seed-choice all-choice">
-                <input
-                  type="radio"
-                  name="research-seed"
-                  value="all"
-                  checked={seedId === "all"}
-                  onChange={() => changeSeed("all")}
-                />
-                <span>{t("All")}</span>
-              </label>
             </div>
             <div className="seed-options">
               {data.seeds
@@ -318,15 +307,6 @@ function ResearchRunSummary({
                   </label>
                 ))}
             </div>
-            <p>
-              {data.provenance === "mixed"
-                ? t("TRON · All three alpha seeds")
-                : data.mode === "archive" || data.provenance === "recorded"
-                  ? t("TRON · Recorded Skill evidence")
-                  : t("{protocol} · Synthetic demo seed", {
-                      protocol: selectedSeed?.protocol || "TRON",
-                    })}
-            </p>
           </div>
         </div>
         <ArrowRight className="summary-arrow" size={22} />

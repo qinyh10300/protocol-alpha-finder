@@ -45,6 +45,7 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
     scenarios.map((scenario) => scenario.name),
   );
   await expect(page.locator(".wallet-column select")).toHaveCount(0);
+  await expect(page.locator('input[name="research-seed"]')).toHaveCount(3);
   for (const scenario of scenarios) {
     await chooseSeed(scenario.id);
     await expect(select).toHaveValue(scenario.id);
@@ -71,9 +72,7 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
       page.getByRole("button", { name: "Replay Demo", exact: true }),
     ).toBeVisible();
   }
-  await expect(page.locator(".seed-object p")).toHaveText(
-    "USDD · Synthetic demo seed",
-  );
+  await expect(page.locator(".seed-object p")).toHaveCount(0);
   await expect(page.locator(".coverage-note")).toHaveCount(0);
   await expect(page.locator(".demo-banner")).toContainText("Synthetic demo");
   await chooseSeed(scenarios[1].id);
