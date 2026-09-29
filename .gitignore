@@ -7,3 +7,7 @@ work/
 __pycache__/
 # Local chain research snapshots and monitor state
 data/
+# Frontend build and browser-test output
+dist/
+test-results/
+playwright-report/

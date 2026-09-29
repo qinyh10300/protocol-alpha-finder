@@ -1,0 +1,240 @@
+{
+  "seed": {
+    "id": "seed-energy-rental-liquidation",
+    "name": "Energy Rental Liquidation",
+    "chain": "TRON",
+    "protocol": "JustLend Energy Rental",
+    "contractAddress": "TU2M...Zvd",
+    "functionSignature": "liquidate(address,address,uint256)",
+    "description": "Known protocol opportunity used as the research entry point.",
+    "createdAt": "2026-09-29T13:00:00Z"
+  },
+  "run": {
+    "id": "run-demo-001",
+    "seedId": "seed-energy-rental-liquidation",
+    "status": "running",
+    "startedAt": "2026-09-29T13:20:00Z",
+    "updatedAt": "2026-09-29T13:44:00Z",
+    "walletCount": 5,
+    "candidateCount": 3,
+    "reportCount": 3,
+    "loadedTransactionCount": 5809
+  },
+  "wallets": [
+    {
+      "address": "TJ8e...3K2a",
+      "sourceSeedId": "seed-energy-rental-liquidation",
+      "discoveryEvidence": {
+        "successfulSeedExecutions": 8,
+        "firstSeen": "2023-08-03",
+        "lastSeen": "2025-06-15"
+      },
+      "historyJob": {
+        "status": "completed",
+        "txCount": 1842
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "cand-usdd-keeper",
+        "cand-settlement"
+      ]
+    },
+    {
+      "address": "TNQ8...GDW2m",
+      "sourceSeedId": "seed-energy-rental-liquidation",
+      "discoveryEvidence": {
+        "successfulSeedExecutions": 2,
+        "firstSeen": "2024-04-06"
+      },
+      "historyJob": {
+        "status": "completed",
+        "txCount": 934
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "cand-usdd-keeper"
+      ]
+    },
+    {
+      "address": "TWqF...Vp7x",
+      "sourceSeedId": "seed-energy-rental-liquidation",
+      "historyJob": {
+        "status": "completed",
+        "txCount": 1107
+      },
+      "analysisJob": {
+        "status": "running"
+      },
+      "alphaSearchJob": {
+        "status": "queued"
+      },
+      "candidateIds": []
+    },
+    {
+      "address": "TA9k...2dx8",
+      "sourceSeedId": "seed-energy-rental-liquidation",
+      "historyJob": {
+        "status": "running",
+        "txCount": 421
+      },
+      "analysisJob": {
+        "status": "queued"
+      },
+      "alphaSearchJob": {
+        "status": "queued"
+      },
+      "candidateIds": []
+    },
+    {
+      "address": "TF6m...9Lp1",
+      "sourceSeedId": "seed-energy-rental-liquidation",
+      "historyJob": {
+        "status": "completed",
+        "txCount": 1505
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "cand-auction-reset"
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "id": "cand-usdd-keeper",
+      "title": "USDD Keeper Reward",
+      "summary": "A public keeper action may create a protocol-defined reward under specific auction states.",
+      "sourceWallets": [
+        "TJ8e...3K2a",
+        "TNQ8...GDW2m",
+        "TF6m...9Lp1"
+      ],
+      "historicalExecutionCount": 17,
+      "status": "report_ready",
+      "validationId": "val-usdd-keeper",
+      "reportId": "report-usdd-keeper",
+      "createdAt": "2026-09-29T13:31:00Z"
+    },
+    {
+      "id": "cand-settlement",
+      "title": "Settlement Opportunity",
+      "summary": "Repeated settlement-related executions suggest a condition-dependent protocol opportunity.",
+      "sourceWallets": [
+        "TJ8e...3K2a",
+        "TNQ8...GDW2m"
+      ],
+      "historicalExecutionCount": 8,
+      "status": "report_ready",
+      "validationId": "val-settlement",
+      "reportId": "report-settlement",
+      "createdAt": "2026-09-29T13:33:00Z"
+    },
+    {
+      "id": "cand-auction-reset",
+      "title": "Auction Reset Path",
+      "summary": "Historical reset behavior is observable, but current economics are not strong enough for execution.",
+      "sourceWallets": [
+        "TF6m...9Lp1"
+      ],
+      "historicalExecutionCount": 4,
+      "status": "report_ready",
+      "validationId": "val-auction-reset",
+      "reportId": "report-auction-reset",
+      "createdAt": "2026-09-29T13:36:00Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": "report-usdd-keeper",
+      "candidateId": "cand-usdd-keeper",
+      "title": "USDD Keeper Reward",
+      "outcome": "ACTIONABLE",
+      "executiveSummary": "Historical behavior supports a keeper-reward mechanism. Current state remains available, but execution is condition-dependent and competition must be considered.",
+      "mechanism": {
+        "summary": "Protocol-defined keeper incentive under specific auction conditions."
+      },
+      "historicalEvidence": {
+        "summary": "17 reconstructed historical executions across 3 source wallets."
+      },
+      "currentState": {
+        "summary": "Relevant mechanism is currently available in the checked contract state."
+      },
+      "executionConditions": {
+        "summary": "Requires the triggering protocol state to exist and reward to exceed execution cost and competition risk."
+      },
+      "sourceWallets": [
+        "TJ8e...3K2a",
+        "TNQ8...GDW2m",
+        "TF6m...9Lp1"
+      ],
+      "evidenceRefs": [],
+      "generatedAt": "2026-09-29T13:40:00Z",
+      "lastCheckedAt": "2026-09-29T13:40:00Z"
+    },
+    {
+      "id": "report-settlement",
+      "candidateId": "cand-settlement",
+      "title": "Settlement Opportunity",
+      "outcome": "MONITOR",
+      "executiveSummary": "The historical pattern is economically interesting, but the profitable state is conditional and not consistently available now.",
+      "mechanism": {
+        "summary": "Condition-dependent settlement flow."
+      },
+      "historicalEvidence": {
+        "summary": "8 historical executions across 2 source wallets."
+      },
+      "currentState": {
+        "summary": "No consistently actionable state observed at the last check."
+      },
+      "executionConditions": {
+        "summary": "Monitor protocol state and re-evaluate when the settlement condition reappears."
+      },
+      "sourceWallets": [
+        "TJ8e...3K2a",
+        "TNQ8...GDW2m"
+      ],
+      "evidenceRefs": [],
+      "generatedAt": "2026-09-29T13:41:00Z",
+      "lastCheckedAt": "2026-09-29T13:41:00Z"
+    },
+    {
+      "id": "report-auction-reset",
+      "candidateId": "cand-auction-reset",
+      "title": "Auction Reset Path",
+      "outcome": "INSUFFICIENT_EVIDENCE",
+      "executiveSummary": "The behavior is real, but current evidence is not enough to establish a reproducible positive economic opportunity.",
+      "mechanism": {
+        "summary": "Reset-related protocol action observed historically."
+      },
+      "historicalEvidence": {
+        "summary": "4 historical executions from 1 source wallet."
+      },
+      "currentState": {
+        "summary": "Mechanism exists, but current economic value is unclear."
+      },
+      "executionConditions": {
+        "summary": "Requires more current executions and clearer reward/cost evidence."
+      },
+      "sourceWallets": [
+        "TF6m...9Lp1"
+      ],
+      "evidenceRefs": [],
+      "generatedAt": "2026-09-29T13:42:00Z",
+      "lastCheckedAt": "2026-09-29T13:42:00Z"
+    }
+  ]
+}
