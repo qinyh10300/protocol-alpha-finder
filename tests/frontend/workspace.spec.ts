@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { existsSync } from "node:fs";
 import type { Snapshot } from "../../frontend/src/types";
+import { localizeSnapshot } from "../../frontend/src/locales/research";
 const hasArchive = existsSync(
   "data/protocol-alpha-discovery-test/research-record.json",
 );
@@ -67,7 +68,8 @@ test.describe("Real Skill integration", () => {
     );
     await page.goto("/research");
     const titles = page.locator(".candidate-card h3");
-    const discoveryTitles = snapshot.candidates.map(
+    const englishSnapshot = localizeSnapshot(snapshot, "en");
+    const discoveryTitles = englishSnapshot.candidates.map(
       (candidate) => candidate.title,
     );
     await expect(titles).toHaveText(discoveryTitles);
@@ -76,7 +78,7 @@ test.describe("Real Skill integration", () => {
     await expect(titles).toHaveText([...discoveryTitles].reverse());
     await page.getByLabel("Sort candidates").selectOption("evidence");
     await expect(titles).toHaveText(
-      [...snapshot.candidates]
+      [...englishSnapshot.candidates]
         .sort(
           (a, b) =>
             (b.historicalExecutionCount ?? 0) -
@@ -201,7 +203,7 @@ test.describe("Real Skill integration", () => {
   }) => {
     await page.goto("/reports/report-WAI-CYCLE-01");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-      "清算钱包的跨池循环兑换",
+      "Cross-pool Round Trip by a Liquidation Wallet",
     );
     await expect(page.locator(".report-memo")).toContainText("-0.433764 WTRX");
     await expect(page.locator(".report-memo")).toContainText("UNCERTAIN");

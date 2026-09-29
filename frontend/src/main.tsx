@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Activity,
@@ -41,14 +41,17 @@ import type {
 import "./style.css";
 import { AlphaReportList, AlphaReportPreview } from "./ReportCards";
 
+import { LanguageProvider, useI18n } from "./i18n";
+import { localizeSnapshot, localizeReport } from "./locales/research";
+
 const api = new ApiResearchDataSource();
 const demo = new MockResearchDataSource();
 const fmt = (n: number) => n.toLocaleString("en-US");
 const short = (s: string) =>
   s.length > 18 ? `${s.slice(0, 7)}…${s.slice(-6)}` : s;
-const date = (s?: string) =>
+const date = (s?: string, locale = "en-GB") =>
   s
-    ? new Date(s).toLocaleString("en-GB", {
+    ? new Date(s).toLocaleString(locale, {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -57,8 +60,8 @@ const date = (s?: string) =>
         timeZone: "UTC",
       }) + " UTC"
     : "Not recorded";
-const day = (s: string) =>
-  new Date(s).toLocaleDateString("en-GB", {
+const day = (s: string, locale = "en-GB") =>
+  new Date(s).toLocaleDateString(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -81,27 +84,31 @@ const label = (s: string) =>
     validating: "Validating",
   })[s] || s;
 function StatusChip({ status }: { status: string }) {
+  const { t } = useI18n();
+
   return (
     <span className={`chip status-${status.toLowerCase()}`}>
       <span className="status-dot" />
-      {label(status)}
+      {t(label(status))}
     </span>
   );
 }
 function PipelineStatus({ wallet }: { wallet: StrategyWallet }) {
+  const { t } = useI18n();
+
   return (
     <div className="pipeline">
       {(
         [
-          ["History", wallet.historyJob],
-          ["Analyze", wallet.analysisJob],
-          ["Search Alpha", wallet.alphaSearchJob],
+          [t("History"), wallet.historyJob],
+          [t("Analyze"), wallet.analysisJob],
+          [t("Search Alpha"), wallet.alphaSearchJob],
         ] as [string, JobState][]
       ).map(([title, job]) => (
         <div
           key={title}
           className={`pipeline-step ${job.status}`}
-          title={job.error || `${title}: ${label(job.status)}`}
+          title={job.error || `${t(title)}: ${t(label(job.status))}`}
         >
           <div className="step-track">
             <span>
@@ -112,8 +119,8 @@ function PipelineStatus({ wallet }: { wallet: StrategyWallet }) {
               ) : null}
             </span>
           </div>
-          <small>{title}</small>
-          <span className="sr-only">{job.status}</span>
+          <small>{t(title)}</small>
+          <span className="sr-only">{t(label(job.status))}</span>
         </div>
       ))}
     </div>
@@ -128,6 +135,8 @@ function Empty({
   text: string;
   loading?: boolean;
 }) {
+  const { t } = useI18n();
+
   return (
     <div className="empty">
       {loading ? (
@@ -135,8 +144,8 @@ function Empty({
       ) : (
         <Layers3 size={26} />
       )}
-      <strong>{title}</strong>
-      <p>{text}</p>
+      <strong>{t(title)}</strong>
+      <p>{t(text)}</p>
     </div>
   );
 }
@@ -167,6 +176,8 @@ function AppHeader({
   mode: string;
   setMode: (s: "archive" | "demo") => void;
 }) {
+  const { t, language, setLanguage } = useI18n();
+
   return (
     <header className="app-header">
       <a
@@ -193,38 +204,50 @@ function AppHeader({
         </svg>
         <span>
           <strong>Protocol Alpha Finder</strong>
-          <small>AI-assisted protocol alpha research</small>
+          <small>{t("AI-assisted protocol alpha research")}</small>
         </span>
       </a>
-      <nav aria-label="Main navigation">
+      <nav aria-label={t("Main navigation")}>
         <button
           className={path === "/research" ? "active" : ""}
           onClick={() => navigate("/research")}
         >
-          Research
+          {t("Research")}
         </button>
         <button
           className={path.startsWith("/reports") ? "active" : ""}
           onClick={() => navigate("/reports")}
         >
-          Reports
+          {t("Reports")}
         </button>
       </nav>
       <div className="header-controls">
         <label className="mode-select">
           <span className={`status-dot ${mode}`} />
           <select
-            aria-label="Data mode"
+            aria-label={t("Data mode")}
             value={mode}
             onChange={(e) => setMode(e.target.value as "archive" | "demo")}
           >
-            <option value="archive">Skill results</option>
-            <option value="demo">Demo mode</option>
+            <option value="archive">{t("Skill results")}</option>
+            <option value="demo">{t("Demo mode")}</option>
+          </select>
+          <ChevronDown size={14} />
+        </label>
+        <label className="mode-select language-select">
+          <select
+            aria-label={t("Language")}
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as "en" | "zh")}
+          >
+            <option value="en">{t("English")}</option>
+            <option value="zh">{t("Chinese")}</option>
           </select>
           <ChevronDown size={14} />
         </label>
         <span className="network">
-          <span className="network-mark">T</span>TRON Mainnet
+          <span className="network-mark">T</span>
+          {t("TRON Mainnet")}
         </span>
       </div>
     </header>
@@ -249,19 +272,21 @@ function ResearchRunSummary({
   play: () => void;
   pause: () => void;
 }) {
+  const { t, locale } = useI18n();
+
   const run = data.run;
   return (
-    <section className="run-summary" aria-label="Research run summary">
+    <section className="run-summary" aria-label={t("Research run summary")}>
       <div className="summary-top">
         <div className="seed-object">
           <span className="object-icon seed-icon">
             <FileText size={26} />
           </span>
           <div>
-            <span className="summary-label">Current Seed</span>
+            <span className="summary-label">{t("Current Seed")}</span>
             <label className="seed-select">
               <select
-                aria-label="Research seed"
+                aria-label={t("Research seed")}
                 value={data.mode === "demo" ? data.seeds[0].id : seedId}
                 onChange={(e) => changeSeed(e.target.value)}
               >
@@ -275,8 +300,8 @@ function ResearchRunSummary({
             </label>
             <p>
               {data.mode === "archive"
-                ? "TRON · Known protocol alpha"
-                : "JustLend · Synthetic demo seed"}
+                ? t("TRON · Known protocol alpha")
+                : t("JustLend · Synthetic demo seed")}
             </p>
           </div>
         </div>
@@ -287,8 +312,8 @@ function ResearchRunSummary({
           </span>
           <div>
             <strong>{run.walletCount}</strong>
-            <span>Strategy Wallets</span>
-            <small>identified from seed</small>
+            <span>{t("Strategy Wallets")}</span>
+            <small>{t("identified from seed")}</small>
           </div>
         </div>
         <ArrowRight className="summary-arrow" size={22} />
@@ -298,8 +323,8 @@ function ResearchRunSummary({
           </span>
           <div>
             <strong>{run.candidateCount}</strong>
-            <span>Alpha Candidates</span>
-            <small>discovered</small>
+            <span>{t("Alpha Candidates")}</span>
+            <small>{t("discovered")}</small>
           </div>
         </div>
         <ArrowRight className="summary-arrow" size={22} />
@@ -309,8 +334,8 @@ function ResearchRunSummary({
           </span>
           <div>
             <strong>{run.reportCount}</strong>
-            <span>Alpha Reports</span>
-            <small>ready for review</small>
+            <span>{t("Alpha Reports")}</span>
+            <small>{t("ready for review")}</small>
           </div>
         </div>
         <div className="run-control">
@@ -330,12 +355,12 @@ function ResearchRunSummary({
                 <Play size={14} />
               )}
               {run.status === "running"
-                ? "Pause demo"
+                ? t("Pause demo")
                 : run.status === "paused"
-                  ? "Resume demo"
+                  ? t("Resume demo")
                   : run.status === "completed"
-                    ? "Replay Demo"
-                    : "Run Discovery"}
+                    ? t("Replay Demo")
+                    : t("Run Discovery")}
             </button>
           ) : (
             <button
@@ -344,7 +369,7 @@ function ResearchRunSummary({
               disabled={busy}
             >
               <RefreshCw size={14} className={busy ? "spin" : ""} />
-              Refresh results
+              {t("Refresh results")}
             </button>
           )}
         </div>
@@ -352,21 +377,22 @@ function ResearchRunSummary({
       <div className="summary-bottom">
         <div>
           <span className="tiny-dot" />
-          {data.mode === "archive" ? "Saved Skill run" : "Demo replay"}
+          {data.mode === "archive" ? t("Saved Skill run") : t("Demo replay")}
           <span className="divider" />{" "}
-          <strong>{fmt(run.loadedTransactionCount)}</strong> primary tx loaded
+          <strong>{fmt(run.loadedTransactionCount)}</strong>{" "}
+          {t("primary tx loaded")}
           {data.window && (
             <>
               <span className="divider" />
               <span className="date-range">
-                {day(data.window.from)} – {day(data.window.to)}
+                {day(data.window.from, locale)} – {day(data.window.to, locale)}
               </span>
             </>
           )}
         </div>
         <button className="text-button" onClick={activity}>
           <Activity size={14} />
-          View run activity
+          {t("View run activity")}
           <ChevronRight size={14} />
         </button>
       </div>
@@ -384,6 +410,8 @@ function WalletInvestigationRow({
   selected: boolean;
   onClick: () => void;
 }) {
+  const { t } = useI18n();
+
   const [copied, setCopied] = useState(false);
   const jobs = [wallet.historyJob, wallet.analysisJob, wallet.alphaSearchJob];
   const status = jobs.some((j) => j.status === "failed")
@@ -403,7 +431,9 @@ function WalletInvestigationRow({
       <button
         className="wallet-details-hit"
         onClick={onClick}
-        aria-label={`Investigate wallet ${wallet.address}`}
+        aria-label={t("Investigate wallet {address}", {
+          address: wallet.address,
+        })}
       />
       <span className="row-index">{index + 1}</span>
       <div className="wallet-identity">
@@ -413,7 +443,9 @@ function WalletInvestigationRow({
           </span>
           <button
             className="copy-wallet"
-            aria-label={`Copy address ${wallet.address}`}
+            aria-label={t("Copy address {address}", {
+              address: wallet.address,
+            })}
             onClick={async () => {
               try {
                 await navigator.clipboard.writeText(wallet.address);
@@ -428,8 +460,8 @@ function WalletInvestigationRow({
         </div>
         <span className="wallet-volume">
           {wallet.historyJob.txCount == null
-            ? "History pending"
-            : `${fmt(wallet.historyJob.txCount)} tx`}
+            ? t("History pending")
+            : t("{count} tx", { count: fmt(wallet.historyJob.txCount) })}
         </span>
       </div>
       <div className="wallet-job">
@@ -439,8 +471,12 @@ function WalletInvestigationRow({
               wallet.candidateIds.length ? "candidate-count" : "zero-count"
             }
           >
-            {wallet.candidateIds.length} candidate
-            {wallet.candidateIds.length !== 1 ? "s" : ""}
+            {t(
+              wallet.candidateIds.length === 1
+                ? "{count} candidate"
+                : "{count} candidates",
+              { count: wallet.candidateIds.length },
+            )}
           </span>
           <StatusChip status={status} />
         </div>
@@ -462,6 +498,8 @@ function WalletInvestigationList({
   wallet: string | null;
   choose: (w: StrategyWallet) => void;
 }) {
+  const { t } = useI18n();
+
   const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     setExpanded(false);
@@ -474,11 +512,11 @@ function WalletInvestigationList({
           <Wallet size={22} />
         </span>
         <h2>
-          Wallet Investigations <span>({data.wallets.length})</span>
+          {t("Wallet Investigations")} <span>({data.wallets.length})</span>
         </h2>
       </div>
       <p className="column-description">
-        Each strategy wallet is investigated as a separate research job.
+        {t("Each strategy wallet is investigated as a separate research job.")}
       </p>
       <div className="column-content wallet-list">
         {visible.length ? (
@@ -495,13 +533,13 @@ function WalletInvestigationList({
           <Empty
             title={
               data.run.status === "running"
-                ? "Discovering executors"
-                : "No executors found"
+                ? t("Discovering executors")
+                : t("No executors found")
             }
             text={
               data.run.status === "idle"
-                ? "Run Discovery to begin the wallet investigation."
-                : "No verified wallets for this seed in the recorded window."
+                ? t("Run Discovery to begin the wallet investigation.")
+                : t("No verified wallets for this seed in the recorded window.")
             }
             loading={data.run.status === "running"}
           />
@@ -515,8 +553,10 @@ function WalletInvestigationList({
           >
             <ChevronDown size={16} className={expanded ? "rotate" : ""} />
             {expanded
-              ? "Show fewer wallets"
-              : `Show ${data.wallets.length - 6} more wallets`}
+              ? t("Show fewer wallets")
+              : t("Show {count} more wallets", {
+                  count: data.wallets.length - 6,
+                })}
           </button>
         )}
       </div>
@@ -534,6 +574,8 @@ function AlphaCandidateCard({
   open: (id: string) => void;
   sources: () => void;
 }) {
+  const { t } = useI18n();
+
   return (
     <article className="candidate-card">
       <div className="candidate-top">
@@ -545,45 +587,69 @@ function AlphaCandidateCard({
       </div>
       <div className="candidate-evidence">
         <span>
-          Found from {c.sourceWallets.length} wallet
-          {c.sourceWallets.length !== 1 ? "s" : ""}
+          {t(
+            c.sourceWallets.length === 1
+              ? "Found from {count} wallet"
+              : "Found from {count} wallets",
+            { count: c.sourceWallets.length },
+          )}
         </span>
         {c.historicalExecutionCount != null && (
           <span>
             {c.historicalExecutionCount}{" "}
-            {c.evidenceCountLabel || "historical executions"}
+            {t(
+              c.historicalExecutionCount === 1
+                ? (c.evidenceCountLabel || "historical executions").replace(
+                    /s$/,
+                    "",
+                  )
+                : c.evidenceCountLabel || "historical executions",
+            )}
           </span>
         )}
       </div>
       <p className="card-summary">{c.summary}</p>
       <div className="candidate-facts">
         <div>
-          <span>Source Wallets</span>
+          <span>{t("Source Wallets")}</span>
           <strong>
-            {c.sourceWallets.length} wallet
-            {c.sourceWallets.length !== 1 ? "s" : ""}
+            {t(
+              c.sourceWallets.length === 1
+                ? "{count} wallet"
+                : "{count} wallets",
+              { count: c.sourceWallets.length },
+            )}
           </strong>
         </div>
         <div>
           <span>
             {c.evidenceCountLabel === "reconciled samples"
-              ? "Reconciled Samples"
-              : "Historical Executions"}
+              ? t("Reconciled Samples")
+              : t("Historical Executions")}
           </span>
           <strong>
             {c.historicalExecutionCount == null
-              ? "Pending"
-              : `${c.historicalExecutionCount} ${c.evidenceCountLabel === "reconciled samples" ? (c.historicalExecutionCount === 1 ? "sample" : "samples") : c.historicalExecutionCount === 1 ? "execution" : "executions"}`}
+              ? t("Pending")
+              : t(
+                  c.evidenceCountLabel === "reconciled samples"
+                    ? c.historicalExecutionCount === 1
+                      ? "{count} sample"
+                      : "{count} samples"
+                    : c.historicalExecutionCount === 1
+                      ? "{count} execution"
+                      : "{count} executions",
+                  { count: c.historicalExecutionCount },
+                )}
           </strong>
         </div>
         <div>
-          <span>Report</span>
+          <span>{t("Report")}</span>
           <strong className={c.reportId ? "report-available" : ""}>
             {c.reportId
-              ? "Ready"
+              ? t("Ready")
               : c.status === "validating"
-                ? "In progress"
-                : "Pending"}
+                ? t("In progress")
+                : t("Pending")}
           </strong>
         </div>
       </div>
@@ -594,17 +660,17 @@ function AlphaCandidateCard({
             onClick={() => open(c.reportId!)}
           >
             <FileText size={15} />
-            Open Report
+            {t("Open Report")}
           </button>
         ) : (
           <span className="pending-report">
             {c.status === "validating"
-              ? "Validation in progress"
-              : "Awaiting validation"}
+              ? t("Validation in progress")
+              : t("Awaiting validation")}
           </span>
         )}
         <button className="text-button" onClick={sources}>
-          View evidence
+          {t("View evidence")}
           <ArrowRight size={15} />
         </button>
       </div>
@@ -624,6 +690,8 @@ function AlphaCandidateList({
   sources: (c: AlphaCandidate) => void;
   clear?: () => void;
 }) {
+  const { t } = useI18n();
+
   const [sort, setSort] = useState("discovery");
   const sorted = [...candidates].sort((a, b) =>
     sort === "newest"
@@ -640,29 +708,29 @@ function AlphaCandidateList({
           <Files size={22} />
         </span>
         <h2>
-          Alpha Candidates <span>({candidates.length})</span>
+          {t("Alpha Candidates")} <span>({candidates.length})</span>
         </h2>
       </div>
       <p className="column-description">
-        Protocol opportunities discovered from wallet investigations.
+        {t("Protocol opportunities discovered from wallet investigations.")}
       </p>
       <div className="candidate-toolbar">
         <label>
-          Sort by:{" "}
+          {t("Sort by:")}{" "}
           <select
-            aria-label="Sort candidates"
+            aria-label={t("Sort candidates")}
             value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
-            <option value="discovery">Discovery order</option>
-            <option value="newest">Newest first</option>
-            <option value="evidence">Evidence count</option>
+            <option value="discovery">{t("Discovery order")}</option>
+            <option value="newest">{t("Newest first")}</option>
+            <option value="evidence">{t("Evidence count")}</option>
           </select>
           <ChevronDown size={13} />
         </label>
         {clear && (
           <button className="filter-chip" onClick={clear}>
-            Filtered by wallet
+            {t("Filtered by wallet")}
             <X size={12} />
           </button>
         )}
@@ -680,11 +748,11 @@ function AlphaCandidateList({
           ))
         ) : (
           <Empty
-            title="No candidates yet"
+            title={t("No candidates yet")}
             text={
               data.run.status === "running"
-                ? "Wallet investigations are still running."
-                : "No Protocol Alpha Candidates found in this selection."
+                ? t("Wallet investigations are still running.")
+                : t("No Protocol Alpha Candidates found in this selection.")
             }
           />
         )}
@@ -702,6 +770,8 @@ function Drawer({
   close: () => void;
   children: React.ReactNode;
 }) {
+  const { t } = useI18n();
+
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const previous = document.activeElement as HTMLElement;
@@ -753,11 +823,11 @@ function Drawer({
         ref={ref}
       >
         <div className="drawer-heading">
-          <h2 id="drawer-title">{title}</h2>
+          <h2 id="drawer-title">{t(title)}</h2>
           <button
             className="icon-button"
             onClick={close}
-            aria-label="Close drawer"
+            aria-label={t("Close drawer")}
           >
             <X size={20} />
           </button>
@@ -776,14 +846,18 @@ function ResearchActivityDrawer({
   close: () => void;
   open: (id: string) => void;
 }) {
+  const { t, locale } = useI18n();
+
   return (
-    <Drawer title="Research run activity" close={close}>
+    <Drawer title={t("Research run activity")} close={close}>
       <p className="drawer-note">
         {data.mode === "archive"
-          ? "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times."
-          : "Synthetic demo events from the mock payload."}
+          ? t(
+              "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times.",
+            )
+          : t("Synthetic demo events from the mock payload.")}
       </p>
-      <h3>Skill workflow</h3>
+      <h3>{t("Skill workflow")}</h3>
       <div className="skill-stages">
         {data.skills.map((s) => (
           <article key={s.id}>
@@ -793,35 +867,39 @@ function ResearchActivityDrawer({
             </div>
             <code>{s.id}</code>
             <p>{s.summary}</p>
-            <small>{date(s.completedAt)}</small>
+            <small>{t(date(s.completedAt, locale))}</small>
             <div className="inline-links">
               <a href={s.sourceUrl} target="_blank" rel="noreferrer">
-                Read Skill report <ExternalLink size={12} />
+                {t("Read Skill report")}
+                <ExternalLink size={12} />
               </a>
               <a href={s.artifactUrl} target="_blank" rel="noreferrer">
-                JSON handoff <ExternalLink size={12} />
+                {t("JSON handoff")}
+                <ExternalLink size={12} />
               </a>
             </div>
           </article>
         ))}
       </div>
       <h3>
-        Recorded activity <span className="muted">{data.activity.length}</span>
+        {t("Recorded activity")}{" "}
+        <span className="muted">{data.activity.length}</span>
       </h3>
       <ol className="timeline">
         {data.activity.map((e) => (
           <li key={e.id}>
-            <time>{date(e.timestamp)}</time>
+            <time>{t(date(e.timestamp, locale))}</time>
             <p>{e.message}</p>
             {e.skill && <small>{e.skill}</small>}
             {e.entityType === "report" && e.entityId ? (
               <button className="text-button" onClick={() => open(e.entityId!)}>
-                Open Report <ArrowRight size={12} />
+                {t("Open Report")}
+                <ArrowRight size={12} />
               </button>
             ) : (
               e.sourceUrl && (
                 <a href={e.sourceUrl} target="_blank" rel="noreferrer">
-                  Source artifact ↗
+                  {t("Source artifact ↗")}
                 </a>
               )
             )}
@@ -829,7 +907,7 @@ function ResearchActivityDrawer({
         ))}
       </ol>
       {!data.activity.length && (
-        <p className="muted">Activity appears when discovery starts.</p>
+        <p className="muted">{t("Activity appears when discovery starts.")}</p>
       )}
     </Drawer>
   );
@@ -872,6 +950,8 @@ function AlphaReportPage({
   mode: string;
   toast: (s: string) => void;
 }) {
+  const { t, locale } = useI18n();
+
   const key = `paf:${mode}:${r.id}`;
   const stored = (suffix: string) => {
     try {
@@ -904,8 +984,8 @@ function AlphaReportPage({
   function exportReport() {
     const text = [
       `# ${r.title}`,
-      `Outcome: ${r.outcome}\nCandidate: ${r.candidateId}\nLast checked: ${r.lastCheckedAt}\nData mode: ${mode}`,
-      `## Executive Summary\n${r.executiveSummary}`,
+      `${t("Outcome")}: ${t(label(r.outcome))}\n${t("Candidate")}: ${r.candidateId}\n${t("Last checked")}: ${t(date(r.lastCheckedAt, locale))}\n${t("Data mode")}: ${t(mode === "demo" ? "Demo mode" : "Skill results")}`,
+      `## ${t("Executive Summary")}\n${r.executiveSummary}`,
       r.outcomeReason || "",
       ...(
         [
@@ -916,12 +996,12 @@ function AlphaReportPage({
         ] as const
       ).map(
         (k) =>
-          `## ${k}\n${r[k].summary}\n${r[k].items?.map((x) => `- ${x.label}: ${x.value}`).join("\n") || ""}`,
+          `## ${t({ mechanism: "Mechanism", historicalEvidence: "Historical Evidence", currentState: "Current State", executionConditions: "Execution Conditions" }[k])}\n${r[k].summary}\n${r[k].items?.map((x) => `- ${x.label}: ${x.value}`).join("\n") || ""}`,
       ),
-      `## Evidence gaps\n${r.missingEvidence?.map((x) => "- " + x).join("\n") || "See report sections."}`,
-      `## Next checks\n${r.nextChecks?.map((x) => "- " + x).join("\n") || ""}`,
-      `## Source wallets\n${r.sourceWallets.join("\n")}`,
-      `## Sources\n${r.evidenceRefs.map((e) => `${e.title || e.txHash}: ${e.url?.startsWith("/") ? location.origin + e.url : e.url}`).join("\n")}`,
+      `## ${t("Evidence gaps")}\n${r.missingEvidence?.map((x) => "- " + x).join("\n") || t("See report sections.")}`,
+      `## ${t("Next checks")}\n${r.nextChecks?.map((x) => "- " + x).join("\n") || ""}`,
+      `## ${t("Source wallets")}\n${r.sourceWallets.join("\n")}`,
+      `## ${t("Sources")}\n${r.evidenceRefs.map((e) => `${e.title || e.txHash}: ${e.url?.startsWith("/") ? location.origin + e.url : e.url}`).join("\n")}`,
     ].join("\n\n");
     const url = URL.createObjectURL(
       new Blob([text], { type: "text/markdown" }),
@@ -939,35 +1019,40 @@ function AlphaReportPage({
         onClick={() => navigate("/research")}
       >
         <ArrowLeft size={15} />
-        Back to research
+        {t("Back to research")}
       </button>
       <div className="report-page-heading">
         <div>
           <div className="eyebrow">
-            ALPHA RESEARCH REPORT <span> / {r.candidateId}</span>
+            {t("ALPHA RESEARCH REPORT")}
+            <span> / {r.candidateId}</span>
           </div>
           <h1>{r.title}</h1>
           <div className="report-title-meta">
             <StatusChip status={r.outcome} />
-            <span>Last checked {date(r.lastCheckedAt)}</span>
+            <span>
+              {t("Last checked {date}", {
+                date: t(date(r.lastCheckedAt, locale)),
+              })}
+            </span>
           </div>
         </div>
         <button className="secondary" onClick={exportReport}>
           <ArrowDownToLine size={16} />
-          Export report
+          {t("Export report")}
         </button>
       </div>
       <div className="memo-layout">
         <aside className="report-toc">
-          <span className="eyebrow">IN THIS REPORT</span>
+          <span className="eyebrow">{t("IN THIS REPORT")}</span>
           {[
-            "Executive Summary",
-            "Mechanism",
-            "Historical Evidence",
-            "Current State",
-            "Execution Conditions",
-            "Source Evidence",
-            "Human Actions",
+            t("Executive Summary"),
+            t("Mechanism"),
+            t("Historical Evidence"),
+            t("Current State"),
+            t("Execution Conditions"),
+            t("Source Evidence"),
+            t("Human Actions"),
           ].map((s, i) => (
             <a key={s} href={"#section-" + i}>
               <span>{String(i + 1).padStart(2, "0")}</span>
@@ -978,22 +1063,27 @@ function AlphaReportPage({
             <FileText size={20} />
             <p>
               {mode === "demo"
-                ? "Synthetic demo report"
-                : "Based on saved Skill evidence"}
+                ? t("Synthetic demo report")
+                : t("Based on saved Skill evidence")}
             </p>
-            <small>Generated {date(r.generatedAt)}</small>
+            <small>
+              {t("Generated {date}", { date: date(r.generatedAt, locale) })}
+            </small>
           </div>
         </aside>
         <article className="report-memo">
           <section className="executive-summary" id="section-0">
-            <span className="eyebrow">01 / EXECUTIVE SUMMARY</span>
+            <span className="eyebrow">{t("01 / EXECUTIVE SUMMARY")}</span>
             <p>{r.executiveSummary}</p>
             {r.outcomeReason && (
               <div className="outcome-explanation">
                 <CircleHelp size={16} />
                 <span>
-                  <strong>Why {label(r.outcome)}?</strong> {r.outcomeReason}{" "}
-                  Original Skill state: <strong>{r.rawCurrentState}</strong>.
+                  <strong>
+                    {t("Why {outcome}?", { outcome: t(label(r.outcome)) })}
+                  </strong>{" "}
+                  {r.outcomeReason} {t("Original Skill state:")}{" "}
+                  <strong>{r.rawCurrentState}</strong>.
                 </span>
               </div>
             )}
@@ -1001,12 +1091,12 @@ function AlphaReportPage({
           <Section
             id="section-1"
             number="02"
-            title="Mechanism"
+            title={t("Mechanism")}
             section={r.mechanism}
           />
           {r.alternativeExplanations?.length ? (
             <div className="memo-subsection">
-              <h3>Alternative explanations</h3>
+              <h3>{t("Alternative explanations")}</h3>
               <ul>
                 {r.alternativeExplanations.map((x) => (
                   <li key={x}>{x}</li>
@@ -1017,11 +1107,11 @@ function AlphaReportPage({
           <Section
             id="section-2"
             number="03"
-            title="Historical Evidence"
+            title={t("Historical Evidence")}
             section={r.historicalEvidence}
           />
           <div className="memo-subsection">
-            <h3>Source wallets</h3>
+            <h3>{t("Source wallets")}</h3>
             {r.sourceWallets.map((w) => (
               <p className="mono wrap" key={w}>
                 {mode === "archive" ? (
@@ -1041,18 +1131,18 @@ function AlphaReportPage({
           <Section
             id="section-3"
             number="04"
-            title="Current State"
+            title={t("Current State")}
             section={r.currentState}
           />
           <Section
             id="section-4"
             number="05"
-            title="Execution Conditions"
+            title={t("Execution Conditions")}
             section={r.executionConditions}
           />
           {r.missingEvidence?.length ? (
             <div className="evidence-gaps">
-              <h3>Evidence still needed</h3>
+              <h3>{t("Evidence still needed")}</h3>
               <ul>
                 {r.missingEvidence.map((x) => (
                   <li key={x}>{x}</li>
@@ -1062,7 +1152,8 @@ function AlphaReportPage({
           ) : null}
           <section className="memo-section" id="section-5">
             <h2>
-              <span>06</span>Source Evidence
+              <span>06</span>
+              {t("Source Evidence")}
             </h2>
             <div className="source-grid">
               {r.evidenceRefs.map((e, i) => (
@@ -1071,13 +1162,16 @@ function AlphaReportPage({
             </div>
             {!r.evidenceRefs.length && (
               <p>
-                No source links are included in this synthetic demo payload.
+                {t(
+                  "No source links are included in this synthetic demo payload.",
+                )}
               </p>
             )}
           </section>
           <section className="memo-section" id="section-6">
             <h2>
-              <span>07</span>Human Actions
+              <span>07</span>
+              {t("Human Actions")}
             </h2>
             {r.nextChecks?.length ? (
               <ol className="next-checks">
@@ -1087,19 +1181,22 @@ function AlphaReportPage({
               </ol>
             ) : (
               <p>
-                Review the conditions and supporting evidence before the next
-                research pass.
+                {t(
+                  "Review the conditions and supporting evidence before the next research pass.",
+                )}
               </p>
             )}
             <div className="human-actions">
               <button className="primary" onClick={() => toggle("saved")}>
                 <Bookmark size={15} />
-                {saved ? "Report saved" : "Save Report"}
+                {saved ? t("Report saved") : t("Save Report")}
               </button>
               {["MONITOR", "ACTIONABLE"].includes(r.outcome) && (
                 <button className="secondary" onClick={() => toggle("watch")}>
                   <Eye size={15} />
-                  {watched ? "On local watchlist" : "Add to local watchlist"}
+                  {watched
+                    ? t("On local watchlist")
+                    : t("Add to local watchlist")}
                 </button>
               )}
               <button
@@ -1118,13 +1215,13 @@ function AlphaReportPage({
                 }}
               >
                 <Share2 size={15} />
-                Copy link
+                {t("Copy link")}
               </button>
             </div>
             <p className="action-note">
-              Bookmarks and watchlists are saved in this browser. New discovery
-              seeds require an established advantage; the saved research has not
-              promoted any candidate.
+              {t(
+                "Bookmarks and watchlists are saved in this browser. New discovery seeds require an established advantage; the saved research has not promoted any candidate.",
+              )}
             </p>
           </section>
         </article>
@@ -1134,6 +1231,8 @@ function AlphaReportPage({
 }
 
 function App() {
+  const { t, locale, language } = useI18n();
+
   const [path, setPath] = useState(
     location.pathname === "/" || location.pathname === "/frontend/"
       ? "/research"
@@ -1145,19 +1244,34 @@ function App() {
       : "archive",
   );
   const [seedId, setSeedId] = useState("all");
-  const [data, setData] = useState<Snapshot | null>(null);
+  const [rawData, setData] = useState<Snapshot | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(true);
-  const [drawer, setDrawer] = useState<
+  const [rawDrawer, setDrawer] = useState<
     "activity" | StrategyWallet | AlphaCandidate | null
   >(null);
   const [filterWallet, setFilterWallet] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [outcome, setOutcome] = useState("all");
-  const [report, setReport] = useState<AlphaReport | null>(null);
+  const [rawReport, setReport] = useState<AlphaReport | null>(null);
   const [reportError, setReportError] = useState("");
   const [message, setMessage] = useState("");
   const [revision, setRevision] = useState(0);
+  const data = useMemo(
+    () => (rawData ? localizeSnapshot(rawData, language) : null),
+    [rawData, language],
+  );
+  const report = useMemo(
+    () => (rawReport ? localizeReport(rawReport, language) : null),
+    [rawReport, language],
+  );
+  const drawer =
+    !rawDrawer || rawDrawer === "activity"
+      ? rawDrawer
+      : "address" in rawDrawer
+        ? data?.wallets.find((w) => w.address === rawDrawer.address) ||
+          rawDrawer
+        : data?.candidates.find((c) => c.id === rawDrawer.id) || rawDrawer;
   function navigate(next: string) {
     const url = next + (mode === "demo" ? "?mode=demo" : "");
     history.pushState({}, "", url);
@@ -1248,8 +1362,8 @@ function App() {
     };
   }, [reportId, mode]);
   useEffect(() => {
-    document.title = `${report?.title || (path === "/reports" ? "Reports" : "Research")} · Protocol Alpha Finder`;
-  }, [path, report]);
+    document.title = `${report?.title || (path === "/reports" ? t("Reports") : t("Research"))} · Protocol Alpha Finder`;
+  }, [path, report, language]);
   const openReport = (id: string) =>
     navigate("/reports/" + encodeURIComponent(id));
   const reports = data?.reports || [];
@@ -1281,10 +1395,11 @@ function App() {
         {mode === "demo" && (
           <div className="demo-banner">
             <FlaskConical size={15} />
-            <strong>Synthetic demo</strong>
+            <strong>{t("Synthetic demo")}</strong>
             <span>
-              Illustrative data and simulated job timing. Switch to Skill
-              results for the recorded research.
+              {t(
+                "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
+              )}
             </span>
           </div>
         )}
@@ -1301,7 +1416,9 @@ function App() {
             <div className="page-state">
               <Empty
                 loading={!reportError}
-                title={reportError ? "Report unavailable" : "Loading report"}
+                title={
+                  reportError ? t("Report unavailable") : t("Loading report")
+                }
                 text={
                   reportError || "Opening the evidence-backed research memo."
                 }
@@ -1310,7 +1427,7 @@ function App() {
                 className="secondary"
                 onClick={() => navigate("/reports")}
               >
-                Back to reports
+                {t("Back to reports")}
               </button>
             </div>
           )
@@ -1320,15 +1437,16 @@ function App() {
               <>
                 <div className="page-heading">
                   <div className="heading-copy">
-                    <span className="eyebrow">RESEARCH LIBRARY</span>
-                    <h1>Alpha Reports</h1>
+                    <span className="eyebrow">{t("RESEARCH LIBRARY")}</span>
+                    <h1>{t("Alpha Reports")}</h1>
                     <p>
-                      Every candidate has a conclusion. Keep the evidence,
-                      whatever the outcome.
+                      {t(
+                        "Every candidate has a conclusion. Keep the evidence, whatever the outcome.",
+                      )}
                     </p>
                   </div>
                   <span className="library-total">
-                    {reports.length} reports
+                    {t("{count} reports", { count: reports.length })}
                   </span>
                 </div>
                 <div className="library-toolbar">
@@ -1337,16 +1455,16 @@ function App() {
                     <input
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="Search reports or candidate IDs"
-                      aria-label="Search reports"
+                      placeholder={t("Search reports or candidate IDs")}
+                      aria-label={t("Search reports")}
                     />
                   </label>
                   <select
                     value={outcome}
                     onChange={(e) => setOutcome(e.target.value)}
-                    aria-label="Filter report outcome"
+                    aria-label={t("Filter report outcome")}
                   >
-                    <option value="all">All outcomes</option>
+                    <option value="all">{t("All outcomes")}</option>
                     {(
                       [
                         "ACTIONABLE",
@@ -1356,39 +1474,42 @@ function App() {
                       ] as Outcome[]
                     ).map((x) => (
                       <option key={x} value={x}>
-                        {label(x)}
+                        {t(label(x))}
                       </option>
                     ))}
                   </select>
                 </div>
               </>
             ) : (
-              <h1 className="sr-only">Protocol Alpha Research Workspace</h1>
+              <h1 className="sr-only">
+                {t("Protocol Alpha Research Workspace")}
+              </h1>
             )}
             {error && (
               <div className="error-banner" role="alert">
                 <span>
-                  <strong>Could not refresh Skill results.</strong> {error}
-                  {data && " The last loaded snapshot remains visible."}
+                  <strong>{t("Could not refresh Skill results.")}</strong>{" "}
+                  {t(error)}
+                  {data && t(" The last loaded snapshot remains visible.")}
                 </span>
                 <button
                   className="secondary"
                   onClick={() => setRevision((r) => r + 1)}
                 >
-                  Retry
+                  {t("Retry")}
                 </button>
                 <button
                   className="text-button"
                   onClick={() => switchMode("demo")}
                 >
-                  Open Demo
+                  {t("Open Demo")}
                 </button>
               </div>
             )}
             {!data && !error ? (
               <Empty
                 loading
-                title="Loading Skill research"
+                title={t("Loading Skill research")}
                 text="Reading saved wallet, investigation and validation handoffs…"
               />
             ) : (
@@ -1420,7 +1541,7 @@ function App() {
                         .includes(search.toLowerCase()),
                   ) && (
                     <Empty
-                      title="No matching reports"
+                      title={t("No matching reports")}
                       text="Try another outcome or search term."
                     />
                   )}
@@ -1454,7 +1575,7 @@ function App() {
                       <CircleHelp size={17} />
                       <div>
                         <strong>
-                          USDD: zero verified executors in this window.
+                          {t("USDD: zero verified executors in this window.")}
                         </strong>
                         <p>
                           {data.seeds.find((s) => s.id === seedId)?.coverage}
@@ -1502,10 +1623,12 @@ function App() {
           <span className="footer-mark">α</span>Protocol Alpha Finder
         </span>
         <span>
-          Known Alpha <ArrowRight size={11} /> Strategy Wallets{" "}
-          <ArrowRight size={11} /> New Alpha
+          {t("Known Alpha")}
+          <ArrowRight size={11} />
+          {t("Strategy Wallets")} <ArrowRight size={11} />
+          {t("New Alpha")}
         </span>
-        <span>Evidence before opportunity.</span>
+        <span>{t("Evidence before opportunity.")}</span>
       </footer>
       {drawer === "activity" && data && (
         <ResearchActivityDrawer
@@ -1515,13 +1638,13 @@ function App() {
         />
       )}{" "}
       {drawer && drawer !== "activity" && "address" in drawer && (
-        <Drawer title="Wallet investigation" close={() => setDrawer(null)}>
-          <span className="eyebrow">STRATEGY WALLET</span>
+        <Drawer title={t("Wallet investigation")} close={() => setDrawer(null)}>
+          <span className="eyebrow">{t("STRATEGY WALLET")}</span>
           <div className="full-address">
             <code>{drawer.address}</code>
             <button
               className="icon-button"
-              aria-label="Copy wallet address"
+              aria-label={t("Copy wallet address")}
               onClick={() => copy(drawer.address)}
             >
               <Copy size={16} />
@@ -1534,23 +1657,23 @@ function App() {
                 ? "—"
                 : fmt(drawer.historyJob.txCount)}
             </strong>
-            <span>primary transactions loaded</span>
+            <span>{t("primary transactions loaded")}</span>
           </div>
-          <h3>Discovery provenance</h3>
+          <h3>{t("Discovery provenance")}</h3>
           <p>
             {(drawer.sourceSeedIds || [drawer.sourceSeedId])
               .map((id) => data?.seeds.find((s) => s.id === id)?.name || id)
               .join(", ")}
           </p>
-          <h3>Observed history</h3>
+          <h3>{t("Observed history")}</h3>
           <p>
-            {date(drawer.historyJob.fromTime)} →{" "}
-            {date(drawer.historyJob.toTime)}
+            {t(date(drawer.historyJob.fromTime, locale))} →{" "}
+            {t(date(drawer.historyJob.toTime, locale))}
           </p>
           <p className="drawer-note">
-            {drawer.coverageNote || "Synthetic demo history."}
+            {drawer.coverageNote || t("Synthetic demo history.")}
           </p>
-          <h3>Produced candidates</h3>
+          <h3>{t("Produced candidates")}</h3>
           {drawer.candidateIds.length ? (
             drawer.candidateIds.map((id) => (
               <div className="linked-candidate" key={id}>
@@ -1560,7 +1683,9 @@ function App() {
             ))
           ) : (
             <p>
-              No candidates produced. This wallet remains a valid observation.
+              {t(
+                "No candidates produced. This wallet remains a valid observation.",
+              )}
             </p>
           )}
           <button
@@ -1570,22 +1695,22 @@ function App() {
               setDrawer(null);
             }}
           >
-            Show related candidates
+            {t("Show related candidates")}
             <ArrowRight size={14} />
           </button>
-          <h3>Discovery evidence</h3>
+          <h3>{t("Discovery evidence")}</h3>
           {drawer.evidenceRefs?.map((e, i) => (
             <EvidenceLink key={i} e={e} />
           ))}
         </Drawer>
       )}{" "}
       {drawer && drawer !== "activity" && "summary" in drawer && (
-        <Drawer title="Candidate evidence" close={() => setDrawer(null)}>
+        <Drawer title={t("Candidate evidence")} close={() => setDrawer(null)}>
           <span className="eyebrow">{drawer.id}</span>
           <h2>{drawer.title}</h2>
           <p>{drawer.summary}</p>
           <StatusChip status={drawer.status} />
-          <h3>Source wallets</h3>
+          <h3>{t("Source wallets")}</h3>
           {drawer.sourceWallets.map((w) => (
             <p key={w} className="mono wrap">
               {w}
@@ -1593,37 +1718,39 @@ function App() {
           ))}
           {drawer.validation && (
             <>
-              <h3>Validation assessment</h3>
+              <h3>{t("Validation assessment")}</h3>
               {Object.entries(drawer.validation).map(([k, v]) => (
                 <div className="validation-row" key={k}>
                   <span>
                     {
                       (
                         {
-                          mechanism: "Mechanism",
-                          historicalEvidence: "Historical evidence",
-                          currentState: "Current state",
-                          executionConditions: "Execution conditions",
+                          mechanism: t("Mechanism"),
+                          historicalEvidence: t("Historical evidence"),
+                          currentState: t("Current state"),
+                          executionConditions: t("Execution conditions"),
                         } as Record<string, string>
                       )[k]
                     }
                   </span>
-                  <strong>{v}</strong>
+                  <strong>{t(v)}</strong>
                 </div>
               ))}
             </>
           )}
           <p className="drawer-note">
-            {drawer.historicalExecutionCount ?? "No"}{" "}
-            {drawer.evidenceCountLabel || "historical executions"}. Candidate
-            IDs stay separate even when wallets share a mechanism.
+            {drawer.historicalExecutionCount ?? t("No")}{" "}
+            {t(drawer.evidenceCountLabel || "historical executions")}
+            {t(
+              ". Candidate IDs stay separate even when wallets share a mechanism.",
+            )}
           </p>
           {drawer.reportId && (
             <button
               className="primary full-width"
               onClick={() => openReport(drawer.reportId!)}
             >
-              Open Full Report
+              {t("Open Full Report")}
               <ArrowRight size={14} />
             </button>
           )}
@@ -1632,9 +1759,9 @@ function App() {
       {message && (
         <div className="toast" role="status">
           <Check size={16} />
-          {message}
+          {t(message)}
           <button
-            aria-label="Dismiss notification"
+            aria-label={t("Dismiss notification")}
             onClick={() => setMessage("")}
           >
             <X size={14} />
@@ -1646,6 +1773,8 @@ function App() {
 }
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </React.StrictMode>,
 );

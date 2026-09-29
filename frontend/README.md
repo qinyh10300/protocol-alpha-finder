@@ -31,6 +31,14 @@ npm start
 - 点击其它报告会切换预览并将键盘焦点移到新报告；Copy link 可复制深链接。
 - 小屏幕按顺序自然展开，各钱包改为两行结构，不在候选列表内嵌第二层滚动。
 
+## Languages
+
+English is the default. Use the language selector in the header to switch between English and Chinese. The choice is stored under `protocol-alpha-language` in this browser and survives navigation, refreshes, seed changes, and data polling.
+
+UI labels, archived research titles and narratives, evidence drawers, reports, dates, and Markdown exports follow the selected language. Identifiers, addresses, evidence links, raw status codes, and original Skill artifacts remain unchanged.
+
+UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Research translations live in `src/locales/research.ts` and `research.zh.json`; add translations when introducing new narrative content. The adapter data is localized for presentation without mutating source records.
+
 ## 两种数据模式
 
 ### Skill results（默认）

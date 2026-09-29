@@ -11,7 +11,10 @@ import {
   Zap,
 } from "lucide-react";
 import type { AlphaReport, Outcome } from "./types";
+import { useI18n } from "./i18n";
 import "./report-cards.css";
+
+type Translate = ReturnType<typeof useI18n>["t"];
 
 const outcomeLabels: Record<Outcome, string> = {
   ACTIONABLE: "Actionable",
@@ -21,25 +24,31 @@ const outcomeLabels: Record<Outcome, string> = {
 };
 
 function OutcomeBadge({ outcome }: { outcome: Outcome }) {
+  const { t } = useI18n();
   return (
     <span className={`report-outcome report-outcome-${outcome.toLowerCase()}`}>
       <span aria-hidden="true" />
-      {outcomeLabels[outcome]}
+      {t(outcomeLabels[outcome])}
     </span>
   );
 }
 
-function sampleLabel(report: AlphaReport) {
+function sampleLabel(report: AlphaReport, t: Translate) {
   const label = report.evidenceCountLabel || "historical executions";
-  return report.historicalExecutionCount === 1
-    ? label.replace(/s$/, "")
-    : label;
+  return t(
+    report.historicalExecutionCount === 1 ? label.replace(/s$/, "") : label,
+  );
 }
 
-function reportDate(value?: string, full = false) {
-  if (!value) return "Not recorded";
+function reportDate(
+  value: string | undefined,
+  locale: string,
+  t: Translate,
+  full = false,
+) {
+  if (!value) return t("Not recorded");
   return (
-    new Date(value).toLocaleString("en-GB", {
+    new Date(value).toLocaleString(locale, {
       day: "2-digit",
       month: "short",
       ...(full ? { year: "numeric", hour: "2-digit", minute: "2-digit" } : {}),
@@ -49,40 +58,59 @@ function reportDate(value?: string, full = false) {
 }
 
 function firstSentence(text: string) {
-  return text.match(/^.*?[.!?](?:\s|$)/)?.[0].trim() || text;
+  return text.match(/^.*?(?:[.!?](?:\s|$)|[。！？])/)?.[0].trim() || text;
 }
 
 /** Preview excerpts use the saved assessment, including its uncertainty. */
-function findings(report: AlphaReport) {
+function findings(report: AlphaReport, t: Translate, locale: string) {
   const stateFinding = report.currentState.items?.[0]?.value;
   const currentState = report.rawCurrentState
-    ? `${report.rawCurrentState}${stateFinding ? ` — ${stateFinding}` : ""}`
+    ? `${t(report.rawCurrentState)}${stateFinding ? ` — ${stateFinding}` : ""}`
     : report.currentState.summary;
   const conditions = report.executionConditions.items?.slice(0, 2);
   return [
     {
+      key: "mechanism",
       title: "Mechanism",
       icon: Settings2,
       text: report.mechanism.summary,
     },
     {
+      key: "historical-evidence",
       title: "Historical Evidence",
       icon: ChartNoAxesColumnIncreasing,
       text:
         report.historicalExecutionCount != null
-          ? `${report.historicalExecutionCount} ${sampleLabel(report)} from ${report.sourceWallets.length} source wallet${report.sourceWallets.length === 1 ? "" : "s"}.`
+          ? t("{samples} from {wallets}.", {
+              samples: t("{count} {label}", {
+                count: report.historicalExecutionCount.toLocaleString(locale),
+                label: sampleLabel(report, t),
+              }),
+              wallets: t(
+                report.sourceWallets.length === 1
+                  ? "{count} source wallet"
+                  : "{count} source wallets",
+                {
+                  count: report.sourceWallets.length.toLocaleString(locale),
+                },
+              ),
+            })
           : report.historicalEvidence.summary,
     },
     {
+      key: "current-state",
       title: "Current State",
       icon: Database,
       text: currentState,
     },
     {
+      key: "execution-conditions",
       title: "Execution Conditions",
       icon: Zap,
       text: conditions?.length
-        ? `Verify: ${conditions.map((item) => item.value).join("; ")}.`
+        ? t("Verify: {conditions}.", {
+            conditions: conditions.map((item) => item.value).join(t("; ")),
+          })
         : report.executionConditions.summary,
     },
   ];
@@ -97,6 +125,7 @@ export function AlphaReportPreview({
   featured?: boolean;
   open: (id: string) => void;
 }) {
+  const { t, locale } = useI18n();
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
     "idle",
   );
@@ -140,9 +169,11 @@ export function AlphaReportPreview({
             {featured && (
               <span
                 className="report-checked"
-                title={reportDate(report.lastCheckedAt, true)}
+                title={reportDate(report.lastCheckedAt, locale, t, true)}
               >
-                Checked {reportDate(report.lastCheckedAt)}
+                {t("Checked {date}", {
+                  date: reportDate(report.lastCheckedAt, locale, t),
+                })}
               </span>
             )}
             {!featured && (
@@ -164,45 +195,53 @@ export function AlphaReportPreview({
           className="report-section-preview"
           id={`report-details-${report.id}`}
         >
-          {findings(report).map(({ title, icon: Icon, text }) => (
-            <section
-              className={`report-section-row section-${title.toLowerCase().replaceAll(" ", "-")}`}
-              key={title}
-            >
-              <Icon size={20} strokeWidth={1.7} aria-hidden="true" />
-              <div>
-                <h4>{title}</h4>
-                <p title={text}>{text}</p>
-              </div>
-            </section>
-          ))}
+          {findings(report, t, locale).map(
+            ({ key, title, icon: Icon, text }) => (
+              <section
+                className={`report-section-row section-${key}`}
+                key={key}
+              >
+                <Icon size={20} strokeWidth={1.7} aria-hidden="true" />
+                <div>
+                  <h4>{t(title)}</h4>
+                  <p title={text}>{text}</p>
+                </div>
+              </section>
+            ),
+          )}
         </div>
       )}
 
       {!featured && (
         <dl className="report-evidence-strip">
           <div>
-            <dt>Source wallets</dt>
+            <dt>{t("Source wallets")}</dt>
             <dd>
-              {report.sourceWallets.length} wallet
-              {report.sourceWallets.length === 1 ? "" : "s"}
+              {t(
+                report.sourceWallets.length === 1
+                  ? "{count} wallet"
+                  : "{count} wallets",
+                {
+                  count: report.sourceWallets.length.toLocaleString(locale),
+                },
+              )}
             </dd>
           </div>
           {report.historicalExecutionCount != null && (
             <div>
-              <dt>{sampleLabel(report)}</dt>
-              <dd>{report.historicalExecutionCount.toLocaleString("en-US")}</dd>
+              <dt>{sampleLabel(report, t)}</dt>
+              <dd>{report.historicalExecutionCount.toLocaleString(locale)}</dd>
             </div>
           )}
           <div>
-            <dt>Last checked</dt>
-            <dd title={reportDate(report.lastCheckedAt, true)}>
+            <dt>{t("Last checked")}</dt>
+            <dd title={reportDate(report.lastCheckedAt, locale, t, true)}>
               {report.lastCheckedAt ? (
                 <time dateTime={report.lastCheckedAt}>
-                  {reportDate(report.lastCheckedAt)}
+                  {reportDate(report.lastCheckedAt, locale, t)}
                 </time>
               ) : (
-                "Not recorded"
+                t("Not recorded")
               )}
             </dd>
           </div>
@@ -212,23 +251,23 @@ export function AlphaReportPreview({
       <div className="report-preview-actions">
         <button className="report-open-button" onClick={() => open(report.id)}>
           <FileText size={15} aria-hidden="true" />
-          Open Full Report
+          {t("Open Full Report")}
           {!featured && <ArrowRight size={14} aria-hidden="true" />}
         </button>
         {featured && (
           <button className="report-copy-button" onClick={copyLink}>
             {copyState === "copied" ? <Check size={14} /> : <Copy size={14} />}
             <span aria-live="polite">
-              {copyState === "copied" ? "Copied" : "Copy link"}
+              {t(copyState === "copied" ? "Copied" : "Copy link")}
             </span>
           </button>
         )}
       </div>
       {copyState === "failed" && (
         <label className="report-copy-fallback">
-          Clipboard unavailable. Select and copy this report link:
+          {t("Clipboard unavailable. Select and copy this report link:")}
           <input
-            aria-label="Report link"
+            aria-label={t("Report link")}
             readOnly
             value={shareUrl}
             onFocus={(e) => e.target.select()}
@@ -246,6 +285,7 @@ export function AlphaReportList({
   reports: AlphaReport[];
   open: (id: string) => void;
 }) {
+  const { t, locale } = useI18n();
   // A saved selection survives polling; changing to a seed without it selects its first report.
   const sorted = [...reports].sort(
     (a, b) => Number(b.outcome === "MONITOR") - Number(a.outcome === "MONITOR"),
@@ -282,11 +322,12 @@ export function AlphaReportList({
           <FileText size={20} />
         </span>
         <h2>
-          Alpha Reports <span>({reports.length})</span>
+          {t("Alpha Reports")}{" "}
+          <span>({reports.length.toLocaleString(locale)})</span>
         </h2>
       </div>
       <p className="column-description">
-        Human-readable research with evidence and clear outcomes.
+        {t("Human-readable research with evidence and clear outcomes.")}
       </p>
       <div className="column-content report-list-content" ref={contentRef}>
         {selected ? (
@@ -308,7 +349,10 @@ export function AlphaReportList({
                   <button
                     className="compact-report"
                     aria-expanded={false}
-                    aria-label={`Preview ${report.title} (${report.candidateId})`}
+                    aria-label={t("Preview {title} ({candidateId})", {
+                      title: report.title,
+                      candidateId: report.candidateId,
+                    })}
                     onClick={() => selectReport(report.id)}
                   >
                     <span className="report-document-icon" aria-hidden="true">
@@ -319,9 +363,20 @@ export function AlphaReportList({
                       <span>
                         {report.sourceWallets.length === 1
                           ? `${report.sourceWallets[0].slice(0, 6)}…${report.sourceWallets[0].slice(-5)}`
-                          : `${report.sourceWallets.length} wallets`}
+                          : t("{count} wallets", {
+                              count:
+                                report.sourceWallets.length.toLocaleString(
+                                  locale,
+                                ),
+                            })}
                         {report.historicalExecutionCount != null &&
-                          ` · ${report.historicalExecutionCount} ${sampleLabel(report)}`}
+                          ` · ${t("{count} {label}", {
+                            count:
+                              report.historicalExecutionCount.toLocaleString(
+                                locale,
+                              ),
+                            label: sampleLabel(report, t),
+                          })}`}
                       </span>
                       <OutcomeBadge outcome={report.outcome} />
                     </div>
@@ -333,8 +388,10 @@ export function AlphaReportList({
         ) : (
           <div className="empty report-empty">
             <FileText size={28} aria-hidden="true" />
-            <strong>No reports generated yet</strong>
-            <p>Each candidate can produce a report, whatever the outcome.</p>
+            <strong>{t("No reports generated yet")}</strong>
+            <p>
+              {t("Each candidate can produce a report, whatever the outcome.")}
+            </p>
           </div>
         )}
       </div>

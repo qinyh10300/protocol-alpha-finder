@@ -2067,3 +2067,42 @@ main {
     display: none;
   }
 }
+
+.language-select {
+  min-width: 88px;
+  justify-content: space-between;
+}
+.language-select select {
+  min-width: 50px;
+}
+@media (max-width: 760px) {
+  .header-controls {
+    gap: 6px;
+  }
+  .language-select {
+    min-width: 80px;
+  }
+  .language-select select {
+    font-size: 12px;
+  }
+}
+@media (max-width: 600px) {
+  .app-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+  .brand {
+    grid-column: 1 / -1;
+  }
+  .app-header nav {
+    grid-column: 1;
+    grid-row: 2;
+    width: auto;
+    gap: 18px;
+  }
+  .header-controls {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+  }
+}
