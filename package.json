@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "tsc --noEmit && vite build",
+    "build:pages": "tsc --noEmit && vite build --mode pages --outDir ../dist-pages/frontend",
     "start": "python3 scripts/serve_research.py --port 4173",
     "test": "python3 -m unittest discover -s tests -p 'test_frontend_api.py'",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:pages": "npm run build:pages && playwright test --config playwright.pages.config.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

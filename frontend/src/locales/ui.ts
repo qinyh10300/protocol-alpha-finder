@@ -73,9 +73,12 @@ export const uiZh: Record<string, string> = {
   "Review the conditions and supporting evidence before the next research pass.":
     "开始下一轮研究前，请审阅执行条件与支持证据。",
   "Copy link": "复制链接",
+  "Report link copied.": "报告链接已复制。",
   "Bookmarks and watchlists are saved in this browser. New discovery seeds require an established advantage; the saved research has not promoted any candidate.":
     "收藏与观察列表保存在当前浏览器中。新发现种子需要已证实的优势；此次研究尚未将任何候选升级为种子。",
   "Synthetic demo": "合成数据演示",
+  "Illustrative data and simulated job timing. Run Discovery to explore the demo.":
+    "当前展示示例数据与模拟任务进度。点击“运行发现”体验演示。",
   "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.":
     "当前展示示例数据与模拟任务进度。切换至 Skill 研究结果可查看已保存的真实研究。",
   "Back to reports": "返回报告",

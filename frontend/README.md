@@ -2,6 +2,22 @@
 
 React + TypeScript + Vite 研究工作台。默认接入本地四个 Skill 的真实产物，提供三栏研究工作区、独立报告页、报告库和可重播的 Demo。
 
+## GitHub Pages
+
+在线前端：<https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html>
+
+GitHub Pages 版本使用合成 Demo，点击 **Run Discovery** 可播放完整流程。它支持中英切换、报告详情、分享链接、Markdown 导出和浏览器收藏。真实 Skill 结果需要下文的本地 Python API；线上构建仅发布前端产物。
+
+`.github/workflows/pages.yml` 在推送到 `main` 时自动构建并发布，也可在 GitHub Actions 手动运行。仓库 Settings → Pages → Source 使用 **GitHub Actions**。
+
+```bash
+npm ci
+npm run build:pages
+python3 -m http.server --bind 127.0.0.1 --directory dist-pages 4175
+```
+
+本地预览地址为 <http://127.0.0.1:4175/frontend/index.html>。Pages 构建产物位于 `dist-pages/frontend/`，资源使用相对路径，报告路径通过 `?view=` 保存，支持静态托管下的直接访问与刷新。运行 `npm run test:pages` 可验证静态构建。
+
 ## 启动
 
 在仓库根目录运行：

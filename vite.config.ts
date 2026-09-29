@@ -1,7 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root: "frontend",
+  base: mode === "pages" ? "./" : "/",
   plugins: [react()],
   server: {
     host: "127.0.0.1",
@@ -10,4 +11,4 @@ export default defineConfig({
     proxy: { "/api": "http://127.0.0.1:5174" },
   },
   build: { outDir: "../dist", emptyOutDir: true },
-});
+}));

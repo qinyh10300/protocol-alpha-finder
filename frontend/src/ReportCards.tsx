@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import type { AlphaReport, Outcome } from "./types";
 import { useI18n } from "./i18n";
+import { routeUrl } from "./routing";
 import "./report-cards.css";
 
 type Translate = ReturnType<typeof useI18n>["t"];
@@ -137,16 +138,10 @@ export function AlphaReportPreview({
   }, [copyState]);
 
   async function copyLink() {
-    const url = new URL(
-      `/reports/${encodeURIComponent(report.id)}`,
-      location.origin,
-    );
-    if (new URLSearchParams(location.search).get("mode") === "demo") {
-      url.searchParams.set("mode", "demo");
-    }
-    setShareUrl(url.href);
+    const url = routeUrl(`/reports/${encodeURIComponent(report.id)}`);
+    setShareUrl(url);
     try {
-      await navigator.clipboard.writeText(url.href);
+      await navigator.clipboard.writeText(url);
       setCopyState("copied");
     } catch {
       setCopyState("failed");

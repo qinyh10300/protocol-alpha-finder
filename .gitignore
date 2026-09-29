@@ -9,5 +9,7 @@ __pycache__/
 data/
 # Frontend build and browser-test output
 dist/
+dist-pages/
 test-results/
+test-results-pages/
 playwright-report/

@@ -28,6 +28,7 @@ import {
   CircleHelp,
 } from "lucide-react";
 import { ApiResearchDataSource, MockResearchDataSource } from "./data";
+import { currentMode, currentPath, isPagesBuild, routeUrl } from "./routing";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -182,7 +183,7 @@ function AppHeader({
     <header className="app-header">
       <a
         className="brand"
-        href="/research"
+        href={routeUrl("/research")}
         onClick={(e) => {
           e.preventDefault();
           navigate("/research");
@@ -229,7 +230,9 @@ function AppHeader({
             value={mode}
             onChange={(e) => setMode(e.target.value as "archive" | "demo")}
           >
-            <option value="archive">{t("Skill results")}</option>
+            {!isPagesBuild && (
+              <option value="archive">{t("Skill results")}</option>
+            )}
             <option value="demo">{t("Demo mode")}</option>
           </select>
           <ChevronDown size={14} />
@@ -1205,7 +1208,9 @@ function AlphaReportPage({
                   try {
                     await navigator.clipboard.writeText(location.href);
                     toast(
-                      "Report link copied. This URL requires access to the local server.",
+                      isPagesBuild
+                        ? "Report link copied."
+                        : "Report link copied. This URL requires access to the local server.",
                     );
                   } catch {
                     toast(
@@ -1233,16 +1238,8 @@ function AlphaReportPage({
 function App() {
   const { t, locale, language } = useI18n();
 
-  const [path, setPath] = useState(
-    location.pathname === "/" || location.pathname === "/frontend/"
-      ? "/research"
-      : location.pathname,
-  );
-  const [mode, setMode] = useState<"archive" | "demo">(() =>
-    new URLSearchParams(location.search).get("mode") === "demo"
-      ? "demo"
-      : "archive",
-  );
+  const [path, setPath] = useState(currentPath);
+  const [mode, setMode] = useState(currentMode);
   const [seedId, setSeedId] = useState("all");
   const [rawData, setData] = useState<Snapshot | null>(null);
   const [error, setError] = useState("");
@@ -1273,8 +1270,7 @@ function App() {
           rawDrawer
         : data?.candidates.find((c) => c.id === rawDrawer.id) || rawDrawer;
   function navigate(next: string) {
-    const url = next + (mode === "demo" ? "?mode=demo" : "");
-    history.pushState({}, "", url);
+    history.pushState({}, "", routeUrl(next, mode));
     setPath(next);
     setDrawer(null);
     window.scrollTo(0, 0);
@@ -1288,20 +1284,12 @@ function App() {
     setFilterWallet(null);
     setSeedId("all");
     setPath("/research");
-    history.pushState(
-      {},
-      "",
-      "/research" + (next === "demo" ? "?mode=demo" : ""),
-    );
+    history.pushState({}, "", routeUrl("/research", next));
   }
   useEffect(() => {
     const onPop = () => {
-      setPath(location.pathname === "/" ? "/research" : location.pathname);
-      setMode(
-        new URLSearchParams(location.search).get("mode") === "demo"
-          ? "demo"
-          : "archive",
-      );
+      setPath(currentPath());
+      setMode(currentMode());
       setDrawer(null);
     };
     window.addEventListener("popstate", onPop);
@@ -1398,7 +1386,9 @@ function App() {
             <strong>{t("Synthetic demo")}</strong>
             <span>
               {t(
-                "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
+                isPagesBuild
+                  ? "Illustrative data and simulated job timing. Run Discovery to explore the demo."
+                  : "Illustrative data and simulated job timing. Switch to Skill results for the recorded research.",
               )}
             </span>
           </div>
