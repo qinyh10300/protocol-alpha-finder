@@ -34,10 +34,10 @@ flowchart TB
         WALLET0 -->|Skill 2| CANDIDATE0
         CANDIDATE0 -->|Skill 3| CHECK
     end
-    S1["Skill 1 · 发现钱包"]
-    S2["Skill 2 · 研究钱包"]
-    S3["Skill 3 · 验证候选"]
-    S4["Skill 4 · 协调 Skill 1–3"]
+    S1["Skill 1<br/>我们从已知<br/>机制的执行<br/>记录中找到<br/>钱包，<br/>再通过交易<br/>回执核验其<br/>真实执行<br/>角色。"]
+    S2["Skill 2<br/>我们追踪<br/>每个钱包的<br/>完整历史，<br/>从重复操作<br/>中提出新的<br/>机制假设。"]
+    S3["Skill 3<br/>我们结合<br/>交易证据、<br/>执行成本与<br/>协议当前<br/>条件，逐个<br/>检验候选<br/>机制。"]
+    S4["Skill 4 · 协调 Skill 1–3<br/>我们协调三个研究步骤、保留证据，<br/>并确定下一轮需要研究的对象。"]
     S4 -.-> S1
     S4 -.-> S2
     S4 -.-> S3

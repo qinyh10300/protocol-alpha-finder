@@ -18,6 +18,11 @@ LABELS = {
    ['Collateral recycling',['Redeem and swap may release','capital sooner.']],
    ['Auction timing',['Temporary discounts may offer','an opportunity after costs.']]],
   'skill_actions':['Find wallets','Investigate','Validate'],
+  'skill_descriptions':[
+   ['We identify','wallets that','executed','seed','mechanisms','and verify','their roles','using','transaction','receipts.'],
+   ['We trace','each wallet’s','history to','uncover','repeated','actions and','propose new','mechanisms.'],
+   ['We test each','candidate','against','transaction','evidence,','execution','costs, and','current','protocol','conditions.'],
+   ['We coordinate the three research steps, preserve','evidence, and select what to investigate next.']],
   'coordinate':'Skill 4 · Coordinate Skills 1–3',
   'checks':['Execution evidence','Rewards minus costs','Current protocol conditions'],
   'report':'Alpha Report',
@@ -53,6 +58,11 @@ LABELS = {
    ['抵押品回收',['赎回并兑换可能更快','释放占用资金。']],
    ['拍卖时机',['短暂折价可能带来机会，','需要结合执行成本验证。']]],
   'skill_actions':['发现钱包','研究钱包','验证候选'],
+  'skill_descriptions':[
+   ['我们从已知','机制的执行','记录中找到','钱包，','再通过交易','回执核验其','真实执行','角色。'],
+   ['我们追踪','每个钱包的','完整历史，','从重复操作','中提出新的','机制假设。'],
+   ['我们结合','交易证据、','执行成本与','协议当前','条件，逐个','检验候选','机制。'],
+   ['我们协调三个研究步骤、保留证据，','并确定下一轮需要研究的对象。']],
   'coordinate':'Skill 4 · 协调 Skill 1–3',
   'checks':['执行证据','奖励扣除成本','协议当前条件'],
   'report':'Alpha 报告',
@@ -80,6 +90,7 @@ LABELS = {
 
 def render(lang, L):
  d=Diagram(1800,1210,L['title'],L['example'],lang)
+ d.parts.append('<style>.skill-description { font-size:14.5px; fill:#526579; }</style>')
  d.text(40,55,L['title'],'title')
  d.arrow(1200,90,1250,90,0,'legend-evidence')
  d.text(1262,96,L['solid'],'small')
@@ -88,11 +99,13 @@ def render(lang, L):
  # All four stages share one research boundary, including the seed entry point.
  d.rect(40,125,1720,674,'#fafcfb','#b8d2c6',8)
  d.text(65,166,L['workflow'],'heading')
- d.rect(675,186,450,56,PALETTE[3][0],PALETTE[3][1],8)
- d.text(900,221,L['coordinate'],'heading','middle',PALETTE[3][2])
+ # Keep the coordinator centered at (900, 214), with room for its original introduction.
+ d.rect(675,169,450,90,PALETTE[3][0],PALETTE[3][1],8)
+ d.text(900,193,L['coordinate'],'node','middle',PALETTE[3][2])
+ for j,line in enumerate(L['skill_descriptions'][3]):d.text(900,221+22*j,line,'small','middle')
  # Dashed control bus terminates at the three Skill badges in the main flow.
- d.parts.append(f'<path data-kind="coordination-bus" d="M 900 242 V 265 M 425 265 H 1330" stroke="{PALETTE[3][2]}" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>')
- for x,stop in [(425,374),(875,374),(1330,384)]:
+ d.parts.append(f'<path data-kind="coordination-bus" d="M 900 259 V 265 M 425 265 H 1330" stroke="{PALETTE[3][2]}" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>')
+ for x,stop in [(425,284),(875,284),(1330,294)]:
   d.arrow(x,265,x,stop,3,'skill-coordination',True,True)
  columns=[(65,300),(485,320),(945,330),(1385,350)]
  for (x,w),title in zip(columns,L['heads']):
@@ -116,11 +129,14 @@ def render(lang, L):
   fill,border,accent=PALETTE[i//2]
   d.rect(505,y-21,280,42,fill,border,6)
   d.text(645,y+7,ADDRESSES[i],'node','middle',accent)
- # Badges sit on the transition arrows, replacing the former Skill card section.
+ # Preserve the three original arrow-label centers; grow only vertically.
  for i,(x,y) in enumerate([(425,400),(875,400),(1330,410)]):
-  d.rect(x-52,y-23,104,46,'#f5f8fb','#9eb0c1',7)
-  d.text(x,y-3,f'Skill {i+1}','small','middle','#24384d')
-  d.text(x,y+15,L['skill_actions'][i],'small','middle','#526579')
+  top=y-113
+  d.rect(x-52,top,104,226,'#f5f8fb','#9eb0c1',7)
+  d.text(x,top+26,f'Skill {i+1}','small','middle','#24384d')
+  lines=L['skill_descriptions'][i]
+  first=top+50+(10-len(lines))*8.5
+  for j,line in enumerate(lines):d.text(x,first+j*17,line,'skill-description','middle')
  d.rect(1405,361,310,124,'#ffffff','#c9d6e3',6)
  for i,line in enumerate(L['checks']):d.text(1560,394+29*i,line,'body','middle')
  d.arrow(1560,489,1560,523,2,'validation-report',False,True)
@@ -169,8 +185,8 @@ def render(lang, L):
    edge='-->|Skill 1|' if i==0 and j==0 else '-->'
    m.append(f'        SEED{i} {edge} WALLET{j}')
  m.extend(['        WALLET0 -->|Skill 2| CANDIDATE0','        CANDIDATE0 -->|Skill 3| CHECK','    end'])
- for i,action in enumerate(L['skill_actions']):m.append(f'    S{i+1}["Skill {i+1} · {action}"]')
- m.append(f'    S4["{L["coordinate"]}"]')
+ for i,action in enumerate(L['skill_actions']):m.append(f'    S{i+1}["Skill {i+1}<br/>{"<br/>".join(L["skill_descriptions"][i])}"]')
+ m.append(f'    S4["{L["coordinate"]}<br/>{"<br/>".join(L["skill_descriptions"][3])}"]')
  for i in range(1,4):m.append(f'    S4 -.-> S{i}')
  m.extend([f'    HISTORY["{L["history"]}<br/>{L["history_detail"]}"]',f'    OBSERVE["{L["observe"]}<br/>{L["observe_detail"]}"]','    HISTORY --> FLOW','    HISTORY --> OBSERVE','    OBSERVE -.-> FLOW',f'    %% {L["example"]}',f'    %% {L["observe_note"]}'])
  for i in range(3):
