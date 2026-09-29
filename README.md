@@ -24,7 +24,7 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 ## System architecture
 
-Three seeds lead to strategy wallets, candidate mechanisms, and validation. Skills 1–3 perform these steps; Skill 4 coordinates them. Historical evidence and new wallet activity support each research round.
+**Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Validation.** Protocol Alpha Finder coordinates four steps: find wallets, collect history, extract candidates, and validate evidence.
 
 ![Seed Alpha research architecture](docs/images/system-architecture-en.svg)
 

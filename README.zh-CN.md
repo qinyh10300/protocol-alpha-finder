@@ -24,7 +24,7 @@
 
 ## 系统架构
 
-从三个 Seed 找到策略钱包，形成候选机制，再进行验证。Skill 1–3 完成这些步骤，Skill 4 统一编排；历史证据与钱包的新活动支持每轮研究。
+**Alpha Seeds → 策略钱包 → 历史交易 → Alpha 候选 → 验证。** Protocol Alpha Finder 统一编排四个步骤：发现钱包、采集历史、提取候选、验证证据。
 
 ![Seed Alpha 研究架构](docs/images/system-architecture-zh-CN.svg)
 

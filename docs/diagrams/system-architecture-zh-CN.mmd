@@ -2,9 +2,9 @@ flowchart TB
     subgraph FLOW["研究工作流"]
         direction LR
         subgraph SEEDS["1 · Alpha Seed"]
-            SEED0["Energy Rental<br/>清算保证金不足的租赁订单， 回收资源并获得奖励。"]
-            SEED1["JustLend<br/>偿还抵押不足头寸的债务， 获得被清算的抵押品。"]
-            SEED2["USDD<br/>触发清算、重启拍卖， 或购买拍卖中的抵押品。"]
+            SEED0["Energy Rental<br/>清算保证金不足的租赁订单，<br/>回收资源并获得奖励。"]
+            SEED1["JustLend<br/>偿还抵押不足头寸的债务，<br/>获得被清算的抵押品。"]
+            SEED2["USDD<br/>触发清算、重启拍卖，<br/>或购买拍卖中的抵押品。"]
         end
         subgraph WALLETS["2 · 策略钱包"]
             WALLET0["T8mQ…4kN2"]
@@ -14,12 +14,17 @@ flowchart TB
             WALLET4["TU6c…8hM3"]
             WALLET5["TX9r…5bK7"]
         end
-        subgraph CANDIDATES["3 · Alpha 候选"]
-            CANDIDATE0["租赁组合操作<br/>合并调用可能降低 整体执行成本。"]
-            CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快 释放占用资金。"]
-            CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会， 需要结合执行成本验证。"]
+        subgraph HISTORYS["3 · 历史交易"]
+            HISTORY0["租赁执行记录<br/>清算 → 结算<br/>tx …a91f · …b20e"]
+            HISTORY1["抵押品流动<br/>赎回 → 兑换<br/>tx …c73d · …d48a"]
+            HISTORY2["拍卖执行记录<br/>重启拍卖 → 购买<br/>tx …e52b · …f90c"]
         end
-        subgraph VALIDATION["4 · 验证"]
+        subgraph CANDIDATES["4 · Alpha 候选"]
+            CANDIDATE0["租赁组合操作<br/>合并调用可能降低<br/>整体执行成本。"]
+            CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快<br/>释放占用资金。"]
+            CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会，<br/>需要结合执行成本验证。"]
+        end
+        subgraph VALIDATION["5 · 验证"]
             CHECK["执行证据 · 奖励扣除成本 · 协议当前条件"]
             REPORT["Alpha 报告<br/>可执行 · 持续观察<br/>已排除 · 证据不足"]
             NEW["验证支持后形成新的 Alpha"]
@@ -31,41 +36,24 @@ flowchart TB
         SEED1 --> WALLET3
         SEED2 --> WALLET4
         SEED2 --> WALLET5
-        WALLET0 -->|Skill 2| CANDIDATE0
-        WALLET0 -->|Skill 2| CANDIDATE1
-        WALLET0 -->|Skill 2| CANDIDATE2
-        CANDIDATE0 -->|Skill 3| CHECK
+        WALLET0 -->|Skill 2| HISTORYS
+        HISTORY0 -->|Skill 3| CANDIDATE0
+        HISTORY1 -->|Skill 3| CANDIDATE1
+        HISTORY2 -->|Skill 3| CANDIDATE2
+        CANDIDATE0 -->|Skill 4| CHECK
     end
     S1["Skill 1<br/>寻找策略 钱包"]
-    S2["Skill 2<br/>发掘 Alpha 候选"]
-    S3["Skill 3<br/>验证 Alpha 候选"]
-    S4["Skill 4<br/>协调三个 Skill"]
-    S4 -.-> S1
-    S4 -.-> S2
-    S4 -.-> S3
-    HISTORY["历史证据<br/>合约调用 · 交易回执 · 资产流动 · 协议状态"]
-    OBSERVE["复查钱包的新活动<br/>新增调用 · 行为变化 · 再次出现的执行条件"]
-    HISTORY --> FLOW
-    HISTORY --> OBSERVE
-    OBSERVE -.-> FLOW
-    %% 地址与候选均为方法示意 · 高亮钱包展开为三个候选机制。
-    %% 重复采集与复查；当前由手动启动检查。
+    S2["Skill 2<br/>加载钱包 历史"]
+    S3["Skill 3<br/>提取 Alpha 候选"]
+    S4["Skill 4<br/>验证 Alpha 候选"]
+    COORD["Protocol Alpha Finder<br/>协调 4 个 Skill"]
+    COORD -.-> S1
+    COORD -.-> S2
+    COORD -.-> S3
+    COORD -.-> S4
     style WALLET0 fill:#20775b,stroke:#20775b,color:#ffffff
-    style WALLET1 fill:#f8fafc,stroke:#d3dce6
-    style WALLET2 fill:#f8fafc,stroke:#d3dce6
-    style WALLET3 fill:#f8fafc,stroke:#d3dce6
-    style WALLET4 fill:#f8fafc,stroke:#d3dce6
-    style WALLET5 fill:#f8fafc,stroke:#d3dce6
-    style CANDIDATE0 fill:#eef8f4,stroke:#c9e5d9
-    style CANDIDATE1 fill:#eef8f4,stroke:#c9e5d9
-    style CANDIDATE2 fill:#eef8f4,stroke:#c9e5d9
-    subgraph TECH["技术架构"]
-        direction LR
-        T0["TRON 链上数据<br/>合约调用 · 回执 · 协议状态"]
-        T1["采集与研究<br/>Python 采集器 · Agent Skills"]
-        T0 -->|读取| T1
-        T2["研究归档<br/>SQLite 证据 · JSON 研究结论"]
-        T1 -->|保存| T2
-        T3["研究工作区<br/>Python 适配器 · React 界面"]
-        T2 -->|读取 JSON| T3
-    end
+    style S1 fill:#eaf2ff,stroke:#6c9ad9
+    style S2 fill:#e7f7fc,stroke:#53a9c7
+    style S3 fill:#eef0ff,stroke:#929fe8
+    style S4 fill:#e7effb,stroke:#4d74ad
+    %% 地址与交易分组均为方法示意。选中钱包提供历史记录，三组交易证据分别产生三个候选假设，图中选取一个进入验证。Protocol Alpha Finder 统一协调四个编号操作，并记录历史数据覆盖情况。

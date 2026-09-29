@@ -8,9 +8,9 @@
 
 ## Reading the diagram
 
-The workflow contains four stages: **01 Alpha Seeds → 02 Strategy Wallets → 03 Alpha Candidates → 04 Validation**. Each seed leads to two abbreviated, fictitious TRON addresses. One wallet is highlighted in green, with three arrows leading to three candidate mechanisms. This illustrates how a wallet can reveal opportunities beyond its original seed.
+The workflow contains five stages: **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Validation**. Each seed leads to two fictitious TRON addresses. The highlighted wallet supplies the history examined in the example. Three transaction groups support three candidate mechanisms; one candidate is shown proceeding to validation.
 
-Skill 1–3 badges sit on the transition arrows and use three-word action phrases. Above them, **Skill 4 coordinates the three Skills through dashed arrows**. The lower part shows the historical evidence we analyze and the new wallet activity we review. The Technical Architecture frame connects TRON data, collection and research, archived evidence, and the research workspace.
+Blue Skill 1–4 badges mark the four operations. **Protocol Alpha Finder coordinates all four through dashed arrows.** Solid arrows show evidence moving through the research process. History collection covers the requested time range, with incomplete retrieval recorded explicitly.
 
 | Candidate example | Why investigate it? |
 | --- | --- |
@@ -20,29 +20,19 @@ Skill 1–3 badges sit on the transition arrows and use three-word action phrase
 
 These six wallets demonstrate the method; they are not the recorded wallet count. The USDD wallets and auction hypothesis are illustrative. In the saved run, USDD has no verified wallet, and the five reports are three Monitor and two Insufficient Evidence. No candidate has been promoted to a new seed. Recorded evidence remains in `validation-handoff.json` and `validation-results.json`.
 
-## Four Skills
+## Skill mapping
 
-### Skill 1. Find and verify wallets — `alpha-seed-wallets`
+The figure numbers four operations. The repository contains four Skill packages, with history collection and candidate analysis handled together by `wallet-alpha-investigation`.
 
-Start from Energy Rental liquidation, JustLend liquidation, or USDD keeper / auction actions. Match calls to successful receipts and identify the actual executor, distinguishing it from relayers, helper contracts, and reward recipients.
+| Diagram | Work performed | Repository Skill |
+| --- | --- | --- |
+| Skill 1 | Match seed actions to successful receipts and identify actual executors | `alpha-seed-wallets` |
+| Skill 2 | Collect wallet history and record retrieval coverage | `wallet-alpha-investigation` |
+| Skill 3 | Analyze call sequences and asset movements to form candidates | `wallet-alpha-investigation` |
+| Skill 4 | Check mechanisms, costs, current state, and execution conditions | `protocol-alpha-validation` |
+| Protocol Alpha Finder | Set scope and coordinate the four operations | `protocol-alpha-discovery` |
 
-**Output:** deduplicated strategy wallet candidates with execution evidence and seed provenance. Selection is based on demonstrated protocol activity; execution alone does not establish an advantage or profit.
-
-### Skill 2. Discover candidates — `wallet-alpha-investigation`
-
-Investigate each wallet's broader history, including activity outside the original seed. Examine repeated call sequences and asset movements to form mechanism hypotheses, with supporting transactions and alternative explanations.
-
-**Output:** Alpha candidates with evidence, coverage limits, and checks that could disprove each hypothesis.
-
-### Skill 3. Validate candidates — `protocol-alpha-validation`
-
-Reconstruct the mechanism and asset flows, account for known costs, check current protocol state, and assess execution conditions. Keep historical observations separate from current availability; missing inputs remain unknown.
-
-**Output:** an Alpha report with mechanism findings, current status, execution requirements, and next checks. Review outcomes are Actionable, Monitor, Rejected, or Insufficient Evidence.
-
-### Skill 4. Orchestrate — `protocol-alpha-discovery`
-
-Set the chain, time window, and research limits. Coordinate wallet discovery, investigation, and validation while retaining evidence and unresolved questions. Stop when scope is covered or necessary evidence is unavailable.
+Each candidate retains its source wallet, transactions, alternative explanations, and missing evidence. Validation produces a report with one of four outcomes: Actionable, Monitor, Rejected, or Insufficient Evidence. Historical execution alone does not establish current profitability.
 
 ## When the loop continues
 

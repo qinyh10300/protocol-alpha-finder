@@ -2,9 +2,9 @@ flowchart TB
     subgraph FLOW["Research Workflow"]
         direction LR
         subgraph SEEDS["1 · Alpha Seeds"]
-            SEED0["Energy Rental<br/>Clear depleted orders and recover resources and rewards."]
-            SEED1["JustLend<br/>Repay undercollateralized loans and receive seized collateral."]
-            SEED2["USDD<br/>Trigger liquidation, reset auctions, or buy auction collateral."]
+            SEED0["Energy Rental<br/>Clear depleted orders and<br/>recover resources and rewards."]
+            SEED1["JustLend<br/>Repay undercollateralized loans<br/>and receive seized collateral."]
+            SEED2["USDD<br/>Trigger liquidation, reset auctions,<br/>or buy auction collateral."]
         end
         subgraph WALLETS["2 · Strategy Wallets"]
             WALLET0["T8mQ…4kN2"]
@@ -14,12 +14,17 @@ flowchart TB
             WALLET4["TU6c…8hM3"]
             WALLET5["TX9r…5bK7"]
         end
-        subgraph CANDIDATES["3 · Alpha Candidates"]
-            CANDIDATE0["Rental sequence<br/>Bundled calls may lower execution costs."]
-            CANDIDATE1["Collateral recycling<br/>Redeem and swap may release capital sooner."]
-            CANDIDATE2["Auction timing<br/>Temporary discounts may offer an opportunity after costs."]
+        subgraph HISTORYS["3 · History Transactions"]
+            HISTORY0["Rental executions<br/>liquidate → settle<br/>tx …a91f · …b20e"]
+            HISTORY1["Collateral flows<br/>redeem → swap<br/>tx …c73d · …d48a"]
+            HISTORY2["Auction executions<br/>reset → buy<br/>tx …e52b · …f90c"]
         end
-        subgraph VALIDATION["4 · Validation"]
+        subgraph CANDIDATES["4 · Alpha Candidates"]
+            CANDIDATE0["Rental sequence<br/>Bundled calls may lower<br/>execution costs."]
+            CANDIDATE1["Collateral recycling<br/>Redeem and swap may release<br/>capital sooner."]
+            CANDIDATE2["Auction timing<br/>Temporary discounts may offer<br/>an opportunity after costs."]
+        end
+        subgraph VALIDATION["5 · Validation"]
             CHECK["Execution evidence · Rewards minus costs · Current protocol conditions"]
             REPORT["Alpha Report<br/>Actionable · Monitor<br/>Rejected · Insufficient Evidence"]
             NEW["New Alpha, if supported"]
@@ -31,41 +36,24 @@ flowchart TB
         SEED1 --> WALLET3
         SEED2 --> WALLET4
         SEED2 --> WALLET5
-        WALLET0 -->|Skill 2| CANDIDATE0
-        WALLET0 -->|Skill 2| CANDIDATE1
-        WALLET0 -->|Skill 2| CANDIDATE2
-        CANDIDATE0 -->|Skill 3| CHECK
+        WALLET0 -->|Skill 2| HISTORYS
+        HISTORY0 -->|Skill 3| CANDIDATE0
+        HISTORY1 -->|Skill 3| CANDIDATE1
+        HISTORY2 -->|Skill 3| CANDIDATE2
+        CANDIDATE0 -->|Skill 4| CHECK
     end
     S1["Skill 1<br/>Find Strategy Wallets"]
-    S2["Skill 2<br/>Discover Alpha Candidates"]
-    S3["Skill 3<br/>Validate Alpha Candidates"]
-    S4["Skill 4<br/>Coordinate Three Skills"]
-    S4 -.-> S1
-    S4 -.-> S2
-    S4 -.-> S3
-    HISTORY["Historical evidence<br/>Contract calls · Receipts · Asset flows · Protocol state"]
-    OBSERVE["Review new wallet activity<br/>New calls · Changed behavior · Returning conditions"]
-    HISTORY --> FLOW
-    HISTORY --> OBSERVE
-    OBSERVE -.-> FLOW
-    %% Illustrative addresses and hypotheses · The highlighted wallet leads to three candidate mechanisms.
-    %% Repeat collection and review; current checks start manually.
+    S2["Skill 2<br/>Load Wallet History"]
+    S3["Skill 3<br/>Extract Alpha Candidates"]
+    S4["Skill 4<br/>Validate Alpha Candidates"]
+    COORD["Protocol Alpha Finder<br/>Coordinate 4 Skills"]
+    COORD -.-> S1
+    COORD -.-> S2
+    COORD -.-> S3
+    COORD -.-> S4
     style WALLET0 fill:#20775b,stroke:#20775b,color:#ffffff
-    style WALLET1 fill:#f8fafc,stroke:#d3dce6
-    style WALLET2 fill:#f8fafc,stroke:#d3dce6
-    style WALLET3 fill:#f8fafc,stroke:#d3dce6
-    style WALLET4 fill:#f8fafc,stroke:#d3dce6
-    style WALLET5 fill:#f8fafc,stroke:#d3dce6
-    style CANDIDATE0 fill:#eef8f4,stroke:#c9e5d9
-    style CANDIDATE1 fill:#eef8f4,stroke:#c9e5d9
-    style CANDIDATE2 fill:#eef8f4,stroke:#c9e5d9
-    subgraph TECH["Technical Architecture"]
-        direction LR
-        T0["TRON Data<br/>Calls · Receipts · State"]
-        T1["Collection & Research<br/>Python collectors · Agent Skills"]
-        T0 -->|Read| T1
-        T2["Research Archive<br/>SQLite evidence · JSON findings"]
-        T1 -->|Save| T2
-        T3["Research Workspace<br/>Python adapter · React UI"]
-        T2 -->|Read JSON| T3
-    end
+    style S1 fill:#eaf2ff,stroke:#6c9ad9
+    style S2 fill:#e7f7fc,stroke:#53a9c7
+    style S3 fill:#eef0ff,stroke:#929fe8
+    style S4 fill:#e7effb,stroke:#4d74ad
+    %% Illustrative addresses and transaction groups. A selected wallet supplies its history; three evidence groups produce three candidate hypotheses, with one shown entering validation. The four numbered operations are coordinated by Protocol Alpha Finder. Historical coverage is recorded explicitly.

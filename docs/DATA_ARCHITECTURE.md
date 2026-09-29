@@ -4,9 +4,9 @@
 
 We study successful protocol actions to identify their executors, then review those wallets' broader history and new activity for other mechanisms.
 
-![Research workflow, evidence, and wallet observation](images/system-architecture-en.svg)
+![Research workflow from seed discovery through transaction analysis and validation](images/system-architecture-en.svg)
 
-The combined diagram places the four research stages inside one workflow. Below it, historical evidence and fresh wallet activity support further investigation; Skill 4 coordinates Skills 1–3 through dashed arrows.
+The diagram follows five stages: seeds, wallets, transaction history, candidates, and validation. Three transaction groups illustrate how the selected wallet's history supports three different hypotheses. Protocol Alpha Finder coordinates the four operations between these stages.
 
 ## What we study
 
@@ -29,9 +29,5 @@ The combined diagram places the four research stages inside one workflow. Below 
 An established mechanism can become a new seed. Unresolved candidates retain their missing evidence and next checks. Monitoring here means repeating collection and review; the current workflow runs these checks manually.
 
 [Wallet discovery](../skills/alpha-seed-wallets/SKILL.md) · [Wallet investigation](../skills/wallet-alpha-investigation/SKILL.md) · [Candidate validation](../skills/protocol-alpha-validation/SKILL.md)
-
-## Technical architecture
-
-The diagram connects **TRON data → Collection & Research → Research Archive → Research Workspace**. Python collectors and Agent Skills save evidence and findings; the Python adapter reads the JSON findings for the React workspace. The adapter does not query SQLite directly.
 
 To regenerate the bilingual figure: `python3 docs/diagrams/render_architecture.py`.

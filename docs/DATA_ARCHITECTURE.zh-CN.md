@@ -4,9 +4,9 @@
 
 从成功的协议操作中找到真实执行者，再研究这些钱包更广泛的历史和新增活动，寻找其他可能成立的机制。
 
-![研究流程、历史证据与钱包观察](images/system-architecture-zh-CN.svg)
+![从 Seed 发现、交易分析到候选验证的研究流程](images/system-architecture-zh-CN.svg)
 
-合并后的架构图将四个研究阶段放在同一个工作流大框内。下方的历史证据与钱包新增活动支持进一步研究，Skill 4 通过虚线统一编排 Skill 1–3。
+图中包含五个阶段：Seed、钱包、历史交易、候选和验证。三组交易展示选中钱包的历史如何支持三个不同假设，Protocol Alpha Finder 统一编排阶段之间的四个操作。
 
 ## 分析哪些数据
 
@@ -29,9 +29,5 @@
 已确认的机制可以成为新的 Seed；尚未确认的候选保留缺失证据和后续检查。这里的监控指重复采集与复查，当前工作流通过手动运行完成这些检查。
 
 [钱包发现](../skills/alpha-seed-wallets/SKILL.md) · [钱包研究](../skills/wallet-alpha-investigation/SKILL.md) · [候选验证](../skills/protocol-alpha-validation/SKILL.md)
-
-## 技术架构
-
-图中连接 **TRON 数据 → 采集与研究 → 研究归档 → 研究工作区**。Python 采集器和 Agent Skills 保存证据与结论；Python 适配器读取 JSON 研究结论，供 React 工作区展示。适配器不直接查询 SQLite。
 
 重新生成中英文图片：`python3 docs/diagrams/render_architecture.py`。
