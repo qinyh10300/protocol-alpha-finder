@@ -78,7 +78,7 @@ UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Researc
 
 在 **Replay results** 模式选择 Seed，点击 **Replay Research**。三个入口统一读取 `frontend/public/research/` 下的研究留档，通过同一套 History → Analyze → Search Alpha → Report 流程回放，支持暂停、继续和重播。
 
-每个去重后的候选对应一张报告卡片。验证中显示准备状态，完成后显示保存的分析；同一候选有多个钱包分析时，在 **Wallet assessment** 中切换。候选、报告卡片和顶部统计来自同一组数据，筛选钱包后同步变化。Energy Rental 显示 1 个候选 / 1 张报告卡片，JustLend 显示 2 / 2，USDD 显示 0 / 0；原始报告 ID、证据和单独报告链接保留。
+每个去重后的候选对应一张报告卡片。验证中显示准备状态，完成后显示保存的分析；同一候选有多个钱包分析时，在 **Wallet assessment** 中切换。候选、报告卡片和顶部统计来自同一组数据，筛选钱包后同步变化。Energy Rental 显示 1 个候选 / 1 张报告卡片，JustLend 显示 2 / 2。USDD 补入了通过 3 笔历史交易及回执核验的 2 个真实钱包；完整历史和后续研究尚未采集，保持等待状态，候选 / 报告为 0 / 0。原始报告 ID、证据和单独报告链接保留。
 
 切换 Seed 会重置回放及钱包筛选。URL 保留所选 Seed，报告分享、刷新和浏览器前后退均可使用。回放不发起新研究。
 

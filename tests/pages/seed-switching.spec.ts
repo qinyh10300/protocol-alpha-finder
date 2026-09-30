@@ -24,7 +24,7 @@ const scenarios = [
   {
     id: "usdd-keeper-auction",
     name: "USDD Keeper / Auction",
-    wallets: 0,
+    wallets: 2,
     rawReports: 0,
     transactions: 0,
     titles: [],
@@ -79,7 +79,7 @@ test("all three seeds replay recorded results with one report card per candidate
       await page.clock.runFor(time - elapsed);
       elapsed = time;
       const count = await expectCoherentCards(page);
-      if (time === 9500 && scenario.wallets) {
+      if (time === 9500 && scenario.rawReports) {
         expect(count).toBe(1);
         await expect(page.locator(".pending-report-card")).toHaveCount(count);
         await expect(
@@ -123,8 +123,9 @@ test("all three seeds replay recorded results with one report card per candidate
 test("switching a paused run resets progress and preserves the selected seed through share, reload and history", async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: new Date("2026-09-30T00:00:00Z") });
   await page.goto(entry);
+  await page.clock.pauseAt(new Date("2026-09-30T01:00:00Z"));
   await page
     .getByRole("button", { name: "Replay Research", exact: true })
     .click();
@@ -219,7 +220,7 @@ test("invalid seed links fall back to a valid recorded replay", async ({
   ).toBeVisible();
 });
 
-test("every published seed snapshot retains its real wallets, report evidence and recorded zero results", async ({
+test("every published seed snapshot retains its real wallets and report evidence", async ({
   request,
   page,
 }) => {
@@ -259,12 +260,14 @@ test("every published seed snapshot retains its real wallets, report evidence an
       ).toBe(true);
     }
   }
-  await page.clock.install();
+  await page.clock.install({ time: new Date("2026-09-30T00:00:00Z") });
   await page.goto(entry + "?seed=usdd-keeper-auction");
+  await page.clock.pauseAt(new Date("2026-09-30T01:00:00Z"));
   await page
     .getByRole("button", { name: "Replay Research", exact: true })
     .click();
-  await page.clock.runFor(4000);
+  await page.clock.runFor(1000);
+  await expect(page.locator(".wallet-row")).toHaveCount(2);
   await page.getByRole("button", { name: "Pause replay", exact: true }).click();
   await page.clock.runFor(18000);
   await expect(
@@ -275,23 +278,66 @@ test("every published seed snapshot retains its real wallets, report evidence an
     .click();
   await page.clock.runFor(18000);
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "0",
+    "2",
     "0",
     "0",
   ]);
-  await expect(
-    page.locator(".wallet-row, .candidate-card, .report-preview"),
-  ).toHaveCount(0);
+  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
+  await expect(page.locator(".wallet-row")).toHaveCount(2);
+  await expect(page.locator(".wallet-volume")).toHaveText([
+    "History pending",
+    "History pending",
+  ]);
   await expect(
     page.getByText("No executors found", { exact: true }),
-  ).toBeVisible();
+  ).toHaveCount(0);
   await expectCoherentCards(page);
   const saved = await request.get(
     "/frontend/research/usdd-keeper-auction.json",
   );
-  expect((await saved.json()).seeds[0].coverage).toContain(
+  const historicalDiscovery = await saved.json();
+  expect(historicalDiscovery.discoveryScope).toMatchObject({
+    kind: "targeted_historical_samples",
+    verifiedTransactionCount: 3,
+    fullWalletHistoriesLoaded: false,
+    exhaustive: false,
+  });
+  expect(historicalDiscovery.previousDiscovery.run.walletCount).toBe(0);
+  expect(historicalDiscovery.previousDiscovery.seeds[0].coverage).toContain(
     "27 bounded provider queries completed",
   );
+  for (const wallet of historicalDiscovery.wallets) {
+    await page
+      .getByRole("button", {
+        name: `Investigate wallet ${wallet.address}`,
+        exact: true,
+      })
+      .click();
+    const drawer = page.getByRole("dialog", { name: "Wallet investigation" });
+    await expect(drawer.locator(".pipeline-step.queued")).toHaveCount(3);
+    await expect(drawer.locator(".detail-stat strong")).toHaveText("—");
+    await expect(drawer.locator(".drawer-note")).toHaveText(
+      wallet.coverageNote,
+    );
+    expect(
+      wallet.evidenceRefs.some(
+        (ref: { type: string }) => ref.type === "transaction",
+      ),
+    ).toBe(true);
+    for (const evidence of wallet.evidenceRefs) {
+      if (evidence.type === "transaction") {
+        expect(evidence.url).toBe(
+          `https://tronscan.org/#/transaction/${evidence.txHash}`,
+        );
+        await expect(
+          drawer.locator(`a.evidence-link[href="${evidence.url}"]`),
+        ).toBeVisible();
+      }
+    }
+    await drawer
+      .getByRole("button", { name: "Close drawer", exact: true })
+      .click();
+  }
   expect(apiRequests).toEqual([]);
 });
 

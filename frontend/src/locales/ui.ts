@@ -197,6 +197,8 @@ export const uiZh: Record<string, string> = {
   "Validation in progress": "验证进行中",
   "Awaiting validation": "等待验证",
   "Wallet investigations are still running.": "钱包调查仍在进行。",
+  "Wallet history and analysis have not been recorded yet.":
+    "尚未完成这些钱包的历史采集和分析。",
   "No Protocol Alpha Candidates found in this selection.":
     "当前筛选范围内未发现协议 Alpha 候选。",
   "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times.":

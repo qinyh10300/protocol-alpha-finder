@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 
 from research_adapter import ARTIFACTS, ROOT, normalize
+from usdd_history import DEFAULT_EVIDENCE, EVIDENCE_NAME, supplement_snapshot
 
 SEEDS = ('energy-rental-liquidation', 'justlend-lending-liquidation', 'usdd-keeper-auction')
 NOTE = 'Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.'
@@ -22,7 +23,7 @@ def omit_nulls(value):
     return value
 
 
-def export(root, output):
+def export(root, output, historical_evidence=DEFAULT_EVIDENCE):
     output.mkdir(parents=True, exist_ok=True)
     for seed_id in SEEDS:
         snapshot = normalize(root, seed_id)
@@ -65,6 +66,9 @@ def export(root, output):
             skill['summary'] = summaries[skill['id']]
             skill['sourceUrl'] = f"https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/{skill['id']}/SKILL.md"
             skill['artifactUrl'] = source
+        snapshot = supplement_snapshot(snapshot, historical_evidence)
+        if 'previousDiscovery' in snapshot and historical_evidence.resolve() != (output / EVIDENCE_NAME).resolve():
+            (output / EVIDENCE_NAME).write_bytes(historical_evidence.read_bytes())
         (output / f'{seed_id}.json').write_text(json.dumps(omit_nulls(snapshot), ensure_ascii=False, indent=2) + '\n')
 
 

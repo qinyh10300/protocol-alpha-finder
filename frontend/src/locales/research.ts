@@ -33,6 +33,18 @@ const chinese: Record<string, string> = {
   "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.":
     "历史研究回放 · 使用已保存的 Skill 证据，时间范围和核查时间见页面及报告。播放节奏为模拟，不会发起新的链上搜寻。",
   "Published Skill snapshot": "已发布的 Skill 研究快照",
+  "USDD historical transaction evidence": "USDD 历史交易证据",
+  "Official USDD deployment addresses": "USDD 官方部署地址",
+  "2 wallets verified from 3 targeted historical transactions (April–June 2026). This is not an exhaustive scan.":
+    "已从 2026 年 4 至 6 月的 3 笔定点核查历史交易中核验 2 个钱包，尚未进行完整扫描。",
+  "Saved USDD discovery · Historical samples verified; full wallet histories and candidate research are pending.":
+    "已保存的 USDD 发现结果 · 历史样本已核验，完整钱包历史和候选研究尚待完成。",
+  "Targeted historical receipts only. Full wallet history, behavior analysis and candidate research are pending.":
+    "目前仅核验了定点历史回执，完整钱包历史、行为分析和候选研究尚待完成。",
+  "Full wallet histories and candidate research are pending.":
+    "完整钱包历史和候选研究尚待完成。",
+  "Targeted samples do not establish full activity, net profit or current opportunities.":
+    "定点样本不代表全部活动，也不能证明净利润或当前机会。",
 };
 const english = Object.fromEntries(
   Object.entries(chinese).map(([en, zh]) => [zh, en]),
@@ -94,6 +106,9 @@ export function localizeResearchText(
   }
   if ((values = match(/^Verified executor (\S+)$/))) {
     return `已验证的执行者 ${values[1]}`;
+  }
+  if ((values = match(/^Verified historical USDD executor (\S+)$/))) {
+    return `已核验的 USDD 历史执行者 ${values[1]}`;
   }
   if ((values = match(/^([\d,]+) primary transactions retained for (\S+)$/))) {
     return `已为 ${values[2]} 保留 ${values[1]} 笔主交易记录`;

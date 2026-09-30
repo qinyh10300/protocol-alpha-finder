@@ -139,6 +139,16 @@ export class RecordedResearchDataSource implements ResearchDataSource {
   private async getSeedSnapshot(seedId: string): Promise<Snapshot> {
     const data = structuredClone(recordedReplays[seedId]);
     const t = this.seconds;
+    const hasInvestigations = data.wallets.some((wallet) =>
+      [wallet.historyJob, wallet.analysisJob, wallet.alphaSearchJob].some(
+        (stage) => stage.status !== "queued",
+      ),
+    );
+    // A discovery-only record has no history or analysis work to replay.
+    const completionTime =
+      hasInvestigations || data.candidates.length
+        ? 17
+        : Math.max(3, 0.5 + data.wallets.length * 0.4);
     const wallets: StrategyWallet[] = this.started
       ? data.wallets
           .filter((_, i) => t >= 0.5 + i * 0.4)
@@ -151,7 +161,7 @@ export class RecordedResearchDataSource implements ResearchDataSource {
             ) => ({
               ...final,
               status:
-                phase < start
+                final.status === "queued" || phase < start
                   ? ("queued" as const)
                   : phase < end
                     ? ("running" as const)
@@ -208,7 +218,7 @@ export class RecordedResearchDataSource implements ResearchDataSource {
       ),
       status: !this.started
         ? "idle"
-        : t >= 17
+        : t >= completionTime
           ? "completed"
           : this.paused
             ? "paused"
@@ -250,7 +260,7 @@ export class RecordedResearchDataSource implements ResearchDataSource {
       skills: data.skills.map((skill, index) => ({
         ...skill,
         status:
-          !this.started || t < [0, 3, 12][index]
+          skill.status === "queued" || !this.started || t < [0, 3, 12][index]
             ? "queued"
             : t >= [3, 12, 17][index]
               ? skill.status

@@ -28,6 +28,75 @@ test("All merges shared identities without double-counting a wallet's history", 
   expect(first).toEqual(lending);
 });
 
+test("Discovery-only USDD wallets preserve shared research and unknown history counts", () => {
+  const researched = structuredClone(lending) as Snapshot;
+  const shared = researched.wallets.find(
+    (wallet) => wallet.address === "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
+  )!;
+  const discovery: Snapshot = {
+    ...structuredClone(researched),
+    run: { ...researched.run, seedId: "usdd-keeper-auction" },
+    wallets: [shared.address, "TDNLgniuf5TeYwh5fyGMvoFfeVcmvgWmcy"].map(
+      (address) => ({
+        address,
+        sourceSeedId: "usdd-keeper-auction",
+        sourceSeedIds: ["usdd-keeper-auction"],
+        historyJob: { status: "queued" },
+        analysisJob: { status: "queued" },
+        alphaSearchJob: { status: "queued" },
+        candidateIds: [],
+        coverageNote:
+          "Historical USDD execution verified; wallet history awaits investigation.",
+        evidenceRefs: [
+          { type: "transaction", txHash: "usdd-discovery-evidence" },
+        ],
+      }),
+    ),
+    candidates: [],
+    reports: [],
+    activity: [],
+    skills: [],
+  };
+
+  for (const snapshots of [
+    [researched, discovery],
+    [discovery, researched],
+  ]) {
+    const result = combineSeedSnapshots(snapshots);
+    const merged = result.wallets.find(
+      (wallet) => wallet.address === shared.address,
+    )!;
+    expect(merged.historyJob).toEqual(shared.historyJob);
+    expect(merged.analysisJob).toEqual(shared.analysisJob);
+    expect(merged.alphaSearchJob).toEqual(shared.alphaSearchJob);
+    expect(merged.sourceSeedId).toBe(shared.sourceSeedId);
+    expect(merged.coverageNote).toBe(shared.coverageNote);
+    expect(merged.sourceSeedIds).toEqual(
+      expect.arrayContaining([
+        "justlend-lending-liquidation",
+        "usdd-keeper-auction",
+      ]),
+    );
+    expect(merged.candidateIds).toEqual(shared.candidateIds);
+    expect(merged.evidenceRefs).toEqual(
+      expect.arrayContaining([
+        ...shared.evidenceRefs!,
+        { type: "transaction", txHash: "usdd-discovery-evidence" },
+      ]),
+    );
+    const uninvestigated = result.wallets.find(
+      (wallet) => wallet.address === discovery.wallets[1].address,
+    )!;
+    expect(uninvestigated.historyJob).toEqual({ status: "queued" });
+    expect(uninvestigated.historyJob.txCount).toBeUndefined();
+    expect(result.run.walletCount).toBe(6);
+    expect(result.run.loadedTransactionCount).toBe(3814);
+    expect(result.run.candidateCount).toBe(3);
+    expect(result.run.reportCount).toBe(3);
+  }
+  expect(researched).toEqual(lending);
+});
+
 test("Legacy All links retain all recorded mechanisms and original report sharing", async ({
   page,
 }) => {
@@ -62,11 +131,11 @@ test("Legacy All links retain all recorded mechanisms and original report sharin
     }
   }
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "10",
+    "11",
     "3",
     "3",
   ]);
-  await expect(page.locator(".wallet-row")).toHaveCount(10);
+  await expect(page.locator(".wallet-row")).toHaveCount(11);
   await expect(page.locator(".candidate-card")).toHaveCount(3);
   await expect(page.locator(".report-preview")).toHaveCount(3);
   await expect(page.locator(".pending-report-card")).toHaveCount(0);

@@ -96,6 +96,39 @@ test("wallet history, analysis, candidates and validation use one progressive re
   });
 });
 
+test("USDD discovery completes in three seconds without inventing wallet investigation", async () => {
+  await replayClock(async (advance) => {
+    const source = new RecordedResearchDataSource();
+    await source.createRun("usdd-keeper-auction");
+    for (const seconds of [1, 3]) {
+      advance(seconds === 1 ? 1 : 2);
+      const snapshot = await source.getSnapshot();
+      expect(snapshot.run.status).toBe(seconds === 1 ? "running" : "completed");
+      expect(snapshot.wallets).toHaveLength(2);
+      expect(snapshot.run).toMatchObject({
+        walletCount: 2,
+        candidateCount: 0,
+        reportCount: 0,
+        loadedTransactionCount: 0,
+      });
+      for (const wallet of snapshot.wallets) {
+        expect(wallet.historyJob.status).toBe("queued");
+        expect(wallet.analysisJob.status).toBe("queued");
+        expect(wallet.alphaSearchJob.status).toBe("queued");
+        expect(wallet.historyJob.txCount).toBeUndefined();
+        expect(wallet.historyJob.fromTime).toBeUndefined();
+        expect(wallet.historyJob.toTime).toBeUndefined();
+        expect(wallet.candidateIds).toEqual([]);
+      }
+      expect(snapshot.candidates).toEqual([]);
+      expect(snapshot.reports).toEqual([]);
+      expect(
+        snapshot.activity.some((event) => event.eventType === "history_loaded"),
+      ).toBe(false);
+    }
+  });
+});
+
 test("all report deep links work before replay and cannot mutate the saved exports", async () => {
   const before = structuredClone(fixtures);
   const source = new RecordedResearchDataSource();
@@ -142,7 +175,7 @@ test("snapshot reads, pause and restart preserve the saved data and reset each s
   expect(fixtures).toEqual(before);
 });
 
-test("legacy all-seed replay contains 10 recorded wallets and 3 distinct mechanisms", async () => {
+test("legacy all-seed replay contains 11 recorded wallets and 3 distinct mechanisms", async () => {
   await replayClock(async (advance) => {
     const source = new RecordedResearchDataSource();
     await source.createRun("all");
@@ -150,7 +183,7 @@ test("legacy all-seed replay contains 10 recorded wallets and 3 distinct mechani
     const data = await source.getSnapshot();
     expect(data.provenance).toBe("recorded");
     expect(data.run).toMatchObject({
-      walletCount: 10,
+      walletCount: 11,
       candidateCount: 5,
       reportCount: 5,
       loadedTransactionCount: 52582,

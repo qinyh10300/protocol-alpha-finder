@@ -30,6 +30,8 @@ const narrativeFields = new Set([
 ]);
 const han = /\p{Script=Han}/u;
 function narratives(value: unknown, key = ""): string[] {
+  // The original scan is retained as source evidence, not rendered UI copy.
+  if (key === "previousDiscovery") return [];
   if (Array.isArray(value))
     return value.flatMap((item) => narratives(item, key));
   if (value && typeof value === "object")
@@ -98,6 +100,10 @@ test("all three published replay snapshots are bilingual and preserve real evide
     expect(snapshot.provenance).toBe("recorded");
     verifyTranslation(snapshot as Snapshot);
   }
+  expect(localizeSnapshot(usdd as Snapshot, "zh")).toHaveProperty(
+    "previousDiscovery",
+    usdd.previousDiscovery,
+  );
 });
 
 test("unknown evidence stays verbatim and known titles retain their IDs", () => {

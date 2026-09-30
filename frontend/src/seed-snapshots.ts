@@ -2,6 +2,8 @@ import { ALL_SEEDS, PROTOCOL_SEEDS, SEED_SHORT_NAMES } from "./seeds";
 import type {
   AlphaCandidate,
   AlphaReport,
+  JobState,
+  JobStatus,
   Snapshot,
   StrategyWallet,
 } from "./types";
@@ -9,6 +11,20 @@ import type {
 const union = (a: string[] = [], b: string[] = []) => [
   ...new Set([...a, ...b]),
 ];
+
+const JOB_STATUS_ORDER: Record<JobStatus, number> = {
+  queued: 0,
+  failed: 1,
+  running: 2,
+  completed: 3,
+};
+
+function advancedJob<T extends JobState>(prior: T | undefined, next: T): T {
+  return prior &&
+    JOB_STATUS_ORDER[prior.status] >= JOB_STATUS_ORDER[next.status]
+    ? prior
+    : next;
+}
 
 /** Merge by stable identity, retaining every seed membership and evidence source. */
 export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
@@ -20,25 +36,51 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
     const provenance = "recorded";
     for (const wallet of snapshot.wallets) {
       const prior = wallets.get(wallet.address);
+      // A discovery-only copy must not replace an already researched wallet.
+      const priorHistoryRank = prior
+        ? JOB_STATUS_ORDER[prior.historyJob.status]
+        : -1;
+      const nextHistoryRank = JOB_STATUS_ORDER[wallet.historyJob.status];
+      const historySource =
+        prior &&
+        (priorHistoryRank > nextHistoryRank ||
+          (priorHistoryRank === nextHistoryRank &&
+            (prior.historyJob.txCount ?? -1) >=
+              (wallet.historyJob.txCount ?? -1)))
+          ? prior
+          : wallet;
+      const otherHistory = historySource === prior ? wallet : prior;
+      const transactionCounts = [
+        prior?.historyJob.txCount,
+        wallet.historyJob.txCount,
+      ].filter((count): count is number => count != null);
       wallets.set(wallet.address, {
         ...wallet,
         provenance,
+        sourceSeedId: historySource.sourceSeedId,
+        coverageNote: historySource.coverageNote ?? otherHistory?.coverageNote,
         sourceSeedIds: union(
           prior?.sourceSeedIds,
           union(wallet.sourceSeedIds, [seedId]),
         ),
         candidateIds: union(prior?.candidateIds, wallet.candidateIds),
         historyJob: {
-          ...wallet.historyJob,
+          ...historySource.historyJob,
+          fromTime:
+            historySource.historyJob.fromTime ??
+            otherHistory?.historyJob.fromTime,
+          toTime:
+            historySource.historyJob.toTime ?? otherHistory?.historyJob.toTime,
           // A shared wallet's history is counted once, not once for each seed.
-          txCount:
-            prior?.historyJob.txCount == null
-              ? wallet.historyJob.txCount
-              : Math.max(
-                  prior.historyJob.txCount,
-                  wallet.historyJob.txCount || 0,
-                ),
+          txCount: transactionCounts.length
+            ? Math.max(...transactionCounts)
+            : undefined,
         },
+        analysisJob: advancedJob(prior?.analysisJob, wallet.analysisJob),
+        alphaSearchJob: advancedJob(
+          prior?.alphaSearchJob,
+          wallet.alphaSearchJob,
+        ),
         evidenceRefs: [
           ...new Map(
             [

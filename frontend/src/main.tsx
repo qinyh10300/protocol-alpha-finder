@@ -686,7 +686,9 @@ function AlphaCandidateList({
             text={
               data.run.status === "running"
                 ? t("Wallet investigations are still running.")
-                : t("No Protocol Alpha Candidates found in this selection.")
+                : data.wallets.some((w) => w.alphaSearchJob.status === "queued")
+                  ? t("Wallet history and analysis have not been recorded yet.")
+                  : t("No Protocol Alpha Candidates found in this selection.")
             }
           />
         )}
@@ -1287,11 +1289,7 @@ function App() {
   }
   return (
     <>
-      <AppHeader
-        path={path}
-        navigate={navigate}
-        mode={mode}
-      />
+      <AppHeader path={path} navigate={navigate} mode={mode} />
       <main
         className={path === "/research" ? "research-main" : "document-main"}
       >
