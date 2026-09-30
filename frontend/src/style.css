@@ -1230,7 +1230,8 @@ main {
   margin-top: 8px;
 }
 .demo-banner,
-.error-banner {
+.error-banner,
+.coverage-note {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -1242,7 +1243,8 @@ main {
   font-size: 13px;
   margin-bottom: 12px;
 }
-.demo-banner svg {
+.demo-banner svg,
+.coverage-note svg {
   flex-shrink: 0;
 }
 .error-banner {
@@ -1253,6 +1255,12 @@ main {
 }
 .error-banner > span {
   flex: 1;
+}
+.coverage-note {
+  align-items: flex-start;
+}
+.coverage-note p {
+  margin-top: 6px;
 }
 .page-state {
   text-align: center;
