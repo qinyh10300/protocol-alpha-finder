@@ -9,7 +9,13 @@
 
 Find protocol opportunities on TRON by studying wallets that executed known liquidations or keeper actions.
 
-**[Download Pitch Deck — PPTX, 11 slides](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)**
+[Pitch Deck](https://github.com/user-attachments/files/32837451/Protocol_Alpha_Finder_THUBA.pdf) | [Demo Video](https://github.com/user-attachments/assets/0ff5dae4-1cba-4d1d-af5f-5f8667f545c0) | [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)
+
+
+
+https://github.com/user-attachments/assets/0ff5dae4-1cba-4d1d-af5f-5f8667f545c0
+
+
 
 ## Background
 
