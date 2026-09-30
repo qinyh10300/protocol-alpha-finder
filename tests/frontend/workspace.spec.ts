@@ -188,7 +188,8 @@ test.describe("Real Skill integration", () => {
       .check();
     await expect(
       page.getByText("USDD: zero verified executors in this window."),
-    ).toBeVisible();
+    ).toHaveCount(0);
+    await expect(page.locator(".coverage-note")).toHaveCount(0);
     await expect(page.locator(".wallet-row")).toHaveCount(0);
     await expect(
       page.getByText("No executors found", { exact: true }),

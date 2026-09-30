@@ -113,7 +113,8 @@ test("all three seeds replay recorded results with one report card per candidate
   await expect(page.locator(".seed-object p, .demo-banner")).toHaveCount(0);
   await expect(
     page.getByText("USDD: zero verified executors in this window."),
-  ).toBeVisible();
+  ).toHaveCount(0);
+  await expect(page.locator(".coverage-note")).toHaveCount(0);
 });
 
 test("switching a paused run resets progress and preserves the selected seed through share, reload and history", async ({

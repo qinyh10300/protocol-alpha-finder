@@ -1460,25 +1460,6 @@ function App() {
                       setRevision((r) => r + 1);
                     }}
                   />
-                  {seedId === "usdd-keeper-auction" &&
-                    (mode === "archive" || data.provenance === "recorded") && (
-                      <div className="coverage-note">
-                        <CircleHelp size={17} />
-                        <div>
-                          <strong>
-                            {t("USDD: zero verified executors in this window.")}
-                          </strong>
-                          <p>
-                            {data.seeds.find((s) => s.id === seedId)?.coverage}
-                          </p>
-                          {data.seeds
-                            .find((s) => s.id === seedId)
-                            ?.gaps?.map((g) => (
-                              <p key={g}>{g}</p>
-                            ))}
-                        </div>
-                      </div>
-                    )}
                   <div className="workspace-grid">
                     <WalletInvestigationList
                       data={data}
