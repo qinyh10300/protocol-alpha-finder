@@ -89,7 +89,7 @@ Skill 的机会状态与前端的报告处置是两个字段：
 - 机制 `unproven`：报告为 **INSUFFICIENT_EVIDENCE**。
 - 本批真实结果不会映射出 ACTIONABLE 或 REJECTED。UI 支持全部四种结果，后续 API 可以显式返回其它结果。
 
-报告中显示映射依据、全部补证条件、原始 JSON 和浏览器交易链接。机制相同但钱包不同的候选保留各自 ID，不擅自合并。Save Report 和 local watchlist 存在当前浏览器；watchlist 不启动自动监控。Export report 下载 Markdown，Copy link 复制本地服务 URL。未证明优势的候选不自动提升为新 Seed。
+报告中显示映射依据、全部补证条件、原始 JSON 和浏览器交易链接。同一链和数据来源下，标题及机制描述相同的候选合并为一张卡片，汇总钱包与去重后的交易样本；原始候选 ID 和各钱包报告保留。点击整张卡片在右侧预览报告，按钱包筛选后显示该钱包的证据与报告。Save Report 和 local watchlist 存在当前浏览器；watchlist 不启动自动监控。Export report 下载 Markdown，Copy link 复制本地服务 URL。未证明优势的候选不自动提升为新 Seed。
 
 ## 接口与可替换数据源
 

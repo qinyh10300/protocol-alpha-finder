@@ -307,7 +307,10 @@ export function AlphaReportList({
   }, [selected?.id]);
 
   return (
-    <section className="workspace-column report-column">
+    <section
+      id="alpha-report-column"
+      className="workspace-column report-column"
+    >
       <div className="column-heading">
         <span className="column-icon" aria-hidden="true">
           <FileText size={20} />

@@ -20,9 +20,7 @@ test("candidate counts wait for Search Alpha completion and report details use t
   await expect(
     page.locator(".wallet-row").nth(1).locator(".candidate-count, .zero-count"),
   ).toHaveCount(0);
-  await expect(
-    page.getByRole("button", { name: "View Details", exact: true }).first(),
-  ).toBeDisabled();
+  await expect(page.locator(".candidate-details-hit").first()).toBeDisabled();
   await page.clock.runFor(10000);
   await expect(page.locator(".wallet-row .candidate-count")).toHaveCount(3);
   await expect(
@@ -34,16 +32,18 @@ test("candidate counts wait for Search Alpha completion and report details use t
     page.getByRole("button", { name: "View evidence", exact: true }),
   ).toHaveCount(0);
 
+  await expect(
+    page.getByRole("button", { name: "View run activity" }),
+  ).toHaveCount(0);
+  await expect(page.getByText("View Details", { exact: true })).toHaveCount(0);
+  await expect(page.locator(".candidate-evidence")).toHaveCount(0);
+
   const featured = page.locator(".report-preview.featured");
   await expect(featured).toHaveAttribute(
     "data-report-id",
     "report-demo-usdd-reset",
   );
-  await page
-    .locator(".candidate-card")
-    .nth(1)
-    .getByRole("button", { name: "View Details", exact: true })
-    .click();
+  await page.locator(".candidate-card").nth(1).click();
   await expect(featured).toHaveAttribute(
     "data-report-id",
     "report-demo-usdd-purchase",
@@ -61,11 +61,7 @@ test("candidate counts wait for Search Alpha completion and report details use t
     "data-report-id",
     "report-demo-usdd-reset",
   );
-  await page
-    .locator(".candidate-card")
-    .nth(1)
-    .getByRole("button", { name: "View Details", exact: true })
-    .click();
+  await page.locator(".candidate-card").nth(1).click();
   await featured
     .getByRole("button", { name: "Open Full Report", exact: true })
     .click();
@@ -81,12 +77,51 @@ test("candidate counts wait for Search Alpha completion and report details use t
     .check();
   await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
   await page.clock.runFor(18000);
-  // The first two recorded candidates have identical titles; match by report ID.
+  await expect(page.locator(".candidate-card")).toHaveCount(2);
+  await expect(page.locator(".summary-count strong")).toHaveText([
+    "5",
+    "2",
+    "3",
+  ]);
+  await expect(page.locator(".report-preview")).toHaveCount(3);
+  const lending = page.locator(".candidate-card").first();
+  await expect(lending.locator(".candidate-facts")).toContainText("2 wallets");
+  await expect(lending.locator(".candidate-facts")).toContainText("4 samples");
+  // Both original wallet reports remain independently accessible.
   await page
-    .locator(".candidate-card")
-    .nth(1)
-    .getByRole("button", { name: "View Details", exact: true })
+    .locator(
+      '.compact-report-card[data-report-id="report-WAI-LENDING-02"] button',
+    )
     .click();
+  await expect(featured).toHaveAttribute(
+    "data-report-id",
+    "report-WAI-LENDING-02",
+  );
+  await expect(lending.locator(".candidate-details-hit")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  const otherCandidate = page.locator(".candidate-details-hit").nth(1);
+  await otherCandidate.focus();
+  await page.keyboard.press("Enter");
+  await expect(featured).toHaveAttribute(
+    "data-report-id",
+    "report-WAI-CYCLE-01",
+  );
+  await lending.locator(".candidate-details-hit").focus();
+  await page.keyboard.press("Space");
+  await expect(featured).toHaveAttribute(
+    "data-report-id",
+    "report-WAI-LENDING-01",
+  );
+
+  // Filtering first preserves the selected wallet's evidence and report.
+  await page.locator(".wallet-row").filter({ hasText: "TFaz" }).click();
+  await page.getByRole("button", { name: "Show related candidates" }).click();
+  await expect(page.locator(".candidate-card")).toHaveCount(1);
+  await expect(page.locator(".candidate-facts")).toContainText("1 wallet");
+  await expect(page.locator(".candidate-facts")).toContainText("2 samples");
+  await page.locator(".candidate-card").click({ position: { x: 30, y: 100 } });
   await expect(featured).toHaveAttribute(
     "data-report-id",
     "report-WAI-LENDING-02",

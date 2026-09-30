@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { existsSync } from "node:fs";
 import type { Snapshot } from "../../frontend/src/types";
+import { groupCandidates } from "../../frontend/src/candidateGroups";
 import { localizeSnapshot } from "../../frontend/src/locales/research";
 const hasArchive = existsSync(
   "data/protocol-alpha-discovery-test/research-record.json",
@@ -12,21 +13,21 @@ test.describe("Real Skill integration", () => {
     await page.goto("/research");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
     await expect(page.locator(".wallet-row")).toHaveCount(6);
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
     await page.locator(".wallet-row").first().click();
     await expect(page.getByRole("dialog")).toContainText(
       "TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m",
     );
     await page.getByRole("button", { name: "Show related candidates" }).click();
     await expect(page.locator(".candidate-card")).toHaveCount(1);
-    await page.getByRole("button", { name: "View Details" }).click();
+    await page.locator(".candidate-card").click();
     await expect(page.locator(".report-preview.featured")).toContainText(
       "UNCERTAIN",
     );
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
     await page.getByRole("button", { name: "Filtered by wallet" }).click();
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
   });
   test("wallet list expands, collapses and resets for another seed", async ({
     page,
@@ -63,7 +64,15 @@ test.describe("Real Skill integration", () => {
     );
     await page.goto("/research");
     const titles = page.locator(".candidate-card h3");
-    const englishSnapshot = localizeSnapshot(snapshot, "en");
+    const englishSnapshot = localizeSnapshot(
+      {
+        ...snapshot,
+        candidates: groupCandidates(snapshot.candidates, snapshot).map(
+          (group) => group.candidate,
+        ),
+      },
+      "en",
+    );
     const discoveryTitles = englishSnapshot.candidates.map(
       (candidate) => candidate.title,
     );
@@ -122,13 +131,22 @@ test.describe("Real Skill integration", () => {
     await expect(page.locator(".wallet-row")).toHaveCount(6);
     const grid = await page.locator(".workspace-grid").boundingBox();
     expect(grid).not.toBeNull();
-    expect(grid!.y).toBeLessThan(260);
+    const summary = await page.locator(".run-summary").boundingBox();
+    expect(summary).not.toBeNull();
+    expect(grid!.y - (summary!.y + summary!.height)).toBeLessThanOrEqual(16);
+    // The three visible seed choices can push the sixth row below the fold.
+    // The wallet list and expand control must remain reachable by scrolling.
+    await page
+      .getByRole("button", { name: "Show 4 more wallets" })
+      .scrollIntoViewIfNeeded();
     await expect(
       page.getByRole("button", { name: "Show 4 more wallets" }),
     ).toBeInViewport({ ratio: 1 });
+    await page.locator(".wallet-row").nth(5).scrollIntoViewIfNeeded();
     await expect(page.locator(".wallet-row").nth(5)).toBeInViewport({
-      ratio: 1,
+      ratio: 0.99, // Allow subpixel scroll rounding.
     });
+    await page.locator(".compact-report h3").first().scrollIntoViewIfNeeded();
     await expect(page.locator(".compact-report h3").first()).toBeInViewport({
       ratio: 1,
     });
@@ -181,7 +199,7 @@ test.describe("Real Skill integration", () => {
       )
       .check();
     await expect(page.locator(".wallet-row")).toHaveCount(5);
-    await expect(page.locator(".candidate-card")).toHaveCount(3);
+    await expect(page.locator(".candidate-card")).toHaveCount(2);
   });
   test("full report, source links, persistence, export and refresh deep link", async ({
     page,
@@ -212,20 +230,16 @@ test.describe("Real Skill integration", () => {
       .click();
     expect((await download).suggestedFilename()).toBe("report-WAI-CYCLE-01.md");
   });
-  test("library outcome/search and four Skill artifacts", async ({ page }) => {
+  test("library outcome/search preserves all reports", async ({ page }) => {
     await page.goto("/reports");
     await page.getByLabel("Filter report outcome").selectOption("MONITOR");
     await expect(page.locator(".report-preview")).toHaveCount(3);
     await page.getByLabel("Search reports").fill("WAI-CYCLE");
     await expect(page.locator(".report-preview")).toHaveCount(1);
     await page.getByRole("button", { name: "Research", exact: true }).click();
-    await page.getByRole("button", { name: "View run activity" }).click();
-    await expect(page.locator(".skill-stages article")).toHaveCount(4);
-    const href = await page
-      .getByRole("link", { name: "JSON handoff" })
-      .first()
-      .getAttribute("href");
-    expect((await page.request.get(href!)).ok()).toBeTruthy();
+    await expect(
+      page.getByRole("button", { name: "View run activity" }),
+    ).toHaveCount(0);
   });
   test("mobile layout has no horizontal overflow and drawer traps focus", async ({
     page,

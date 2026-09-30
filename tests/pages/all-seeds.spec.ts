@@ -42,11 +42,11 @@ test("Legacy All links retain combined results without an All selector", async (
   await page.clock.runFor(18000);
   await expect(page.locator(".summary-count strong")).toHaveText([
     "13",
-    "8",
+    "7",
     "8",
   ]);
   await expect(page.locator(".wallet-row")).toHaveCount(13);
-  await expect(page.locator(".candidate-card")).toHaveCount(8);
+  await expect(page.locator(".candidate-card")).toHaveCount(7);
   await expect(page.locator(".report-preview")).toHaveCount(8);
   await expect(page.locator(".wallet-row .seed-origin.synthetic")).toHaveCount(
     8,
@@ -59,7 +59,7 @@ test("Legacy All links retain combined results without an All selector", async (
   ).toHaveCount(5);
   await expect(
     page.locator(".candidate-card > .seed-origin.recorded"),
-  ).toHaveCount(3);
+  ).toHaveCount(2);
   await expect(page.locator(".seed-coverage-detail")).toHaveCount(0);
   await expect(page.locator(".summary-bottom")).toContainText("11,603");
 

@@ -39,18 +39,14 @@ test.describe("Bilingual research workspace", () => {
     page,
   }) => {
     await page.goto("/research");
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
     await expectEnglish(page);
 
-    // Each candidate carries a different saved assessment; check all five.
-    for (let index = 0; index < 5; index += 1) {
-      await page
-        .locator(".candidate-card")
-        .nth(index)
-        .getByRole("button", { name: "View Details" })
-        .click();
+    // Each distinct mechanism remains readable in English.
+    for (let index = 0; index < 3; index += 1) {
+      await page.locator(".candidate-card").nth(index).click();
       await expect(page.locator(".report-preview.featured")).toContainText(
         "UNCERTAIN",
       );
@@ -67,10 +63,9 @@ test.describe("Bilingual research workspace", () => {
       await page.keyboard.press("Escape");
     }
 
-    await page.getByRole("button", { name: "View run activity" }).click();
-    await expect(page.locator(".skill-stages article")).toHaveCount(4);
-    await expectEnglish(page);
-    await page.keyboard.press("Escape");
+    await expect(
+      page.getByRole("button", { name: "View run activity" }),
+    ).toHaveCount(0);
     await page
       .locator('input[name=\"research-seed\"][value=\"usdd-keeper-auction\"]')
       .check();
@@ -112,7 +107,7 @@ test.describe("Bilingual research workspace", () => {
     page,
   }) => {
     await page.goto("/research");
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
     const englishTitle = await page
       .locator(".candidate-card h3")
       .first()
@@ -153,16 +148,16 @@ test.describe("Bilingual research workspace", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(han);
 
     await page.locator("header nav button").first().click();
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
     await page
       .locator(
         'input[name="research-seed"][value="justlend-lending-liquidation"]',
       )
       .check();
-    await expect(page.locator(".candidate-card")).toHaveCount(3);
+    await expect(page.locator(".candidate-card")).toHaveCount(2);
     await expect(page.locator(".candidate-card h3").first()).toContainText(han);
     await page.goto("/?seed=all");
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
     await page.waitForResponse(
       (response) =>
         response.url().includes("/api/research-runs/local-all/snapshot") &&
@@ -183,7 +178,7 @@ test.describe("Bilingual research workspace", () => {
     );
     await expectEnglish(page);
     await page.reload();
-    await expect(page.locator(".candidate-card")).toHaveCount(5);
+    await expect(page.locator(".candidate-card")).toHaveCount(3);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expectEnglish(page);
   });

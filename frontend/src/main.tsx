@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  Activity,
   ArrowDownToLine,
   ArrowLeft,
   ArrowRight,
@@ -36,6 +35,7 @@ import {
 } from "./routing";
 import { DEFAULT_DEMO_SEED } from "./seeds";
 import { SeedOrigin } from "./SeedOrigin";
+import { groupCandidates, type CandidateGroup } from "./candidateGroups";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -50,7 +50,11 @@ import "./style.css";
 import { AlphaReportList, AlphaReportPreview } from "./ReportCards";
 
 import { LanguageProvider, useI18n } from "./i18n";
-import { localizeSnapshot, localizeReport } from "./locales/research";
+import {
+  localizeSnapshot,
+  localizeReport,
+  localizeResearchText,
+} from "./locales/research";
 
 const api = new ApiResearchDataSource();
 const demo = new MockResearchDataSource();
@@ -253,7 +257,7 @@ function ResearchRunSummary({
   changeSeed,
   refresh,
   busy,
-  activity,
+  candidateCount,
   play,
   pause,
 }: {
@@ -262,7 +266,7 @@ function ResearchRunSummary({
   changeSeed: (s: string) => void;
   refresh: () => void;
   busy: boolean;
-  activity: () => void;
+  candidateCount: number;
   play: () => void;
   pause: () => void;
 }) {
@@ -318,7 +322,7 @@ function ResearchRunSummary({
             <Files size={25} />
           </span>
           <div>
-            <strong>{run.candidateCount}</strong>
+            <strong>{candidateCount}</strong>
             <span>{t("Alpha Candidates")}</span>
             <small>{t("discovered")}</small>
           </div>
@@ -373,11 +377,6 @@ function ResearchRunSummary({
           <strong>{fmt(run.loadedTransactionCount)}</strong>{" "}
           {t("primary tx loaded")}
         </div>
-        <button className="text-button" onClick={activity}>
-          <Activity size={14} />
-          {t("View run activity")}
-          <ChevronRight size={14} />
-        </button>
       </div>
     </section>
   );
@@ -554,18 +553,33 @@ function WalletInvestigationList({
   );
 }
 function AlphaCandidateCard({
-  candidate: c,
+  group,
   index,
+  selected,
   details,
 }: {
-  candidate: AlphaCandidate;
+  group: CandidateGroup;
   index: number;
+  selected: boolean;
   details: () => void;
 }) {
   const { t } = useI18n();
+  const c = group.candidate;
 
   return (
-    <article className="candidate-card">
+    <article
+      className={`candidate-card${selected ? " selected" : ""}`}
+      data-candidate-id={c.id}
+      data-candidate-ids={group.members.map((member) => member.id).join(" ")}
+    >
+      <button
+        className="candidate-details-hit"
+        aria-label={t("Preview report for {title}", { title: c.title })}
+        aria-controls="alpha-report-column"
+        aria-pressed={selected}
+        disabled={!c.reportId}
+        onClick={details}
+      />
       <SeedOrigin ids={c.sourceSeedIds} provenance={c.provenance} />
       <div className="candidate-top">
         <span className="row-index">{index + 1}</span>
@@ -573,29 +587,6 @@ function AlphaCandidateCard({
           <h3 title={c.id}>{c.title}</h3>
           <StatusChip status={c.status} />
         </div>
-      </div>
-      <div className="candidate-evidence">
-        <span>
-          {t(
-            c.sourceWallets.length === 1
-              ? "Found from {count} wallet"
-              : "Found from {count} wallets",
-            { count: c.sourceWallets.length },
-          )}
-        </span>
-        {c.historicalExecutionCount != null && (
-          <span>
-            {c.historicalExecutionCount}{" "}
-            {t(
-              c.historicalExecutionCount === 1
-                ? (c.evidenceCountLabel || "historical executions").replace(
-                    /s$/,
-                    "",
-                  )
-                : c.evidenceCountLabel || "historical executions",
-            )}
-          </span>
-        )}
       </div>
       <p className="card-summary">{c.summary}</p>
       <div className="candidate-facts">
@@ -644,35 +635,27 @@ function AlphaCandidateCard({
           </strong>
         </div>
       </div>
-      <div className="card-actions">
-        {!c.reportId && (
-          <span className="pending-report">
-            {c.status === "validating"
-              ? t("Validation in progress")
-              : t("Awaiting validation")}
-          </span>
-        )}
-        <button
-          className="text-button"
-          onClick={details}
-          disabled={!c.reportId}
-        >
-          {t("View Details")}
-          <ArrowRight size={15} />
-        </button>
-      </div>
+      {!c.reportId && (
+        <p className="pending-report">
+          {c.status === "validating"
+            ? t("Validation in progress")
+            : t("Awaiting validation")}
+        </p>
+      )}
     </article>
   );
 }
 function AlphaCandidateList({
   data,
-  candidates,
+  groups,
+  selectedReportId,
   details,
   clear,
 }: {
   data: Snapshot;
-  candidates: AlphaCandidate[];
-  details: (c: AlphaCandidate) => void;
+  groups: CandidateGroup[];
+  selectedReportId?: string;
+  details: (group: CandidateGroup) => void;
   clear?: () => void;
 }) {
   const { t } = useI18n();
@@ -684,7 +667,7 @@ function AlphaCandidateList({
           <Files size={22} />
         </span>
         <h2>
-          {t("Alpha Candidates")} <span>({candidates.length})</span>
+          {t("Alpha Candidates")} <span>({groups.length})</span>
         </h2>
       </div>
       <p className="column-description">
@@ -699,13 +682,16 @@ function AlphaCandidateList({
         </div>
       )}
       <div className="column-content">
-        {candidates.length ? (
-          candidates.map((c, i) => (
+        {groups.length ? (
+          groups.map((group, i) => (
             <AlphaCandidateCard
-              key={c.id}
-              candidate={c}
+              key={group.key}
+              group={group}
+              selected={
+                !!selectedReportId && group.reportIds.includes(selectedReportId)
+              }
               index={i}
-              details={() => details(c)}
+              details={() => details(group)}
             />
           ))
         ) : (
@@ -797,97 +783,6 @@ function Drawer({
         <div className="drawer-body">{children}</div>
       </div>
     </div>
-  );
-}
-function ResearchActivityDrawer({
-  data,
-  close,
-  open,
-}: {
-  data: Snapshot;
-  close: () => void;
-  open: (id: string) => void;
-}) {
-  const { t, locale } = useI18n();
-
-  return (
-    <Drawer title={t("Research run activity")} close={close}>
-      <p className="drawer-note">
-        {data.provenance === "mixed"
-          ? t(
-              "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search.",
-            )
-          : data.mode === "archive" || data.provenance === "recorded"
-            ? t(
-                "Reconstructed from saved stage artifacts. Times below are artifact timestamps, not individual wallet execution times.",
-              )
-            : t("Synthetic demo events from the mock payload.")}
-      </p>
-      <h3>{t("Skill workflow")}</h3>
-      <div className="skill-stages">
-        {data.skills.map((s) => (
-          <article key={s.id}>
-            <div className="inline-between">
-              <strong>{s.name}</strong>
-              <StatusChip status={s.status} />
-            </div>
-            <code>{s.id}</code>
-            <p>{s.summary}</p>
-            <small>{t(date(s.completedAt, locale))}</small>
-            <div className="inline-links">
-              <a
-                href={evidenceUrl(s.sourceUrl)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {t(data.mode === "demo" ? "Read Skill" : "Read Skill report")}
-                <ExternalLink size={12} />
-              </a>
-              <a
-                href={evidenceUrl(s.artifactUrl)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {t("JSON handoff")}
-                <ExternalLink size={12} />
-              </a>
-            </div>
-          </article>
-        ))}
-      </div>
-      <h3>
-        {t("Recorded activity")}{" "}
-        <span className="muted">{data.activity.length}</span>
-      </h3>
-      <ol className="timeline">
-        {data.activity.map((e) => (
-          <li key={e.id}>
-            <time>{t(date(e.timestamp, locale))}</time>
-            <p>{e.message}</p>
-            {e.skill && <small>{e.skill}</small>}
-            {e.entityType === "report" && e.entityId ? (
-              <button className="text-button" onClick={() => open(e.entityId!)}>
-                {t("Open Report")}
-                <ArrowRight size={12} />
-              </button>
-            ) : (
-              e.sourceUrl && (
-                <a
-                  href={evidenceUrl(e.sourceUrl)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t("Source artifact ↗")}
-                </a>
-              )
-            )}
-          </li>
-        ))}
-      </ol>
-      {!data.activity.length && (
-        <p className="muted">{t("Activity appears when discovery starts.")}</p>
-      )}
-    </Drawer>
   );
 }
 function Section({
@@ -1220,7 +1115,7 @@ function App() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(true);
   const [rawDrawer, setDrawer] = useState<
-    "activity" | StrategyWallet | AlphaCandidate | null
+    StrategyWallet | AlphaCandidate | null
   >(null);
   const [filterWallet, setFilterWallet] = useState<string | null>(null);
   const [previewReportId, setPreviewReportId] = useState<string | null>(null);
@@ -1238,13 +1133,11 @@ function App() {
     () => (rawReport ? localizeReport(rawReport, language) : null),
     [rawReport, language],
   );
-  const drawer =
-    !rawDrawer || rawDrawer === "activity"
-      ? rawDrawer
-      : "address" in rawDrawer
-        ? data?.wallets.find((w) => w.address === rawDrawer.address) ||
-          rawDrawer
-        : data?.candidates.find((c) => c.id === rawDrawer.id) || rawDrawer;
+  const drawer = !rawDrawer
+    ? rawDrawer
+    : "address" in rawDrawer
+      ? data?.wallets.find((w) => w.address === rawDrawer.address) || rawDrawer
+      : data?.candidates.find((c) => c.id === rawDrawer.id) || rawDrawer;
   function navigate(next: string) {
     history.pushState({}, "", routeUrl(next, mode, seedId));
     setPath(next);
@@ -1346,12 +1239,35 @@ function App() {
   const openReport = (id: string) =>
     navigate("/reports/" + encodeURIComponent(id));
   const reports = data?.reports || [];
-  const candidates = (data?.candidates || []).filter(
-    (c) => !filterWallet || c.sourceWallets.includes(filterWallet),
+  const allCandidateGroups = useMemo(
+    () => (rawData ? groupCandidates(rawData.candidates, rawData) : []),
+    [rawData],
   );
+  const candidateGroups = useMemo(() => {
+    if (!rawData) return [];
+    const groups = filterWallet
+      ? groupCandidates(
+          rawData.candidates.filter((candidate) =>
+            candidate.sourceWallets.includes(filterWallet),
+          ),
+          rawData,
+        )
+      : allCandidateGroups;
+    return groups.map((group) => ({
+      ...group,
+      candidate: {
+        ...group.candidate,
+        title: localizeResearchText(group.candidate.title, language),
+        summary: localizeResearchText(group.candidate.summary, language),
+      },
+    }));
+  }, [rawData, allCandidateGroups, filterWallet, language]);
   const visibleReports = reports.filter(
     (r) => !filterWallet || r.sourceWallets.includes(filterWallet),
   );
+  const activeReportId =
+    visibleReports.find((r) => r.id === previewReportId)?.id ||
+    visibleReports[0]?.id;
   async function copy(value: string) {
     try {
       await navigator.clipboard.writeText(value);
@@ -1522,7 +1438,7 @@ function App() {
                     changeSeed={changeSeed}
                     refresh={() => setRevision((r) => r + 1)}
                     busy={busy}
-                    activity={() => setDrawer("activity")}
+                    candidateCount={allCandidateGroups.length}
                     play={async () => {
                       setPreviewReportId(null);
                       await demo.createRun(seedId);
@@ -1562,10 +1478,16 @@ function App() {
                     />
                     <AlphaCandidateList
                       data={data}
-                      candidates={candidates}
-                      details={(c) =>
-                        c.reportId && setPreviewReportId(c.reportId)
-                      }
+                      groups={candidateGroups}
+                      selectedReportId={activeReportId}
+                      details={(group) => {
+                        const id = group.reportIds.includes(
+                          activeReportId || "",
+                        )
+                          ? activeReportId
+                          : group.candidate.reportId;
+                        if (id) setPreviewReportId(id);
+                      }}
                       clear={
                         filterWallet ? () => setFilterWallet(null) : undefined
                       }
@@ -1599,14 +1521,7 @@ function App() {
         </span>
         <span>{t("Evidence before opportunity.")}</span>
       </footer>
-      {drawer === "activity" && data && (
-        <ResearchActivityDrawer
-          data={data}
-          close={() => setDrawer(null)}
-          open={openReport}
-        />
-      )}{" "}
-      {drawer && drawer !== "activity" && "address" in drawer && (
+      {drawer && "address" in drawer && (
         <Drawer title={t("Wallet investigation")} close={() => setDrawer(null)}>
           <span className="eyebrow">{t("STRATEGY WALLET")}</span>
           <div className="full-address">
@@ -1673,7 +1588,7 @@ function App() {
           ))}
         </Drawer>
       )}{" "}
-      {drawer && drawer !== "activity" && "summary" in drawer && (
+      {drawer && "summary" in drawer && (
         <Drawer title={t("Candidate evidence")} close={() => setDrawer(null)}>
           <span className="eyebrow">{drawer.id}</span>
           <h2>{drawer.title}</h2>

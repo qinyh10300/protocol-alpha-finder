@@ -1,5 +1,6 @@
 /** English source strings are also the fallback for untranslated UI copy. */
 export const uiZh: Record<string, string> = {
+  "Preview report for {title}": "预览报告：{title}",
   "Read Skill": "查看 Skill",
   "Recorded research replay": "历史研究回放",
   "TRON · Recorded Skill evidence": "TRON · 已保存的 Skill 证据",

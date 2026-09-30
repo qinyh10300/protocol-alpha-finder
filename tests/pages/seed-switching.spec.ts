@@ -6,6 +6,7 @@ const scenarios = [
     id: "energy-rental-liquidation",
     name: "Energy Rental Liquidation",
     wallets: 5,
+    reports: 3,
     titles: [
       "USDD Keeper Reward",
       "Settlement Opportunity",
@@ -16,8 +17,8 @@ const scenarios = [
     id: "justlend-lending-liquidation",
     name: "JustLend Lending Liquidation",
     wallets: 5,
+    reports: 3,
     titles: [
-      "Lending Liquidation, Collateral Redemption & Swap",
       "Lending Liquidation, Collateral Redemption & Swap",
       "Cross-pool Round Trip by a Liquidation Wallet",
     ],
@@ -26,6 +27,7 @@ const scenarios = [
     id: "usdd-keeper-auction",
     name: "USDD Keeper / Auction",
     wallets: 3,
+    reports: 2,
     titles: ["USDD Auction Reset Reward", "USDD Auction Purchase Path"],
   },
 ];
@@ -60,13 +62,11 @@ test("each seed has a distinct replay and coherent wallet, candidate and report 
     await expect(page.locator(".candidate-card h3")).toHaveText(
       scenario.titles,
     );
-    await expect(page.locator(".report-preview")).toHaveCount(
-      scenario.titles.length,
-    );
+    await expect(page.locator(".report-preview")).toHaveCount(scenario.reports);
     await expect(page.locator(".summary-count strong")).toHaveText([
       String(scenario.wallets),
       String(scenario.titles.length),
-      String(scenario.titles.length),
+      String(scenario.reports),
     ]);
     await expect(
       page.getByRole("button", { name: "Replay Demo", exact: true }),
@@ -227,11 +227,9 @@ test("synthetic USDD runs independently while recorded research remains unchange
   await expect(
     page.locator(".coverage-note, .seed-coverage-detail"),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "View run activity" }).click();
-  await expect(page.locator(".skill-stages article")).toHaveCount(3);
-  await expect(page.getByRole("dialog")).toContainText(
-    "Simulated discovery of 3 fictional USDD wallets",
-  );
+  await expect(
+    page.getByRole("button", { name: "View run activity" }),
+  ).toHaveCount(0);
   const saved = await request.get(
     "/frontend/research/usdd-keeper-auction.json",
   );

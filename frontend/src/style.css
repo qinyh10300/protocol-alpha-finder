@@ -982,12 +982,43 @@ main {
   color: #295a9b;
 }
 .candidate-card {
+  position: relative;
   padding: 13px 14px 10px;
   border: 1px solid #e1eafb;
   border-radius: 8px;
   background: #fff;
   margin-bottom: 9px;
   animation: enter 0.22s ease-out;
+}
+.candidate-card:has(.candidate-details-hit:not(:disabled)):hover {
+  border-color: #8eb8fa;
+  background: #fbfdff;
+}
+.candidate-card.selected {
+  border-color: #8eb8fa;
+  box-shadow: inset 3px 0 0 #2675ed;
+}
+.candidate-details-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.candidate-details-hit:disabled {
+  cursor: default;
+}
+.candidate-details-hit:focus-visible {
+  outline: 3px solid #2675ed;
+  outline-offset: 2px;
+}
+.candidate-card > .pending-report {
+  margin: 10px 0 0;
 }
 .candidate-card:last-child {
   margin-bottom: 0;
@@ -1020,21 +1051,6 @@ main {
   font-size: 11px;
   padding: 3px 6px;
   margin-top: 1px;
-}
-.candidate-evidence {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin: 7px 0 9px 35px;
-  color: #0b65d4;
-  font-size: 11px;
-}
-.candidate-evidence > span {
-  border: 1px solid #e1eeff;
-  border-radius: 4px;
-  background: #edf5ff;
-  padding: 1px 5px;
-  white-space: nowrap;
 }
 .card-summary {
   font-size: 14px;
@@ -1353,9 +1369,6 @@ main {
   .wallet-row {
     min-height: 90px;
   }
-  .candidate-evidence {
-    font-size: 12px;
-  }
   .candidate-facts span {
     font-size: 11px;
   }
@@ -1590,9 +1603,6 @@ main {
   }
   .candidate-title h3 {
     font-size: 18px;
-  }
-  .candidate-evidence {
-    font-size: 12px;
   }
   .candidate-facts span {
     font-size: 12px;
@@ -1832,10 +1842,6 @@ main {
     font-size: 17px;
   }
   .candidate-title .chip {
-    font-size: 11px;
-  }
-  .candidate-evidence {
-    margin-left: 0;
     font-size: 11px;
   }
   .candidate-facts span {
