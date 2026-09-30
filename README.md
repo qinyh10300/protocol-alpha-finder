@@ -1,21 +1,58 @@
 <p align="right">
-  🌐 <strong>Language</strong>: <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
+  <strong>English</strong> · <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-<h1 align="center">
-  <img src="docs/images/protocol-alpha-logo.svg" alt="Protocol Alpha Finder logo" width="44" height="42" />
-  Protocol Alpha Finder
-</h1>
+<p align="center">
+  <img src="docs/images/protocol-alpha-logo.svg" alt="Protocol Alpha Finder" width="72" height="68" />
+</p>
 
-Protocol Alpha Finder is an AI research agent for discovering opportunities created by smart contract mechanisms on TRON. It starts with Seed Alpha, a known protocol opportunity, to identify Strategy Wallets that have executed it. The agent investigates their transaction histories, reconstructs contract interactions and asset flows, and discovers new Alpha Candidates. After validation, it produces Alpha Reports explaining the findings. Validated Alpha can become the next seed, creating a repeatable discovery cycle: Alpha finds Strategy Wallets, and Strategy Wallets reveal more Protocol Alpha.
+<h1 align="center">Protocol Alpha Finder</h1>
 
-[Pitch Deck](https://github.com/user-attachments/files/32837451/Protocol_Alpha_Finder_THUBA.pdf) | [Demo Video](https://github.com/user-attachments/assets/0ff5dae4-1cba-4d1d-af5f-5f8667f545c0) | [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)
+<p align="center">
+  <strong>Seed Alpha → Strategy Wallets → New Protocol Alpha</strong>
+</p>
 
+<p align="center">
+  <a href="https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html"><strong>Live Demo</strong></a> &nbsp; · &nbsp; <a href="https://github.com/user-attachments/assets/0ff5dae4-1cba-4d1d-af5f-5f8667f545c0"><strong>Demo Video</strong></a> &nbsp; · &nbsp; <a href="https://github.com/user-attachments/files/32837451/Protocol_Alpha_Finder_THUBA.pdf"><strong>Pitch Deck</strong></a>
+</p>
 
+<p align="center">
+  <a href="#demo">Demo</a> · <a href="#features">Features</a> · <a href="#system-architecture">Architecture</a> · <a href="#installation-and-usage">Quick start</a> · <a href="#skill-implementation">Skills</a>
+</p>
+
+---
+
+Protocol Alpha Finder is an AI research agent for discovering opportunities created by smart contract mechanisms on TRON.
+
+It starts with **Seed Alpha**, a known protocol opportunity, to identify **Strategy Wallets** that have executed it. The agent investigates their transaction histories, reconstructs contract interactions and asset flows, and discovers new **Alpha Candidates**. After validation, it produces **Alpha Reports** explaining the findings.
+
+Validated Alpha can become the next seed, creating a repeatable discovery cycle: Alpha finds **Strategy Wallets**, and **Strategy Wallets** reveal more Protocol Alpha.
+
+## Demo
+
+Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) and select **Replay Research**. All three seeds replay saved Skill research through the same workflow. Each distinct candidate has one report card; wallet-specific assessments are available inside it. The saved USDD scan has no candidates or reports. Replay does not query the chain.
+
+[![JustLend research workspace with wallet investigations, alpha candidates, and report details](docs/images/workspace-research.png)](docs/images/workspace-research.png)
+
+<p align="center"><em>JustLend research workspace: wallet investigations, alpha candidates, and report details. Click to enlarge.</em></p>
+
+[Demo data and refresh instructions](docs/RECORDED_DEMO.md)
+
+<details>
+<summary><strong>Watch the demo video</strong></summary>
 
 https://github.com/user-attachments/assets/0ff5dae4-1cba-4d1d-af5f-5f8667f545c0
 
+</details>
 
+## Features
+
+| Capability | What it does |
+| --- | --- |
+| **01 · Find Strategy Wallets** | Start with Energy Rental liquidations, JustLend lending liquidations, or USDD keeper actions. Verify execution evidence and deduplicate wallets while preserving their seed sources. |
+| **02 · Discover Alpha Candidates** | Follow **History → Analyze → Search Alpha** to examine contract calls and asset movements beyond the original seed. Each candidate retains supporting transactions and questions to investigate. |
+| **03 · Validate opportunities** | Check the mechanism, current contract state, rewards, costs, and execution conditions. Record unresolved questions and distinguish historical evidence from current availability. |
+| **04 · Review Alpha Reports** | Browse wallets, candidates, and reports in one workspace. Each report records an outcome—**Actionable**, **Monitor**, **Rejected**, or **Insufficient Evidence**—with evidence, next checks, and options to share or export. |
 
 ## Background
 
@@ -29,61 +66,17 @@ The project began with a liquidation research question: when another wallet exec
 
 We use known mechanisms to find wallets, examine their broader transaction history, and turn candidate mechanisms into evidence-backed reports. An established mechanism can become a new seed for a further research pass. The long-term goal described in the [Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx) is a graph connecting protocol opportunities to the wallets that execute them.
 
-## Features
-
-1. **Find strategy wallets from three TRON seeds.** Start with Energy Rental liquidations, JustLend lending liquidations, or USDD keeper actions. Verify execution evidence and deduplicate wallets while preserving their seed sources.
-
-2. **Discover new mechanisms in wallet history.** Follow **History → Analyze → Search Alpha** to examine contract calls and asset movements beyond the original seed. Each candidate retains supporting transactions and questions to investigate.
-
-3. **Validate each candidate.** Check the mechanism, current contract state, rewards, costs, and execution conditions. Record unresolved questions and distinguish historical evidence from current availability.
-
-4. **Review and share research reports.** Browse wallets, candidates, and reports in one workspace. Each report records an outcome—**Actionable**, **Monitor**, **Rejected**, or **Insufficient Evidence**—with evidence, next checks, and options to share or export.
-
-## Demo
-
-Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) and select **Replay Research**. All three seeds replay saved Skill research through the same workflow. Each distinct candidate has one report card; wallet-specific assessments are available inside it. The saved USDD scan has no candidates or reports. Replay does not query the chain.
-
-![JustLend research workspace with wallet investigations, alpha candidates, and report details](docs/images/workspace-research.png)
-
-[Demo data and refresh instructions](docs/RECORDED_DEMO.md)
-
 ## System architecture
 
 **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Alpha Reports.** Each candidate passes through validation and produces its own report.
 
 [![System architecture with structured report fields: opportunity, occurrences, and capacity](docs/images/system-architecture-en.svg?v=report-metrics-v2)](docs/images/system-architecture-en.svg)
 
+<p align="center"><em>Click the architecture diagram to view it at full size.</em></p>
+
 The report cards show **mock numbers** for open opportunities, typical size, capacity, historical occurrences, observed frequency, and forecast frequency. Amounts are in USDT; history covers 30 days and forecasts cover the next 7 days.
 
 [Method and Skills](docs/ARCHITECTURE.md) · [Evidence and wallet observation](docs/DATA_ARCHITECTURE.md)
-
-## Skill implementation
-
-The repository contains **four Skill packages: one coordinator and three research Skills**. Each `SKILL.md` gives a host Agent the procedure and handoff requirements. Python scripts collect and check evidence; the Agent interprets it and develops hypotheses.
-
-The diagram labels four operations. **Skills 2 and 3 are both implemented by `wallet-alpha-investigation`**; `protocol-alpha-discovery` is the coordinator above them.
-
-### Coordinate the research
-
-[protocol-alpha-discovery](skills/protocol-alpha-discovery/SKILL.md) takes the seed mechanisms, network, time window, and research limits. It runs wallet discovery, investigates each deduplicated wallet, and sends candidate evidence to validation. The final [research record](skills/protocol-alpha-discovery/references/research-record.md) preserves seed coverage, findings, unknowns, and next checks. Only an established mechanism can become a new seed for another research pass.
-
-### Skill 1 — Find strategy wallets
-
-[alpha-seed-wallets](skills/alpha-seed-wallets/SKILL.md) matches seed calls or events to successful transaction receipts. It distinguishes the originating wallet, execution contract, and reward recipient, then deduplicates wallets while retaining every seed source. Its [wallet handoff](skills/alpha-seed-wallets/references/wallet-handoff.md) includes selection reasons, supporting transactions, role ambiguities, and retrieval coverage.
-
-The bundled [Energy Rental collector](scripts/collect_energy_rental.py) fetches liquidation events, verifies receipt logs, and identifies transaction initiators. JustLend and USDD discovery use the host Agent's chain tools or supplied evidence.
-
-### Skills 2–3 — Fetch history and extract candidates
-
-[wallet-alpha-investigation](skills/wallet-alpha-investigation/SKILL.md) takes the wallet shortlist and examines activity beyond the original seed. It groups contract calls and asset movements into repeated sequences. Each candidate retains supporting transactions, an explanation of the mechanism, alternative explanations, and checks that could disprove it.
-
-The collector stores primary transactions, token records, and internal records with SQLite checkpoints for deduplication and incremental retrieval. The [summarizer](scripts/summarize_energy_rental.py) produces coverage and activity summaries, plus alerts for new target contracts; the [verifier](scripts/verify_energy_rental.py) checks transaction byte hashes. Monitoring currently uses manually repeated collection and review.
-
-### Skill 4 — Validate candidates and write reports
-
-[protocol-alpha-validation](skills/protocol-alpha-validation/SKILL.md) reconstructs capital flows, rewards, returned principal, and costs for each candidate. It checks current contract state, execution conditions, and alternative explanations, then returns a report with evidence, assumptions, and next checks.
-
-Reports keep mechanism validation separate from current opportunity status: `ACTIVE`, `DEGRADED`, `EXPIRED`, or `UNCERTAIN`. The [research adapter](scripts/research_adapter.py) checks saved handoff references and exposes the results to the frontend, where report outcomes are displayed separately. The workspace reads saved results; it does not launch the Skills.
 
 ## Installation and usage
 
@@ -107,5 +100,40 @@ Place the four directories under `skills/` in a host Agent's Skill directory, ke
 Example request:
 
 > Use protocol-alpha-discovery to find strategy wallets from Energy Rental, JustLend, and USDD on TRON. Investigate their history, validate each candidate, and report evidence, coverage gaps, and next checks.
+
+## Skill implementation
+
+The repository contains **four Skill packages: one coordinator and three research Skills**. Each `SKILL.md` gives a host Agent the procedure and handoff requirements. Python scripts collect and check evidence; the Agent interprets it and develops hypotheses.
+
+The diagram labels four operations. **Skills 2 and 3 are both implemented by `wallet-alpha-investigation`**; `protocol-alpha-discovery` is the coordinator above them.
+
+<details>
+<summary><strong>Explore the Skill workflow and implementation details</strong></summary>
+
+### Coordinate the research
+
+[protocol-alpha-discovery](skills/protocol-alpha-discovery/SKILL.md) takes the seed mechanisms, network, time window, and research limits. It runs wallet discovery, investigates each deduplicated wallet, and sends candidate evidence to validation. The final [research record](skills/protocol-alpha-discovery/references/research-record.md) preserves seed coverage, findings, unknowns, and next checks. Only an established mechanism can become a new seed for another research pass.
+
+### Skill 1 — Find strategy wallets
+
+[alpha-seed-wallets](skills/alpha-seed-wallets/SKILL.md) matches seed calls or events to successful transaction receipts. It distinguishes the originating wallet, execution contract, and reward recipient, then deduplicates wallets while retaining every seed source. Its [wallet handoff](skills/alpha-seed-wallets/references/wallet-handoff.md) includes selection reasons, supporting transactions, role ambiguities, and retrieval coverage.
+
+The bundled [Energy Rental collector](scripts/collect_energy_rental.py) fetches liquidation events, verifies receipt logs, and identifies transaction initiators. JustLend and USDD discovery use the host Agent's chain tools or supplied evidence.
+
+### Skills 2–3 — Fetch history and extract candidates
+
+[wallet-alpha-investigation](skills/wallet-alpha-investigation/SKILL.md) takes the wallet shortlist and examines activity beyond the original seed. It groups contract calls and asset movements into repeated sequences. Each candidate retains supporting transactions, an explanation of the mechanism, alternative explanations, and checks that could disprove it.
+
+The collector stores primary transactions, token records, and internal records with SQLite checkpoints for deduplication and incremental retrieval. The [summarizer](scripts/summarize_energy_rental.py) produces coverage and activity summaries, plus alerts for new target contracts; the [verifier](scripts/verify_energy_rental.py) checks transaction byte hashes. Monitoring currently uses manually repeated collection and review.
+
+### Skill 4 — Validate candidates and write reports
+
+[protocol-alpha-validation](skills/protocol-alpha-validation/SKILL.md) reconstructs capital flows, rewards, returned principal, and costs for each candidate. It checks current contract state, execution conditions, and alternative explanations, then returns a report with evidence, assumptions, and next checks.
+
+Reports keep mechanism validation separate from current opportunity status: `ACTIVE`, `DEGRADED`, `EXPIRED`, or `UNCERTAIN`. The [research adapter](scripts/research_adapter.py) checks saved handoff references and exposes the results to the frontend, where report outcomes are displayed separately. The workspace reads saved results; it does not launch the Skills.
+
+</details>
+
+## Documentation
 
 [Skill setup](skills/README.md) · [Development guide](frontend/README.md) · [Pitch notes](pitch-deck/README.md)
