@@ -85,7 +85,7 @@ test.describe("Real Skill integration", () => {
     await page.goto("/research");
     const reports = page.locator(".report-column");
     const expanded = reports.locator(".report-preview.featured");
-    await expect(reports.locator(".report-preview")).toHaveCount(5);
+    await expect(reports.locator(".report-preview")).toHaveCount(3);
     await expect(expanded).toHaveCount(1);
     const firstTitle = await expanded.locator("h3").innerText();
     const firstId = await expanded.getAttribute("data-report-id");
@@ -105,7 +105,7 @@ test.describe("Real Skill integration", () => {
     expect(
       await stateText.evaluate((el) => el.scrollHeight <= el.clientHeight),
     ).toBeTruthy();
-    await expect(reports.locator(".compact-report")).toHaveCount(4);
+    await expect(reports.locator(".compact-report")).toHaveCount(2);
     for (const section of [
       "Mechanism",
       "Historical Evidence",
@@ -230,10 +230,12 @@ test.describe("Real Skill integration", () => {
       .click();
     expect((await download).suggestedFilename()).toBe("report-WAI-CYCLE-01.md");
   });
-  test("library outcome/search preserves all reports", async ({ page }) => {
+  test("library groups mechanisms while keeping original report IDs searchable", async ({
+    page,
+  }) => {
     await page.goto("/reports");
     await page.getByLabel("Filter report outcome").selectOption("MONITOR");
-    await expect(page.locator(".report-preview")).toHaveCount(3);
+    await expect(page.locator(".report-preview")).toHaveCount(2);
     await page.getByLabel("Search reports").fill("WAI-CYCLE");
     await expect(page.locator(".report-preview")).toHaveCount(1);
     await page.getByRole("button", { name: "Research", exact: true }).click();
@@ -277,27 +279,29 @@ test.describe("Real Skill integration", () => {
   });
 });
 
-test("demo starts empty, progresses independently, pauses and replays", async ({
+test("recorded replay starts empty, progresses independently, pauses and restarts", async ({
   page,
 }) => {
   await page.clock.install();
   await page.goto("/research?mode=demo");
-  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Replay Research" }),
+  ).toBeVisible();
   await expect(page.locator(".wallet-row")).toHaveCount(0);
-  await page.getByRole("button", { name: "Replay Demo" }).click();
+  await page.getByRole("button", { name: "Replay Research" }).click();
   await page.clock.runFor(5500);
   await expect(page.locator(".wallet-row")).toHaveCount(5);
   expect(await page.locator(".pipeline-step.running").count()).toBeGreaterThan(
     0,
   );
-  await page.getByRole("button", { name: "Pause demo" }).click();
+  await page.getByRole("button", { name: "Pause replay" }).click();
   await page.clock.runFor(18000);
   await expect(page.locator(".candidate-card")).toHaveCount(0);
-  await page.getByRole("button", { name: "Resume demo" }).click();
+  await page.getByRole("button", { name: "Resume replay" }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card")).toHaveCount(3);
-  await expect(page.locator(".report-preview")).toHaveCount(3);
-  await page.getByRole("button", { name: "Replay Demo" }).click();
+  await expect(page.locator(".candidate-card")).toHaveCount(1);
+  await expect(page.locator(".report-preview")).toHaveCount(1);
+  await page.getByRole("button", { name: "Replay Research" }).click();
   await expect(page.locator(".candidate-card")).toHaveCount(0);
 });
 
@@ -316,8 +320,10 @@ test("missing artifacts show a recoverable error, never silently use mock", asyn
     "Saved Skill results unavailable",
   );
   await expect(page.locator(".candidate-card")).toHaveCount(0);
-  await page.getByRole("button", { name: "Open Demo" }).click();
-  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
+  await page.getByRole("button", { name: "Open saved replay" }).click();
+  await expect(
+    page.getByRole("button", { name: "Replay Research" }),
+  ).toBeVisible();
 });
 
 test("invalid report shows not-found state", async ({ page }) => {

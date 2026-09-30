@@ -17,8 +17,7 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
   const reports = new Map<string, AlphaReport>();
   for (const snapshot of snapshots) {
     const seedId = snapshot.run.seedId;
-    const provenance =
-      snapshot.provenance === "recorded" ? "recorded" : "synthetic";
+    const provenance = "recorded";
     for (const wallet of snapshot.wallets) {
       const prior = wallets.get(wallet.address);
       wallets.set(wallet.address, {
@@ -82,7 +81,7 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
           : "running";
   return {
     mode: "demo",
-    provenance: "mixed",
+    provenance: "recorded",
     run: {
       id: runId,
       seedId: "all",
@@ -124,6 +123,6 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
         name: `${SEED_SHORT_NAMES[snapshot.run.seedId]} · ${skill.name}`,
       })),
     ),
-    note: "All seeds · Energy Rental and USDD use synthetic examples. JustLend uses recorded research. Playback does not start a new on-chain search.",
+    note: "Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.",
   };
 }

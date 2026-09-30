@@ -421,3 +421,35 @@
     -webkit-line-clamp: unset;
   }
 }
+
+.report-assessment-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 8px 10px;
+  border: 1px solid #dbe6f6;
+  border-radius: 7px;
+  color: #506990;
+  font-size: 12px;
+}
+.report-assessment-picker select {
+  min-width: 0;
+  max-width: 65%;
+  padding: 4px 6px;
+  background: #fff;
+  border: 1px solid #dbe6f6;
+  border-radius: 5px;
+  color: #1a2c58;
+}
+.report-pending-status {
+  display: block;
+  margin-top: 6px;
+  color: #617ba4;
+  font-size: 12px;
+}
+.report-preview.pending-report-card {
+  background: #f8fbff;
+  border-color: #dbe6f6;
+}

@@ -57,7 +57,8 @@
           "txHash": "74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9",
           "url": "https://tronscan.org/#/transaction/74d28577262784e44174cfd254965d00ca68c7ee7ac0dc064ecafdc7cd5fbab9"
         }
-      ]
+      ],
+      "provenance": "recorded"
     },
     {
       "address": "TEe2PXchaVdLWG1to1fdoYwGC7JieZ8qNH",
@@ -90,7 +91,8 @@
           "txHash": "09205de02de320431c63824aa3139c2989937921aec4a91eee24558a12d976c4",
           "url": "https://tronscan.org/#/transaction/09205de02de320431c63824aa3139c2989937921aec4a91eee24558a12d976c4"
         }
-      ]
+      ],
+      "provenance": "recorded"
     },
     {
       "address": "TS8fpf9YRWaKkA57RRg2KsuDv66m3F3za4",
@@ -123,7 +125,8 @@
           "txHash": "06b52acb164fc5ecd9a284ce6565c1da230022efce40933af5d94d3cff8720e8",
           "url": "https://tronscan.org/#/transaction/06b52acb164fc5ecd9a284ce6565c1da230022efce40933af5d94d3cff8720e8"
         }
-      ]
+      ],
+      "provenance": "recorded"
     },
     {
       "address": "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB",
@@ -158,7 +161,8 @@
           "txHash": "e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008",
           "url": "https://tronscan.org/#/transaction/e67042e5dba2364d9c5cb0c5b762338b55ff897bb9eb6d4fa6d2dc0c48962008"
         }
-      ]
+      ],
+      "provenance": "recorded"
     },
     {
       "address": "TRCZGydLtU8S3XFt2DUFaoLpkwCH1tCa8B",
@@ -191,7 +195,8 @@
           "txHash": "f5b1dd734ca170d5a1ad75b579982cebcd792beffa52899b07d89eb1c7d4f871",
           "url": "https://tronscan.org/#/transaction/f5b1dd734ca170d5a1ad75b579982cebcd792beffa52899b07d89eb1c7d4f871"
         }
-      ]
+      ],
+      "provenance": "recorded"
     }
   ],
   "candidates": [
@@ -212,7 +217,11 @@
         "historicalEvidence": "confirmed",
         "currentState": "UNCERTAIN",
         "executionConditions": "uncertain"
-      }
+      },
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ]
     },
     {
       "id": "WAI-LENDING-02",
@@ -231,7 +240,11 @@
         "historicalEvidence": "confirmed",
         "currentState": "UNCERTAIN",
         "executionConditions": "uncertain"
-      }
+      },
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ]
     },
     {
       "id": "WAI-CYCLE-01",
@@ -250,7 +263,11 @@
         "historicalEvidence": "confirmed",
         "currentState": "UNCERTAIN",
         "executionConditions": "uncertain"
-      }
+      },
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ]
     }
   ],
   "reports": [
@@ -408,7 +425,10 @@
         "A helper may use pre-existing inventory or third-party funding.",
         "Retained tokens, capital costs and failed attempts can offset the visible inflow."
       ],
-      "provenance": "recorded"
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ]
     },
     {
       "id": "report-WAI-LENDING-02",
@@ -564,7 +584,10 @@
         "A helper may use pre-existing inventory or third-party funding.",
         "Retained tokens, capital costs and failed attempts can offset the visible inflow."
       ],
-      "provenance": "recorded"
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ]
     },
     {
       "id": "report-WAI-CYCLE-01",
@@ -708,7 +731,10 @@
         "A sampled route may be a one-off price imbalance with limited capacity.",
         "Token/pool accounting or subsidies may explain the flows; deployment identities need further verification."
       ],
-      "provenance": "recorded"
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "justlend-lending-liquidation"
+      ]
     }
   ],
   "activity": [
@@ -932,7 +958,7 @@
     "from": "2026-07-01T13:25:05.785000+00:00",
     "to": "2026-09-29T13:25:05.785000+00:00"
   },
-  "note": "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.",
+  "note": "Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.",
   "provenance": "recorded",
   "sourceArtifacts": [
     {

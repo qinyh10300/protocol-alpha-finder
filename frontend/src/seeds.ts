@@ -30,21 +30,3 @@ export const SEED_SHORT_NAMES: Record<string, string> = {
 };
 
 export const DEFAULT_DEMO_SEED = PROTOCOL_SEEDS[0].id;
-
-// Energy Rental uses the original mock payload. USDD has a separate synthetic fixture; JustLend replays saved evidence.
-// Reuse the implementation-pack examples so reports retain stable IDs and links.
-export const DEMO_SCENARIOS: Record<
-  string,
-  { wallets: string[]; candidates: string[] }
-> = {
-  "energy-rental-liquidation": {
-    wallets: [
-      "TJ8e...3K2a",
-      "TNQ8...GDW2m",
-      "TWqF...Vp7x",
-      "TA9k...2dx8",
-      "TF6m...9Lp1",
-    ],
-    candidates: ["cand-usdd-keeper", "cand-settlement", "cand-auction-reset"],
-  },
-};

@@ -35,7 +35,7 @@ We use known mechanisms to find wallets, examine their broader transaction histo
 
 ## Demo
 
-Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) and select **Replay Demo**. Energy Rental and USDD use labeled synthetic examples; JustLend replays saved chain research. Replay does not query the chain.
+Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) and select **Replay Research**. All three seeds replay saved Skill research through the same workflow. Each distinct candidate has one report card; wallet-specific assessments are available inside it. The saved USDD scan has no candidates or reports. Replay does not query the chain.
 
 ![Research workspace showing saved Skill results](docs/images/workspace-en.png)
 
@@ -92,7 +92,7 @@ npm ci
 npm run dev
 ```
 
-Open [the local Demo](http://127.0.0.1:5173/research?mode=demo). Demo mode works with the files in this repository. The local **Skill results** mode requires saved `data/` artifacts, which are excluded from Git.
+Open [the local Demo](http://127.0.0.1:5173/research?mode=demo). **Replay results** works with the files in this repository. The local **Skill results** mode requires saved `data/` artifacts, which are excluded from Git.
 
 ### Run a research workflow
 

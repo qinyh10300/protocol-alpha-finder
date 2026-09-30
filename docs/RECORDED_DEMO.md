@@ -1,36 +1,32 @@
-# Demo seed data
+# Recorded research replay
 
-The GitHub Pages frontend offers three seeds. Select one of the three visible radio options under **Choose current alpha seed**, then click **Replay Demo**. Selection alone does not start playback. The selector shows only these three seeds, without a subtitle or an All option. Existing shared links with `seed=all` still open combined results in the wallet, candidate and report columns. **Wallet Investigations** has no duplicate seed selector. All currently includes 13 wallets, 7 distinct candidate cards and 8 reports; badges identify each seed and distinguish synthetic examples from recorded research. USDD now includes an explicitly synthetic scenario; its original zero-result research snapshot remains separate. Shared identities are merged, and a shared wallet history is counted once.
+All three frontend seeds use saved Skill research from 29 September 2026. Select a seed under **Choose current alpha seed**, then start replay. Selection alone does not start it. The same playback sequence reveals wallets, loads their recorded history, analyzes them, discovers candidates and publishes their saved reports.
 
-Switching seeds resets playback and wallet filters. Share links retain the selected seed; full reports also work after a page reload.
+Playback controls the presentation timing. It does not query the chain or create new evidence, wallets, candidates or assessments. The frontend no longer imports implementation-pack examples or synthetic scenarios.
 
-| Seed | Published data | Wallets | Candidate cards / reports |
-| --- | --- | --- | --- |
-| Energy Rental Liquidation | Original synthetic implementation-pack examples | 5 | 3 / 3 |
-| JustLend Lending Liquidation | Saved Skill research from 29 September 2026 | 5 | 2 / 3 |
-| USDD Keeper / Auction | Synthetic auction reset and purchase examples | 3 | 2 / 2 |
+| Seed | Wallets | Primary transactions | Distinct candidate / report cards | Original saved reports |
+| --- | ---: | ---: | ---: | ---: |
+| Energy Rental Liquidation | 5 | 48,768 | 1 / 1 | 2 |
+| JustLend Lending Liquidation | 5 | 3,814 | 2 / 2 | 3 |
+| USDD Keeper / Auction | 0 | 0 | 0 / 0 | 0 |
 
-Candidates with matching mechanism titles and summaries within the same chain and provenance appear as one card. The combined JustLend card shows two wallets and four distinct reconciled samples. Every original candidate ID and wallet-specific report remains available; filtering by a wallet shows its own evidence and report.
+Candidates with matching titles and mechanism summaries within the same chain appear as one card. Each distinct candidate has one report slot, pending until its saved assessment is revealed. Wallet-specific candidate IDs, reports and evidence remain available inside that group and through report links. Filtering by wallet keeps only that wallet's findings. Original exports remain unchanged by replay or grouping.
 
-JustLend retains 3,814 primary transactions in the saved wallet histories. Its reports preserve transaction links, reconciled sample counts, recorded check times, missing evidence and research outcomes. Historical evidence does not establish a current executable opportunity.
+Energy Rental's two assessments are **Insufficient evidence**. JustLend's three assessments are **Monitor**. All five preserve their original **UNCERTAIN** current state; historical evidence does not establish a current executable opportunity.
 
-USDD's demo uses `frontend/public/research/usdd-synthetic-demo.json`: three clearly fictional `DEMO-USDD-*` wallet identifiers, 1,980 simulated transactions, and two reports showing example Actionable and Monitor outcomes. The cards, report pages and downloaded fixture mark these results as synthetic. No transaction hashes, on-chain receipts or live contract checks are fabricated. Report evidence links to the scenario fixture.
+USDD retains the real scan: 27 bounded provider queries and zero verified executors. Its coverage and missing checks remain in `frontend/public/research/usdd-keeper-auction.json`. Replay finishes with zero wallets, candidates and reports; it does not fill the empty result with examples.
 
-The saved real USDD scan remains unchanged at `frontend/public/research/usdd-keeper-auction.json`: 27 bounded provider queries and zero verified executors. That file retains its query limitations and is not used to support the synthetic reports. The local Skill-results mode still shows the recorded scan. The large zero-result note is absent from the synthetic Demo and All view.
-
-The top replay banner is omitted. Replay metadata, source badges and the footer identify recorded or synthetic data. Wallet candidate counts appear after Search Alpha completes. Clicking anywhere on a candidate card selects its report in the right column; the first report is shown by default. **Open Full Report** appears in that column, without a duplicate action on candidate cards. Playback timing is simulated; Replay Demo does not query the chain.
+Switching seeds resets playback and wallet filters. Clicking a candidate card selects its report in the right column. Full reports can also open from a shared URL before replay starts. Existing `mode=demo` and `seed=all` links remain compatible: All combines 10 wallets, 52,582 primary transactions, 3 distinct mechanisms and their 5 underlying assessments. Shared identities and wallet histories are counted once.
 
 ## Refresh the published snapshots
 
-After completing and validating a new local Skill run:
+After completing and validating a local Skill run:
 
 ```sh
 python3 scripts/export_demo_research.py --data-root /absolute/path/to/data
 npm run test:pages
 ```
 
-Review and commit `frontend/public/research/*.json` with the frontend changes. The exporter updates the recorded files and leaves `usdd-synthetic-demo.json` untouched. It uses the existing research adapter, including validation-to-investigation consistency checks. It publishes normalized results, selected-seed coverage and source artifact hashes. Raw provider dumps, request headers, credentials and the full local `data/` directory are not copied.
+The exporter writes all three recorded snapshots to `frontend/public/research/`. It uses the existing research adapter and validation-to-investigation consistency checks. Exports contain normalized results, seed coverage, report evidence and hashes of the original artifacts. Raw provider dumps, request headers, credentials and the full local `data/` directory are not published.
 
-Recorded reports link to the published snapshot and relevant TRON transactions/contracts; synthetic USDD reports link only to the fictional scenario fixture. No `/api/` endpoint is required. The static build imports the same checked-in JSON that is available for download. GitHub Actions builds and deploys the committed snapshot when `main` is updated.
-
-This integration publishes historical results. The local JustLend/USDD collection scripts are not executed or hosted by GitHub Pages.
+Review and commit these JSON files with the frontend changes. The static build imports the same files offered as evidence downloads, so GitHub Pages needs no `/api/` endpoint. Updating `main` triggers the existing build and deployment workflow. The collection scripts run locally and are not executed by GitHub Pages.

@@ -1,5 +1,21 @@
 /** English source strings are also the fallback for untranslated UI copy. */
 export const uiZh: Record<string, string> = {
+  "Replay results": "研究回放",
+  "Replay Research": "重播研究",
+  "Pause replay": "暂停回放",
+  "Resume replay": "继续回放",
+  "Open saved replay": "打开已保存的研究回放",
+  "one per candidate": "每个候选一份报告",
+  "Wallet assessment": "钱包分析",
+  "One report per candidate, with evidence and validation outcomes.":
+    "每个候选对应一份报告，包含证据与验证结论。",
+  "This candidate's report is being prepared. Findings will appear after validation.":
+    "此候选的报告正在准备中，验证后将显示分析结果。",
+  "Select an alpha seed, then click Replay Research to begin.":
+    "选择一个 Alpha 种子，点击“重播研究”开始。",
+  "No source links are available for this report.": "此报告暂无证据来源链接。",
+  "Saved wallet history.": "已保存的钱包历史。",
+
   "Preview report for {title}": "预览报告：{title}",
   "Read Skill": "查看 Skill",
   "Recorded research replay": "历史研究回放",

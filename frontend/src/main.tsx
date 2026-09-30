@@ -25,7 +25,7 @@ import {
   Eye,
   CircleHelp,
 } from "lucide-react";
-import { ApiResearchDataSource, MockResearchDataSource } from "./data";
+import { ApiResearchDataSource, RecordedResearchDataSource } from "./data";
 import {
   currentMode,
   currentPath,
@@ -36,6 +36,7 @@ import {
 import { DEFAULT_DEMO_SEED } from "./seeds";
 import { SeedOrigin } from "./SeedOrigin";
 import { groupCandidates, type CandidateGroup } from "./candidateGroups";
+import { buildReportGroups } from "./reportGroups";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -47,7 +48,7 @@ import type {
   StrategyWallet,
 } from "./types";
 import "./style.css";
-import { AlphaReportList, AlphaReportPreview } from "./ReportCards";
+import { AlphaReportList, CandidateReportCard } from "./ReportCards";
 
 import { LanguageProvider, useI18n } from "./i18n";
 import {
@@ -57,7 +58,7 @@ import {
 } from "./locales/research";
 
 const api = new ApiResearchDataSource();
-const demo = new MockResearchDataSource();
+const replay = new RecordedResearchDataSource();
 const fmt = (n: number) => n.toLocaleString("en-US");
 const short = (s: string) =>
   s.length > 18 ? `${s.slice(0, 7)}…${s.slice(-6)}` : s;
@@ -243,7 +244,7 @@ function AppHeader({
             {!isPagesBuild && (
               <option value="archive">{t("Skill results")}</option>
             )}
-            <option value="demo">{t("Demo mode")}</option>
+            <option value="demo">{t("Replay results")}</option>
           </select>
           <ChevronDown size={14} />
         </label>
@@ -333,9 +334,9 @@ function ResearchRunSummary({
             <FileText size={25} />
           </span>
           <div>
-            <strong>{run.reportCount}</strong>
+            <strong>{candidateCount}</strong>
             <span>{t("Alpha Reports")}</span>
-            <small>{t("ready for review")}</small>
+            <small>{t("one per candidate")}</small>
           </div>
         </div>
         <div className="run-control">
@@ -355,10 +356,10 @@ function ResearchRunSummary({
                 <Play size={14} />
               )}
               {run.status === "running"
-                ? t("Pause demo")
+                ? t("Pause replay")
                 : run.status === "paused"
-                  ? t("Resume demo")
-                  : t("Replay Demo")}
+                  ? t("Resume replay")
+                  : t("Replay Research")}
             </button>
           ) : (
             <button
@@ -514,7 +515,7 @@ function WalletInvestigationList({
               wallet={w}
               index={i}
               selected={wallet === w.address}
-              showSeed={allSeeds || w.provenance === "synthetic"}
+              showSeed={allSeeds}
               onClick={() => choose(w)}
             />
           ))
@@ -527,7 +528,9 @@ function WalletInvestigationList({
             }
             text={
               data.run.status === "idle"
-                ? t("Select an alpha seed, then click Replay Demo to begin.")
+                ? t(
+                    "Select an alpha seed, then click Replay Research to begin.",
+                  )
                 : t("No verified wallets for this seed in the recorded window.")
             }
             loading={data.run.status === "running"}
@@ -577,7 +580,6 @@ function AlphaCandidateCard({
         aria-label={t("Preview report for {title}", { title: c.title })}
         aria-controls="alpha-report-column"
         aria-pressed={selected}
-        disabled={!c.reportId}
         onClick={details}
       />
       <SeedOrigin ids={c.sourceSeedIds} provenance={c.provenance} />
@@ -603,11 +605,9 @@ function AlphaCandidateCard({
         </div>
         <div>
           <span>
-            {c.evidenceCountLabel === "simulated executions"
-              ? t("Simulated Executions")
-              : c.evidenceCountLabel === "reconciled samples"
-                ? t("Reconciled Samples")
-                : t("Historical Executions")}
+            {c.evidenceCountLabel === "reconciled samples"
+              ? t("Reconciled Samples")
+              : t("Historical Executions")}
           </span>
           <strong>
             {c.historicalExecutionCount == null
@@ -648,13 +648,13 @@ function AlphaCandidateCard({
 function AlphaCandidateList({
   data,
   groups,
-  selectedReportId,
+  selectedGroupKey,
   details,
   clear,
 }: {
   data: Snapshot;
   groups: CandidateGroup[];
-  selectedReportId?: string;
+  selectedGroupKey?: string;
   details: (group: CandidateGroup) => void;
   clear?: () => void;
 }) {
@@ -687,9 +687,7 @@ function AlphaCandidateList({
             <AlphaCandidateCard
               key={group.key}
               group={group}
-              selected={
-                !!selectedReportId && group.reportIds.includes(selectedReportId)
-              }
+              selected={selectedGroupKey === group.key}
               index={i}
               details={() => details(group)}
             />
@@ -857,7 +855,7 @@ function AlphaReportPage({
   function exportReport() {
     const text = [
       `# ${r.title}`,
-      `${t("Outcome")}: ${t(label(r.outcome))}\n${t("Candidate")}: ${r.candidateId}\n${t("Last checked")}: ${t(date(r.lastCheckedAt, locale))}\n${t("Data mode")}: ${t(mode === "demo" ? "Demo mode" : "Skill results")}`,
+      `${t("Outcome")}: ${t(label(r.outcome))}\n${t("Candidate")}: ${r.candidateId}\n${t("Last checked")}: ${t(date(r.lastCheckedAt, locale))}\n${t("Data mode")}: ${t(mode === "demo" ? "Replay results" : "Skill results")}`,
       `## ${t("Executive Summary")}\n${r.executiveSummary}`,
       r.outcomeReason || "",
       ...(
@@ -934,11 +932,7 @@ function AlphaReportPage({
           ))}
           <div className="toc-note">
             <FileText size={20} />
-            <p>
-              {mode === "demo" && r.provenance !== "recorded"
-                ? t("Synthetic demo report")
-                : t("Based on saved Skill evidence")}
-            </p>
+            <p>{t("Based on saved Skill evidence")}</p>
             <small>
               {t("Generated {date}", { date: date(r.generatedAt, locale) })}
             </small>
@@ -1034,11 +1028,7 @@ function AlphaReportPage({
               ))}
             </div>
             {!r.evidenceRefs.length && (
-              <p>
-                {t(
-                  "No source links are included in this synthetic demo payload.",
-                )}
-              </p>
+              <p>{t("No source links are available for this report.")}</p>
             )}
           </section>
           <section className="memo-section" id="section-6">
@@ -1103,6 +1093,20 @@ function AlphaReportPage({
       </div>
     </div>
   );
+}
+
+function localizeCandidateGroup(
+  group: CandidateGroup,
+  language: "en" | "zh",
+): CandidateGroup {
+  return {
+    ...group,
+    candidate: {
+      ...group.candidate,
+      title: localizeResearchText(group.candidate.title, language),
+      summary: localizeResearchText(group.candidate.summary, language),
+    },
+  };
 }
 
 function App() {
@@ -1188,8 +1192,8 @@ function App() {
     let timer: ReturnType<typeof setTimeout>;
     setBusy(true);
     setError("");
-    const source = mode === "demo" ? demo : api;
-    if (mode === "demo") demo.selectSeed(seedId);
+    const source = mode === "demo" ? replay : api;
+    if (mode === "demo") replay.selectSeed(seedId);
     const id = mode === "demo" ? `run-demo-${seedId}` : "local-" + seedId;
     const load = async () => {
       try {
@@ -1221,7 +1225,7 @@ function App() {
     setReportError("");
     if (!reportId) return;
     let active = true;
-    (mode === "demo" ? demo : api)
+    (mode === "demo" ? replay : api)
       .getReport(reportId)
       .then((r) => {
         if (active) setReport(r);
@@ -1253,21 +1257,38 @@ function App() {
           rawData,
         )
       : allCandidateGroups;
-    return groups.map((group) => ({
-      ...group,
-      candidate: {
-        ...group.candidate,
-        title: localizeResearchText(group.candidate.title, language),
-        summary: localizeResearchText(group.candidate.summary, language),
-      },
-    }));
+    return groups.map((group) => localizeCandidateGroup(group, language));
   }, [rawData, allCandidateGroups, filterWallet, language]);
-  const visibleReports = reports.filter(
-    (r) => !filterWallet || r.sourceWallets.includes(filterWallet),
+  const reportGroups = buildReportGroups(candidateGroups, reports);
+  const activeReportGroup =
+    reportGroups.find(
+      (group) =>
+        group.candidate.id === previewReportId ||
+        group.reports.some((report) => report.id === previewReportId),
+    ) || reportGroups[0];
+  const libraryReportGroups = buildReportGroups(
+    allCandidateGroups.map((group) => localizeCandidateGroup(group, language)),
+    reports,
   );
-  const activeReportId =
-    visibleReports.find((r) => r.id === previewReportId)?.id ||
-    visibleReports[0]?.id;
+  const libraryGroups = libraryReportGroups.flatMap((group) => {
+    const matches = group.reports.filter(
+      (report) =>
+        (outcome === "all" || report.outcome === outcome) &&
+        `${report.title} ${report.candidateId}`
+          .toLowerCase()
+          .includes(search.toLowerCase()),
+    );
+    if (matches.length) return [{ ...group, reports: matches }];
+    if (
+      !group.reports.length &&
+      outcome === "all" &&
+      `${group.candidate.title} ${group.candidate.id}`
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
+      return [group];
+    return [];
+  });
   async function copy(value: string) {
     try {
       await navigator.clipboard.writeText(value);
@@ -1330,7 +1351,9 @@ function App() {
                     </p>
                   </div>
                   <span className="library-total">
-                    {t("{count} reports", { count: reports.length })}
+                    {t("{count} reports", {
+                      count: libraryReportGroups.length,
+                    })}
                   </span>
                 </div>
                 <div className="library-toolbar">
@@ -1386,7 +1409,7 @@ function App() {
                   className="text-button"
                   onClick={() => switchMode("demo")}
                 >
-                  {t("Open Demo")}
+                  {t("Open saved replay")}
                 </button>
               </div>
             )}
@@ -1401,29 +1424,15 @@ function App() {
               (path === "/reports" ? (
                 <>
                   <div className="library-grid">
-                    {reports
-                      .filter(
-                        (r) =>
-                          (outcome === "all" || r.outcome === outcome) &&
-                          `${r.title} ${r.candidateId}`
-                            .toLowerCase()
-                            .includes(search.toLowerCase()),
-                      )
-                      .map((r) => (
-                        <AlphaReportPreview
-                          key={r.id}
-                          report={r}
-                          open={openReport}
-                        />
-                      ))}
+                    {libraryGroups.map((group) => (
+                      <CandidateReportCard
+                        key={group.key}
+                        group={group}
+                        open={openReport}
+                      />
+                    ))}
                   </div>
-                  {!reports.some(
-                    (r) =>
-                      (outcome === "all" || r.outcome === outcome) &&
-                      `${r.title} ${r.candidateId}`
-                        .toLowerCase()
-                        .includes(search.toLowerCase()),
-                  ) && (
+                  {!libraryGroups.length && (
                     <Empty
                       title={t("No matching reports")}
                       text="Try another outcome or search term."
@@ -1438,16 +1447,16 @@ function App() {
                     changeSeed={changeSeed}
                     refresh={() => setRevision((r) => r + 1)}
                     busy={busy}
-                    candidateCount={allCandidateGroups.length}
+                    candidateCount={candidateGroups.length}
                     play={async () => {
                       setPreviewReportId(null);
-                      await demo.createRun(seedId);
+                      await replay.createRun(seedId);
                       setRevision((r) => r + 1);
                     }}
                     pause={() => {
                       data.run.status === "paused"
-                        ? demo.resume()
-                        : demo.pause();
+                        ? replay.resume()
+                        : replay.pause();
                       setRevision((r) => r + 1);
                     }}
                   />
@@ -1479,21 +1488,18 @@ function App() {
                     <AlphaCandidateList
                       data={data}
                       groups={candidateGroups}
-                      selectedReportId={activeReportId}
-                      details={(group) => {
-                        const id = group.reportIds.includes(
-                          activeReportId || "",
+                      selectedGroupKey={activeReportGroup?.key}
+                      details={(group) =>
+                        setPreviewReportId(
+                          group.candidate.reportId || group.candidate.id,
                         )
-                          ? activeReportId
-                          : group.candidate.reportId;
-                        if (id) setPreviewReportId(id);
-                      }}
+                      }
                       clear={
                         filterWallet ? () => setFilterWallet(null) : undefined
                       }
                     />
                     <AlphaReportList
-                      reports={visibleReports}
+                      groups={reportGroups}
                       selectedId={previewReportId}
                       select={setPreviewReportId}
                       open={openReport}
@@ -1555,7 +1561,7 @@ function App() {
             {t(date(drawer.historyJob.toTime, locale))}
           </p>
           <p className="drawer-note">
-            {drawer.coverageNote || t("Synthetic demo history.")}
+            {drawer.coverageNote || t("Saved wallet history.")}
           </p>
           <h3>{t("Produced candidates")}</h3>
           {drawer.candidateIds.length ? (

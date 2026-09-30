@@ -10,6 +10,7 @@ import {
   Settings2,
   Zap,
 } from "lucide-react";
+import type { CandidateReportGroup } from "./reportGroups";
 import type { AlphaReport, Outcome } from "./types";
 import { useI18n } from "./i18n";
 import { SeedOrigin } from "./SeedOrigin";
@@ -121,10 +122,14 @@ function findings(report: AlphaReport, t: Translate, locale: string) {
 export function AlphaReportPreview({
   report,
   featured = false,
+  assessments = [],
+  selectAssessment,
   open,
 }: {
   report: AlphaReport;
   featured?: boolean;
+  assessments?: AlphaReport[];
+  selectAssessment?: (id: string) => void;
   open: (id: string) => void;
 }) {
   const { t, locale } = useI18n();
@@ -168,11 +173,9 @@ export function AlphaReportPreview({
                 className="report-checked"
                 title={reportDate(report.lastCheckedAt, locale, t, true)}
               >
-                {report.provenance === "synthetic"
-                  ? t("Simulated state")
-                  : t("Checked {date}", {
-                      date: reportDate(report.lastCheckedAt, locale, t),
-                    })}
+                {t("Checked {date}", {
+                  date: reportDate(report.lastCheckedAt, locale, t),
+                })}
               </span>
             )}
             {!featured && (
@@ -183,6 +186,24 @@ export function AlphaReportPreview({
           </div>
         </div>
       </header>
+      {assessments.length > 1 && selectAssessment && (
+        <label className="report-assessment-picker">
+          <span>{t("Wallet assessment")}</span>
+          <select
+            aria-label={t("Wallet assessment")}
+            value={report.id}
+            onChange={(event) => selectAssessment(event.target.value)}
+          >
+            {assessments.map((assessment) => (
+              <option key={assessment.id} value={assessment.id}>
+                {assessment.sourceWallets
+                  .map((wallet) => `${wallet.slice(0, 6)}…${wallet.slice(-5)}`)
+                  .join(", ")}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <p className="report-excerpt" title={report.executiveSummary}>
         {featured
           ? firstSentence(report.executiveSummary)
@@ -277,34 +298,96 @@ export function AlphaReportPreview({
   );
 }
 
-export function AlphaReportList({
-  reports,
+export function CandidateReportCard({
+  group,
+  featured = false,
   selectedId,
   select,
   open,
 }: {
-  reports: AlphaReport[];
+  group: CandidateReportGroup;
+  featured?: boolean;
+  selectedId?: string | null;
+  select?: (id: string) => void;
+  open: (id: string) => void;
+}) {
+  const { t } = useI18n();
+  const [assessmentId, setAssessmentId] = useState<string>();
+  const report =
+    group.reports.find(
+      (report) => report.id === (selectedId || assessmentId),
+    ) || group.reports[0];
+  if (!report) {
+    return (
+      <article
+        className={`report-preview report-card pending-report-card${featured ? " featured" : ""}`}
+        data-candidate-id={group.candidate.id}
+      >
+        <header className="report-card-heading">
+          <span className="report-document-icon" aria-hidden="true">
+            <FileText size={24} />
+          </span>
+          <div className="report-title-block">
+            <h3 tabIndex={featured ? -1 : undefined}>
+              {group.candidate.title}
+            </h3>
+            <span className="report-pending-status">
+              {t("Validation in progress")}
+            </span>
+          </div>
+        </header>
+        <p className="report-excerpt">
+          {t(
+            "This candidate's report is being prepared. Findings will appear after validation.",
+          )}
+        </p>
+      </article>
+    );
+  }
+  return (
+    <AlphaReportPreview
+      key={report.id}
+      report={report}
+      featured={featured}
+      assessments={group.reports}
+      selectAssessment={select || setAssessmentId}
+      open={open}
+    />
+  );
+}
+
+export function AlphaReportList({
+  groups,
+  selectedId,
+  select,
+  open,
+}: {
+  groups: CandidateReportGroup[];
   selectedId: string | null;
   select: (id: string) => void;
   open: (id: string) => void;
 }) {
   const { t, locale } = useI18n();
   const selected =
-    reports.find((report) => report.id === selectedId) || reports[0];
+    groups.find(
+      (group) =>
+        group.candidate.id === selectedId ||
+        group.reports.some((report) => report.id === selectedId),
+    ) || groups[0];
+  const selection = selected
+    ? `${selected.key}:${selectedId || ""}`
+    : undefined;
   const contentRef = useRef<HTMLDivElement>(null);
   const previousSelection = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (
-      previousSelection.current &&
-      previousSelection.current !== selected?.id
-    ) {
+    if (previousSelection.current && previousSelection.current !== selection) {
       contentRef.current?.scrollTo({ top: 0, behavior: "instant" });
       contentRef.current
         ?.querySelector<HTMLElement>(".featured h3")
         ?.focus({ preventScroll: true });
     }
-    previousSelection.current = selected?.id;
-  }, [selected?.id]);
+    previousSelection.current = selection;
+  }, [selection]);
 
   return (
     <section
@@ -317,71 +400,70 @@ export function AlphaReportList({
         </span>
         <h2>
           {t("Alpha Reports")}{" "}
-          <span>({reports.length.toLocaleString(locale)})</span>
+          <span>({groups.length.toLocaleString(locale)})</span>
         </h2>
       </div>
       <p className="column-description">
-        {t("Human-readable research with evidence and clear outcomes.")}
+        {t("One report per candidate, with evidence and validation outcomes.")}
       </p>
       <div className="column-content report-list-content" ref={contentRef}>
         {selected ? (
           <>
-            <AlphaReportPreview
-              key={selected.id}
-              report={selected}
+            <CandidateReportCard
+              key={selected.key}
+              group={selected}
               featured
+              selectedId={selectedId}
+              select={select}
               open={open}
             />
-            {reports
-              .filter((report) => report.id !== selected.id)
-              .map((report) => (
-                <article
-                  className="report-preview compact-report-card"
-                  key={report.id}
-                  data-report-id={report.id}
-                >
-                  <button
-                    className="compact-report"
-                    aria-expanded={false}
-                    aria-label={t("Preview {title} ({candidateId})", {
-                      title: report.title,
-                      candidateId: report.candidateId,
-                    })}
-                    onClick={() => select(report.id)}
+            {groups
+              .filter((group) => group.key !== selected.key)
+              .map((group) => {
+                const report = group.reports[0];
+                return (
+                  <article
+                    className={`report-preview compact-report-card${report ? "" : " pending-report-card"}`}
+                    key={group.key}
+                    data-report-id={report?.id}
+                    data-candidate-id={group.candidate.id}
                   >
-                    <span className="report-document-icon" aria-hidden="true">
-                      <FileText size={20} />
-                    </span>
-                    <div className="compact-report-description">
-                      <SeedOrigin
-                        ids={report.sourceSeedIds}
-                        provenance={report.provenance}
-                      />
-                      <h3>{report.title}</h3>
-                      <span>
-                        {report.sourceWallets.length === 1
-                          ? `${report.sourceWallets[0].slice(0, 6)}…${report.sourceWallets[0].slice(-5)}`
-                          : t("{count} wallets", {
-                              count:
-                                report.sourceWallets.length.toLocaleString(
-                                  locale,
-                                ),
-                            })}
-                        {report.historicalExecutionCount != null &&
-                          ` · ${t("{count} {label}", {
-                            count:
-                              report.historicalExecutionCount.toLocaleString(
-                                locale,
-                              ),
-                            label: sampleLabel(report, t),
-                          })}`}
+                    <button
+                      className="compact-report"
+                      aria-expanded={false}
+                      aria-label={t("Preview {title} ({candidateId})", {
+                        title: group.candidate.title,
+                        candidateId: group.candidate.id,
+                      })}
+                      onClick={() => select(report?.id || group.candidate.id)}
+                    >
+                      <span className="report-document-icon" aria-hidden="true">
+                        <FileText size={20} />
                       </span>
-                      <OutcomeBadge outcome={report.outcome} />
-                    </div>
-                    <ChevronRight size={16} aria-hidden="true" />
-                  </button>
-                </article>
-              ))}
+                      <div className="compact-report-description">
+                        <SeedOrigin ids={group.candidate.sourceSeedIds} />
+                        <h3>{group.candidate.title}</h3>
+                        <span>
+                          {t(
+                            group.candidate.sourceWallets.length === 1
+                              ? "{count} wallet"
+                              : "{count} wallets",
+                            { count: group.candidate.sourceWallets.length },
+                          )}
+                        </span>
+                        {report ? (
+                          <OutcomeBadge outcome={report.outcome} />
+                        ) : (
+                          <span className="report-pending-status">
+                            {t("Validation in progress")}
+                          </span>
+                        )}
+                      </div>
+                      <ChevronRight size={16} aria-hidden="true" />
+                    </button>
+                  </article>
+                );
+              })}
           </>
         ) : (
           <div className="empty report-empty">

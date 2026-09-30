@@ -1,12 +1,7 @@
-import lendingReplay from "../public/research/justlend-lending-liquidation.json";
-import usddDemo from "../public/research/usdd-synthetic-demo.json";
-import mockPayload from "../../Protocol_Alpha_Finder_Frontend_Implementation_Pack/06_MOCK_DATA.json";
-import {
-  ALL_SEEDS,
-  DEFAULT_DEMO_SEED,
-  DEMO_SCENARIOS,
-  PROTOCOL_SEEDS,
-} from "./seeds";
+import energyReplay from "../public/research/energy-rental-liquidation.json" with { type: "json" };
+import lendingReplay from "../public/research/justlend-lending-liquidation.json" with { type: "json" };
+import usddReplay from "../public/research/usdd-keeper-auction.json" with { type: "json" };
+import { ALL_SEEDS, DEFAULT_DEMO_SEED, PROTOCOL_SEEDS } from "./seeds";
 import { combineSeedSnapshots } from "./seed-snapshots";
 import type {
   AlphaCandidate,
@@ -19,11 +14,9 @@ import type {
 
 // Checked-in exports are usable on GitHub Pages without the local Python API.
 const recordedReplays: Record<string, Snapshot> = {
+  "energy-rental-liquidation": energyReplay as Snapshot,
   "justlend-lending-liquidation": lendingReplay as Snapshot,
-};
-
-const syntheticReplays: Record<string, Snapshot> = {
-  "usdd-keeper-auction": usddDemo as Snapshot,
+  "usdd-keeper-auction": usddReplay as Snapshot,
 };
 
 export interface ResearchDataSource {
@@ -91,7 +84,7 @@ export class ApiResearchDataSource implements ResearchDataSource {
   }
 }
 
-export class MockResearchDataSource implements ResearchDataSource {
+export class RecordedResearchDataSource implements ResearchDataSource {
   private seedId = DEFAULT_DEMO_SEED;
   private started = false;
   private elapsed = 0;
@@ -108,7 +101,7 @@ export class MockResearchDataSource implements ResearchDataSource {
       seedId !== "all" &&
       !PROTOCOL_SEEDS.some((seed) => seed.id === seedId)
     ) {
-      throw new Error("Unknown demo seed");
+      throw new Error("Unknown research seed");
     }
     if (this.seedId === seedId) return;
     this.seedId = seedId;
@@ -144,18 +137,7 @@ export class MockResearchDataSource implements ResearchDataSource {
     return this.getSeedSnapshot(this.seedId);
   }
   private async getSeedSnapshot(seedId: string): Promise<Snapshot> {
-    const recorded = recordedReplays[seedId];
-    const scenario = recorded || syntheticReplays[seedId];
-    const data = structuredClone(scenario || mockPayload);
-    if (!scenario) {
-      const scenario = DEMO_SCENARIOS[seedId];
-      data.wallets = data.wallets.filter((wallet) =>
-        scenario.wallets.includes(wallet.address),
-      );
-      data.candidates = data.candidates.filter((candidate) =>
-        scenario.candidates.includes(candidate.id),
-      );
-    }
+    const data = structuredClone(recordedReplays[seedId]);
     const t = this.seconds;
     const wallets: StrategyWallet[] = this.started
       ? data.wallets
@@ -167,15 +149,13 @@ export class MockResearchDataSource implements ResearchDataSource {
               end: number,
               final: StrategyWallet["analysisJob"],
             ) => ({
-              ...(recorded ? final : {}),
+              ...final,
               status:
                 phase < start
                   ? ("queued" as const)
                   : phase < end
                     ? ("running" as const)
-                    : recorded
-                      ? final.status
-                      : ("completed" as const),
+                    : final.status,
             });
             return {
               ...w,
@@ -212,14 +192,9 @@ export class MockResearchDataSource implements ResearchDataSource {
             reportId: t >= 13 + i * 1.8 ? c.reportId : undefined,
           }))
       : [];
-    const reports = data.reports
-      .filter((r) => candidates.some((c) => c.reportId === r.id))
-      .map((r) => ({
-        ...r,
-        historicalExecutionCount: data.candidates.find(
-          (c) => c.id === r.candidateId,
-        )?.historicalExecutionCount,
-      })) as AlphaReport[];
+    const reports = data.reports.filter((report) =>
+      candidates.some((candidate) => candidate.reportId === report.id),
+    );
     const run: ResearchRun = {
       ...data.run,
       id: `run-demo-${seedId}`,
@@ -239,27 +214,7 @@ export class MockResearchDataSource implements ResearchDataSource {
             ? "paused"
             : "running",
     };
-    const activity: ResearchActivityEvent[] = candidates.map((c, i) => ({
-      id: `demo-c-${i}`,
-      runId: run.id,
-      timestamp: c.createdAt,
-      eventType: "candidate_created",
-      message: c.title,
-      entityType: "candidate",
-      entityId: c.id,
-    }));
-    reports.forEach((r) =>
-      activity.push({
-        id: r.id,
-        runId: run.id,
-        timestamp: r.generatedAt,
-        eventType: "report_generated",
-        message: r.title + " · " + r.outcome,
-        entityType: "report",
-        entityId: r.id,
-      }),
-    );
-    const scenarioActivity = scenario?.activity
+    const activity = data.activity
       .filter((event) => {
         if (event.entityType === "wallet")
           return wallets.some(
@@ -278,39 +233,37 @@ export class MockResearchDataSource implements ResearchDataSource {
     return {
       run,
       seeds: [
-        ALL_SEEDS,
+        { ...ALL_SEEDS },
         ...PROTOCOL_SEEDS.map((seed) => ({
           ...seed,
-          ...(
-            recordedReplays[seed.id] || syntheticReplays[seed.id]
-          )?.seeds.find((entry) => entry.id === seed.id),
+          ...structuredClone(
+            recordedReplays[seed.id].seeds.find(
+              (entry) => entry.id === seed.id,
+            ),
+          ),
         })),
       ],
       wallets,
       candidates,
       reports,
-      activity: scenarioActivity || activity,
-      skills: scenario
-        ? scenario.skills.map((skill, index) => ({
-            ...skill,
-            status:
-              !this.started || t < [0, 3, 12][index]
-                ? "queued"
-                : t >= [3, 12, 17][index]
-                  ? skill.status
-                  : "running",
-            completedAt:
-              this.started && t >= [3, 12, 17][index]
-                ? skill.completedAt
-                : undefined,
-          }))
-        : [],
+      activity,
+      skills: data.skills.map((skill, index) => ({
+        ...skill,
+        status:
+          !this.started || t < [0, 3, 12][index]
+            ? "queued"
+            : t >= [3, 12, 17][index]
+              ? skill.status
+              : "running",
+        completedAt:
+          this.started && t >= [3, 12, 17][index]
+            ? skill.completedAt
+            : undefined,
+      })),
       mode: "demo",
-      provenance: recorded ? "recorded" : "synthetic",
-      window: recorded?.window,
-      note:
-        scenario?.note ||
-        "Synthetic demo · Timed replay of the implementation-pack mock data. Addresses, opportunity claims and timestamps are illustrative.",
+      provenance: "recorded",
+      window: data.window,
+      note: data.note,
     };
   }
 
@@ -327,20 +280,10 @@ export class MockResearchDataSource implements ResearchDataSource {
     return (await this.getSnapshot()).reports;
   }
   async getReport(id: string) {
-    const scenarioReport = Object.values({
-      ...recordedReplays,
-      ...syntheticReplays,
-    })
+    const report = Object.values(recordedReplays)
       .flatMap((snapshot) => snapshot.reports)
       .find((report) => report.id === id);
-    if (scenarioReport) return structuredClone(scenarioReport);
-    const report = mockPayload.reports.find((r) => r.id === id);
     if (!report) throw new Error("Report not found");
-    return {
-      ...report,
-      historicalExecutionCount: mockPayload.candidates.find(
-        (c) => c.id === report.candidateId,
-      )?.historicalExecutionCount,
-    } as AlphaReport;
+    return structuredClone(report);
   }
 }

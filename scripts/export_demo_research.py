@@ -1,4 +1,4 @@
-"""Publish normalized JustLend/USDD evidence for the static demo, without raw API dumps.
+"""Publish normalized evidence for all three seeds, without raw API dumps.
 
 Usage: python3 scripts/export_demo_research.py --data-root /path/to/data
 The frontend build consumes the checked-in exports; it never needs local data/.
@@ -10,8 +10,8 @@ from pathlib import Path
 
 from research_adapter import ARTIFACTS, ROOT, normalize
 
-SEEDS = ('justlend-lending-liquidation', 'usdd-keeper-auction')
-NOTE = 'Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.'
+SEEDS = ('energy-rental-liquidation', 'justlend-lending-liquidation', 'usdd-keeper-auction')
+NOTE = 'Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.'
 
 
 def omit_nulls(value):
@@ -36,8 +36,14 @@ def export(root, output):
             for key in ('seed', 'history', 'investigation', 'validation', 'discovery')
             if (root / ARTIFACTS[key]).exists()
         ]
+        for wallet in snapshot['wallets']:
+            wallet['provenance'] = 'recorded'
+        for candidate in snapshot['candidates']:
+            candidate['provenance'] = 'recorded'
+            candidate['sourceSeedIds'] = [seed_id]
         for report in snapshot['reports']:
             report['provenance'] = 'recorded'
+            report['sourceSeedIds'] = [seed_id]
             report['evidenceRefs'] = [e for e in report['evidenceRefs'] if not e.get('url', '').startswith('/api/')]
             report['evidenceRefs'].append({'type': 'document', 'title': 'Published Skill snapshot', 'url': source})
         for event in snapshot['activity']:

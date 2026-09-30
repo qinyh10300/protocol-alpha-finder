@@ -28,7 +28,7 @@ test("All merges shared identities without double-counting a wallet's history", 
   expect(first).toEqual(lending);
 });
 
-test("Legacy All links retain combined results without an All selector", async ({
+test("Legacy All links retain all recorded mechanisms and original report sharing", async ({
   page,
 }) => {
   await page.clock.install();
@@ -36,41 +36,59 @@ test("Legacy All links retain combined results without an All selector", async (
   await expect(
     page.locator('input[name="research-seed"][value="all"]'),
   ).toHaveCount(0);
-  await expect(page.locator(".wallet-column select")).toHaveCount(0);
-  await expect(page.locator(".demo-banner")).toHaveCount(0);
-  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
-  await page.clock.runFor(18000);
+  await expect(page.locator(".wallet-column select, .demo-banner")).toHaveCount(
+    0,
+  );
+  await page
+    .getByRole("button", { name: "Replay Research", exact: true })
+    .click();
+  let elapsed = 0;
+  for (const time of [6000, 9500, 11500, 13500, 18000]) {
+    await page.clock.runFor(time - elapsed);
+    elapsed = time;
+    const count = await page.locator(".candidate-card").count();
+    await expect(page.locator(".report-preview")).toHaveCount(count);
+    await expect(page.locator(".summary-count strong").nth(1)).toHaveText(
+      String(count),
+    );
+    await expect(page.locator(".summary-count strong").nth(2)).toHaveText(
+      String(count),
+    );
+    if (time === 9500) {
+      expect(count).toBe(2);
+      await expect(page.locator(".pending-report-card")).toHaveCount(2);
+    }
+  }
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "13",
-    "7",
-    "8",
+    "10",
+    "3",
+    "3",
   ]);
-  await expect(page.locator(".wallet-row")).toHaveCount(13);
-  await expect(page.locator(".candidate-card")).toHaveCount(7);
-  await expect(page.locator(".report-preview")).toHaveCount(8);
-  await expect(page.locator(".wallet-row .seed-origin.synthetic")).toHaveCount(
-    8,
+  await expect(page.locator(".wallet-row")).toHaveCount(10);
+  await expect(page.locator(".candidate-card")).toHaveCount(3);
+  await expect(page.locator(".report-preview")).toHaveCount(3);
+  await expect(page.locator(".pending-report-card")).toHaveCount(0);
+  await expect(page.locator(".summary-bottom")).toContainText("52,582");
+  await expect(page.locator("body")).not.toContainText(
+    /\b(?:mock|synthetic|demo)\b|模拟|合成/i,
   );
-  await expect(page.locator(".wallet-row .seed-origin.recorded")).toHaveCount(
-    5,
-  );
-  await expect(
-    page.locator(".candidate-card > .seed-origin.synthetic"),
-  ).toHaveCount(5);
-  await expect(
-    page.locator(".candidate-card > .seed-origin.recorded"),
-  ).toHaveCount(2);
-  await expect(page.locator(".seed-coverage-detail")).toHaveCount(0);
-  await expect(page.locator(".summary-bottom")).toContainText("11,603");
 
-  await page.locator(".wallet-details-hit").last().click();
+  await page.locator(".wallet-details-hit").first().click();
   await page.getByRole("button", { name: "Show related candidates" }).click();
   await expect(
     page.getByRole("button", { name: "Filtered by wallet" }),
   ).toBeVisible();
+  const filteredCount = await page.locator(".candidate-card").count();
+  await expect(page.locator(".report-preview")).toHaveCount(filteredCount);
+  await expect(page.locator(".summary-count strong").nth(1)).toHaveText(
+    String(filteredCount),
+  );
+  await expect(page.locator(".summary-count strong").nth(2)).toHaveText(
+    String(filteredCount),
+  );
   await page
     .locator(
-      'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
+      'input[name="research-seed"][value="justlend-lending-liquidation"]',
     )
     .check();
   await expect(page.locator('input[name="research-seed"]:checked')).toHaveValue(
@@ -82,27 +100,33 @@ test("Legacy All links retain combined results without an All selector", async (
   await expect(
     page.locator(".wallet-row, .candidate-card, .report-preview"),
   ).toHaveCount(0);
+
   await page.goto("/frontend/index.html?seed=all");
-  await expect(page.locator(".wallet-column select")).toHaveCount(0);
   await page.reload();
   await expect(
     page.locator('input[name="research-seed"][value="all"]'),
   ).toHaveCount(0);
-  await page.getByRole("button", { name: "Replay Demo", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Replay Research", exact: true })
+    .click();
   await page.clock.runFor(6000);
-  await page.getByRole("button", { name: "Pause demo", exact: true }).click();
+  await page.getByRole("button", { name: "Pause replay", exact: true }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card")).toHaveCount(0);
-  await page.getByRole("button", { name: "Resume demo", exact: true }).click();
+  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Resume replay", exact: true })
+    .click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".report-preview")).toHaveCount(8);
+  await expect(page.locator(".report-preview")).toHaveCount(3);
   const preview = page.locator(".report-preview.featured");
   const title = await preview.locator("h3").innerText();
+  const reportId = await preview.getAttribute("data-report-id");
   await preview.getByRole("button", { name: "Copy link", exact: true }).click();
   const share = new URL(
     await page.evaluate(() => navigator.clipboard.readText()),
   );
   expect(share.searchParams.get("seed")).toBe("all");
+  expect(share.searchParams.get("view")).toBe(`/reports/${reportId}`);
   await preview
     .getByRole("button", { name: "Open Full Report", exact: true })
     .click();
@@ -114,4 +138,35 @@ test("Legacy All links retain combined results without an All selector", async (
   await expect(
     page.locator('input[name="research-seed"][value="all"]'),
   ).toHaveCount(0);
+  // Reloading a report resets the replay clock, so restore the results first.
+  await page
+    .getByRole("button", { name: "Replay Research", exact: true })
+    .click();
+  await page.clock.runFor(18000);
+  await page.getByRole("button", { name: "Reports", exact: true }).click();
+  await expect(page.locator(".report-preview")).toHaveCount(3);
+  await page.getByLabel("Filter report outcome").selectOption("MONITOR");
+  await expect(page.locator(".report-preview")).toHaveCount(2);
+  await page
+    .getByLabel("Filter report outcome")
+    .selectOption("INSUFFICIENT_EVIDENCE");
+  await expect(page.locator(".report-preview")).toHaveCount(1);
+  await page.getByLabel("Filter report outcome").selectOption("all");
+  await page.getByLabel("Search reports").fill("WAI-LENDING");
+  await expect(page.locator(".report-preview")).toHaveCount(1);
+  await expect(page.getByLabel("Wallet assessment")).toHaveCount(1);
+  await page
+    .getByLabel("Wallet assessment")
+    .selectOption("report-WAI-LENDING-02");
+  await expect(page.locator(".report-preview")).toHaveAttribute(
+    "data-report-id",
+    "report-WAI-LENDING-02",
+  );
+  await page.getByLabel("Search reports").fill("WAI-LENDING-02");
+  await expect(page.locator(".report-preview")).toHaveCount(1);
+  await expect(page.locator(".report-preview")).toHaveAttribute(
+    "data-report-id",
+    "report-WAI-LENDING-02",
+  );
+  await expect(page.getByLabel("Wallet assessment")).toHaveCount(0);
 });

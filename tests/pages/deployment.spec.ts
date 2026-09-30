@@ -45,7 +45,7 @@ function expectReportUrl(value: string, reportId: string) {
   expect(url.searchParams.get("view")).toBe(`/reports/${reportId}`);
 }
 
-test("static entry runs the demo and preserves report navigation and share links", async ({
+test("static entry replays recorded research and preserves report navigation and share links", async ({
   page,
   context,
 }) => {
@@ -56,11 +56,13 @@ test("static entry runs the demo and preserves report navigation and share links
   await expect(page.locator(".language-select, .network")).toHaveCount(0);
   await expect(page.locator('option[value="archive"]')).toHaveCount(0);
   await expect(page.locator("main")).toHaveClass("research-main");
-  await page.getByRole("button", { name: "Replay Demo" }).click();
+  await page.getByRole("button", { name: "Replay Research" }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card")).toHaveCount(3);
-  await expect(page.locator(".report-preview")).toHaveCount(3);
-  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
+  await expect(page.locator(".candidate-card")).toHaveCount(1);
+  await expect(page.locator(".report-preview")).toHaveCount(1);
+  await expect(
+    page.getByRole("button", { name: "Replay Research" }),
+  ).toBeVisible();
 
   const preview = page.locator(".report-preview.featured");
   const reportId = (await preview.getAttribute("data-report-id"))!;
@@ -97,7 +99,7 @@ test("direct reports retain language and section anchors without enabling the AP
 }) => {
   const verifyPage = watchStaticPage(page);
   const query = new URLSearchParams({
-    view: "/reports/report-usdd-keeper",
+    view: "/reports/report-WAI-ENERGY-01",
     mode: "archive",
   });
   await page.goto(`${entry}?${query}`);
@@ -109,14 +111,14 @@ test("direct reports retain language and section anchors without enabling the AP
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await page.locator('.report-toc a[href="#section-3"]').click();
-  expectReportUrl(page.url(), "report-usdd-keeper");
+  expectReportUrl(page.url(), "report-WAI-ENERGY-01");
   expect(new URL(page.url()).hash).toBe("#section-3");
   await expect(page.locator("#section-3")).toBeInViewport();
   await page.reload();
   await expect(page.locator(".report-memo")).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
-  expectReportUrl(page.url(), "report-usdd-keeper");
+  expectReportUrl(page.url(), "report-WAI-ENERGY-01");
   expect(new URL(page.url()).hash).toBe("#section-3");
 
   await page.locator("a.brand").click();

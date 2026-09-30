@@ -99,7 +99,7 @@ test.describe("Bilingual research workspace", () => {
       expect(exported).toContain(report.candidateId);
     }
     await page.goto("/reports");
-    await expect(page.locator(".report-preview")).toHaveCount(5);
+    await expect(page.locator(".report-preview")).toHaveCount(3);
     await expectEnglish(page);
   });
 
@@ -184,17 +184,19 @@ test.describe("Bilingual research workspace", () => {
   });
 });
 
-test("demo progression and replay keep the saved language", async ({
+test("recorded progression and replay keep the saved language", async ({
   page,
 }) => {
   await page.clock.install();
   await page.goto("/research?mode=demo");
-  await expect(page.getByRole("button", { name: "Replay Demo" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Replay Research" }),
+  ).toBeVisible();
   await expectEnglish(page);
   await setSavedLanguage(page, "zh");
   await page.locator(".run-control button").click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card")).toHaveCount(3);
+  await expect(page.locator(".candidate-card")).toHaveCount(1);
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-CN");
   await expect(page.locator(".candidate-card h3").first()).toContainText(han);
   await expect(

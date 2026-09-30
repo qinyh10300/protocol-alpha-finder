@@ -18,6 +18,8 @@ const sourceTitles: Record<string, string> = {
 };
 const chinese: Record<string, string> = {
   ...chineseCatalog,
+  "Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.":
+    "已保存的 Skill 研究 · 回放依据历史研究结果，不会发起新的链上搜寻。",
   "USDD Auction Reset Reward": "USDD 拍卖重置奖励",
   "USDD Auction Purchase Path": "USDD 拍卖购买流程",
   "Synthetic USDD scenario data": "USDD 模拟场景数据",
@@ -103,6 +105,13 @@ export function localizeResearchText(
   }
   if (
     (values = match(
+      /^(\d+) histories · ([\d,]+) primary transactions · (\d+) candidates$/,
+    ))
+  ) {
+    return `${values[1]} 份历史记录 · ${values[2]} 笔主交易 · ${values[3]} 个候选`;
+  }
+  if (
+    (values = match(
       /^(\d+) histories · ([\d,]+) unique primary transactions · (\d+) candidates$/,
     ))
   ) {
@@ -110,7 +119,7 @@ export function localizeResearchText(
   }
   if (
     (values = match(
-      /^(\d+) assessments · mechanism, history, current state and execution conditions$/,
+      /^(\d+) (?:saved )?assessments · mechanism, history, current state and execution conditions$/,
     ))
   ) {
     return `${values[1]} 项评估 · 机制、历史、当前状态与执行条件`;

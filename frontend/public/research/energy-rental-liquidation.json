@@ -1,0 +1,767 @@
+{
+  "run": {
+    "id": "local-energy-rental-liquidation",
+    "seedId": "energy-rental-liquidation",
+    "status": "completed",
+    "startedAt": "2026-09-29T13:43:53.340723+00:00",
+    "updatedAt": "2026-09-29T14:14:28.463902+00:00",
+    "walletCount": 5,
+    "candidateCount": 2,
+    "reportCount": 2,
+    "loadedTransactionCount": 48768
+  },
+  "seeds": [
+    {
+      "id": "energy-rental-liquidation",
+      "name": "Energy Rental Liquidation",
+      "chain": "TRON",
+      "walletCount": 5,
+      "coverage": "All pages of the documented provider queries completed, not an independent whole-chain audit.",
+      "gaps": [
+        "All wallet history, beneficial ownership, net profit, and unsampled transaction sender attribution remain unverified."
+      ]
+    }
+  ],
+  "wallets": [
+    {
+      "address": "TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m",
+      "sourceSeedId": "energy-rental-liquidation",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 16651,
+        "fromTime": "2026-07-01T14:44:42+00:00",
+        "toTime": "2026-09-29T10:29:18+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "WAI-ENERGY-01"
+      ],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "0fa6a7ed652d89aa89a92f1aecfe7d41261a89a7f741ccc148ab38d2cb3e7e06",
+          "url": "https://tronscan.org/#/transaction/0fa6a7ed652d89aa89a92f1aecfe7d41261a89a7f741ccc148ab38d2cb3e7e06"
+        },
+        {
+          "type": "transaction",
+          "txHash": "1079432fa056387f1391f40af15a026b529a86567a136d3b0df080f0d15e473b",
+          "url": "https://tronscan.org/#/transaction/1079432fa056387f1391f40af15a026b529a86567a136d3b0df080f0d15e473b"
+        },
+        {
+          "type": "transaction",
+          "txHash": "3e1cc254d9d9581cee042c120a3818fb99322cdb42b2431827dbaa4598da1098",
+          "url": "https://tronscan.org/#/transaction/3e1cc254d9d9581cee042c120a3818fb99322cdb42b2431827dbaa4598da1098"
+        },
+        {
+          "type": "transaction",
+          "txHash": "81e86c1c7a6bc6f6269aad55bc5423b06fe10a156f9ffd18edb42a3d49ae9356",
+          "url": "https://tronscan.org/#/transaction/81e86c1c7a6bc6f6269aad55bc5423b06fe10a156f9ffd18edb42a3d49ae9356"
+        },
+        {
+          "type": "transaction",
+          "txHash": "a40e315a53116dfb739661bac6081e3b0ebed4fce1f03b4cbeb13bd395bf83aa",
+          "url": "https://tronscan.org/#/transaction/a40e315a53116dfb739661bac6081e3b0ebed4fce1f03b4cbeb13bd395bf83aa"
+        },
+        {
+          "type": "transaction",
+          "txHash": "f237e2b7d5bb41f784975abf3a30f567682463ad6922ad7e103b7ba804732fc3",
+          "url": "https://tronscan.org/#/transaction/f237e2b7d5bb41f784975abf3a30f567682463ad6922ad7e103b7ba804732fc3"
+        }
+      ],
+      "provenance": "recorded"
+    },
+    {
+      "address": "TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr",
+      "sourceSeedId": "energy-rental-liquidation",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 25261,
+        "fromTime": "2026-07-01T14:02:21+00:00",
+        "toTime": "2026-09-29T12:18:33+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [
+        "WAI-ENERGY-02"
+      ],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "177fb170c82046e8dd64aabd3ef3d84485e2308873b016e22434dc096ba8df41",
+          "url": "https://tronscan.org/#/transaction/177fb170c82046e8dd64aabd3ef3d84485e2308873b016e22434dc096ba8df41"
+        },
+        {
+          "type": "transaction",
+          "txHash": "889406aa6d5b8ce686fab61cc0ce8665fdaa5c9aee0a7f016f770d64c47c9473",
+          "url": "https://tronscan.org/#/transaction/889406aa6d5b8ce686fab61cc0ce8665fdaa5c9aee0a7f016f770d64c47c9473"
+        }
+      ],
+      "provenance": "recorded"
+    },
+    {
+      "address": "TLEvUfPk1CiGrGMisndJ7aVvxgcmWGvqNo",
+      "sourceSeedId": "energy-rental-liquidation",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 2539,
+        "fromTime": "2026-08-28T19:06:33+00:00",
+        "toTime": "2026-09-29T10:41:06+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "1c30d9e1f72df148575ea5fc99f3d0cbf5bebce573934013784e71ba8346992a",
+          "url": "https://tronscan.org/#/transaction/1c30d9e1f72df148575ea5fc99f3d0cbf5bebce573934013784e71ba8346992a"
+        },
+        {
+          "type": "transaction",
+          "txHash": "552bfd54ef1c3fa5e486b868876f6d4af812f73b3848af9782b32ff46f594e09",
+          "url": "https://tronscan.org/#/transaction/552bfd54ef1c3fa5e486b868876f6d4af812f73b3848af9782b32ff46f594e09"
+        },
+        {
+          "type": "transaction",
+          "txHash": "d17634e72e76987263045b02afbdc0c578e3556003375abdeee45ebc43e283d5",
+          "url": "https://tronscan.org/#/transaction/d17634e72e76987263045b02afbdc0c578e3556003375abdeee45ebc43e283d5"
+        }
+      ],
+      "provenance": "recorded"
+    },
+    {
+      "address": "TE5HK3296fbju3mg25m3fyGidqf9vVaj5Q",
+      "sourceSeedId": "energy-rental-liquidation",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 4315,
+        "fromTime": "2026-07-01T14:45:39+00:00",
+        "toTime": "2026-09-29T10:16:54+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "8c6b639035b1036ca6ba3196b93f93446faa64c5aa7f51a6356c665e53a41917",
+          "url": "https://tronscan.org/#/transaction/8c6b639035b1036ca6ba3196b93f93446faa64c5aa7f51a6356c665e53a41917"
+        },
+        {
+          "type": "transaction",
+          "txHash": "b78580879e6bfa1b648c8ee194f6c99994bc27b6efb1977dc2d19e427ca108c5",
+          "url": "https://tronscan.org/#/transaction/b78580879e6bfa1b648c8ee194f6c99994bc27b6efb1977dc2d19e427ca108c5"
+        }
+      ],
+      "provenance": "recorded"
+    },
+    {
+      "address": "TSxn2SM9p518PD1b5TYRuse2X1Q5EdeCXL",
+      "sourceSeedId": "energy-rental-liquidation",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ],
+      "historyJob": {
+        "status": "completed",
+        "txCount": 2,
+        "fromTime": "2026-08-08T14:45:03+00:00",
+        "toTime": "2026-08-31T16:55:03+00:00"
+      },
+      "analysisJob": {
+        "status": "completed"
+      },
+      "alphaSearchJob": {
+        "status": "completed"
+      },
+      "candidateIds": [],
+      "coverageNote": "History completeness refers to provider pagination within the requested window; it is not an independent whole-chain audit.",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "c60141b04ea164764a4696736006a4f19132e33cfa5793a428ae402f91fb8e93",
+          "url": "https://tronscan.org/#/transaction/c60141b04ea164764a4696736006a4f19132e33cfa5793a428ae402f91fb8e93"
+        },
+        {
+          "type": "transaction",
+          "txHash": "f7cc23d841b7cbf58eb9e18ab97df80043bf4f414664c606e58a9d37991eda78",
+          "url": "https://tronscan.org/#/transaction/f7cc23d841b7cbf58eb9e18ab97df80043bf4f414664c606e58a9d37991eda78"
+        }
+      ],
+      "provenance": "recorded"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "WAI-ENERGY-01",
+      "title": "同笔租赁—清算—归还组合",
+      "summary": "Temporary resource rental may alter execution/resource economics or liquidation conditions, making a combined operation advantageous; causation is not established.",
+      "sourceWallets": [
+        "TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m"
+      ],
+      "historicalExecutionCount": 3,
+      "evidenceCountLabel": "reconciled samples",
+      "status": "report_ready",
+      "createdAt": "2026-09-29T13:56:33.170079+00:00",
+      "reportId": "report-WAI-ENERGY-01",
+      "validation": {
+        "mechanism": "unproven",
+        "historicalEvidence": "confirmed",
+        "currentState": "UNCERTAIN",
+        "executionConditions": "uncertain"
+      },
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ]
+    },
+    {
+      "id": "WAI-ENERGY-02",
+      "title": "同笔租赁—清算—归还组合",
+      "summary": "Temporary resource rental may alter execution/resource economics or liquidation conditions, making a combined operation advantageous; causation is not established.",
+      "sourceWallets": [
+        "TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr"
+      ],
+      "historicalExecutionCount": 1,
+      "evidenceCountLabel": "reconciled samples",
+      "status": "report_ready",
+      "createdAt": "2026-09-29T13:56:33.170079+00:00",
+      "reportId": "report-WAI-ENERGY-02",
+      "validation": {
+        "mechanism": "unproven",
+        "historicalEvidence": "confirmed",
+        "currentState": "UNCERTAIN",
+        "executionConditions": "uncertain"
+      },
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ]
+    }
+  ],
+  "reports": [
+    {
+      "id": "report-WAI-ENERGY-01",
+      "candidateId": "WAI-ENERGY-01",
+      "title": "同笔租赁—清算—归还组合",
+      "outcome": "INSUFFICIENT_EVIDENCE",
+      "outcomeReason": "The observed sequence does not yet establish the hypothesized advantage. Causal evidence and complete economics are required.",
+      "rawCurrentState": "UNCERTAIN",
+      "executiveSummary": "Rent → liquidation → return ordering established; causal eligibility or cost improvement unproven. Sample gross rewards stay in helpers; sampled senders have negative native call deltas. Net economics remain unknown; current opportunity status is UNCERTAIN.",
+      "mechanism": {
+        "summary": "Temporary resource rental may alter execution/resource economics or liquidation conditions, making a combined operation advantageous; causation is not established.",
+        "items": [
+          {
+            "label": "Step 01",
+            "value": "Executor deposits and rents resources"
+          },
+          {
+            "label": "Step 02",
+            "value": "Executor liquidates a different eligible rental order and receives its gross protocol reward"
+          },
+          {
+            "label": "Step 03",
+            "value": "Executor returns its temporary rental and receives the remaining deposit"
+          },
+          {
+            "label": "Executor / router",
+            "value": "TBawGUFdwtjNMmgNC3GtzXjxnDt3UEAihR"
+          }
+        ]
+      },
+      "historicalEvidence": {
+        "summary": "3 historical samples reconciled for this candidate. This count is not the full strategy execution volume.",
+        "items": [
+          {
+            "label": "Evidence 01",
+            "value": "0fa6a7ed652d89aa89a92f1aecfe7d41261a89a7f741ccc148ab38d2cb3e7e06 · block 86591415 · 2026-09-26T18:17:36+00:00"
+          },
+          {
+            "label": "Evidence 02",
+            "value": "1079432fa056387f1391f40af15a026b529a86567a136d3b0df080f0d15e473b · block 85241450 · 2026-08-10T20:55:54+00:00"
+          },
+          {
+            "label": "Evidence 03",
+            "value": "3e1cc254d9d9581cee042c120a3818fb99322cdb42b2431827dbaa4598da1098 · block 84116054 · 2026-07-02T18:46:00+00:00"
+          },
+          {
+            "label": "Economics",
+            "value": "Receipt fees may be null. Token and native-call deltas are gross observations; principal, deposit refunds, resource costs and failed attempts must be reconciled before a net-profit claim."
+          }
+        ]
+      },
+      "currentState": {
+        "summary": "UNCERTAIN · Last checked 2026-09-29T14:12:42.075416+00:00",
+        "items": [
+          {
+            "label": "Finding 01",
+            "value": "Sample gross rewards stay in helpers; sampled senders have negative native call deltas."
+          },
+          {
+            "label": "Finding 02",
+            "value": "Minimum reward: 20 TRX; rent paused: 0. A parameter read does not establish an eligible target."
+          },
+          {
+            "label": "Finding 03",
+            "value": "Read blocks: 86672751–86672818; supplement: 86672840–86672855. Sequential latest-state reads bracketed by these blocks, not atomic or historical block-pinned calls."
+          }
+        ]
+      },
+      "executionConditions": {
+        "summary": "All of these conditions require verification before execution.",
+        "items": [
+          {
+            "label": "Condition 01",
+            "value": "Capital sufficient for temporary refundable deposits"
+          },
+          {
+            "label": "Condition 02",
+            "value": "Permission to invoke the actual helper and withdraw proceeds"
+          },
+          {
+            "label": "Condition 03",
+            "value": "Eligible target rental and unpaused resource market"
+          },
+          {
+            "label": "Condition 04",
+            "value": "Reward exceeds rental/resource/failure/financing costs"
+          }
+        ]
+      },
+      "sourceWallets": [
+        "TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m"
+      ],
+      "historicalExecutionCount": 3,
+      "evidenceCountLabel": "reconciled samples",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "0fa6a7ed652d89aa89a92f1aecfe7d41261a89a7f741ccc148ab38d2cb3e7e06",
+          "url": "https://tronscan.org/#/transaction/0fa6a7ed652d89aa89a92f1aecfe7d41261a89a7f741ccc148ab38d2cb3e7e06"
+        },
+        {
+          "type": "transaction",
+          "txHash": "1079432fa056387f1391f40af15a026b529a86567a136d3b0df080f0d15e473b",
+          "url": "https://tronscan.org/#/transaction/1079432fa056387f1391f40af15a026b529a86567a136d3b0df080f0d15e473b"
+        },
+        {
+          "type": "transaction",
+          "txHash": "3e1cc254d9d9581cee042c120a3818fb99322cdb42b2431827dbaa4598da1098",
+          "url": "https://tronscan.org/#/transaction/3e1cc254d9d9581cee042c120a3818fb99322cdb42b2431827dbaa4598da1098"
+        },
+        {
+          "type": "contract",
+          "address": "TBawGUFdwtjNMmgNC3GtzXjxnDt3UEAihR",
+          "url": "https://tronscan.org/#/contract/TBawGUFdwtjNMmgNC3GtzXjxnDt3UEAihR"
+        },
+        {
+          "type": "document",
+          "title": "Published Skill snapshot",
+          "url": "./research/energy-rental-liquidation.json"
+        }
+      ],
+      "generatedAt": "2026-09-29T14:12:42.075416+00:00",
+      "lastCheckedAt": "2026-09-29T14:12:42.075416+00:00",
+      "missingEvidence": [
+        "Historical state/counterfactual replay unavailable; prior rental effect is not proven.",
+        "Helper ownership and withdrawal authority unknown.",
+        "Capital funding, resource opportunity cost and failed-attempt economics remain missing.",
+        "Current target-order eligibility not evaluated."
+      ],
+      "nextChecks": [
+        "Replay the same pre-state with and without the rental and compare eligibility/reward/cost.",
+        "Reconcile deposit, refund, reward, all internal transfers and resource costs at the historical block.",
+        "If rental does not improve eligibility or total economics, reject the claimed advantage."
+      ],
+      "alternativeExplanations": [
+        "Temporary rental is ordinary execution preparation or liquidity management.",
+        "The target was liquidatable without the preceding rental.",
+        "Capital lockup, failed attempts and resource costs eliminate any apparent edge."
+      ],
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ]
+    },
+    {
+      "id": "report-WAI-ENERGY-02",
+      "candidateId": "WAI-ENERGY-02",
+      "title": "同笔租赁—清算—归还组合",
+      "outcome": "INSUFFICIENT_EVIDENCE",
+      "outcomeReason": "The observed sequence does not yet establish the hypothesized advantage. Causal evidence and complete economics are required.",
+      "rawCurrentState": "UNCERTAIN",
+      "executiveSummary": "Rent → liquidation → return ordering established; causal eligibility or cost improvement unproven. Sample gross rewards stay in helpers; sampled senders have negative native call deltas. Net economics remain unknown; current opportunity status is UNCERTAIN.",
+      "mechanism": {
+        "summary": "Temporary resource rental may alter execution/resource economics or liquidation conditions, making a combined operation advantageous; causation is not established.",
+        "items": [
+          {
+            "label": "Step 01",
+            "value": "Executor deposits and rents resources"
+          },
+          {
+            "label": "Step 02",
+            "value": "Executor liquidates a different eligible rental order and receives its gross protocol reward"
+          },
+          {
+            "label": "Step 03",
+            "value": "Executor returns its temporary rental and receives the remaining deposit"
+          },
+          {
+            "label": "Executor / router",
+            "value": "TEFVYGkweofAr7H5wQuK8v7MjrTe3MpwpE"
+          }
+        ]
+      },
+      "historicalEvidence": {
+        "summary": "1 historical samples reconciled for this candidate. This count is not the full strategy execution volume.",
+        "items": [
+          {
+            "label": "Evidence 01",
+            "value": "889406aa6d5b8ce686fab61cc0ce8665fdaa5c9aee0a7f016f770d64c47c9473 · block 86655831 · 2026-09-28T23:59:12+00:00"
+          },
+          {
+            "label": "Economics",
+            "value": "Receipt fees may be null. Token and native-call deltas are gross observations; principal, deposit refunds, resource costs and failed attempts must be reconciled before a net-profit claim."
+          }
+        ]
+      },
+      "currentState": {
+        "summary": "UNCERTAIN · Last checked 2026-09-29T14:12:42.075416+00:00",
+        "items": [
+          {
+            "label": "Finding 01",
+            "value": "Sample gross rewards stay in helpers; sampled senders have negative native call deltas."
+          },
+          {
+            "label": "Finding 02",
+            "value": "Minimum reward: 20 TRX; rent paused: 0. A parameter read does not establish an eligible target."
+          },
+          {
+            "label": "Finding 03",
+            "value": "Read blocks: 86672751–86672818; supplement: 86672840–86672855. Sequential latest-state reads bracketed by these blocks, not atomic or historical block-pinned calls."
+          }
+        ]
+      },
+      "executionConditions": {
+        "summary": "All of these conditions require verification before execution.",
+        "items": [
+          {
+            "label": "Condition 01",
+            "value": "Capital sufficient for temporary refundable deposits"
+          },
+          {
+            "label": "Condition 02",
+            "value": "Permission to invoke the actual helper and withdraw proceeds"
+          },
+          {
+            "label": "Condition 03",
+            "value": "Eligible target rental and unpaused resource market"
+          },
+          {
+            "label": "Condition 04",
+            "value": "Reward exceeds rental/resource/failure/financing costs"
+          }
+        ]
+      },
+      "sourceWallets": [
+        "TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr"
+      ],
+      "historicalExecutionCount": 1,
+      "evidenceCountLabel": "reconciled samples",
+      "evidenceRefs": [
+        {
+          "type": "transaction",
+          "txHash": "889406aa6d5b8ce686fab61cc0ce8665fdaa5c9aee0a7f016f770d64c47c9473",
+          "url": "https://tronscan.org/#/transaction/889406aa6d5b8ce686fab61cc0ce8665fdaa5c9aee0a7f016f770d64c47c9473"
+        },
+        {
+          "type": "contract",
+          "address": "TEFVYGkweofAr7H5wQuK8v7MjrTe3MpwpE",
+          "url": "https://tronscan.org/#/contract/TEFVYGkweofAr7H5wQuK8v7MjrTe3MpwpE"
+        },
+        {
+          "type": "document",
+          "title": "Published Skill snapshot",
+          "url": "./research/energy-rental-liquidation.json"
+        }
+      ],
+      "generatedAt": "2026-09-29T14:12:42.075416+00:00",
+      "lastCheckedAt": "2026-09-29T14:12:42.075416+00:00",
+      "missingEvidence": [
+        "Historical state/counterfactual replay unavailable; prior rental effect is not proven.",
+        "Helper ownership and withdrawal authority unknown.",
+        "Capital funding, resource opportunity cost and failed-attempt economics remain missing.",
+        "Current target-order eligibility not evaluated."
+      ],
+      "nextChecks": [
+        "Replay the same pre-state with and without the rental and compare eligibility/reward/cost.",
+        "Reconcile deposit, refund, reward, all internal transfers and resource costs at the historical block.",
+        "If rental does not improve eligibility or total economics, reject the claimed advantage."
+      ],
+      "alternativeExplanations": [
+        "Temporary rental is ordinary execution preparation or liquidity management.",
+        "The target was liquidatable without the preceding rental.",
+        "Capital lockup, failed attempts and resource costs eliminate any apparent edge."
+      ],
+      "provenance": "recorded",
+      "sourceSeedIds": [
+        "energy-rental-liquidation"
+      ]
+    }
+  ],
+  "activity": [
+    {
+      "id": "archive-0",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "seed_scan",
+      "message": "All pages of the documented provider queries completed, not an independent whole-chain audit.",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-1",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m",
+      "entityType": "wallet",
+      "entityId": "TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-3",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr",
+      "entityType": "wallet",
+      "entityId": "TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-5",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TLEvUfPk1CiGrGMisndJ7aVvxgcmWGvqNo",
+      "entityType": "wallet",
+      "entityId": "TLEvUfPk1CiGrGMisndJ7aVvxgcmWGvqNo",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-7",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TE5HK3296fbju3mg25m3fyGidqf9vVaj5Q",
+      "entityType": "wallet",
+      "entityId": "TE5HK3296fbju3mg25m3fyGidqf9vVaj5Q",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-9",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:43:53.340723+00:00",
+      "eventType": "wallet_found",
+      "message": "Verified executor TSxn2SM9p518PD1b5TYRuse2X1Q5EdeCXL",
+      "entityType": "wallet",
+      "entityId": "TSxn2SM9p518PD1b5TYRuse2X1Q5EdeCXL",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "alpha-seed-wallets"
+    },
+    {
+      "id": "archive-2",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "16,651 primary transactions retained for TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m",
+      "entityType": "wallet",
+      "entityId": "TNQ8L8oE9cWh6vyfV7VfwGRBTte4xGDW2m",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-4",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "25,261 primary transactions retained for TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr",
+      "entityType": "wallet",
+      "entityId": "TKi6batCEJNjQjnWf2uPaRzVavn41hyAqr",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-6",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "2,539 primary transactions retained for TLEvUfPk1CiGrGMisndJ7aVvxgcmWGvqNo",
+      "entityType": "wallet",
+      "entityId": "TLEvUfPk1CiGrGMisndJ7aVvxgcmWGvqNo",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-8",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "4,315 primary transactions retained for TE5HK3296fbju3mg25m3fyGidqf9vVaj5Q",
+      "entityType": "wallet",
+      "entityId": "TE5HK3296fbju3mg25m3fyGidqf9vVaj5Q",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-10",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "history_loaded",
+      "message": "2 primary transactions retained for TSxn2SM9p518PD1b5TYRuse2X1Q5EdeCXL",
+      "entityType": "wallet",
+      "entityId": "TSxn2SM9p518PD1b5TYRuse2X1Q5EdeCXL",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-11",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "candidate_created",
+      "message": "同笔租赁—清算—归还组合 · WAI-ENERGY-01",
+      "entityType": "candidate",
+      "entityId": "WAI-ENERGY-01",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-12",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T13:56:33.170079+00:00",
+      "eventType": "candidate_created",
+      "message": "同笔租赁—清算—归还组合 · WAI-ENERGY-02",
+      "entityType": "candidate",
+      "entityId": "WAI-ENERGY-02",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "wallet-alpha-investigation"
+    },
+    {
+      "id": "archive-13",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T14:12:42.075416+00:00",
+      "eventType": "report_generated",
+      "message": "同笔租赁—清算—归还组合 · INSUFFICIENT_EVIDENCE",
+      "entityType": "report",
+      "entityId": "report-WAI-ENERGY-01",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "protocol-alpha-validation"
+    },
+    {
+      "id": "archive-14",
+      "runId": "local-energy-rental-liquidation",
+      "timestamp": "2026-09-29T14:12:42.075416+00:00",
+      "eventType": "report_generated",
+      "message": "同笔租赁—清算—归还组合 · INSUFFICIENT_EVIDENCE",
+      "entityType": "report",
+      "entityId": "report-WAI-ENERGY-02",
+      "sourceUrl": "./research/energy-rental-liquidation.json",
+      "skill": "protocol-alpha-validation"
+    }
+  ],
+  "skills": [
+    {
+      "id": "alpha-seed-wallets",
+      "name": "Seed → strategy wallets",
+      "summary": "All pages of the documented provider queries completed, not an independent whole-chain audit.",
+      "status": "completed",
+      "completedAt": "2026-09-29T13:43:53.340723+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/alpha-seed-wallets/SKILL.md",
+      "artifactUrl": "./research/energy-rental-liquidation.json"
+    },
+    {
+      "id": "wallet-alpha-investigation",
+      "name": "Independent wallet research",
+      "summary": "5 histories · 48,768 primary transactions · 2 candidates",
+      "status": "completed",
+      "completedAt": "2026-09-29T13:56:33.170079+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/wallet-alpha-investigation/SKILL.md",
+      "artifactUrl": "./research/energy-rental-liquidation.json"
+    },
+    {
+      "id": "protocol-alpha-validation",
+      "name": "Candidate validation & reports",
+      "summary": "2 saved assessments · mechanism, history, current state and execution conditions",
+      "status": "completed",
+      "completedAt": "2026-09-29T14:12:42.075416+00:00",
+      "sourceUrl": "https://github.com/qinyh10300/protocol-alpha-finder/blob/main/skills/protocol-alpha-validation/SKILL.md",
+      "artifactUrl": "./research/energy-rental-liquidation.json"
+    }
+  ],
+  "mode": "demo",
+  "window": {
+    "from": "2026-07-01T13:25:05.785000+00:00",
+    "to": "2026-09-29T13:25:05.785000+00:00"
+  },
+  "note": "Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.",
+  "provenance": "recorded",
+  "sourceArtifacts": [
+    {
+      "path": "strategy-wallet-discovery/strategy-wallets.json",
+      "sha256": "e64cf35b9f891e67bd58dd94508cef0daf2997ed0e0657436959f5d909abea33"
+    },
+    {
+      "path": "wallet-alpha-investigation/history-summary.json",
+      "sha256": "c3c82d196fe122c379034c5707f8b5559f4c70d0a78e419d7624f61e4c3ea73f"
+    },
+    {
+      "path": "wallet-alpha-investigation/validation-handoff.json",
+      "sha256": "43b10b70bb8cc7bf0b7fc9e07c738de5024b91488f50b54450becdb3874f2a50"
+    },
+    {
+      "path": "protocol-alpha-validation/validation-results.json",
+      "sha256": "473eabe64ba706b7da9e20622bd0977c58eb78c322ed05671180dfc6d3d1a5e5"
+    },
+    {
+      "path": "protocol-alpha-discovery-test/research-record.json",
+      "sha256": "3dbe51644bf60810772f7bdfdda57510d74d0a842b9ccd22501ff940cc2b99e5"
+    }
+  ]
+}

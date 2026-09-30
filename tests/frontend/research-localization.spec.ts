@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { existsSync } from "node:fs";
-import mockPayload from "../../Protocol_Alpha_Finder_Frontend_Implementation_Pack/06_MOCK_DATA.json" with { type: "json" };
+import energy from "../../frontend/public/research/energy-rental-liquidation.json" with { type: "json" };
+import lending from "../../frontend/public/research/justlend-lending-liquidation.json" with { type: "json" };
+import usdd from "../../frontend/public/research/usdd-keeper-auction.json" with { type: "json" };
 import {
   localizeReport,
   localizeResearchText,
@@ -91,24 +93,11 @@ test("every archived narrative is bilingual and evidence identifiers are preserv
   verifyTranslation(await response.json());
 });
 
-test("demo reports and seed content have complete Chinese translations", () => {
-  const snapshot = {
-    run: mockPayload.run,
-    seeds: [mockPayload.seed],
-    wallets: mockPayload.wallets,
-    candidates: mockPayload.candidates,
-    reports: mockPayload.reports,
-    activity: mockPayload.candidates.map((candidate) => ({
-      id: candidate.id,
-      runId: mockPayload.run.id,
-      timestamp: candidate.createdAt,
-      eventType: "candidate_created",
-      message: candidate.title,
-    })),
-    skills: [],
-    mode: "demo",
-  } as unknown as Snapshot;
-  verifyTranslation(snapshot);
+test("all three published replay snapshots are bilingual and preserve real evidence identifiers", () => {
+  for (const snapshot of [energy, lending, usdd]) {
+    expect(snapshot.provenance).toBe("recorded");
+    verifyTranslation(snapshot as Snapshot);
+  }
 });
 
 test("unknown evidence stays verbatim and known titles retain their IDs", () => {

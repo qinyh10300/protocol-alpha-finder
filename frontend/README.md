@@ -6,7 +6,7 @@ React + TypeScript + Vite 研究工作台。默认接入本地四个 Skill 的�
 
 在线前端：<https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html>
 
-GitHub Pages 版本使用合成 Demo，点击 **Run Discovery** 可播放完整流程。它支持中英切换、报告详情、分享链接、Markdown 导出和浏览器收藏。真实 Skill 结果需要下文的本地 Python API；线上构建仅发布前端产物。
+GitHub Pages 版本使用已保存的 Skill 研究快照，点击 **Replay Research** 回放流程。三个 Seed 共用同一逻辑，支持中英切换、报告详情、分享链接、Markdown 导出和浏览器收藏。线上构建不调用链上 API。
 
 `.github/workflows/pages.yml` 在推送到 `main` 时自动构建并发布，也可在 GitHub Actions 手动运行。仓库 Settings → Pages → Source 使用 **GitHub Actions**。
 
@@ -72,13 +72,13 @@ UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Researc
 
 `data/` 继续保持 Git 忽略。新克隆项目不会自动获得这些留档；缺失时页面明确报错，可切换 Demo。API 仅开放白名单产物，不开放整个仓库。
 
-### Demo mode
+### Research replay
 
-右上角切换后，点击 **Run Discovery**。使用实现包 `06_MOCK_DATA.json`，约 17 秒自动播放各钱包的独立阶段、候选验证与报告出现；支持暂停、继续和重播。页面持续标识合成数据，Demo 的 ACTIONABLE 结论不属于真实研究。Demo 不依赖本地链上留档。
+在 **Replay results** 模式选择 Seed，点击 **Replay Research**。三个入口统一读取 `frontend/public/research/` 下的研究留档，通过同一套 History → Analyze → Search Alpha → Report 流程回放，支持暂停、继续和重播。
 
-左上角 **Current Seed** 支持与 `alpha-seed-wallets` 一致的三个入口：Energy Rental Liquidation、JustLend Lending Liquidation、USDD Keeper / Auction。切换 Seed 会清空上一场演示和钱包筛选，点击 **Run Discovery** 播放所选场景。Seed 会保存在页面 URL 中，报告分享、刷新和浏览器前后退均保留选择。
+每个去重后的候选对应一张报告卡片。验证中显示准备状态，完成后显示保存的分析；同一候选有多个钱包分析时，在 **Wallet assessment** 中切换。候选、报告卡片和顶部统计来自同一组数据，筛选钱包后同步变化。Energy Rental 显示 1 个候选 / 1 张报告卡片，JustLend 显示 2 / 2，USDD 显示 0 / 0；原始报告 ID、证据和单独报告链接保留。
 
-`src/seeds.ts` 明确列出三个合成场景的钱包和候选范围，复用实现包中的示例报告。它们用于演示切换，不代表新的链上查询或历史留档：Energy Rental 为 5 钱包 / 3 候选，JustLend 借贷为 4 钱包 / 1 候选，USDD 为 3 钱包 / 2 候选。真实数据模式仍由 API 按 Seed 筛选已保存的 Skill 产物，并保留零结果与覆盖缺口。
+切换 Seed 会重置回放及钱包筛选。URL 保留所选 Seed，报告分享、刷新和浏览器前后退均可使用。回放不发起新研究。
 
 ## 报告结果映射
 
@@ -93,7 +93,7 @@ Skill 的机会状态与前端的报告处置是两个字段：
 
 ## 接口与可替换数据源
 
-`src/data.ts` 提供统一的 `ResearchDataSource`、`ApiResearchDataSource` 和 `MockResearchDataSource`。
+`src/data.ts` 提供统一的 `ResearchDataSource`、`ApiResearchDataSource` 和 `RecordedResearchDataSource`。
 
 ```text
 POST /api/research-runs                 {"seedId":"all", "mode":"archive"}

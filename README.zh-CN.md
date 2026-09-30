@@ -35,7 +35,7 @@
 
 ## Demo
 
-在[在线 Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) 中选择一个种子，再点击 **Replay Demo**。Energy Rental 和 USDD 使用明确标注的模拟示例；JustLend 回放已保存的链上研究。回放不会查询链上数据。
+在[在线 Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) 中选择一个种子，再点击 **Replay Research**。三个种子通过同一流程回放已保存的 Skill 研究。每个去重后的候选对应一张报告卡片，可在卡片内切换各钱包的分析。USDD 留档目前没有候选或报告。回放不会查询链上数据。
 
 ![展示 Skill 留档结果的研究工作台](docs/images/workspace-zh-CN.png)
 
@@ -92,7 +92,7 @@ npm ci
 npm run dev
 ```
 
-打开[本地 Demo](http://127.0.0.1:5173/research?mode=demo)。Demo 模式使用仓库自带文件即可运行。本地 **Skill results** 模式需要已保存的 `data/` 留档文件，这些文件未纳入 Git。
+打开[本地 Demo](http://127.0.0.1:5173/research?mode=demo)。**Replay results** 使用仓库自带文件即可运行。本地 **Skill results** 模式需要已保存的 `data/` 留档文件，这些文件未纳入 Git。
 
 ### 运行研究流程
 
