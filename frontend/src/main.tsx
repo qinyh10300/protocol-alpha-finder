@@ -181,12 +181,10 @@ function AppHeader({
   path,
   navigate,
   mode,
-  setMode,
 }: {
   path: string;
   navigate: (s: string) => void;
   mode: string;
-  setMode: (s: "archive" | "demo") => void;
 }) {
   const { t } = useI18n();
 
@@ -234,20 +232,10 @@ function AppHeader({
         </button>
       </nav>
       <div className="header-controls">
-        <label className="mode-select">
+        <span className="mode-badge">
           <span className={`status-dot ${mode}`} />
-          <select
-            aria-label={t("Data mode")}
-            value={mode}
-            onChange={(e) => setMode(e.target.value as "archive" | "demo")}
-          >
-            {!isPagesBuild && (
-              <option value="archive">{t("Skill results")}</option>
-            )}
-            <option value="demo">{t("Replay results")}</option>
-          </select>
-          <ChevronDown size={14} />
-        </label>
+          {t(mode === "demo" ? "Replay results" : "Skill results")}
+        </span>
       </div>
     </header>
   );
@@ -1303,7 +1291,6 @@ function App() {
         path={path}
         navigate={navigate}
         mode={mode}
-        setMode={switchMode}
       />
       <main
         className={path === "/research" ? "research-main" : "document-main"}
@@ -1460,25 +1447,6 @@ function App() {
                       setRevision((r) => r + 1);
                     }}
                   />
-                  {seedId === "usdd-keeper-auction" &&
-                    (mode === "archive" || data.provenance === "recorded") && (
-                      <div className="coverage-note">
-                        <CircleHelp size={17} />
-                        <div>
-                          <strong>
-                            {t("USDD: zero verified executors in this window.")}
-                          </strong>
-                          <p>
-                            {data.seeds.find((s) => s.id === seedId)?.coverage}
-                          </p>
-                          {data.seeds
-                            .find((s) => s.id === seedId)
-                            ?.gaps?.map((g) => (
-                              <p key={g}>{g}</p>
-                            ))}
-                        </div>
-                      </div>
-                    )}
                   <div className="workspace-grid">
                     <WalletInvestigationList
                       data={data}

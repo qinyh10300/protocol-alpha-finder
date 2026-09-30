@@ -3,8 +3,10 @@ import { test, expect } from "@playwright/test";
 test("pending and completed candidate groups each own one report card with wallet assessments", async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: new Date("2026-09-30T00:00:00Z") });
   await page.goto("/frontend/index.html?seed=justlend-lending-liquidation");
+  // Keep pending states stable while inspecting and navigating their cards.
+  await page.clock.pauseAt(new Date("2026-09-30T01:00:00Z"));
   await page
     .getByRole("button", { name: "Replay Research", exact: true })
     .click();

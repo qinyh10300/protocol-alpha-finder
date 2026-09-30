@@ -49,8 +49,10 @@ async function expectCoherentCards(page: Page) {
 test("all three seeds replay recorded results with one report card per candidate throughout playback", async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: new Date("2026-09-30T00:00:00Z") });
   await page.goto(entry);
+  // Host load must not advance the replay beyond each sampled stage.
+  await page.clock.pauseAt(new Date("2026-09-30T01:00:00Z"));
   await expect(
     page.getByRole("radiogroup", { name: "Choose current alpha seed" }),
   ).toBeVisible();
@@ -110,10 +112,12 @@ test("all three seeds replay recorded results with one report card per candidate
       page.getByRole("button", { name: "Replay Research", exact: true }),
     ).toBeVisible();
   }
-  await expect(page.locator(".seed-object p, .demo-banner")).toHaveCount(0);
+  await expect(
+    page.locator(".seed-object p, .demo-banner, .coverage-note"),
+  ).toHaveCount(0);
   await expect(
     page.getByText("USDD: zero verified executors in this window."),
-  ).toBeVisible();
+  ).toHaveCount(0);
 });
 
 test("switching a paused run resets progress and preserves the selected seed through share, reload and history", async ({

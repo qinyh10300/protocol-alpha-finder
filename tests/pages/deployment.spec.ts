@@ -52,7 +52,11 @@ test("static entry replays recorded research and preserves report navigation and
   const verifyPage = watchStaticPage(page);
   await page.clock.install();
   await page.goto(entry);
-  await expect(page.getByLabel("Data mode")).toHaveValue("demo");
+  await expect(
+    page.locator("header").getByText("Replay results", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Data mode")).toHaveCount(0);
+  await expect(page.locator("header select")).toHaveCount(0);
   await expect(page.locator(".language-select, .network")).toHaveCount(0);
   await expect(page.locator('option[value="archive"]')).toHaveCount(0);
   await expect(page.locator("main")).toHaveClass("research-main");
@@ -103,7 +107,10 @@ test("direct reports retain language and section anchors without enabling the AP
     mode: "archive",
   });
   await page.goto(`${entry}?${query}`);
-  await expect(page.getByLabel("Data mode")).toHaveValue("demo");
+  await expect(
+    page.locator("header").getByText("Replay results", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Data mode")).toHaveCount(0);
   await expect(page.locator(".report-memo")).toBeVisible();
   await page.evaluate(() =>
     localStorage.setItem("protocol-alpha-language", "zh"),

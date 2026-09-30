@@ -13,10 +13,11 @@ export function currentPath() {
 }
 
 export function currentMode(): "archive" | "demo" {
-  return isPagesBuild ||
-    new URLSearchParams(location.search).get("mode") === "demo"
-    ? "demo"
-    : "archive";
+  // The public workspace always opens in replay; saved results need an explicit URL.
+  return !isPagesBuild &&
+    new URLSearchParams(location.search).get("mode") === "archive"
+    ? "archive"
+    : "demo";
 }
 
 export function currentSeed(mode = currentMode()) {
@@ -34,7 +35,7 @@ export function routeUrl(
 ) {
   const url = new URL(isPagesBuild ? location.pathname : path, location.origin);
   if (isPagesBuild) url.searchParams.set("view", path);
-  if (mode === "demo") url.searchParams.set("mode", "demo");
+  url.searchParams.set("mode", mode);
   if (seedId !== (mode === "demo" ? DEFAULT_DEMO_SEED : "all")) {
     url.searchParams.set("seed", seedId);
   }

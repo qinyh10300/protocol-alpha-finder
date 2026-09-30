@@ -92,7 +92,7 @@ npm ci
 npm run dev
 ```
 
-打开[本地 Demo](http://127.0.0.1:5173/research?mode=demo)。**Replay results** 使用仓库自带文件即可运行。本地 **Skill results** 模式需要已保存的 `data/` 留档文件，这些文件未纳入 Git。
+打开[工作台](http://127.0.0.1:5173/research)，选择 Seed，点击 **Replay Research**。默认进入动态回放，使用仓库自带的研究留档，支持暂停、继续和重新播放发现过程。
 
 ### 运行研究流程
 

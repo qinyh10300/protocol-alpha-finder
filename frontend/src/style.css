@@ -192,7 +192,7 @@ code {
   align-items: center;
   gap: 14px;
 }
-.mode-select {
+.mode-badge {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -203,17 +203,10 @@ code {
   background: #fcfdff;
   color: #465f87;
 }
-.mode-select select {
-  background: transparent;
-  border: 0;
-  color: inherit;
-  padding: 0;
-  max-width: 92px;
-}
-.mode-select .archive {
+.mode-badge .archive {
   color: #00a775;
 }
-.mode-select .demo {
+.mode-badge .demo {
   color: #d3951e;
 }
 main {
@@ -1230,8 +1223,7 @@ main {
   margin-top: 8px;
 }
 .demo-banner,
-.error-banner,
-.coverage-note {
+.error-banner {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -1243,8 +1235,7 @@ main {
   font-size: 13px;
   margin-bottom: 12px;
 }
-.demo-banner svg,
-.coverage-note svg {
+.demo-banner svg {
   flex-shrink: 0;
 }
 .error-banner {
@@ -1255,12 +1246,6 @@ main {
 }
 .error-banner > span {
   flex: 1;
-}
-.coverage-note {
-  align-items: flex-start;
-}
-.coverage-note p {
-  margin-top: 6px;
 }
 .page-state {
   text-align: center;
@@ -1652,13 +1637,10 @@ main {
   .header-controls {
     gap: 0;
   }
-  .mode-select {
+  .mode-badge {
     font-size: 10px;
     padding: 7px;
     gap: 4px;
-  }
-  .mode-select select {
-    max-width: 76px;
   }
   .app-header nav {
     order: 3;

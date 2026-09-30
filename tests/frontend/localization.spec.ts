@@ -38,7 +38,7 @@ test.describe("Bilingual research workspace", () => {
   test("English is the default across real research and every evidence drawer", async ({
     page,
   }) => {
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     await expect(page.locator(".candidate-card")).toHaveCount(3);
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
@@ -83,7 +83,7 @@ test.describe("Bilingual research workspace", () => {
     const snapshot: Snapshot = await response.json();
     expect(snapshot.reports).toHaveLength(5);
     for (const report of snapshot.reports) {
-      await page.goto(`/reports/${report.id}`);
+      await page.goto(`/reports/${report.id}?mode=archive`);
       await expect(page.locator(".report-memo")).toBeVisible();
       await expect(page.locator(".report-memo")).toContainText("UNCERTAIN");
       await expectEnglish(page);
@@ -98,7 +98,7 @@ test.describe("Bilingual research workspace", () => {
       expect(exported).not.toMatch(han);
       expect(exported).toContain(report.candidateId);
     }
-    await page.goto("/reports");
+    await page.goto("/reports?mode=archive");
     await expect(page.locator(".report-preview")).toHaveCount(3);
     await expectEnglish(page);
   });
@@ -106,7 +106,7 @@ test.describe("Bilingual research workspace", () => {
   test("Chinese translates real content and persists through navigation, reload, seed changes and polling", async ({
     page,
   }) => {
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     await expect(page.locator(".candidate-card")).toHaveCount(3);
     const englishTitle = await page
       .locator(".candidate-card h3")
@@ -138,7 +138,8 @@ test.describe("Bilingual research workspace", () => {
       .locator(".report-preview.featured")
       .getAttribute("data-report-id");
     await page.locator(".report-preview.featured .report-open-button").click();
-    await expect(page).toHaveURL(new RegExp(`/reports/${reportId}$`));
+    expect(new URL(page.url()).pathname).toBe(`/reports/${reportId}`);
+    expect(new URL(page.url()).searchParams.get("mode")).toBe("archive");
     await expect(page.locator(".report-memo")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toContainText(han);
     await page.reload();
@@ -156,7 +157,7 @@ test.describe("Bilingual research workspace", () => {
       .check();
     await expect(page.locator(".candidate-card")).toHaveCount(2);
     await expect(page.locator(".candidate-card h3").first()).toContainText(han);
-    await page.goto("/?seed=all");
+    await page.goto("/?mode=archive&seed=all");
     await expect(page.locator(".candidate-card")).toHaveCount(3);
     await page.waitForResponse(
       (response) =>

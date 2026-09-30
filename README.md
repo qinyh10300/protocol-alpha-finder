@@ -92,7 +92,7 @@ npm ci
 npm run dev
 ```
 
-Open [the local Demo](http://127.0.0.1:5173/research?mode=demo). **Replay results** works with the files in this repository. The local **Skill results** mode requires saved `data/` artifacts, which are excluded from Git.
+Open [the workspace](http://127.0.0.1:5173/research), choose a seed, and click **Replay Research**. Dynamic replay is the default and uses the recorded files in this repository. Pause, resume, or replay the discovery steps from the run controls.
 
 ### Run a research workflow
 

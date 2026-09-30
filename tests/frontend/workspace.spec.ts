@@ -10,7 +10,7 @@ const hasArchive = existsSync(
 test.describe("Real Skill integration", () => {
   test.skip(!hasArchive, "Restore ignored data/ to test real Skill artifacts");
   test("real counts, wallet filter and report preview", async ({ page }) => {
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     await expect(page.getByText("52,582", { exact: true })).toBeVisible();
     await expect(page.locator(".wallet-row")).toHaveCount(6);
     await expect(page.locator(".candidate-card")).toHaveCount(3);
@@ -32,7 +32,7 @@ test.describe("Real Skill integration", () => {
   test("wallet list expands, collapses and resets for another seed", async ({
     page,
   }) => {
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
     await page.getByRole("button", { name: "Show 4 more wallets" }).click();
     await expect(page.locator(".wallet-row")).toHaveCount(10);
@@ -48,7 +48,7 @@ test.describe("Real Skill integration", () => {
     await expect(
       page.getByRole("button", { name: /Show .* wallets/ }),
     ).toHaveCount(0);
-    await page.goto("/?seed=all");
+    await page.goto("/?mode=archive&seed=all");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
   });
   test("candidates retain discovery order without a sorting control", async ({
@@ -62,7 +62,7 @@ test.describe("Real Skill integration", () => {
     await page.route("**/api/research-runs/local-all/snapshot", (route) =>
       route.fulfill({ json: snapshot }),
     );
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     const titles = page.locator(".candidate-card h3");
     const englishSnapshot = localizeSnapshot(
       {
@@ -82,7 +82,7 @@ test.describe("Real Skill integration", () => {
   test("report preview switches between reports and retains every assessment section", async ({
     page,
   }) => {
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     const reports = page.locator(".report-column");
     const expanded = reports.locator(".report-preview.featured");
     await expect(reports.locator(".report-preview")).toHaveCount(3);
@@ -127,7 +127,7 @@ test.describe("Real Skill integration", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
     const grid = await page.locator(".workspace-grid").boundingBox();
     expect(grid).not.toBeNull();
@@ -181,14 +181,17 @@ test.describe("Real Skill integration", () => {
       ),
     ).toBeTruthy();
   });
-  test("USDD zero coverage and seed selection", async ({ page }) => {
-    await page.goto("/research");
+  test("USDD empty results and seed selection remain available without a coverage banner", async ({
+    page,
+  }) => {
+    await page.goto("/research?mode=archive");
     await page
       .locator('input[name=\"research-seed\"][value=\"usdd-keeper-auction\"]')
       .check();
     await expect(
       page.getByText("USDD: zero verified executors in this window."),
-    ).toBeVisible();
+    ).toHaveCount(0);
+    await expect(page.locator(".coverage-note")).toHaveCount(0);
     await expect(page.locator(".wallet-row")).toHaveCount(0);
     await expect(
       page.getByText("No executors found", { exact: true }),
@@ -204,7 +207,7 @@ test.describe("Real Skill integration", () => {
   test("full report, source links, persistence, export and refresh deep link", async ({
     page,
   }) => {
-    await page.goto("/reports/report-WAI-CYCLE-01");
+    await page.goto("/reports/report-WAI-CYCLE-01?mode=archive");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(
       "Cross-pool Round Trip by a Liquidation Wallet",
     );
@@ -233,7 +236,7 @@ test.describe("Real Skill integration", () => {
   test("library groups mechanisms while keeping original report IDs searchable", async ({
     page,
   }) => {
-    await page.goto("/reports");
+    await page.goto("/reports?mode=archive");
     await page.getByLabel("Filter report outcome").selectOption("MONITOR");
     await expect(page.locator(".report-preview")).toHaveCount(2);
     await page.getByLabel("Search reports").fill("WAI-CYCLE");
@@ -247,7 +250,7 @@ test.describe("Real Skill integration", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/research");
+    await page.goto("/research?mode=archive");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
     expect(
       await page.evaluate(
@@ -279,15 +282,32 @@ test.describe("Real Skill integration", () => {
   });
 });
 
-test("recorded replay starts empty, progresses independently, pauses and restarts", async ({
+test("bare research defaults to replay, progresses coherently, pauses and restarts without a static switch", async ({
   page,
 }) => {
-  await page.clock.install();
-  await page.goto("/research?mode=demo");
+  const apiRequests: string[] = [];
+  page.on("request", (request) => {
+    if (new URL(request.url()).pathname.startsWith("/api/")) {
+      apiRequests.push(request.url());
+    }
+  });
+  await page.clock.install({ time: new Date("2026-09-30T00:00:00Z") });
+  await page.goto("/research");
+  await page.clock.pauseAt(new Date("2026-09-30T01:00:00Z"));
+  await expect(
+    page.locator("header").getByText("Replay results", { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("Data mode")).toHaveCount(0);
+  await expect(
+    page.locator('header select, option[value="archive"]'),
+  ).toHaveCount(0);
+  await expect(page.locator(".coverage-note")).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "Replay Research" }),
   ).toBeVisible();
-  await expect(page.locator(".wallet-row")).toHaveCount(0);
+  await expect(
+    page.locator(".wallet-row, .candidate-card, .report-preview"),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Replay Research" }).click();
   await page.clock.runFor(5500);
   await expect(page.locator(".wallet-row")).toHaveCount(5);
@@ -296,13 +316,32 @@ test("recorded replay starts empty, progresses independently, pauses and restart
   );
   await page.getByRole("button", { name: "Pause replay" }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card")).toHaveCount(0);
+  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
+  await expect(page.locator(".wallet-row")).toHaveCount(5);
   await page.getByRole("button", { name: "Resume replay" }).click();
-  await page.clock.runFor(18000);
+  let elapsed = 5500;
+  for (const time of [9500, 11500, 13500, 18000]) {
+    await page.clock.runFor(time - elapsed);
+    elapsed = time;
+    const count = await page.locator(".candidate-card").count();
+    await expect(page.locator(".report-preview")).toHaveCount(count);
+    await expect(page.locator(".summary-count strong").nth(1)).toHaveText(
+      String(count),
+    );
+    await expect(page.locator(".summary-count strong").nth(2)).toHaveText(
+      String(count),
+    );
+    if (time === 9500) {
+      expect(count).toBe(1);
+      await expect(page.locator(".pending-report-card")).toHaveCount(1);
+    }
+  }
   await expect(page.locator(".candidate-card")).toHaveCount(1);
   await expect(page.locator(".report-preview")).toHaveCount(1);
+  await expect(page.locator(".pending-report-card")).toHaveCount(0);
   await page.getByRole("button", { name: "Replay Research" }).click();
-  await expect(page.locator(".candidate-card")).toHaveCount(0);
+  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
+  expect(apiRequests).toEqual([]);
 });
 
 test("missing artifacts show a recoverable error, never silently use mock", async ({
@@ -315,7 +354,7 @@ test("missing artifacts show a recoverable error, never silently use mock", asyn
       body: JSON.stringify({ error: "Saved Skill results unavailable." }),
     }),
   );
-  await page.goto("/research");
+  await page.goto("/research?mode=archive");
   await expect(page.getByRole("alert")).toContainText(
     "Saved Skill results unavailable",
   );

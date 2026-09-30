@@ -49,15 +49,17 @@ npm start
 
 ## Languages
 
-English is the default. The header contains the data-mode selector; the language selector and network badge have been removed. Existing language preferences stored under `protocol-alpha-language` are still respected across navigation, refreshes, seed changes, and data polling.
+English is the default. The header shows a replay badge without a data-mode selector. Existing language preferences stored under `protocol-alpha-language` are still respected across navigation, refreshes, seed changes, and data polling.
 
 UI labels, archived research titles and narratives, evidence drawers, reports, dates, and Markdown exports follow the selected language. Identifiers, addresses, evidence links, raw status codes, and original Skill artifacts remain unchanged.
 
 UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Research translations live in `src/locales/research.ts` and `research.zh.json`; add translations when introducing new narrative content. The adapter data is localized for presentation without mutating source records.
 
-## 两种数据模式
+## 数据来源与回放
 
-### Skill results（默认）
+默认打开 `/research` 即进入动态回放。页面不提供静态结果切换选项。内部留档检查仍可使用显式 `?mode=archive` 地址，分享链接会保留此参数。
+
+### Skill results（内部留档检查）
 
 读取当前仓库 `data/` 下的真实 JSON，5 秒轮询更新。Refresh results 重新加载留档；不会重新抓链、调用模型或启动 Agent。运行状态、Activity 中的时间来自已保存的阶段产物，不能解释成前端正在运行四个 Skill。
 
@@ -70,9 +72,9 @@ UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Researc
 
 本批留档：10 个钱包、52,582 笔不同主交易、5 条候选、5 份报告。TRC20 和内部交易索引不加进主交易总数。报告上的 reconciled samples 是该候选的已核对历史账本数量，不是所有历史执行次数。USDD 的零钱包和覆盖缺口保留。
 
-`data/` 继续保持 Git 忽略。新克隆项目不会自动获得这些留档；缺失时页面明确报错，可切换 Demo。API 仅开放白名单产物，不开放整个仓库。
+`data/` 继续保持 Git 忽略。新克隆项目不会自动获得这些留档；显式检查留档时，缺失文件会报错，可返回动态回放。API 仅开放白名单产物，不开放整个仓库。
 
-### Research replay
+### Research replay（默认）
 
 在 **Replay results** 模式选择 Seed，点击 **Replay Research**。三个入口统一读取 `frontend/public/research/` 下的研究留档，通过同一套 History → Analyze → Search Alpha → Report 流程回放，支持暂停、继续和重播。
 

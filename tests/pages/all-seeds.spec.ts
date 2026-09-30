@@ -31,8 +31,10 @@ test("All merges shared identities without double-counting a wallet's history", 
 test("Legacy All links retain all recorded mechanisms and original report sharing", async ({
   page,
 }) => {
-  await page.clock.install();
+  await page.clock.install({ time: new Date("2026-09-30T00:00:00Z") });
   await page.goto("/frontend/index.html?seed=all");
+  // Only explicit runFor calls should advance replay stages between assertions.
+  await page.clock.pauseAt(new Date("2026-09-30T01:00:00Z"));
   await expect(
     page.locator('input[name="research-seed"][value="all"]'),
   ).toHaveCount(0);
