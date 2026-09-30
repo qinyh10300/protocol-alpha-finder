@@ -37,7 +37,7 @@ We use known mechanisms to find wallets, examine their broader transaction histo
 
 Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) and select **Replay Research**. All three seeds replay saved Skill research through the same workflow. Each distinct candidate has one report card; wallet-specific assessments are available inside it. The saved USDD scan has no candidates or reports. Replay does not query the chain.
 
-![Research workspace showing saved Skill results](docs/images/workspace-en.png)
+![JustLend research workspace with wallet investigations, alpha candidates, and report details](docs/images/workspace-research.png)
 
 [Demo data and refresh instructions](docs/RECORDED_DEMO.md)
 

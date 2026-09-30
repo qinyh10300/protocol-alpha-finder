@@ -37,7 +37,7 @@
 
 在[在线 Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html) 中选择一个种子，再点击 **Replay Research**。三个种子通过同一流程回放已保存的 Skill 研究。每个去重后的候选对应一张报告卡片，可在卡片内切换各钱包的分析。USDD 留档目前没有候选或报告。回放不会查询链上数据。
 
-![展示 Skill 留档结果的研究工作台](docs/images/workspace-zh-CN.png)
+![JustLend 研究工作台：钱包调查、Alpha 候选与报告详情](docs/images/workspace-research.png)
 
 [Demo 数据与更新说明](docs/RECORDED_DEMO.md)
 
