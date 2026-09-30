@@ -36,11 +36,10 @@ flowchart TB
             CANDIDATE1["抵押品回收<br/>赎回并兑换可能更快<br/>释放占用资金。"]
             CANDIDATE2["拍卖时机<br/>短暂折价可能带来机会，<br/>需要结合执行成本验证。"]
         end
-        subgraph VALIDATION["5 · 验证"]
-            CHECK["执行证据 · 奖励扣除成本 · 协议当前条件"]
-            REPORT["Alpha 报告<br/>可执行 · 持续观察<br/>已排除 · 证据不足"]
-            NEW["验证支持后形成新的 Alpha"]
-            CHECK --> REPORT --> NEW
+        subgraph REPORTS["5 · Alpha 报告"]
+            REPORT0["Alpha 报告 1<br/>基于执行记录，<br/>评估租赁奖励与成本。"]
+            REPORT1["Alpha 报告 2<br/>检查抵押品复用在扣除费用后，<br/>能否更快释放资金。"]
+            REPORT2["Alpha 报告 3<br/>评估拍卖折价、竞争情况，<br/>并列出仍缺少的证据。"]
         end
         SEED0 -->|Skill 1| WALLET0
         SEED0 --> WALLET1
@@ -60,7 +59,9 @@ flowchart TB
         HISTORY0 -->|Skill 3| CANDIDATE0
         HISTORY1 -->|Skill 3| CANDIDATE1
         HISTORY2 -->|Skill 3| CANDIDATE2
-        CANDIDATE0 -->|Skill 4| CHECK
+        CANDIDATE0 -->|Skill 4| REPORT0
+        CANDIDATE1 -->|Skill 4| REPORT1
+        CANDIDATE2 -->|Skill 4| REPORT2
     end
     S1["Skill 1<br/>寻找策略 钱包"]
     S2["Skill 2<br/>监控钱包 历史"]
@@ -78,17 +79,20 @@ flowchart TB
     style S4 fill:#eaf2ff,stroke:#83a8d8,color:#214f96
     style HISTORY0 fill:#ffffff,stroke:#2563b8,stroke-dasharray:7 5
     style CANDIDATE0 fill:#eff5ff,stroke:#2563b8
+    style REPORT0 fill:#eff5ff,stroke:#2563b8
     style TX00 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX01 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX02 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style HISTORY1 fill:#ffffff,stroke:#7953ad,stroke-dasharray:7 5
     style CANDIDATE1 fill:#f5f1fc,stroke:#7953ad
+    style REPORT1 fill:#f5f1fc,stroke:#7953ad
     style TX10 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX11 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX12 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style HISTORY2 fill:#ffffff,stroke:#a8661e,stroke-dasharray:7 5
     style CANDIDATE2 fill:#fff7ed,stroke:#a8661e
+    style REPORT2 fill:#fff7ed,stroke:#a8661e
     style TX20 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX21 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX22 fill:#f8fafc,stroke:#d3dce6,color:#526579
-    %% 地址与交易均为方法示意。选中钱包连接到监控的交易记录，三组虚线标出的证据分别支持三个候选假设，图中选取一个进入验证。Protocol Alpha Finder 统一协调四个操作。监控目前通过手动发起采集与复查完成，并记录历史覆盖情况。
+    %% 地址、交易与报告内容均为方法示意。选中钱包连接到监控的交易记录，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。监控目前通过手动发起采集与复查完成，并记录历史覆盖情况。

@@ -24,7 +24,7 @@
 
 ## 系统架构
 
-**Alpha Seeds → 策略钱包 → 历史交易 → Alpha 候选 → 验证。** Protocol Alpha Finder 统一编排四个步骤：发现钱包、采集历史、提取候选、验证证据。
+**Alpha Seeds → 策略钱包 → 历史交易 → Alpha 候选 → Alpha 报告。** Protocol Alpha Finder 统一编排四个步骤：发现钱包、采集历史、提取候选、验证证据。
 
 ![Seed Alpha 研究架构](docs/images/system-architecture-zh-CN.svg)
 

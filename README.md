@@ -24,7 +24,7 @@ Outcomes: **3 Monitor, 2 Insufficient Evidence**. All five opportunities remain 
 
 ## System architecture
 
-**Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Validation.** Protocol Alpha Finder coordinates four steps: find wallets, collect history, extract candidates, and validate evidence.
+**Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Alpha Reports.** Protocol Alpha Finder coordinates four steps: find wallets, collect history, extract candidates, and validate evidence.
 
 ![Seed Alpha research architecture](docs/images/system-architecture-en.svg)
 
