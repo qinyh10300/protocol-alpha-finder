@@ -133,6 +133,8 @@ export type SkillStage = {
   artifactUrl: string;
 };
 export type Snapshot = {
+  /** Stable wallet rows selected from the complete research before replay starts. */
+  investigationWalletAddresses?: string[];
   illustrativeProgress?: boolean;
   provenance?: "recorded" | "synthetic" | "mixed";
   run: ResearchRun;

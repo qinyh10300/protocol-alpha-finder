@@ -76,9 +76,11 @@ UI translations live in `src/locales/ui.ts` and `src/locales/report.ts`. Researc
 
 ### Research replay（默认）
 
-在 **Replay results** 模式选择 Seed，点击 **Replay Research**。三个入口统一读取 `frontend/public/research/` 下的研究留档，通过同一套 History → Analyze → Search Alpha → Report 流程回放，支持暂停、继续和重播。
+在 **Replay results** 模式选择 Seed，点击 **Replay Research**。三个入口统一读取 `frontend/public/research/` 下的研究留档，通过同一套 Get Transaction → Search Alpha → Validate Alpha 流程回放，支持暂停、继续和重播。
 
-每个去重后的候选对应一张报告卡片。验证中显示准备状态，完成后显示保存的分析；同一候选有多个钱包分析时，在 **Wallet assessment** 中切换。候选、报告卡片和顶部统计来自同一组数据，筛选钱包后同步变化。Energy Rental 显示 1 个候选 / 1 张报告卡片，JustLend 显示 2 / 2。USDD 补入了通过 3 笔历史交易及回执核验的 2 个真实钱包，使用独立回放配置在 17 秒内演示 History → Analyze → Search Alpha，支持暂停、继续和重播。完整历史和后续研究仍未采集，交易历史计数保持 0，候选 / 报告为 0 / 0；页脚说明演示进度，完成后显示 **History replayed**。原始报告 ID、证据和单独报告链接保留。
+Wallet Investigations 隐藏仅重复其他钱包候选的行，保留有独有发现的钱包及零候选钱包。Energy Rental / JustLend / USDD 分别显示 4 / 4 / 2 个调查，顶部钱包数同步；原始钱包证据及报告仍完整保留。进入 Search Alpha 时同步展示 Candidates 标签和候选卡片，实际报告出现后才显示 Report Generated。
+
+每个去重后的候选对应一张报告卡片。验证中显示准备状态，完成后显示保存的分析；同一候选有多个钱包分析时，在 **Wallet assessment** 中切换。候选、报告卡片和顶部统计来自同一组数据，筛选钱包后同步变化。Energy Rental 显示 1 个候选 / 1 张报告卡片，JustLend 显示 2 / 2。USDD 补入了通过 3 笔历史交易及回执核验的 2 个真实钱包，使用独立回放配置在 17 秒内演示 Get Transaction → Search Alpha → Validate Alpha，支持暂停、继续和重播。完整历史和后续研究仍未采集，交易历史计数保持 0，候选 / 报告为 0 / 0；页脚说明演示进度，完成后显示 **History replayed**。原始报告 ID、证据和单独报告链接保留。
 
 USDD 的回放配置由 `GET /api/replay-plans/usdd-keeper-auction` 读取 `frontend/public/replay/usdd-keeper-auction.json`；GitHub Pages 打包相同配置。它只控制阶段动画，不修改研究留档。
 

@@ -34,17 +34,17 @@ test.describe("Real Skill integration", () => {
   }) => {
     await page.goto("/research?mode=archive");
     await expect(page.locator(".wallet-row")).toHaveCount(6);
-    await page.getByRole("button", { name: "Show 4 more wallets" }).click();
-    await expect(page.locator(".wallet-row")).toHaveCount(10);
+    await page.getByRole("button", { name: "Show 2 more wallets" }).click();
+    await expect(page.locator(".wallet-row")).toHaveCount(8);
     await page.getByRole("button", { name: "Show fewer wallets" }).click();
     await expect(page.locator(".wallet-row")).toHaveCount(6);
-    await page.getByRole("button", { name: "Show 4 more wallets" }).click();
+    await page.getByRole("button", { name: "Show 2 more wallets" }).click();
     await page
       .locator(
         'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
       )
       .check();
-    await expect(page.locator(".wallet-row")).toHaveCount(5);
+    await expect(page.locator(".wallet-row")).toHaveCount(4);
     await expect(
       page.getByRole("button", { name: /Show .* wallets/ }),
     ).toHaveCount(0);
@@ -137,10 +137,10 @@ test.describe("Real Skill integration", () => {
     // The three visible seed choices can push the sixth row below the fold.
     // The wallet list and expand control must remain reachable by scrolling.
     await page
-      .getByRole("button", { name: "Show 4 more wallets" })
+      .getByRole("button", { name: "Show 2 more wallets" })
       .scrollIntoViewIfNeeded();
     await expect(
-      page.getByRole("button", { name: "Show 4 more wallets" }),
+      page.getByRole("button", { name: "Show 2 more wallets" }),
     ).toBeInViewport({ ratio: 1 });
     await page.locator(".wallet-row").nth(5).scrollIntoViewIfNeeded();
     await expect(page.locator(".wallet-row").nth(5)).toBeInViewport({
@@ -201,7 +201,7 @@ test.describe("Real Skill integration", () => {
         'input[name=\"research-seed\"][value=\"justlend-lending-liquidation\"]',
       )
       .check();
-    await expect(page.locator(".wallet-row")).toHaveCount(5);
+    await expect(page.locator(".wallet-row")).toHaveCount(4);
     await expect(page.locator(".candidate-card")).toHaveCount(2);
   });
   test("full report, source links, persistence, export and refresh deep link", async ({
@@ -310,14 +310,15 @@ test("bare research defaults to replay, progresses coherently, pauses and restar
   ).toHaveCount(0);
   await page.getByRole("button", { name: "Replay Research" }).click();
   await page.clock.runFor(5500);
-  await expect(page.locator(".wallet-row")).toHaveCount(5);
+  await expect(page.locator(".wallet-row")).toHaveCount(4);
   expect(await page.locator(".pipeline-step.running").count()).toBeGreaterThan(
     0,
   );
   await page.getByRole("button", { name: "Pause replay" }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
-  await expect(page.locator(".wallet-row")).toHaveCount(5);
+  await expect(page.locator(".candidate-card")).toHaveCount(1);
+  await expect(page.locator(".pending-report-card")).toHaveCount(1);
+  await expect(page.locator(".wallet-row")).toHaveCount(4);
   await page.getByRole("button", { name: "Resume replay" }).click();
   let elapsed = 5500;
   for (const time of [9500, 11500, 13500, 18000]) {

@@ -54,9 +54,9 @@ test.describe("Bilingual research workspace", () => {
       await page.keyboard.press("Escape");
     }
 
-    await page.getByRole("button", { name: "Show 4 more wallets" }).click();
-    await expect(page.locator(".wallet-row")).toHaveCount(10);
-    for (let index = 0; index < 10; index += 1) {
+    await page.getByRole("button", { name: "Show 2 more wallets" }).click();
+    await expect(page.locator(".wallet-row")).toHaveCount(8);
+    for (let index = 0; index < 8; index += 1) {
       await page.locator(".wallet-details-hit").nth(index).click();
       await expect(page.getByRole("dialog")).toBeVisible();
       await expectEnglish(page);

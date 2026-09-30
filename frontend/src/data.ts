@@ -3,6 +3,8 @@ import lendingReplay from "../public/research/justlend-lending-liquidation.json"
 import usddReplay from "../public/research/usdd-keeper-auction.json" with { type: "json" };
 import { ALL_SEEDS, DEFAULT_DEMO_SEED, PROTOCOL_SEEDS } from "./seeds";
 import { combineSeedSnapshots } from "./seed-snapshots";
+import { groupCandidates } from "./candidateGroups";
+import { selectInvestigationWallets } from "./walletInvestigations";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -19,6 +21,15 @@ const recordedReplays: Record<string, Snapshot> = {
   "justlend-lending-liquidation": lendingReplay as Snapshot,
   "usdd-keeper-auction": usddReplay as Snapshot,
 };
+const investigationAddresses = Object.fromEntries(
+  Object.entries({
+    ...recordedReplays,
+    all: combineSeedSnapshots(Object.values(recordedReplays)),
+  }).map(([seedId, snapshot]) => [
+    seedId,
+    selectInvestigationWallets(snapshot).map((wallet) => wallet.address),
+  ]),
+);
 
 export interface ResearchDataSource {
   createRun(seedId: string): Promise<ResearchRun>;
@@ -153,11 +164,15 @@ export class RecordedResearchDataSource implements ResearchDataSource {
   }
   async getSnapshot(): Promise<Snapshot> {
     if (this.seedId === "all") {
-      return combineSeedSnapshots(
+      const combined = combineSeedSnapshots(
         await Promise.all(
           PROTOCOL_SEEDS.map((seed) => this.getSeedSnapshot(seed.id)),
         ),
       );
+      return {
+        ...combined,
+        investigationWalletAddresses: [...investigationAddresses.all],
+      };
     }
     return this.getSeedSnapshot(this.seedId);
   }
@@ -165,6 +180,29 @@ export class RecordedResearchDataSource implements ResearchDataSource {
     const plan = await this.getPlan(seedId);
     const data = structuredClone(recordedReplays[seedId]);
     const t = this.seconds;
+    const stagger = plan?.walletStaggerSeconds ?? 0.7;
+    const searchStart =
+      plan?.stages.find((stage) => stage.job === "analysisJob")?.start ?? 4;
+    const validationStart =
+      plan?.stages.find((stage) => stage.job === "alphaSearchJob")?.start ?? 6;
+    const candidateTiming = new Map<
+      string,
+      { discovered: number; validating: number }
+    >();
+    for (const group of groupCandidates(data.candidates, data)) {
+      const ownerIndex = data.wallets.findIndex(
+        (wallet) =>
+          investigationAddresses[seedId].includes(wallet.address) &&
+          group.candidate.sourceWallets.includes(wallet.address),
+      );
+      const offset = Math.max(0, ownerIndex) * stagger;
+      for (const member of group.members) {
+        candidateTiming.set(member.id, {
+          discovered: searchStart + offset,
+          validating: validationStart + offset,
+        });
+      }
+    }
     const hasInvestigations = data.wallets.some((wallet) =>
       [wallet.historyJob, wallet.analysisJob, wallet.alphaSearchJob].some(
         (stage) => stage.status !== "queued",
@@ -180,7 +218,13 @@ export class RecordedResearchDataSource implements ResearchDataSource {
       ? data.wallets
           .filter((_, i) => t >= 0.5 + i * 0.4)
           .map((w, i) => {
-            const phase = t - i * (plan?.walletStaggerSeconds ?? 0.7);
+            const phase = t - i * stagger;
+            // Keep validation running until this wallet's saved reports appear.
+            const reportTimes = data.candidates.flatMap((candidate, index) =>
+              candidate.reportId && candidate.sourceWallets.includes(w.address)
+                ? [13 + index * 1.8 - i * stagger]
+                : [],
+            );
             const job = (
               name: "historyJob" | "analysisJob" | "alphaSearchJob",
               start: number,
@@ -211,12 +255,17 @@ export class RecordedResearchDataSource implements ResearchDataSource {
                 txCount: phase >= 4 ? w.historyJob.txCount : undefined,
               },
               analysisJob: job("analysisJob", 4, 6, w.analysisJob),
-              alphaSearchJob: job("alphaSearchJob", 6, 9, w.alphaSearchJob),
+              alphaSearchJob: job(
+                "alphaSearchJob",
+                6,
+                Math.max(9, ...reportTimes),
+                w.alphaSearchJob,
+              ),
               candidateIds: data.candidates
                 .filter(
-                  (candidate, index) =>
+                  (candidate) =>
                     candidate.sourceWallets.includes(w.address) &&
-                    index * 1.4 + 9 <= t,
+                    candidateTiming.get(candidate.id)!.discovered <= t,
                 )
                 .map((candidate) => candidate.id),
             };
@@ -224,19 +273,21 @@ export class RecordedResearchDataSource implements ResearchDataSource {
       : [];
     const candidates: AlphaCandidate[] = this.started
       ? data.candidates
-          .filter((_, i) => t >= 9 + i * 1.4)
-          .map((c, i) => ({
+          .map<AlphaCandidate>((c, i) => ({
             ...c,
             status:
               t >= 13 + i * 1.8
                 ? c.reportId
                   ? "report_ready"
                   : "discovered"
-                : t >= 10 + i * 1.4
+                : t >= candidateTiming.get(c.id)!.validating
                   ? "validating"
                   : "discovered",
             reportId: t >= 13 + i * 1.8 ? c.reportId : undefined,
           }))
+          .filter(
+            (candidate) => t >= candidateTiming.get(candidate.id)!.discovered,
+          )
       : [];
     const reports = data.reports.filter((report) =>
       candidates.some((candidate) => candidate.reportId === report.id),
@@ -277,6 +328,7 @@ export class RecordedResearchDataSource implements ResearchDataSource {
       })
       .map((event) => ({ ...event, runId: run.id }));
     return {
+      investigationWalletAddresses: [...investigationAddresses[seedId]],
       run,
       seeds: [
         { ...ALL_SEEDS },

@@ -6,6 +6,7 @@ const scenarios = [
     id: "energy-rental-liquidation",
     name: "Energy Rental Liquidation",
     wallets: 5,
+    investigationWallets: 4,
     rawReports: 2,
     transactions: 48768,
     titles: ["Same-transaction Rental, Liquidation & Return"],
@@ -14,6 +15,7 @@ const scenarios = [
     id: "justlend-lending-liquidation",
     name: "JustLend Lending Liquidation",
     wallets: 5,
+    investigationWallets: 4,
     rawReports: 3,
     transactions: 3814,
     titles: [
@@ -25,6 +27,7 @@ const scenarios = [
     id: "usdd-keeper-auction",
     name: "USDD Keeper / Auction",
     wallets: 2,
+    investigationWallets: 2,
     rawReports: 0,
     transactions: 0,
     titles: [],
@@ -80,7 +83,7 @@ test("all three seeds replay recorded results with one report card per candidate
       elapsed = time;
       const count = await expectCoherentCards(page);
       if (time === 9500 && scenario.rawReports) {
-        expect(count).toBe(1);
+        expect(count).toBe(scenario.titles.length);
         await expect(page.locator(".pending-report-card")).toHaveCount(count);
         await expect(
           page.locator(".report-column .report-open-button"),
@@ -95,7 +98,9 @@ test("all three seeds replay recorded results with one report card per candidate
         );
       }
     }
-    await expect(page.locator(".wallet-row")).toHaveCount(scenario.wallets);
+    await expect(page.locator(".wallet-row")).toHaveCount(
+      scenario.investigationWallets,
+    );
     await expect(page.locator(".candidate-card h3")).toHaveText(
       scenario.titles,
     );
@@ -104,7 +109,7 @@ test("all three seeds replay recorded results with one report card per candidate
     );
     await expect(page.locator(".pending-report-card")).toHaveCount(0);
     await expect(page.locator(".summary-count strong")).toHaveText([
-      String(scenario.wallets),
+      String(scenario.investigationWallets),
       String(scenario.titles.length),
       String(scenario.titles.length),
     ]);

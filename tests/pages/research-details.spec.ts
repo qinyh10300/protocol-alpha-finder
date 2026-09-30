@@ -10,15 +10,15 @@ test("pending and completed candidate groups each own one report card with walle
   await page
     .getByRole("button", { name: "Replay Research", exact: true })
     .click();
-  await page.clock.runFor(7000);
-  await expect(page.locator(".wallet-row")).toHaveCount(5);
+  await page.clock.runFor(3500);
+  await expect(page.locator(".wallet-row")).toHaveCount(4);
   await expect(
     page.locator(".wallet-row .candidate-count, .wallet-row .zero-count"),
   ).toHaveCount(0);
-  await page.clock.runFor(2250);
+  await page.clock.runFor(1000);
   await expect(
     page.locator(".wallet-row").first().locator(".candidate-count"),
-  ).toBeVisible();
+  ).toHaveText("2 candidates");
   await expect(
     page.locator(".wallet-row").nth(1).locator(".candidate-count, .zero-count"),
   ).toHaveCount(0);
@@ -30,7 +30,7 @@ test("pending and completed candidate groups each own one report card with walle
   );
   await page.getByRole("button", { name: "Reports", exact: true }).click();
   await expect(page.locator(".report-preview.pending-report-card")).toHaveCount(
-    1,
+    2,
   );
   await expect(page.locator(".report-open-button")).toHaveCount(0);
   await page.getByLabel("Search reports").fill("WAI-LENDING-01");
@@ -39,7 +39,7 @@ test("pending and completed candidate groups each own one report card with walle
   );
   await page.getByLabel("Search reports").fill("");
   await page.getByRole("button", { name: "Research", exact: true }).click();
-  await page.clock.runFor(3250);
+  await page.clock.runFor(8000);
   await expect(page.locator(".candidate-card")).toHaveCount(2);
   await expect(page.locator(".report-preview")).toHaveCount(2);
   // Whole-card selection works before the chosen report has been generated.
@@ -57,7 +57,7 @@ test("pending and completed candidate groups each own one report card with walle
   await page.clock.runFor(7000);
   await expect(page.locator(".candidate-card")).toHaveCount(2);
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "5",
+    "4",
     "2",
     "2",
   ]);
@@ -177,18 +177,21 @@ test("pending and completed candidate groups each own one report card with walle
     "data-report-id",
     "report-WAI-LENDING-01",
   );
-  await page.locator(".wallet-row").filter({ hasText: "TFaz" }).click();
+  await expect(
+    page.locator(".wallet-row").filter({ hasText: "TFaz" }),
+  ).toHaveCount(0);
+  await page.locator(".wallet-row").filter({ hasText: "TUAA" }).click();
   await page.getByRole("button", { name: "Show related candidates" }).click();
-  await expect(page.locator(".candidate-card")).toHaveCount(1);
-  await expect(page.locator(".report-preview")).toHaveCount(1);
-  await expect(page.locator(".summary-count strong").nth(1)).toHaveText("1");
-  await expect(page.locator(".summary-count strong").nth(2)).toHaveText("1");
-  await expect(page.locator(".candidate-facts")).toContainText("1 wallet");
-  await expect(page.locator(".candidate-facts")).toContainText("2 samples");
-  await page.locator(".candidate-card").click({ position: { x: 30, y: 100 } });
+  await expect(page.locator(".candidate-card")).toHaveCount(2);
+  await expect(page.locator(".report-preview")).toHaveCount(2);
+  await expect(page.locator(".summary-count strong").nth(1)).toHaveText("2");
+  await expect(page.locator(".summary-count strong").nth(2)).toHaveText("2");
+  await expect(lending.locator(".candidate-facts")).toContainText("1 wallet");
+  await expect(lending.locator(".candidate-facts")).toContainText("2 samples");
+  await lending.click({ position: { x: 30, y: 100 } });
   await expect(featured).toHaveAttribute(
     "data-report-id",
-    "report-WAI-LENDING-02",
+    "report-WAI-LENDING-01",
   );
   await expect(featured.getByLabel("Wallet assessment")).toHaveCount(0);
   // A research wallet filter does not hide other seed mechanisms in the library.
@@ -199,7 +202,7 @@ test("pending and completed candidate groups each own one report card with walle
     page.getByLabel("Wallet assessment").locator("option"),
   ).toHaveCount(2);
   await page.getByRole("button", { name: "Research", exact: true }).click();
-  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(2);
+  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(4);
   await expect(
     page.getByRole("button", { name: "Filtered by wallet" }),
   ).toBeVisible();

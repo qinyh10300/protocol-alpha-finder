@@ -75,13 +75,21 @@ test("wallet history, analysis, candidates and validation use one progressive re
     expect(data.wallets[0].historyJob.status).toBe("completed");
     expect(data.wallets[0].analysisJob.status).toBe("running");
     expect(data.wallets[0].alphaSearchJob.status).toBe("queued");
+    expect(data.candidates).toHaveLength(2);
+    expect(
+      data.candidates.every((candidate) => candidate.status === "discovered"),
+    ).toBe(true);
     advance(2);
     data = await source.getSnapshot();
     expect(data.wallets[0].analysisJob.status).toBe("completed");
     expect(data.wallets[0].alphaSearchJob.status).toBe("running");
+    expect(
+      data.candidates.every((candidate) => candidate.status === "validating"),
+    ).toBe(true);
     advance(2.5);
     data = await source.getSnapshot();
-    expect(data.candidates[0].status).toBe("discovered");
+    expect(data.candidates[0].status).toBe("validating");
+    expect(data.wallets[0].alphaSearchJob.status).toBe("running");
     expect(data.reports).toEqual([]);
     advance(1);
     data = await source.getSnapshot();
@@ -155,16 +163,27 @@ test("snapshot reads, pause and restart preserve the saved data and reset each s
     advance(6);
     source.pause();
     advance(20);
-    expect((await source.getSnapshot()).run.status).toBe("paused");
-    expect((await source.getSnapshot()).candidates).toEqual([]);
+    const paused = await source.getSnapshot();
+    expect(paused.run.status).toBe("paused");
+    expect(paused.candidates).toHaveLength(3);
+    expect(
+      paused.candidates.every((candidate) => candidate.status === "validating"),
+    ).toBe(true);
+    expect(paused.reports).toEqual([]);
     source.resume();
     advance(12);
     const completed = await source.getSnapshot();
+    const plannedAddresses = [...completed.investigationWalletAddresses!];
+    expect(plannedAddresses).toHaveLength(4);
+    completed.investigationWalletAddresses!.splice(0);
     completed.candidates[0].summary = "Changed locally";
     completed.wallets[0].candidateIds.length = 0;
     completed.reports[0].mechanism.summary = "Changed locally";
     expect((await source.getSnapshot()).candidates).toEqual(lending.candidates);
     expect((await source.getSnapshot()).reports).toEqual(lending.reports);
+    expect((await source.getSnapshot()).investigationWalletAddresses).toEqual(
+      plannedAddresses,
+    );
     source.selectSeed("usdd-keeper-auction");
     expect((await source.getSnapshot()).run.status).toBe("idle");
     expect((await source.getSnapshot()).wallets).toEqual([]);
@@ -182,6 +201,12 @@ test("legacy all-seed replay contains 11 recorded wallets and 3 distinct mechani
     advance(18);
     const data = await source.getSnapshot();
     expect(data.provenance).toBe("recorded");
+    const plannedAddresses = [...data.investigationWalletAddresses!];
+    expect(plannedAddresses).toHaveLength(9);
+    data.investigationWalletAddresses!.splice(0);
+    expect((await source.getSnapshot()).investigationWalletAddresses).toEqual(
+      plannedAddresses,
+    );
     expect(data.run).toMatchObject({
       walletCount: 11,
       candidateCount: 5,

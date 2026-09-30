@@ -38,6 +38,7 @@ import { DEFAULT_DEMO_SEED } from "./seeds";
 import { SeedOrigin } from "./SeedOrigin";
 import { groupCandidates, type CandidateGroup } from "./candidateGroups";
 import { buildReportGroups } from "./reportGroups";
+import { selectInvestigationWallets } from "./walletInvestigations";
 import type {
   AlphaCandidate,
   AlphaReport,
@@ -448,7 +449,8 @@ function WalletInvestigationRow({
               provenance={wallet.provenance}
             />
           )}
-          {wallet.alphaSearchJob.status === "completed" && (
+          {(wallet.analysisJob.status === "running" ||
+            wallet.analysisJob.status === "completed") && (
             <span
               className={
                 wallet.candidateIds.length ? "candidate-count" : "zero-count"
@@ -1142,6 +1144,21 @@ function App() {
     () => (rawData ? localizeSnapshot(rawData, language) : null),
     [rawData, language],
   );
+  const investigationData = useMemo(() => {
+    if (!rawData || !data) return null;
+    const addresses = new Set(
+      rawData.investigationWalletAddresses ??
+        selectInvestigationWallets(rawData).map((wallet) => wallet.address),
+    );
+    const wallets = data.wallets.filter((wallet) =>
+      addresses.has(wallet.address),
+    );
+    return {
+      ...data,
+      wallets,
+      run: { ...data.run, walletCount: wallets.length },
+    };
+  }, [rawData, data]);
   const report = useMemo(
     () => (rawReport ? localizeReport(rawReport, language) : null),
     [rawReport, language],
@@ -1446,7 +1463,7 @@ function App() {
               ) : (
                 <>
                   <ResearchRunSummary
-                    data={data}
+                    data={investigationData || data}
                     seedId={seedId}
                     changeSeed={changeSeed}
                     refresh={() => setRevision((r) => r + 1)}
@@ -1469,7 +1486,7 @@ function App() {
                     data-run-status={data.run.status}
                   >
                     <WalletInvestigationList
-                      data={data}
+                      data={investigationData || data}
                       wallet={filterWallet}
                       choose={(w) => setDrawer(w)}
                     />

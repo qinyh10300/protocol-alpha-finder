@@ -166,16 +166,16 @@ test("Legacy All links retain all recorded mechanisms and original report sharin
       String(count),
     );
     if (time === 9500) {
-      expect(count).toBe(2);
-      await expect(page.locator(".pending-report-card")).toHaveCount(2);
+      expect(count).toBe(3);
+      await expect(page.locator(".pending-report-card")).toHaveCount(3);
     }
   }
   await expect(page.locator(".summary-count strong")).toHaveText([
-    "11",
+    "9",
     "3",
     "3",
   ]);
-  await expect(page.locator(".wallet-row")).toHaveCount(11);
+  await expect(page.locator(".wallet-row")).toHaveCount(9);
   await expect(page.locator(".candidate-card")).toHaveCount(3);
   await expect(page.locator(".report-preview")).toHaveCount(3);
   await expect(page.locator(".pending-report-card")).toHaveCount(0);
@@ -223,7 +223,8 @@ test("Legacy All links retain all recorded mechanisms and original report sharin
   await page.clock.runFor(6000);
   await page.getByRole("button", { name: "Pause replay", exact: true }).click();
   await page.clock.runFor(18000);
-  await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
+  await expect(page.locator(".candidate-card")).toHaveCount(3);
+  await expect(page.locator(".pending-report-card")).toHaveCount(3);
   await page
     .getByRole("button", { name: "Resume replay", exact: true })
     .click();
