@@ -920,6 +920,16 @@ main {
 .running small {
   color: #156bda;
 }
+@media (prefers-reduced-motion: no-preference) {
+  .workspace-grid[data-run-status="running"] .running .step-track > span {
+    animation: research-step-pulse 1.2s ease-in-out infinite;
+  }
+}
+@keyframes research-step-pulse {
+  50% {
+    box-shadow: 0 0 0 4px #2a7cff33;
+  }
+}
 .failed .step-track > span {
   background: #c35466;
   border-color: #c35466;

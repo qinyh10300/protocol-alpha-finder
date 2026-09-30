@@ -26,6 +26,7 @@ import {
   CircleHelp,
 } from "lucide-react";
 import { ApiResearchDataSource, RecordedResearchDataSource } from "./data";
+import { loadReplayPlan } from "./replayPlan";
 import {
   currentMode,
   currentPath,
@@ -58,7 +59,7 @@ import {
 } from "./locales/research";
 
 const api = new ApiResearchDataSource();
-const replay = new RecordedResearchDataSource();
+const replay = new RecordedResearchDataSource(loadReplayPlan);
 const fmt = (n: number) => n.toLocaleString("en-US");
 const short = (s: string) =>
   s.length > 18 ? `${s.slice(0, 7)}…${s.slice(-6)}` : s;
@@ -430,7 +431,12 @@ function WalletInvestigationRow({
             </div>
             <span className="wallet-volume">
               {wallet.historyJob.txCount == null
-                ? t("History pending")
+                ? t(
+                    wallet.historyJob.illustrative &&
+                      wallet.historyJob.status === "completed"
+                      ? "History replayed"
+                      : "History pending",
+                  )
                 : t("{count} tx", { count: fmt(wallet.historyJob.txCount) })}
             </span>
           </div>
@@ -686,7 +692,10 @@ function AlphaCandidateList({
             text={
               data.run.status === "running"
                 ? t("Wallet investigations are still running.")
-                : data.wallets.some((w) => w.alphaSearchJob.status === "queued")
+                : data.illustrativeProgress ||
+                    data.wallets.some(
+                      (w) => w.alphaSearchJob.status === "queued",
+                    )
                   ? t("Wallet history and analysis have not been recorded yet.")
                   : t("No Protocol Alpha Candidates found in this selection.")
             }
@@ -1445,7 +1454,10 @@ function App() {
                       setRevision((r) => r + 1);
                     }}
                   />
-                  <div className="workspace-grid">
+                  <div
+                    className="workspace-grid"
+                    data-run-status={data.run.status}
+                  >
                     <WalletInvestigationList
                       data={data}
                       wallet={filterWallet}

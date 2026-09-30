@@ -3,8 +3,22 @@ export type Outcome =
   "ACTIONABLE" | "MONITOR" | "REJECTED" | "INSUFFICIENT_EVIDENCE";
 export type JobState = {
   status: JobStatus;
+  illustrative?: boolean;
   error?: string;
   completedAt?: string;
+};
+export type ReplayPlan = {
+  schemaVersion: 1;
+  seedId: string;
+  kind: "illustrative_progress";
+  durationSeconds: number;
+  walletStaggerSeconds: number;
+  stages: {
+    job: "historyJob" | "analysisJob" | "alphaSearchJob";
+    start: number;
+    end: number;
+  }[];
+  note: string;
 };
 export type EvidenceRef = {
   type: "transaction" | "contract" | "document" | "block";
@@ -119,6 +133,7 @@ export type SkillStage = {
   artifactUrl: string;
 };
 export type Snapshot = {
+  illustrativeProgress?: boolean;
   provenance?: "recorded" | "synthetic" | "mixed";
   run: ResearchRun;
   seeds: Seed[];

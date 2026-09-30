@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { combineSeedSnapshots } from "../../frontend/src/seed-snapshots";
+import { RecordedResearchDataSource } from "../../frontend/src/data";
 import lending from "../../frontend/public/research/justlend-lending-liquidation.json" with { type: "json" };
-import type { Snapshot } from "../../frontend/src/types";
+import usddPlan from "../../frontend/public/replay/usdd-keeper-auction.json" with { type: "json" };
+import type { ReplayPlan, Snapshot } from "../../frontend/src/types";
 
 test("All merges shared identities without double-counting a wallet's history", () => {
   const first = structuredClone(lending) as Snapshot;
@@ -95,6 +97,44 @@ test("Discovery-only USDD wallets preserve shared research and unknown history c
     expect(result.run.reportCount).toBe(3);
   }
   expect(researched).toEqual(lending);
+});
+
+test("All preserves recorded shared-wallet stages while USDD illustrative progress advances", async () => {
+  const originalNow = Date.now;
+  let now = 1_000_000;
+  Date.now = () => now;
+  try {
+    const all = new RecordedResearchDataSource(async (seedId) =>
+      seedId === "usdd-keeper-auction" ? (usddPlan as ReplayPlan) : undefined,
+    );
+    const recorded = new RecordedResearchDataSource();
+    await all.createRun("all");
+    await recorded.createRun("justlend-lending-liquidation");
+    for (const seconds of [4.5, 6.5, 9.5, 18]) {
+      now = 1_000_000 + seconds * 1000;
+      const combined = await all.getSnapshot();
+      const lendingOnly = await recorded.getSnapshot();
+      const address = "TFazVprtpsoFXzdbtaJwpcwDp8PrSThVFB";
+      const actual = combined.wallets.find(
+        (wallet) => wallet.address === address,
+      )!;
+      const expected = lendingOnly.wallets.find(
+        (wallet) => wallet.address === address,
+      )!;
+      expect(actual.historyJob).toEqual(expected.historyJob);
+      expect(actual.analysisJob).toEqual(expected.analysisJob);
+      expect(actual.alphaSearchJob).toEqual(expected.alphaSearchJob);
+      expect(actual.sourceSeedId).toBe(expected.sourceSeedId);
+      expect(actual.coverageNote).toBe(expected.coverageNote);
+      expect(actual.candidateIds).toEqual(expected.candidateIds);
+      expect(actual.sourceSeedIds).toEqual([
+        "justlend-lending-liquidation",
+        "usdd-keeper-auction",
+      ]);
+    }
+  } finally {
+    Date.now = originalNow;
+  }
 });
 
 test("Legacy All links retain all recorded mechanisms and original report sharing", async ({

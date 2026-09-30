@@ -20,10 +20,14 @@ const JOB_STATUS_ORDER: Record<JobStatus, number> = {
 };
 
 function advancedJob<T extends JobState>(prior: T | undefined, next: T): T {
-  return prior &&
-    JOB_STATUS_ORDER[prior.status] >= JOB_STATUS_ORDER[next.status]
-    ? prior
-    : next;
+  return prior && compareJobs(prior, next) >= 0 ? prior : next;
+}
+
+function compareJobs(first: JobState, second: JobState): number {
+  if (!!first.illustrative !== !!second.illustrative) {
+    return first.illustrative ? -1 : 1;
+  }
+  return JOB_STATUS_ORDER[first.status] - JOB_STATUS_ORDER[second.status];
 }
 
 /** Merge by stable identity, retaining every seed membership and evidence source. */
@@ -36,15 +40,14 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
     const provenance = "recorded";
     for (const wallet of snapshot.wallets) {
       const prior = wallets.get(wallet.address);
-      // A discovery-only copy must not replace an already researched wallet.
-      const priorHistoryRank = prior
-        ? JOB_STATUS_ORDER[prior.historyJob.status]
+      // Illustrative progress must not replace a recorded research stage.
+      const historyComparison = prior
+        ? compareJobs(prior.historyJob, wallet.historyJob)
         : -1;
-      const nextHistoryRank = JOB_STATUS_ORDER[wallet.historyJob.status];
       const historySource =
         prior &&
-        (priorHistoryRank > nextHistoryRank ||
-          (priorHistoryRank === nextHistoryRank &&
+        (historyComparison > 0 ||
+          (historyComparison === 0 &&
             (prior.historyJob.txCount ?? -1) >=
               (wallet.historyJob.txCount ?? -1)))
           ? prior
@@ -122,6 +125,9 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
           ? "paused"
           : "running";
   return {
+    illustrativeProgress: snapshots.some(
+      (snapshot) => snapshot.illustrativeProgress,
+    ),
     mode: "demo",
     provenance: "recorded",
     run: {
@@ -165,6 +171,8 @@ export function combineSeedSnapshots(snapshots: Snapshot[]): Snapshot {
         name: `${SEED_SHORT_NAMES[snapshot.run.seedId]} · ${skill.name}`,
       })),
     ),
-    note: "Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.",
+    note: snapshots.some((snapshot) => snapshot.illustrativeProgress)
+      ? "Research replay · USDD stage progress is illustrative; wallet identities and research evidence remain recorded."
+      : "Saved Skill research · Replay follows the recorded results and does not run a new on-chain search.",
   };
 }

@@ -33,6 +33,10 @@ const chinese: Record<string, string> = {
   "Recorded research replay · Saved Skill evidence; see the recorded window and report check times. Playback timing is simulated; no new on-chain search is performed.":
     "历史研究回放 · 使用已保存的 Skill 证据，时间范围和核查时间见页面及报告。播放节奏为模拟，不会发起新的链上搜寻。",
   "Published Skill snapshot": "已发布的 Skill 研究快照",
+  "USDD replay · Stage progress is illustrative. Wallets and transaction evidence are recorded.":
+    "USDD 回放 · 阶段进度为演示，钱包及交易证据来自真实记录。",
+  "Research replay · USDD stage progress is illustrative; wallet identities and research evidence remain recorded.":
+    "研究回放 · USDD 阶段进度为演示，钱包身份与研究证据保留真实记录。",
   "USDD historical transaction evidence": "USDD 历史交易证据",
   "Official USDD deployment addresses": "USDD 官方部署地址",
   "2 wallets verified from 3 targeted historical transactions (April–June 2026). This is not an exhaustive scan.":

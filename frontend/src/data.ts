@@ -8,6 +8,7 @@ import type {
   AlphaReport,
   ResearchActivityEvent,
   ResearchRun,
+  ReplayPlan,
   Snapshot,
   StrategyWallet,
 } from "./types";
@@ -85,6 +86,24 @@ export class ApiResearchDataSource implements ResearchDataSource {
 }
 
 export class RecordedResearchDataSource implements ResearchDataSource {
+  private plans = new Map<string, Promise<ReplayPlan | undefined>>();
+  constructor(
+    private loadPlan: (
+      seedId: string,
+    ) => Promise<ReplayPlan | undefined> = async () => undefined,
+  ) {}
+  private getPlan(seedId: string) {
+    if (!this.plans.has(seedId)) {
+      this.plans.set(
+        seedId,
+        this.loadPlan(seedId).catch((error) => {
+          this.plans.delete(seedId);
+          throw error;
+        }),
+      );
+    }
+    return this.plans.get(seedId)!;
+  }
   private seedId = DEFAULT_DEMO_SEED;
   private started = false;
   private elapsed = 0;
@@ -112,6 +131,12 @@ export class RecordedResearchDataSource implements ResearchDataSource {
   }
   async createRun(seedId = this.seedId) {
     this.selectSeed(seedId);
+    await Promise.all(
+      (seedId === "all" ? PROTOCOL_SEEDS.map((seed) => seed.id) : [seedId]).map(
+        (id) => this.getPlan(id),
+      ),
+    );
+    if (this.seedId !== seedId) return (await this.getSnapshot()).run;
     this.started = true;
     this.paused = false;
     this.elapsed = 0;
@@ -137,6 +162,7 @@ export class RecordedResearchDataSource implements ResearchDataSource {
     return this.getSeedSnapshot(this.seedId);
   }
   private async getSeedSnapshot(seedId: string): Promise<Snapshot> {
+    const plan = await this.getPlan(seedId);
     const data = structuredClone(recordedReplays[seedId]);
     const t = this.seconds;
     const hasInvestigations = data.wallets.some((wallet) =>
@@ -146,36 +172,46 @@ export class RecordedResearchDataSource implements ResearchDataSource {
     );
     // A discovery-only record has no history or analysis work to replay.
     const completionTime =
-      hasInvestigations || data.candidates.length
+      plan?.durationSeconds ??
+      (hasInvestigations || data.candidates.length
         ? 17
-        : Math.max(3, 0.5 + data.wallets.length * 0.4);
+        : Math.max(3, 0.5 + data.wallets.length * 0.4));
     const wallets: StrategyWallet[] = this.started
       ? data.wallets
           .filter((_, i) => t >= 0.5 + i * 0.4)
           .map((w, i) => {
-            const phase = t - i * 0.7;
+            const phase = t - i * (plan?.walletStaggerSeconds ?? 0.7);
             const job = (
+              name: "historyJob" | "analysisJob" | "alphaSearchJob",
               start: number,
               end: number,
               final: StrategyWallet["analysisJob"],
-            ) => ({
-              ...final,
-              status:
-                final.status === "queued" || phase < start
-                  ? ("queued" as const)
-                  : phase < end
-                    ? ("running" as const)
-                    : final.status,
-            });
+            ) => {
+              const stage = plan?.stages.find((stage) => stage.job === name);
+              const illustrative = !!stage && final.status === "queued";
+              return {
+                ...final,
+                ...(illustrative ? { illustrative: true } : {}),
+                status:
+                  (!illustrative && final.status === "queued") ||
+                  phase < (stage?.start ?? start)
+                    ? ("queued" as const)
+                    : phase < (stage?.end ?? end)
+                      ? ("running" as const)
+                      : illustrative
+                        ? ("completed" as const)
+                        : final.status,
+              };
+            };
             return {
               ...w,
               sourceSeedId: seedId,
               historyJob: {
-                ...job(1, 4, w.historyJob),
+                ...job("historyJob", 1, 4, w.historyJob),
                 txCount: phase >= 4 ? w.historyJob.txCount : undefined,
               },
-              analysisJob: job(4, 6, w.analysisJob),
-              alphaSearchJob: job(6, 9, w.alphaSearchJob),
+              analysisJob: job("analysisJob", 4, 6, w.analysisJob),
+              alphaSearchJob: job("alphaSearchJob", 6, 9, w.alphaSearchJob),
               candidateIds: data.candidates
                 .filter(
                   (candidate, index) =>
@@ -271,9 +307,10 @@ export class RecordedResearchDataSource implements ResearchDataSource {
             : undefined,
       })),
       mode: "demo",
+      ...(plan ? { illustrativeProgress: true } : {}),
       provenance: "recorded",
       window: data.window,
-      note: data.note,
+      note: plan?.note ?? data.note,
     };
   }
 

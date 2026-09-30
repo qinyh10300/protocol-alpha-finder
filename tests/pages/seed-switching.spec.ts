@@ -285,9 +285,12 @@ test("every published seed snapshot retains its real wallets and report evidence
   await expect(page.locator(".candidate-card, .report-preview")).toHaveCount(0);
   await expect(page.locator(".wallet-row")).toHaveCount(2);
   await expect(page.locator(".wallet-volume")).toHaveText([
-    "History pending",
-    "History pending",
+    "History replayed",
+    "History replayed",
   ]);
+  await expect(page.locator(".workspace-note")).toHaveText(
+    "USDD replay · Stage progress is illustrative. Wallets and transaction evidence are recorded.",
+  );
   await expect(
     page.getByText("No executors found", { exact: true }),
   ).toHaveCount(0);
@@ -307,6 +310,11 @@ test("every published seed snapshot retains its real wallets and report evidence
     "27 bounded provider queries completed",
   );
   for (const wallet of historicalDiscovery.wallets) {
+    // The playback completes illustrative stages without changing the saved
+    // discovery-only artifact or inventing an actual history transaction count.
+    expect(wallet.historyJob).toEqual({ status: "queued" });
+    expect(wallet.analysisJob).toEqual({ status: "queued" });
+    expect(wallet.alphaSearchJob).toEqual({ status: "queued" });
     await page
       .getByRole("button", {
         name: `Investigate wallet ${wallet.address}`,
@@ -314,7 +322,7 @@ test("every published seed snapshot retains its real wallets and report evidence
       })
       .click();
     const drawer = page.getByRole("dialog", { name: "Wallet investigation" });
-    await expect(drawer.locator(".pipeline-step.queued")).toHaveCount(3);
+    await expect(drawer.locator(".pipeline-step.completed")).toHaveCount(3);
     await expect(drawer.locator(".detail-stat strong")).toHaveText("—");
     await expect(drawer.locator(".drawer-note")).toHaveText(
       wallet.coverageNote,

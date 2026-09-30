@@ -6,6 +6,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse, unquote
 from research_adapter import ROOT, ARTIFACTS, normalize
 
+REPLAY_PLANS = {
+    'usdd-keeper-auction': 'frontend/public/replay/usdd-keeper-auction.json',
+}
+
 
 class Handler(BaseHTTPRequestHandler):
     def send(self, status, data, content_type='application/json; charset=utf-8'):
@@ -22,6 +26,11 @@ class Handler(BaseHTTPRequestHandler):
         try:
             path = unquote(urlparse(self.path).path)
             parts = path.strip('/').split('/')
+            if path.startswith('/api/replay-plans/'):
+                seed_id = path.removeprefix('/api/replay-plans/')
+                if seed_id not in REPLAY_PLANS:
+                    return self.send(404, {'error': 'Replay plan not found'})
+                return self.send(200, (ROOT / REPLAY_PLANS[seed_id]).read_bytes())
             if path.startswith('/api/artifacts/'):
                 key = parts[-1]
                 if key not in ARTIFACTS:

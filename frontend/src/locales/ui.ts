@@ -181,6 +181,7 @@ export const uiZh: Record<string, string> = {
   "Saved Skill run": "已保存的 Skill 研究",
   "Demo replay": "演示回放",
   "History pending": "等待加载历史",
+  "History replayed": "历史阶段已回放",
   "Discovering executors": "正在发现执行者",
   "No executors found": "未发现执行者",
   "Select an alpha seed, then click Replay Demo to begin.":

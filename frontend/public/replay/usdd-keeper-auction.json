@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "seedId": "usdd-keeper-auction",
+  "kind": "illustrative_progress",
+  "durationSeconds": 17,
+  "walletStaggerSeconds": 0.7,
+  "stages": [
+    { "job": "historyJob", "start": 1, "end": 4 },
+    { "job": "analysisJob", "start": 4, "end": 6 },
+    { "job": "alphaSearchJob", "start": 6, "end": 9 }
+  ],
+  "note": "USDD replay · Stage progress is illustrative. Wallets and transaction evidence are recorded."
+}
