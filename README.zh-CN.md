@@ -45,7 +45,7 @@
 
 **Alpha Seeds → 策略钱包 → 历史交易 → Alpha 候选 → Alpha 报告。** 每个候选都经过验证，并生成自己的报告。
 
-[![系统架构：Alpha 报告以机会状态、出现次数和机会容量展示结果](docs/images/system-architecture-zh-CN.svg?v=mock-report-metrics)](docs/images/system-architecture-zh-CN.svg)
+[![系统架构：Alpha 报告以机会状态、出现次数和机会容量展示结果](docs/images/system-architecture-zh-CN.svg?v=report-metrics-v2)](docs/images/system-architecture-zh-CN.svg)
 
 报告卡片使用**模拟数字**展示当前机会、单次规模、容量、历史出现次数、历史频率与预测频率。金额以 USDT 计，历史统计窗口为 30 天，预测窗口为未来 7 天。
 
