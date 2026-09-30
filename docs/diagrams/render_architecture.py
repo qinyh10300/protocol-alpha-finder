@@ -26,10 +26,8 @@ LABELS = {
    ['Rental sequence',['Bundled calls may lower','execution costs.']],
    ['Collateral recycling',['Redeem and swap may release','capital sooner.']],
    ['Auction timing',['Temporary discounts may offer','an opportunity after costs.']]],
-  'reports':[
-   ['Alpha Report 1',[['Opportunity','Yes / No'],['Occurrences','N times'],['Capacity','Estimated size']]],
-   ['Alpha Report 2',[['Opportunity','Yes / No'],['Occurrences','N times'],['Capacity','Estimated size']]],
-   ['Alpha Report 3',[['Opportunity','Yes / No'],['Occurrences','N times'],['Capacity','Estimated size']]]],
+  'reports':[('Alpha Report 1 · Mock', [('Open opportunities', '2'), ('Size / event', '2,500 USDT'), ('Capacity / event', '10,000 USDT'), ('History (30d)', '120 events'), ('Observed rate', '4 / day'), ('Forecast (7d)', '3–5 / day')]), ('Alpha Report 2 · Mock', [('Open opportunities', '1'), ('Size / event', '8,000 USDT'), ('Capacity / event', '40,000 USDT'), ('History (30d)', '30 events'), ('Observed rate', '1 / day'), ('Forecast (7d)', '1–2 / day')]), ('Alpha Report 3 · Mock', [('Open opportunities', '0'), ('Size / event', '15,000 USDT'), ('Capacity / event', '75,000 USDT'), ('History (30d)', '6 events'), ('Observed rate', '0.2 / day'), ('Forecast (7d)', '0–1 / day')])],
+  'mock_note':'Mock metrics only · Size = typical capital per event; capacity = maximum capital per event. Forecasts illustrate the next 7 days.',
   'solid':'Evidence flow', 'dashed':'Skill coordination',
   'description':'Illustrative addresses, transactions, and report contents. Skill 2 fetches the selected wallet\'s transaction history; three dashed evidence groups support three candidate hypotheses. Skill 4 validates each candidate to produce its own Alpha Report. Protocol Alpha Finder coordinates four operations. Collection and review are initiated manually, with historical coverage recorded explicitly.',
  },
@@ -48,10 +46,8 @@ LABELS = {
    ['租赁组合操作',['合并调用可能降低','整体执行成本。']],
    ['抵押品回收',['赎回并兑换可能更快','释放占用资金。']],
    ['拍卖时机',['短暂折价可能带来机会，','需要结合执行成本验证。']]],
-  'reports':[
-   ['Alpha 报告 1',[['机会状态','有 / 无'],['出现次数','N 次'],['机会容量','预估规模']]],
-   ['Alpha 报告 2',[['机会状态','有 / 无'],['出现次数','N 次'],['机会容量','预估规模']]],
-   ['Alpha 报告 3',[['机会状态','有 / 无'],['出现次数','N 次'],['机会容量','预估规模']]]],
+  'reports':[('Alpha 报告 1 · 模拟', [('当前机会', '2 个'), ('单次规模', '2,500 USDT'), ('单次容量', '10,000 USDT'), ('历史次数（30天）', '120 次'), ('历史频率', '4 次 / 天'), ('预测频率（7天）', '3–5 次 / 天')]), ('Alpha 报告 2 · 模拟', [('当前机会', '1 个'), ('单次规模', '8,000 USDT'), ('单次容量', '40,000 USDT'), ('历史次数（30天）', '30 次'), ('历史频率', '1 次 / 天'), ('预测频率（7天）', '1–2 次 / 天')]), ('Alpha 报告 3 · 模拟', [('当前机会', '0 个'), ('单次规模', '15,000 USDT'), ('单次容量', '75,000 USDT'), ('历史次数（30天）', '6 次'), ('历史频率', '0.2 次 / 天'), ('预测频率（7天）', '0–1 次 / 天')])],
+  'mock_note':'报告指标均为模拟数据 · 规模为单次典型投入，容量为单次最大可投入资金；预测频率为未来 7 天的示意。',
   'solid':'证据流转','dashed':'Skill 编排',
   'description':'地址、交易与报告内容均为方法示意。Skill 2 抓取选中钱包的历史交易，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。采集与复查由手动发起，并记录历史覆盖情况。',
  }
@@ -70,8 +66,9 @@ def render(lang, L):
 .transaction-action { font-size:14px; fill:#526579; }
 .transaction-ellipsis { font-size:27px; fill:#7b8da1; }
 .group-label { font-size:19px; font-weight:700; }
-.report-field { font-size:16px; fill:#526579; }
-.report-value { font-size:16px; font-weight:600; }
+.report-title { font-size:19px; font-weight:700; }
+.report-field { font-size:15px; fill:#526579; }
+.report-value { font-size:15px; font-weight:600; }
 </style>''')
  d.text(30,55,L['title'],'title')
  d.arrow(1680,86,1730,86,0,'legend-evidence')
@@ -121,14 +118,14 @@ def render(lang, L):
   d.text(1520,y-17,L['candidates'][i][0],'node','middle',accent)
   for j,line in enumerate(L['candidates'][i][1]):d.text(1520,y+11+23*j,line,'small','middle')
   d.parts.append('<g data-kind="alpha-report">')
-  d.rect(1820,y-75,300,150,fill,border,6)
-  d.text(1970,y-46,L['reports'][i][0],'node','middle',accent)
-  d.line(1836,y-31,2104,y-31,border)
+  d.rect(1820,y-88,300,176,fill,border,6)
+  d.text(1970,y-63,L['reports'][i][0],'report-title','middle',accent)
+  d.line(1836,y-51,2104,y-51,border)
   for j,(field,value) in enumerate(L['reports'][i][1]):
-   row_y=y-8+29*j
+   row_y=y-32+21*j
    d.text(1836,row_y,field,'report-field')
    d.text(2104,row_y,value,'report-value','end')
-   if j<2:d.line(1836,row_y+10,2104,row_y+10,border)
+   if j<len(L['reports'][i][1])-1:d.line(1836,row_y+7,2104,row_y+7,border)
   d.parts.append('</g>')
  for i,y in enumerate(wallet_y):
   fill,border,accent=(PALETTE[3][2],PALETTE[3][2],'#ffffff') if i==0 else ('#f8fafc','#d3dce6','#61758a')
@@ -146,6 +143,7 @@ def render(lang, L):
   first=title_y+30
   for j,line in enumerate(lines):d.text(x,first+j*23,line,'skill-phrase','middle',accent)
   d.parts.append('</g>')
+ d.text(55,1008,L['mock_note'],'small')
  d.save(ROOT.parent/'images'/f'system-architecture-{lang}.svg')
 
  # Editable topology matches the five-stage picture; package mapping lives in the guide.
@@ -186,7 +184,7 @@ def render(lang, L):
   m.append(f'    style CANDIDATE{i} fill:{fill},stroke:{accent}')
   m.append(f'    style REPORT{i} fill:{fill},stroke:{accent}')
   for j in range(3):m.append(f'    style TX{i}{j} fill:#f8fafc,stroke:#d3dce6,color:#526579')
- m.append(f'    %% {L["description"]}')
+ m.append(f'    %% {L["description"]} {L["mock_note"]}')
  (ROOT/f'system-architecture-{lang}.mmd').write_text('\n'.join(m)+'\n')
 
 

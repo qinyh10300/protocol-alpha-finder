@@ -45,9 +45,9 @@ Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-fin
 
 **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Alpha Reports.** Each candidate passes through validation and produces its own report.
 
-[![System architecture with structured report fields: opportunity, occurrences, and capacity](docs/images/system-architecture-en.svg?v=4bcbeaa)](docs/images/system-architecture-en.svg)
+[![System architecture with structured report fields: opportunity, occurrences, and capacity](docs/images/system-architecture-en.svg?v=mock-report-metrics)](docs/images/system-architecture-en.svg)
 
-Each Alpha Report card summarizes **opportunity availability, historical occurrences, and estimated capacity**.
+The report cards show **mock numbers** for open opportunities, typical size, capacity, historical occurrences, observed frequency, and forecast frequency. Amounts are in USDT; history covers 30 days and forecasts cover the next 7 days.
 
 [Method and Skills](docs/ARCHITECTURE.md) · [Evidence and wallet observation](docs/DATA_ARCHITECTURE.md)
 
