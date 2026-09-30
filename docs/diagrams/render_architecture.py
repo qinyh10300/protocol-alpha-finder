@@ -16,7 +16,7 @@ LABELS = {
   'workflow':'Research Workflow',
   'heads':['1 · Alpha Seeds','2 · Strategy Wallets','3 · History Transactions','4 · Alpha Candidates','5 · Alpha Reports'],
   'coordinate':'Coordinate 4 Skills',
-  'skill_phrases':[['Find','Strategy','Wallets'],['Monitor','Wallet','History'],['Extract','Alpha','Candidates'],['Validate','Alpha','Candidates']],
+  'skill_phrases':[['Find','Strategy','Wallets'],['Fetch','Wallet','History'],['Extract','Alpha','Candidates'],['Validate','Alpha','Candidates']],
   'seeds':[
    ['Energy Rental',['Clear depleted orders and','recover resources and rewards.']],
    ['JustLend',['Repay undercollateralized loans','and receive seized collateral.']],
@@ -31,14 +31,14 @@ LABELS = {
    ['Alpha Report 2',['Checks whether collateral reuse','releases capital after fees.']],
    ['Alpha Report 3',['Reviews auction discounts,','competition, and missing evidence.']]],
   'solid':'Evidence flow', 'dashed':'Skill coordination',
-  'description':'Illustrative addresses, transactions, and report contents. The selected wallet connects to monitored transaction rows; three dashed evidence groups support three candidate hypotheses. Skill 4 validates each candidate to produce its own Alpha Report. Protocol Alpha Finder coordinates four operations. Monitoring currently uses manually initiated collection and review, with historical coverage recorded explicitly.',
+  'description':'Illustrative addresses, transactions, and report contents. Skill 2 fetches the selected wallet\'s transaction history; three dashed evidence groups support three candidate hypotheses. Skill 4 validates each candidate to produce its own Alpha Report. Protocol Alpha Finder coordinates four operations. Collection and review are initiated manually, with historical coverage recorded explicitly.',
  },
  'zh-CN': {
   'title':'Protocol Alpha Finder · 系统架构',
   'workflow':'研究工作流',
   'heads':['1 · Alpha Seed','2 · 策略钱包','3 · 历史交易','4 · Alpha 候选','5 · Alpha 报告'],
   'coordinate':'协调 4 个 Skill',
-  'skill_phrases':[['寻找策略','钱包'],['监控钱包','历史'],['提取 Alpha','候选'],['验证 Alpha','候选']],
+  'skill_phrases':[['寻找策略','钱包'],['抓取钱包','历史'],['提取 Alpha','候选'],['验证 Alpha','候选']],
   'seeds':[
    ['Energy Rental',['清算保证金不足的租赁订单，','回收资源并获得奖励。']],
    ['JustLend',['偿还抵押不足头寸的债务，','获得被清算的抵押品。']],
@@ -53,7 +53,7 @@ LABELS = {
    ['Alpha 报告 2',['检查抵押品复用在扣除费用后，','能否更快释放资金。']],
    ['Alpha 报告 3',['评估拍卖折价、竞争情况，','并列出仍缺少的证据。']]],
   'solid':'证据流转','dashed':'Skill 编排',
-  'description':'地址、交易与报告内容均为方法示意。选中钱包连接到监控的交易记录，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。监控目前通过手动发起采集与复查完成，并记录历史覆盖情况。',
+  'description':'地址、交易与报告内容均为方法示意。Skill 2 抓取选中钱包的历史交易，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。采集与复查由手动发起，并记录历史覆盖情况。',
  }
 }
 
@@ -81,8 +81,8 @@ def render(lang, L):
  d.rect(780,177,640,86,*SKILL_COLOR[:2],8)
  d.text(1100,214,'Protocol Alpha Finder','coordinator-title','middle',SKILL_COLOR[2])
  d.text(1100,245,L['coordinate'],'coordinator-description','middle',SKILL_COLOR[2])
- centers=[(420,660),(825,450),(1305,660),(1735,660)]
- skill_heights=[540,120,540,540]
+ centers=[(420,660),(825,660),(1305,660),(1735,660)]
+ skill_heights=[540,540,540,540]
  d.parts.append('<path data-kind="coordination-bus" d="M 1100 263 V 285 M 420 285 H 1735" stroke="#2563b8" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>')
  for (x,y),height in zip(centers,skill_heights):d.arrow(x,285,x,y-height/2-3,0,'skill-coordination',True,True)
  columns=[(60,300),(480,280),(890,350),(1370,300),(1800,340)]

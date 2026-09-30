@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1020" viewBox="0 0 2200 1020" role="img" aria-labelledby="title desc" xml:lang="zh-CN">
-<title id="title">Protocol Alpha Finder · 系统架构</title><desc id="desc">地址、交易与报告内容均为方法示意。选中钱包连接到监控的交易记录，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。监控目前通过手动发起采集与复查完成，并记录历史覆盖情况。</desc><defs>
+<title id="title">Protocol Alpha Finder · 系统架构</title><desc id="desc">地址、交易与报告内容均为方法示意。Skill 2 抓取选中钱包的历史交易，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。采集与复查由手动发起，并记录历史覆盖情况。</desc><defs>
 <marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#2563b8"/></marker>
 <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#7953ad"/></marker>
 <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#a8661e"/></marker>
@@ -189,10 +189,10 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 <text x="420" y="695.5" class="skill-phrase" text-anchor="middle" style="fill:#214f96">钱包</text>
 </g>
 <g data-kind="skill-badge">
-<rect x="769" y="390.0" width="112" height="120" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
-<text x="825" y="432.5" class="skill-title" text-anchor="middle" style="fill:#214f96">Skill 2</text>
-<text x="825" y="462.5" class="skill-phrase" text-anchor="middle" style="fill:#214f96">监控钱包</text>
-<text x="825" y="485.5" class="skill-phrase" text-anchor="middle" style="fill:#214f96">历史</text>
+<rect x="769" y="390.0" width="112" height="540" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
+<text x="825" y="642.5" class="skill-title" text-anchor="middle" style="fill:#214f96">Skill 2</text>
+<text x="825" y="672.5" class="skill-phrase" text-anchor="middle" style="fill:#214f96">抓取钱包</text>
+<text x="825" y="695.5" class="skill-phrase" text-anchor="middle" style="fill:#214f96">历史</text>
 </g>
 <g data-kind="skill-badge">
 <rect x="1249" y="390.0" width="112" height="540" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>

@@ -64,7 +64,7 @@ flowchart TB
         CANDIDATE2 -->|Skill 4| REPORT2
     end
     S1["Skill 1<br/>寻找策略 钱包"]
-    S2["Skill 2<br/>监控钱包 历史"]
+    S2["Skill 2<br/>抓取钱包 历史"]
     S3["Skill 3<br/>提取 Alpha 候选"]
     S4["Skill 4<br/>验证 Alpha 候选"]
     COORD["Protocol Alpha Finder<br/>协调 4 个 Skill"]
@@ -95,4 +95,4 @@ flowchart TB
     style TX20 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX21 fill:#f8fafc,stroke:#d3dce6,color:#526579
     style TX22 fill:#f8fafc,stroke:#d3dce6,color:#526579
-    %% 地址、交易与报告内容均为方法示意。选中钱包连接到监控的交易记录，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。监控目前通过手动发起采集与复查完成，并记录历史覆盖情况。
+    %% 地址、交易与报告内容均为方法示意。Skill 2 抓取选中钱包的历史交易，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。采集与复查由手动发起，并记录历史覆盖情况。

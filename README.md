@@ -26,7 +26,7 @@ Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-fin
 
 **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Alpha Reports.** Each candidate passes through validation and produces its own report.
 
-[![System architecture: wallet discovery, transaction monitoring, candidate extraction, and reports](docs/images/system-architecture-en.svg)](docs/images/system-architecture-en.svg)
+[![System architecture: wallet discovery, history collection, candidate extraction, and reports](docs/images/system-architecture-en.svg)](docs/images/system-architecture-en.svg)
 
 [Method and Skills](docs/ARCHITECTURE.md) · [Evidence and wallet observation](docs/DATA_ARCHITECTURE.md)
 
@@ -46,7 +46,7 @@ The diagram labels four operations. **Skills 2 and 3 are both implemented by `wa
 
 The bundled [Energy Rental collector](scripts/collect_energy_rental.py) fetches liquidation events, verifies receipt logs, and identifies transaction initiators. JustLend and USDD discovery use the host Agent's chain tools or supplied evidence.
 
-### Skills 2–3 — Monitor history and extract candidates
+### Skills 2–3 — Fetch history and extract candidates
 
 [wallet-alpha-investigation](skills/wallet-alpha-investigation/SKILL.md) takes the wallet shortlist and examines activity beyond the original seed. It groups contract calls and asset movements into repeated sequences. Each candidate retains supporting transactions, an explanation of the mechanism, alternative explanations, and checks that could disprove it.
 
