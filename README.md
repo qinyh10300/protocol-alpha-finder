@@ -45,7 +45,9 @@ Choose a seed in the [Live Demo](https://qinyh10300.github.io/protocol-alpha-fin
 
 **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Alpha Reports.** Each candidate passes through validation and produces its own report.
 
-[![System architecture: wallet discovery, history collection, candidate extraction, and reports](docs/images/system-architecture-en.svg)](docs/images/system-architecture-en.svg)
+[![System architecture with structured report fields: opportunity, occurrences, and capacity](docs/images/system-architecture-en.svg?v=4bcbeaa)](docs/images/system-architecture-en.svg)
+
+Each Alpha Report card summarizes **opportunity availability, historical occurrences, and estimated capacity**.
 
 [Method and Skills](docs/ARCHITECTURE.md) · [Evidence and wallet observation](docs/DATA_ARCHITECTURE.md)
 

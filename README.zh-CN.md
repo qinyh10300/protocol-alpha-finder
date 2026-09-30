@@ -45,7 +45,9 @@
 
 **Alpha Seeds → 策略钱包 → 历史交易 → Alpha 候选 → Alpha 报告。** 每个候选都经过验证，并生成自己的报告。
 
-[![系统架构：发现钱包、采集历史、提取候选并生成报告](docs/images/system-architecture-zh-CN.svg)](docs/images/system-architecture-zh-CN.svg)
+[![系统架构：Alpha 报告以机会状态、出现次数和机会容量展示结果](docs/images/system-architecture-zh-CN.svg?v=4bcbeaa)](docs/images/system-architecture-zh-CN.svg)
+
+每张 Alpha 报告卡片按**机会状态、出现次数、机会容量**三个字段展示结果。
 
 [方法与 Skills](docs/ARCHITECTURE.zh-CN.md) · [历史证据与钱包观察](docs/DATA_ARCHITECTURE.zh-CN.md)
 
