@@ -17,31 +17,21 @@ The project began with a liquidation research question: when another wallet exec
 
 | Concept | Meaning in this project |
 | --- | --- |
-| **Protocol Alpha** | A potential economic opportunity created by protocol rules, contract state, or execution paths. Examples include liquidation incentives and keeper rewards. |
 | **Alpha Seed** | A known protocol mechanism used to find its actual executors. Energy Rental liquidations, JustLend lending liquidations, and USDD keeper actions are the initial seeds. |
 | **Strategy Wallet** | A wallet selected for research because transaction evidence shows it executed a relevant mechanism. That evidence identifies a research target; profitability still needs validation. |
-| **[Treasury Wallet](https://www.safe.global/teams)** | A wallet that holds and manages a protocol or organization's funds. Treasury ownership is separate from the execution evidence used to select Strategy Wallets. |
 | **Alpha Candidate** | A hypothesis about another mechanism found in a wallet's activity, with supporting transactions and questions that still need to be tested. |
 
 We use known mechanisms to find wallets, examine their broader transaction history, and turn candidate mechanisms into evidence-backed reports. An established mechanism can become a new seed for a further research pass. The long-term goal described in the [Pitch Deck](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx) is a graph connecting protocol opportunities to the wallets that execute them.
 
 ## Features
 
-1. **Start from three TRON Alpha Seeds.** Research Energy Rental liquidations, JustLend lending liquidations, and USDD keeper or auction actions. Keep separate coverage and evidence for each seed, including cases with no verified matches. The bundled collector supports Energy Rental; the other seeds use host tools or supplied evidence.
+1. **Find strategy wallets from three TRON seeds.** Start with Energy Rental liquidations, JustLend lending liquidations, or USDD keeper actions. Verify execution evidence and deduplicate wallets while preserving their seed sources.
 
-2. **Verify the wallets behind each execution.** Match seed actions to successful receipts and distinguish the transaction sender, execution contract, and reward recipient. Merge duplicate wallets across seeds while preserving every source and the reason each wallet was selected.
+2. **Discover new mechanisms in wallet history.** Follow **History → Analyze → Search Alpha** to examine contract calls and asset movements beyond the original seed. Each candidate retains supporting transactions and questions to investigate.
 
-3. **Fetch history with explicit coverage.** Collect primary transactions, token records, and internal activity within the requested time window. Save source responses and checkpoints so collection can resume. Each wallet has its own **History → Analyze → Search Alpha** investigation, with incomplete retrieval kept visible.
+3. **Validate each candidate.** Check the mechanism, current contract state, rewards, costs, and execution conditions. Record unresolved questions and distinguish historical evidence from current availability.
 
-4. **Investigate behavior beyond the original seed.** A host Agent examines contract functions, repeated action sequences, and asset movements to propose other protocol mechanisms. Each candidate includes supporting transactions, alternative explanations, and checks that could disprove it. Deterministic tools provide the underlying records and measurements.
-
-5. **Assess mechanism, current conditions, and execution risk.** The validation Skill guides the Agent through rewards, returned principal, costs, permissions, timing, liquidity, and competition. It separates historical observations from current availability and records any checks that the available evidence cannot resolve.
-
-6. **Produce a report for every candidate.** Each report explains the proposed mechanism, historical evidence, current state, execution requirements, and next checks. Outcomes can be **Actionable**, **Monitor**, **Rejected**, or **Insufficient Evidence**. A Monitor report records what should be checked again when conditions or evidence change.
-
-7. **Review the research trail in one workspace.** Move from wallet investigations to candidate hypotheses and individual reports. Inspect source transactions, share report links, export Markdown, and bookmark reports in the browser. Replay the published Demo or load saved Skill results through the local adapter.
-
-8. **Revisit wallets when new evidence arrives.** Repeat collection to compare new activity with previously observed contracts and find changes worth investigating. Preserve coverage gaps, collection errors, and unresolved economics. These follow-up runs are currently started manually.
+4. **Review and share research reports.** Browse wallets, candidates, and reports in one workspace. Each report records an outcome—**Actionable**, **Monitor**, **Rejected**, or **Insufficient Evidence**—with evidence, next checks, and options to share or export.
 
 ## Demo
 
