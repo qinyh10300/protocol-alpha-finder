@@ -21,7 +21,9 @@ test("USDD uses the backend plan and advances without changing recorded evidence
   await page.clock.runFor(2000);
   const row = page.locator(".wallet-row").first();
   await expect(page.locator(".wallet-row")).toHaveCount(2);
-  await expect(row.locator(".pipeline-step.running")).toHaveText(/History/);
+  await expect(row.locator(".pipeline-step.running")).toHaveText(
+    /Get Transaction/,
+  );
   await expect(row.locator(".running .step-track > span")).toHaveCSS(
     "animation-name",
     "research-step-pulse",
@@ -32,17 +34,21 @@ test("USDD uses the backend plan and advances without changing recorded evidence
     "paused",
   );
   await page.clock.runFor(10000);
-  await expect(row.locator(".pipeline-step.running")).toHaveText(/History/);
+  await expect(row.locator(".pipeline-step.running")).toHaveText(
+    /Get Transaction/,
+  );
   await expect(row.locator(".running .step-track > span")).toHaveCSS(
     "animation-name",
     "none",
   );
   await page.getByRole("button", { name: "Resume replay" }).click();
   await page.clock.runFor(3500);
-  await expect(row.locator(".pipeline-step.running")).toHaveText(/Analyze/);
-  await page.clock.runFor(2000);
   await expect(row.locator(".pipeline-step.running")).toHaveText(
     /Search Alpha/,
+  );
+  await page.clock.runFor(2000);
+  await expect(row.locator(".pipeline-step.running")).toHaveText(
+    /Validate Alpha/,
   );
   await page.clock.runFor(10000);
   await expect(
@@ -64,5 +70,7 @@ test("USDD uses the backend plan and advances without changing recorded evidence
     .click();
   await expect(page.locator(".wallet-row")).toHaveCount(0);
   await page.clock.runFor(2000);
-  await expect(row.locator(".pipeline-step.running")).toHaveText(/History/);
+  await expect(row.locator(".pipeline-step.running")).toHaveText(
+    /Get Transaction/,
+  );
 });

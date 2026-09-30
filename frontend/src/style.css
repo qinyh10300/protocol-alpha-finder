@@ -767,14 +767,16 @@ main {
   margin-bottom: 8px;
 }
 .wallet-result > .seed-origin {
-  grid-column: 2;
-  grid-row: 1;
+  grid-column: 1 / -1;
+  grid-row: 2;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   gap: 2px;
   max-width: 100%;
   text-align: center;
   font-size: 10px;
+  margin-top: 4px;
 }
 @media (max-width: 600px) {
   .wallet-result > .seed-origin {
@@ -783,11 +785,6 @@ main {
     margin-bottom: 6px;
     gap: 6px;
     font-size: 11px;
-  }
-  .wallet-result:has(.seed-origin) > .wallet-identity,
-  .wallet-result:has(.seed-origin) > .candidate-count,
-  .wallet-result:has(.seed-origin) > .zero-count {
-    grid-row: 2;
   }
 }
 .wallet-row .wallet-result {
@@ -800,7 +797,24 @@ main {
 }
 .wallet-result > .candidate-count,
 .wallet-result > .zero-count {
+  grid-column: 2;
+  grid-row: 1;
+  max-width: calc(100% - 6px);
+  text-align: center;
+  white-space: normal;
+}
+.wallet-result > .report-generated {
   grid-column: 3;
+  grid-row: 1;
+  max-width: calc(100% - 6px);
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: #eaf3ff;
+  color: #1c60bd;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
 }
 .wallet-result .chip {
   font-size: 11px;
@@ -832,6 +846,7 @@ main {
 .wallet-row .pipeline-step small {
   display: block;
   line-height: 1.2;
+  white-space: normal;
 }
 .wallet-row .step-track {
   height: 24px;

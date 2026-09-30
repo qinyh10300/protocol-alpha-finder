@@ -107,9 +107,9 @@ function PipelineStatus({ wallet }: { wallet: StrategyWallet }) {
     <div className="pipeline">
       {(
         [
-          [t("History"), wallet.historyJob],
-          [t("Analyze"), wallet.analysisJob],
-          [t("Search Alpha"), wallet.alphaSearchJob],
+          [t("Get Transaction"), wallet.historyJob],
+          [t("Search Alpha"), wallet.analysisJob],
+          [t("Validate Alpha"), wallet.alphaSearchJob],
         ] as [string, JobState][]
       ).map(([title, job]) => (
         <div
@@ -377,8 +377,10 @@ function WalletInvestigationRow({
   selected,
   onClick,
   showSeed,
+  reportGenerated,
 }: {
   showSeed?: boolean;
+  reportGenerated: boolean;
   wallet: StrategyWallet;
   index: number;
   selected: boolean;
@@ -460,6 +462,9 @@ function WalletInvestigationRow({
               )}
             </span>
           )}
+          {wallet.candidateIds.length > 0 && reportGenerated && (
+            <span className="report-generated">{t("Report Generated")}</span>
+          )}
         </div>
         <PipelineStatus wallet={wallet} />
       </div>
@@ -510,6 +515,11 @@ function WalletInvestigationList({
               index={i}
               selected={wallet === w.address}
               showSeed={allSeeds}
+              reportGenerated={data.reports.some(
+                (report) =>
+                  w.candidateIds.includes(report.candidateId) &&
+                  report.sourceWallets.includes(w.address),
+              )}
               onClick={() => choose(w)}
             />
           ))
