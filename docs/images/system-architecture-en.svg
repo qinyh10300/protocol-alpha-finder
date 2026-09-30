@@ -25,6 +25,8 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 .transaction-action { font-size:14px; fill:#526579; }
 .transaction-ellipsis { font-size:27px; fill:#7b8da1; }
 .group-label { font-size:19px; font-weight:700; }
+.report-field { font-size:16px; fill:#526579; }
+.report-value { font-size:16px; font-weight:600; }
 </style>
 <text x="30" y="55" class="title" text-anchor="start">Protocol Alpha Finder · System Architecture</text>
 <path data-kind="legend-evidence" d="M 1680 86 C 1705.0 86 1705.0 86 1730 86" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
@@ -101,10 +103,17 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 <text x="1520" y="481" class="small" text-anchor="middle">Bundled calls may lower</text>
 <text x="1520" y="504" class="small" text-anchor="middle">execution costs.</text>
 <g data-kind="alpha-report">
-<rect x="1820" y="409" width="300" height="122" rx="6" fill="#eff5ff" stroke="#c8daf8" stroke-width="1.3"/>
-<text x="1970" y="446" class="node" text-anchor="middle" style="fill:#2563b8">Alpha Report 1</text>
-<text x="1970" y="478" class="small" text-anchor="middle">Assesses rental rewards and costs</text>
-<text x="1970" y="502" class="small" text-anchor="middle">using the recorded executions.</text>
+<rect x="1820" y="395" width="300" height="150" rx="6" fill="#eff5ff" stroke="#c8daf8" stroke-width="1.3"/>
+<text x="1970" y="424" class="node" text-anchor="middle" style="fill:#2563b8">Alpha Report 1</text>
+<path d="M 1836 439 L 2104 439" stroke="#c8daf8" fill="none"/>
+<text x="1836" y="462" class="report-field" text-anchor="start">Opportunity</text>
+<text x="2104" y="462" class="report-value" text-anchor="end">Yes / No</text>
+<path d="M 1836 472 L 2104 472" stroke="#c8daf8" fill="none"/>
+<text x="1836" y="491" class="report-field" text-anchor="start">Occurrences</text>
+<text x="2104" y="491" class="report-value" text-anchor="end">N times</text>
+<path d="M 1836 501 L 2104 501" stroke="#c8daf8" fill="none"/>
+<text x="1836" y="520" class="report-field" text-anchor="start">Capacity</text>
+<text x="2104" y="520" class="report-value" text-anchor="end">Estimated size</text>
 </g>
 <rect x="80" y="611" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="210" y="643" class="node" text-anchor="middle">JustLend</text>
@@ -133,10 +142,17 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 <text x="1520" y="671" class="small" text-anchor="middle">Redeem and swap may release</text>
 <text x="1520" y="694" class="small" text-anchor="middle">capital sooner.</text>
 <g data-kind="alpha-report">
-<rect x="1820" y="599" width="300" height="122" rx="6" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
-<text x="1970" y="636" class="node" text-anchor="middle" style="fill:#7953ad">Alpha Report 2</text>
-<text x="1970" y="668" class="small" text-anchor="middle">Checks whether collateral reuse</text>
-<text x="1970" y="692" class="small" text-anchor="middle">releases capital after fees.</text>
+<rect x="1820" y="585" width="300" height="150" rx="6" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
+<text x="1970" y="614" class="node" text-anchor="middle" style="fill:#7953ad">Alpha Report 2</text>
+<path d="M 1836 629 L 2104 629" stroke="#ded2f2" fill="none"/>
+<text x="1836" y="652" class="report-field" text-anchor="start">Opportunity</text>
+<text x="2104" y="652" class="report-value" text-anchor="end">Yes / No</text>
+<path d="M 1836 662 L 2104 662" stroke="#ded2f2" fill="none"/>
+<text x="1836" y="681" class="report-field" text-anchor="start">Occurrences</text>
+<text x="2104" y="681" class="report-value" text-anchor="end">N times</text>
+<path d="M 1836 691 L 2104 691" stroke="#ded2f2" fill="none"/>
+<text x="1836" y="710" class="report-field" text-anchor="start">Capacity</text>
+<text x="2104" y="710" class="report-value" text-anchor="end">Estimated size</text>
 </g>
 <rect x="80" y="801" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="210" y="833" class="node" text-anchor="middle">USDD</text>
@@ -165,10 +181,17 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 <text x="1520" y="861" class="small" text-anchor="middle">Temporary discounts may offer</text>
 <text x="1520" y="884" class="small" text-anchor="middle">an opportunity after costs.</text>
 <g data-kind="alpha-report">
-<rect x="1820" y="789" width="300" height="122" rx="6" fill="#fff7ed" stroke="#f1dcc2" stroke-width="1.3"/>
-<text x="1970" y="826" class="node" text-anchor="middle" style="fill:#a8661e">Alpha Report 3</text>
-<text x="1970" y="858" class="small" text-anchor="middle">Reviews auction discounts,</text>
-<text x="1970" y="882" class="small" text-anchor="middle">competition, and missing evidence.</text>
+<rect x="1820" y="775" width="300" height="150" rx="6" fill="#fff7ed" stroke="#f1dcc2" stroke-width="1.3"/>
+<text x="1970" y="804" class="node" text-anchor="middle" style="fill:#a8661e">Alpha Report 3</text>
+<path d="M 1836 819 L 2104 819" stroke="#f1dcc2" fill="none"/>
+<text x="1836" y="842" class="report-field" text-anchor="start">Opportunity</text>
+<text x="2104" y="842" class="report-value" text-anchor="end">Yes / No</text>
+<path d="M 1836 852 L 2104 852" stroke="#f1dcc2" fill="none"/>
+<text x="1836" y="871" class="report-field" text-anchor="start">Occurrences</text>
+<text x="2104" y="871" class="report-value" text-anchor="end">N times</text>
+<path d="M 1836 881 L 2104 881" stroke="#f1dcc2" fill="none"/>
+<text x="1836" y="900" class="report-field" text-anchor="start">Capacity</text>
+<text x="2104" y="900" class="report-value" text-anchor="end">Estimated size</text>
 </g>
 <rect x="500" y="429" width="240" height="42" rx="6" fill="#20775b" stroke="#20775b" stroke-width="1.3"/>
 <text x="620" y="457" class="node" text-anchor="middle" style="fill:#ffffff">T8mQ…4kN2</text>

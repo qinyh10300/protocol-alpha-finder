@@ -27,9 +27,9 @@ LABELS = {
    ['Collateral recycling',['Redeem and swap may release','capital sooner.']],
    ['Auction timing',['Temporary discounts may offer','an opportunity after costs.']]],
   'reports':[
-   ['Alpha Report 1',['Assesses rental rewards and costs','using the recorded executions.']],
-   ['Alpha Report 2',['Checks whether collateral reuse','releases capital after fees.']],
-   ['Alpha Report 3',['Reviews auction discounts,','competition, and missing evidence.']]],
+   ['Alpha Report 1',[['Opportunity','Yes / No'],['Occurrences','N times'],['Capacity','Estimated size']]],
+   ['Alpha Report 2',[['Opportunity','Yes / No'],['Occurrences','N times'],['Capacity','Estimated size']]],
+   ['Alpha Report 3',[['Opportunity','Yes / No'],['Occurrences','N times'],['Capacity','Estimated size']]]],
   'solid':'Evidence flow', 'dashed':'Skill coordination',
   'description':'Illustrative addresses, transactions, and report contents. Skill 2 fetches the selected wallet\'s transaction history; three dashed evidence groups support three candidate hypotheses. Skill 4 validates each candidate to produce its own Alpha Report. Protocol Alpha Finder coordinates four operations. Collection and review are initiated manually, with historical coverage recorded explicitly.',
  },
@@ -49,9 +49,9 @@ LABELS = {
    ['抵押品回收',['赎回并兑换可能更快','释放占用资金。']],
    ['拍卖时机',['短暂折价可能带来机会，','需要结合执行成本验证。']]],
   'reports':[
-   ['Alpha 报告 1',['基于执行记录，','评估租赁奖励与成本。']],
-   ['Alpha 报告 2',['检查抵押品复用在扣除费用后，','能否更快释放资金。']],
-   ['Alpha 报告 3',['评估拍卖折价、竞争情况，','并列出仍缺少的证据。']]],
+   ['Alpha 报告 1',[['机会状态','有 / 无'],['出现次数','N 次'],['机会容量','预估规模']]],
+   ['Alpha 报告 2',[['机会状态','有 / 无'],['出现次数','N 次'],['机会容量','预估规模']]],
+   ['Alpha 报告 3',[['机会状态','有 / 无'],['出现次数','N 次'],['机会容量','预估规模']]]],
   'solid':'证据流转','dashed':'Skill 编排',
   'description':'地址、交易与报告内容均为方法示意。Skill 2 抓取选中钱包的历史交易，三组虚线标出的证据分别支持三个候选假设。Skill 4 验证每个候选并生成各自的 Alpha 报告。Protocol Alpha Finder 统一协调四个操作。采集与复查由手动发起，并记录历史覆盖情况。',
  }
@@ -70,6 +70,8 @@ def render(lang, L):
 .transaction-action { font-size:14px; fill:#526579; }
 .transaction-ellipsis { font-size:27px; fill:#7b8da1; }
 .group-label { font-size:19px; font-weight:700; }
+.report-field { font-size:16px; fill:#526579; }
+.report-value { font-size:16px; font-weight:600; }
 </style>''')
  d.text(30,55,L['title'],'title')
  d.arrow(1680,86,1730,86,0,'legend-evidence')
@@ -119,9 +121,14 @@ def render(lang, L):
   d.text(1520,y-17,L['candidates'][i][0],'node','middle',accent)
   for j,line in enumerate(L['candidates'][i][1]):d.text(1520,y+11+23*j,line,'small','middle')
   d.parts.append('<g data-kind="alpha-report">')
-  d.rect(1820,y-61,300,122,fill,border,6)
-  d.text(1970,y-24,L['reports'][i][0],'node','middle',accent)
-  for j,line in enumerate(L['reports'][i][1]):d.text(1970,y+8+24*j,line,'small','middle')
+  d.rect(1820,y-75,300,150,fill,border,6)
+  d.text(1970,y-46,L['reports'][i][0],'node','middle',accent)
+  d.line(1836,y-31,2104,y-31,border)
+  for j,(field,value) in enumerate(L['reports'][i][1]):
+   row_y=y-8+29*j
+   d.text(1836,row_y,field,'report-field')
+   d.text(2104,row_y,value,'report-value','end')
+   if j<2:d.line(1836,row_y+10,2104,row_y+10,border)
   d.parts.append('</g>')
  for i,y in enumerate(wallet_y):
   fill,border,accent=(PALETTE[3][2],PALETTE[3][2],'#ffffff') if i==0 else ('#f8fafc','#d3dce6','#61758a')
@@ -153,7 +160,7 @@ def render(lang, L):
     m.append('            end')
   elif key:
    for i,row in enumerate(L[key]):
-    parts=[row[0],*row[1]] if isinstance(row[1],list) else row
+    parts=[row[0],*[f'{field}: {value}' for field,value in row[1]]] if key=='reports' else [row[0],*row[1]] if isinstance(row[1],list) else row
     m.append(f'            {name}{i}["{"<br/>".join(parts)}"]')
   else:
    for i,address in enumerate(ADDRESSES):m.append(f'            WALLET{i}["{address}"]')
