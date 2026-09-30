@@ -8,9 +8,9 @@
 
 ## Reading the diagram
 
-The workflow contains five stages: **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Validation**. Each seed leads to two fictitious TRON addresses. The highlighted wallet supplies the history examined in the example. Three transaction groups support three candidate mechanisms; one candidate is shown proceeding to validation.
+The workflow contains five stages: **Alpha Seeds → Strategy Wallets → History Transactions → Alpha Candidates → Validation**. Each seed leads to two fictitious TRON addresses. The highlighted wallet feeds the transaction review. Neutral transaction rows and vertical ellipses represent its broader history; three colored dashed groups connect to matching candidate mechanisms. One candidate proceeds to validation.
 
-Blue Skill 1–4 badges mark the four operations. **Protocol Alpha Finder coordinates all four through dashed arrows.** Solid arrows show evidence moving through the research process. History collection covers the requested time range, with incomplete retrieval recorded explicitly.
+Blue Skill 1–4 badges mark the four operations. **Protocol Alpha Finder coordinates all four through dashed arrows.** Solid arrows show evidence moving through the research process. History collection covers the requested time range, with incomplete retrieval recorded explicitly. Monitoring means repeated collection and review, currently started manually. Transaction identifiers in the diagram are illustrative.
 
 | Candidate example | Why investigate it? |
 | --- | --- |

@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="880" viewBox="0 0 2200 880" role="img" aria-labelledby="title desc" xml:lang="en">
-<title id="title">Protocol Alpha Finder · System Architecture</title><desc id="desc">Illustrative addresses and transaction groups. A selected wallet supplies its history; three evidence groups produce three candidate hypotheses, with one shown entering validation. The four numbered operations are coordinated by Protocol Alpha Finder. Historical coverage is recorded explicitly.</desc><defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1020" viewBox="0 0 2200 1020" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">Protocol Alpha Finder · System Architecture</title><desc id="desc">Illustrative addresses and transactions. The selected wallet connects to monitored transaction rows; three dashed evidence groups support three candidate hypotheses, with one shown entering validation. Protocol Alpha Finder coordinates four operations. Monitoring currently uses manually initiated collection and review, with historical coverage recorded explicitly.</desc><defs>
 <marker id="a0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#2563b8"/></marker>
 <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#7953ad"/></marker>
 <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M 0 0 L 10 5 L 0 10 L 2.5 5 Z" fill="#a8661e"/></marker>
@@ -14,127 +14,191 @@ text { font-family: Arial, 'PingFang SC', 'Microsoft YaHei', sans-serif; fill:#2
 .code { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; }
 .label { font-size:14px; font-weight:650; letter-spacing:1px; fill:#61758a; }
 </style>
-<rect x="0" y="0" width="2200" height="880" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
+<rect x="0" y="0" width="2200" height="1020" rx="0" fill="#ffffff" stroke="none" stroke-width="1.3"/>
 <style>
-.skill-title { font-size:19px; font-weight:700; }
-.skill-phrase { font-size:16px; font-weight:700; }
-.coordinator-title { font-size:25px; font-weight:700; }
-.coordinator-description { font-size:22px; font-weight:700; }
+.workflow-title { font-size:30px; font-weight:700; }
+.skill-title { font-size:24px; font-weight:700; }
+.skill-phrase { font-size:18px; font-weight:700; }
+.coordinator-title { font-size:32px; font-weight:700; }
+.coordinator-description { font-size:23px; font-weight:700; }
+.transaction-id { font-family:'SFMono-Regular',Consolas,monospace; font-size:16px; fill:#526579; }
+.transaction-action { font-size:14px; fill:#526579; }
+.transaction-ellipsis { font-size:27px; fill:#7b8da1; }
+.group-label { font-size:19px; font-weight:700; }
 </style>
 <text x="30" y="55" class="title" text-anchor="start">Protocol Alpha Finder · System Architecture</text>
 <path data-kind="legend-evidence" d="M 1680 86 C 1705.0 86 1705.0 86 1730 86" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
 <text x="1744" y="92" class="small" text-anchor="start">Evidence flow</text>
 <path data-kind="legend-control" d="M 1920 86 C 1945.0 86 1945.0 86 1970 86" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
 <text x="1984" y="92" class="small" text-anchor="start">Skill coordination</text>
-<rect x="30" y="120" width="2140" height="726" rx="8" fill="#f9fbfe" stroke="#b8cbe2" stroke-width="1.3"/>
-<text x="55" y="160" class="heading" text-anchor="start">Research Workflow</text>
-<rect x="780" y="177" width="640" height="78" rx="8" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
-<text x="1100" y="210" class="coordinator-title" text-anchor="middle" style="fill:#214f96">Protocol Alpha Finder</text>
-<text x="1100" y="240" class="coordinator-description" text-anchor="middle" style="fill:#214f96">Coordinate 4 Skills</text>
-<path data-kind="coordination-bus" d="M 1100 255 V 276 M 420 276 H 1735" stroke="#2563b8" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>
-<path data-kind="skill-coordination" d="M 420 276 C 420 330.5 420 330.5 420 385" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
-<path data-kind="skill-coordination" d="M 825 276 C 825 328.5 825 328.5 825 381" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
-<path data-kind="skill-coordination" d="M 1305 276 C 1305 333.5 1305 333.5 1305 391" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
-<path data-kind="skill-coordination" d="M 1735 276 C 1735 333.5 1735 333.5 1735 391" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
-<rect x="60" y="305" width="300" height="506" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<rect x="30" y="120" width="2140" height="866" rx="8" fill="#f9fbfe" stroke="#b8cbe2" stroke-width="1.3"/>
+<text x="55" y="162" class="workflow-title" text-anchor="start">Research Workflow</text>
+<rect x="780" y="177" width="640" height="86" rx="8" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
+<text x="1100" y="214" class="coordinator-title" text-anchor="middle" style="fill:#214f96">Protocol Alpha Finder</text>
+<text x="1100" y="245" class="coordinator-description" text-anchor="middle" style="fill:#214f96">Coordinate 4 Skills</text>
+<path data-kind="coordination-bus" d="M 1100 263 V 285 M 420 285 H 1735" stroke="#2563b8" stroke-width="1.8" stroke-dasharray="6 6" fill="none"/>
+<path data-kind="skill-coordination" d="M 420 285 C 420 346.0 420 346.0 420 407" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
+<path data-kind="skill-coordination" d="M 825 285 C 825 341.0 825 341.0 825 397" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
+<path data-kind="skill-coordination" d="M 1305 285 C 1305 346.0 1305 346.0 1305 407" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
+<path data-kind="skill-coordination" d="M 1735 285 C 1735 346.0 1735 346.0 1735 407" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round" marker-end="url(#a0)" stroke-dasharray="5 6"/>
+<rect x="60" y="305" width="300" height="650" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="210.0" y="342" class="heading" text-anchor="middle">1 · Alpha Seeds</text>
-<rect x="480" y="305" width="280" height="506" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<rect x="480" y="305" width="280" height="650" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="620.0" y="342" class="heading" text-anchor="middle">2 · Strategy Wallets</text>
-<rect x="890" y="305" width="350" height="506" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<rect x="890" y="305" width="350" height="650" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="1065.0" y="342" class="heading" text-anchor="middle">3 · History Transactions</text>
-<rect x="1370" y="305" width="300" height="506" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<rect x="1370" y="305" width="300" height="650" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="1520.0" y="342" class="heading" text-anchor="middle">4 · Alpha Candidates</text>
-<rect x="1800" y="305" width="340" height="506" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<rect x="1800" y="305" width="340" height="650" rx="8" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
 <text x="1970.0" y="342" class="heading" text-anchor="middle">5 · Validation</text>
-<text x="1065" y="369" class="small" text-anchor="middle">All activity · Coverage tracked</text>
-<path data-kind="seed-wallet" d="M 340 440 C 419.0 440 419.0 420 498 420" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="seed-wallet" d="M 340 440 C 419.0 440 419.0 468 498 468" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="seed-wallet" d="M 340 590 C 419.0 590 419.0 570 498 570" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="seed-wallet" d="M 340 590 C 419.0 590 419.0 618 498 618" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="seed-wallet" d="M 340 740 C 419.0 740 419.0 720 498 720" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="seed-wallet" d="M 340 740 C 419.0 740 419.0 768 498 768" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="wallet-history" d="M 740 420 C 813.5 420 813.5 430 887 430" stroke="#20775b" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a3)"/>
-<path data-kind="history-candidate" d="M 1220 440 C 1304.0 440 1304.0 440 1388 440" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<path data-kind="history-candidate" d="M 1220 590 C 1304.0 590 1304.0 590 1388 590" stroke="#7953ad" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
-<path data-kind="history-candidate" d="M 1220 740 C 1304.0 740 1304.0 740 1388 740" stroke="#a8661e" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
-<path data-kind="candidate-validation" d="M 1650 440 C 1734.0 440 1734.0 440 1818 440" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<rect x="80" y="391" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
-<text x="210" y="423" class="node" text-anchor="middle">Energy Rental</text>
-<text x="210" y="451" class="small" text-anchor="middle">Clear depleted orders and</text>
-<text x="210" y="474" class="small" text-anchor="middle">recover resources and rewards.</text>
-<rect x="910" y="391" width="310" height="98" rx="6" fill="#eff5ff" stroke="#c8daf8" stroke-width="1.3"/>
-<text x="1065" y="421" class="node" text-anchor="middle" style="fill:#2563b8">Rental executions</text>
-<text x="1065" y="450" class="small" text-anchor="middle">liquidate → settle</text>
-<text x="1065" y="475" class="code" text-anchor="middle">tx …a91f · …b20e</text>
-<rect x="1390" y="391" width="260" height="98" rx="6" fill="#eff5ff" stroke="#2563b8" stroke-width="1.3"/>
-<text x="1520" y="423" class="node" text-anchor="middle" style="fill:#2563b8">Rental sequence</text>
-<text x="1520" y="451" class="small" text-anchor="middle">Bundled calls may lower</text>
-<text x="1520" y="474" class="small" text-anchor="middle">execution costs.</text>
-<rect x="80" y="541" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
-<text x="210" y="573" class="node" text-anchor="middle">JustLend</text>
-<text x="210" y="601" class="small" text-anchor="middle">Repay undercollateralized loans</text>
-<text x="210" y="624" class="small" text-anchor="middle">and receive seized collateral.</text>
-<rect x="910" y="541" width="310" height="98" rx="6" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
-<text x="1065" y="571" class="node" text-anchor="middle" style="fill:#7953ad">Collateral flows</text>
-<text x="1065" y="600" class="small" text-anchor="middle">redeem → swap</text>
-<text x="1065" y="625" class="code" text-anchor="middle">tx …c73d · …d48a</text>
-<rect x="1390" y="541" width="260" height="98" rx="6" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
-<text x="1520" y="573" class="node" text-anchor="middle" style="fill:#7953ad">Collateral recycling</text>
-<text x="1520" y="601" class="small" text-anchor="middle">Redeem and swap may release</text>
-<text x="1520" y="624" class="small" text-anchor="middle">capital sooner.</text>
-<rect x="80" y="691" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
-<text x="210" y="723" class="node" text-anchor="middle">USDD</text>
-<text x="210" y="751" class="small" text-anchor="middle">Trigger liquidation, reset auctions,</text>
-<text x="210" y="774" class="small" text-anchor="middle">or buy auction collateral.</text>
-<rect x="910" y="691" width="310" height="98" rx="6" fill="#fff7ed" stroke="#f1dcc2" stroke-width="1.3"/>
-<text x="1065" y="721" class="node" text-anchor="middle" style="fill:#a8661e">Auction executions</text>
-<text x="1065" y="750" class="small" text-anchor="middle">reset → buy</text>
-<text x="1065" y="775" class="code" text-anchor="middle">tx …e52b · …f90c</text>
-<rect x="1390" y="691" width="260" height="98" rx="6" fill="#fff7ed" stroke="#f1dcc2" stroke-width="1.3"/>
-<text x="1520" y="723" class="node" text-anchor="middle" style="fill:#a8661e">Auction timing</text>
-<text x="1520" y="751" class="small" text-anchor="middle">Temporary discounts may offer</text>
-<text x="1520" y="774" class="small" text-anchor="middle">an opportunity after costs.</text>
-<rect x="500" y="399" width="240" height="42" rx="6" fill="#20775b" stroke="#20775b" stroke-width="1.3"/>
-<text x="620" y="427" class="node" text-anchor="middle" style="fill:#ffffff">T8mQ…4kN2</text>
-<rect x="500" y="447" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
-<text x="620" y="475" class="node" text-anchor="middle" style="fill:#61758a">TB7p…9wR4</text>
-<rect x="500" y="549" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
-<text x="620" y="577" class="node" text-anchor="middle" style="fill:#61758a">TK3v…7dA6</text>
-<rect x="500" y="597" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
-<text x="620" y="625" class="node" text-anchor="middle" style="fill:#61758a">TP5n…2sF8</text>
-<rect x="500" y="699" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
-<text x="620" y="727" class="node" text-anchor="middle" style="fill:#61758a">TU6c…8hM3</text>
-<rect x="500" y="747" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
-<text x="620" y="775" class="node" text-anchor="middle" style="fill:#61758a">TX9r…5bK7</text>
-<rect x="364" y="388" width="112" height="92" rx="7" fill="#eaf2ff" stroke="#6c9ad9" stroke-width="1.3"/>
-<text x="420" y="410" class="skill-title" text-anchor="middle" style="fill:#1d4f91">Skill 1</text>
-<text x="420" y="432" class="skill-phrase" text-anchor="middle" style="fill:#1d4f91">Find</text>
-<text x="420" y="450" class="skill-phrase" text-anchor="middle" style="fill:#1d4f91">Strategy</text>
-<text x="420" y="468" class="skill-phrase" text-anchor="middle" style="fill:#1d4f91">Wallets</text>
-<rect x="769" y="384" width="112" height="92" rx="7" fill="#e7f7fc" stroke="#53a9c7" stroke-width="1.3"/>
-<text x="825" y="406" class="skill-title" text-anchor="middle" style="fill:#17667e">Skill 2</text>
-<text x="825" y="428" class="skill-phrase" text-anchor="middle" style="fill:#17667e">Load</text>
-<text x="825" y="446" class="skill-phrase" text-anchor="middle" style="fill:#17667e">Wallet</text>
-<text x="825" y="464" class="skill-phrase" text-anchor="middle" style="fill:#17667e">History</text>
-<rect x="1249" y="394" width="112" height="92" rx="7" fill="#eef0ff" stroke="#929fe8" stroke-width="1.3"/>
-<text x="1305" y="416" class="skill-title" text-anchor="middle" style="fill:#434e9b">Skill 3</text>
-<text x="1305" y="438" class="skill-phrase" text-anchor="middle" style="fill:#434e9b">Extract</text>
-<text x="1305" y="456" class="skill-phrase" text-anchor="middle" style="fill:#434e9b">Alpha</text>
-<text x="1305" y="474" class="skill-phrase" text-anchor="middle" style="fill:#434e9b">Candidates</text>
-<rect x="1679" y="394" width="112" height="92" rx="7" fill="#e7effb" stroke="#4d74ad" stroke-width="1.3"/>
-<text x="1735" y="416" class="skill-title" text-anchor="middle" style="fill:#213f74">Skill 4</text>
-<text x="1735" y="438" class="skill-phrase" text-anchor="middle" style="fill:#213f74">Validate</text>
-<text x="1735" y="456" class="skill-phrase" text-anchor="middle" style="fill:#213f74">Alpha</text>
-<text x="1735" y="474" class="skill-phrase" text-anchor="middle" style="fill:#213f74">Candidates</text>
-<rect x="1820" y="391" width="300" height="124" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
-<text x="1970" y="425" class="body" text-anchor="middle">Execution evidence</text>
-<text x="1970" y="454" class="body" text-anchor="middle">Rewards minus costs</text>
-<text x="1970" y="483" class="body" text-anchor="middle">Current protocol conditions</text>
-<path data-kind="validation-report" d="M 1970 520 C 1970 535.0 1970 535.0 1970 550" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
-<text x="1970" y="581" class="node" text-anchor="middle">Alpha Report</text>
-<text x="1970" y="611" class="small" text-anchor="middle">Actionable · Monitor</text>
-<text x="1970" y="637" class="small" text-anchor="middle">Rejected · Insufficient Evidence</text>
-<path data-kind="report-new-alpha" d="M 1970 657 C 1970 675.0 1970 675.0 1970 693" stroke="#20775b" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a3)"/>
-<rect x="1820" y="702" width="300" height="65" rx="6" fill="#eef8f4" stroke="#c9e5d9" stroke-width="1.3"/>
-<text x="1970" y="741" class="body" text-anchor="middle" style="fill:#20775b">New Alpha, if supported</text>
+<path data-kind="seed-wallet" d="M 340 470 C 419.0 470 419.0 450 498 450" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 340 470 C 419.0 470 419.0 498 498 498" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 340 660 C 419.0 660 419.0 640 498 640" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 340 660 C 419.0 660 419.0 688 498 688" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 340 850 C 419.0 850 419.0 830 498 830" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="seed-wallet" d="M 340 850 C 419.0 850 419.0 878 498 878" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="wallet-history" d="M 740 450 C 753.5 450 753.5 460 767 460" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitor-feed" d="M 881 460 H 914 M 914 418 V 904" stroke="#2563b8" stroke-width="2" fill="none" stroke-linecap="round"/>
+<path data-kind="monitored-transaction" d="M 914 418 C 928.0 418 928.0 418 942 418" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 456 C 928.0 456 928.0 456 942 456" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 524 C 928.0 524 928.0 524 942 524" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 608 C 928.0 608 928.0 608 942 608" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 646 C 928.0 646 928.0 646 942 646" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 714 C 928.0 714 928.0 714 942 714" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 798 C 928.0 798 928.0 798 942 798" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 836 C 928.0 836 928.0 836 942 836" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="monitored-transaction" d="M 914 904 C 928.0 904 928.0 904 942 904" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="history-candidate" d="M 1228 470 C 1308.0 470 1308.0 470 1388 470" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<path data-kind="history-candidate" d="M 1228 660 C 1308.0 660 1308.0 660 1388 660" stroke="#7953ad" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a1)"/>
+<path data-kind="history-candidate" d="M 1228 850 C 1308.0 850 1308.0 850 1388 850" stroke="#a8661e" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a2)"/>
+<path data-kind="candidate-validation" d="M 1650 470 C 1734.0 470 1734.0 470 1818 470" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<rect x="80" y="421" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="210" y="453" class="node" text-anchor="middle">Energy Rental</text>
+<text x="210" y="481" class="small" text-anchor="middle">Clear depleted orders and</text>
+<text x="210" y="504" class="small" text-anchor="middle">recover resources and rewards.</text>
+<rect data-kind="transaction-group" x="934" y="390" width="294" height="156" rx="8" fill="none" stroke="#2563b8" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="944" y="380" class="group-label" text-anchor="start" style="fill:#2563b8">Rental executions</text>
+<g data-kind="transaction-row">
+<rect x="944" y="403" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="423" class="transaction-id" text-anchor="start">0xa91f…42c8</text>
+<text x="1206" y="423" class="transaction-action" text-anchor="end">liquidate</text>
+</g>
+<g data-kind="transaction-row">
+<rect x="944" y="441" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="461" class="transaction-id" text-anchor="start">0xb20e…73a1</text>
+<text x="1206" y="461" class="transaction-action" text-anchor="end">settle</text>
+</g>
+<g data-kind="transaction-row">
+<rect x="944" y="509" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="529" class="transaction-id" text-anchor="start">0x18dc…6f02</text>
+<text x="1206" y="529" class="transaction-action" text-anchor="end">claim</text>
+</g>
+<text x="1081" y="499" class="transaction-ellipsis" text-anchor="middle">⋮</text>
+<rect x="1390" y="421" width="260" height="98" rx="6" fill="#eff5ff" stroke="#2563b8" stroke-width="1.3"/>
+<text x="1520" y="453" class="node" text-anchor="middle" style="fill:#2563b8">Rental sequence</text>
+<text x="1520" y="481" class="small" text-anchor="middle">Bundled calls may lower</text>
+<text x="1520" y="504" class="small" text-anchor="middle">execution costs.</text>
+<rect x="80" y="611" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="210" y="643" class="node" text-anchor="middle">JustLend</text>
+<text x="210" y="671" class="small" text-anchor="middle">Repay undercollateralized loans</text>
+<text x="210" y="694" class="small" text-anchor="middle">and receive seized collateral.</text>
+<rect data-kind="transaction-group" x="934" y="580" width="294" height="156" rx="8" fill="none" stroke="#7953ad" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="944" y="570" class="group-label" text-anchor="start" style="fill:#7953ad">Collateral flows</text>
+<g data-kind="transaction-row">
+<rect x="944" y="593" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="613" class="transaction-id" text-anchor="start">0xc73d…81b6</text>
+<text x="1206" y="613" class="transaction-action" text-anchor="end">redeem</text>
+</g>
+<g data-kind="transaction-row">
+<rect x="944" y="631" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="651" class="transaction-id" text-anchor="start">0xd48a…59e2</text>
+<text x="1206" y="651" class="transaction-action" text-anchor="end">swap</text>
+</g>
+<g data-kind="transaction-row">
+<rect x="944" y="699" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="719" class="transaction-id" text-anchor="start">0x92fb…0ac4</text>
+<text x="1206" y="719" class="transaction-action" text-anchor="end">repay</text>
+</g>
+<text x="1081" y="689" class="transaction-ellipsis" text-anchor="middle">⋮</text>
+<rect x="1390" y="611" width="260" height="98" rx="6" fill="#f5f1fc" stroke="#ded2f2" stroke-width="1.3"/>
+<text x="1520" y="643" class="node" text-anchor="middle" style="fill:#7953ad">Collateral recycling</text>
+<text x="1520" y="671" class="small" text-anchor="middle">Redeem and swap may release</text>
+<text x="1520" y="694" class="small" text-anchor="middle">capital sooner.</text>
+<rect x="80" y="801" width="260" height="98" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="210" y="833" class="node" text-anchor="middle">USDD</text>
+<text x="210" y="861" class="small" text-anchor="middle">Trigger liquidation, reset auctions,</text>
+<text x="210" y="884" class="small" text-anchor="middle">or buy auction collateral.</text>
+<rect data-kind="transaction-group" x="934" y="770" width="294" height="156" rx="8" fill="none" stroke="#a8661e" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="944" y="760" class="group-label" text-anchor="start" style="fill:#a8661e">Auction executions</text>
+<g data-kind="transaction-row">
+<rect x="944" y="783" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="803" class="transaction-id" text-anchor="start">0xe52b…37d9</text>
+<text x="1206" y="803" class="transaction-action" text-anchor="end">reset</text>
+</g>
+<g data-kind="transaction-row">
+<rect x="944" y="821" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="841" class="transaction-id" text-anchor="start">0xf90c…12a7</text>
+<text x="1206" y="841" class="transaction-action" text-anchor="end">buy</text>
+</g>
+<g data-kind="transaction-row">
+<rect x="944" y="889" width="274" height="30" rx="5" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="956" y="909" class="transaction-id" text-anchor="start">0x64ab…95e3</text>
+<text x="1206" y="909" class="transaction-action" text-anchor="end">settle</text>
+</g>
+<text x="1081" y="879" class="transaction-ellipsis" text-anchor="middle">⋮</text>
+<rect x="1390" y="801" width="260" height="98" rx="6" fill="#fff7ed" stroke="#f1dcc2" stroke-width="1.3"/>
+<text x="1520" y="833" class="node" text-anchor="middle" style="fill:#a8661e">Auction timing</text>
+<text x="1520" y="861" class="small" text-anchor="middle">Temporary discounts may offer</text>
+<text x="1520" y="884" class="small" text-anchor="middle">an opportunity after costs.</text>
+<rect x="500" y="429" width="240" height="42" rx="6" fill="#20775b" stroke="#20775b" stroke-width="1.3"/>
+<text x="620" y="457" class="node" text-anchor="middle" style="fill:#ffffff">T8mQ…4kN2</text>
+<rect x="500" y="477" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="620" y="505" class="node" text-anchor="middle" style="fill:#61758a">TB7p…9wR4</text>
+<rect x="500" y="619" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="620" y="647" class="node" text-anchor="middle" style="fill:#61758a">TK3v…7dA6</text>
+<rect x="500" y="667" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="620" y="695" class="node" text-anchor="middle" style="fill:#61758a">TP5n…2sF8</text>
+<rect x="500" y="809" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="620" y="837" class="node" text-anchor="middle" style="fill:#61758a">TU6c…8hM3</text>
+<rect x="500" y="857" width="240" height="42" rx="6" fill="#f8fafc" stroke="#d3dce6" stroke-width="1.3"/>
+<text x="620" y="885" class="node" text-anchor="middle" style="fill:#61758a">TX9r…5bK7</text>
+<g data-kind="skill-badge">
+<rect x="364" y="410" width="112" height="120" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
+<text x="420" y="439" class="skill-title" text-anchor="middle" style="fill:#214f96">Skill 1</text>
+<text x="420" y="466" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Find</text>
+<text x="420" y="489" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Strategy</text>
+<text x="420" y="512" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Wallets</text>
+</g>
+<g data-kind="skill-badge">
+<rect x="769" y="400" width="112" height="120" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
+<text x="825" y="429" class="skill-title" text-anchor="middle" style="fill:#214f96">Skill 2</text>
+<text x="825" y="456" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Monitor</text>
+<text x="825" y="479" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Wallet</text>
+<text x="825" y="502" class="skill-phrase" text-anchor="middle" style="fill:#214f96">History</text>
+</g>
+<g data-kind="skill-badge">
+<rect x="1249" y="410" width="112" height="120" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
+<text x="1305" y="439" class="skill-title" text-anchor="middle" style="fill:#214f96">Skill 3</text>
+<text x="1305" y="466" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Extract</text>
+<text x="1305" y="489" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Alpha</text>
+<text x="1305" y="512" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Candidates</text>
+</g>
+<g data-kind="skill-badge">
+<rect x="1679" y="410" width="112" height="120" rx="7" fill="#eaf2ff" stroke="#83a8d8" stroke-width="1.3"/>
+<text x="1735" y="439" class="skill-title" text-anchor="middle" style="fill:#214f96">Skill 4</text>
+<text x="1735" y="466" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Validate</text>
+<text x="1735" y="489" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Alpha</text>
+<text x="1735" y="512" class="skill-phrase" text-anchor="middle" style="fill:#214f96">Candidates</text>
+</g>
+<rect x="1820" y="410" width="300" height="142" rx="6" fill="#ffffff" stroke="#c9d6e3" stroke-width="1.3"/>
+<text x="1970" y="446" class="body" text-anchor="middle">Execution evidence</text>
+<text x="1970" y="479" class="body" text-anchor="middle">Rewards minus costs</text>
+<text x="1970" y="512" class="body" text-anchor="middle">Current protocol conditions</text>
+<path data-kind="validation-report" d="M 1970 558 C 1970 579.0 1970 579.0 1970 600" stroke="#2563b8" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a0)"/>
+<text x="1970" y="634" class="node" text-anchor="middle">Alpha Report</text>
+<text x="1970" y="667" class="small" text-anchor="middle">Actionable · Monitor</text>
+<text x="1970" y="693" class="small" text-anchor="middle">Rejected · Insufficient Evidence</text>
+<path data-kind="report-new-alpha" d="M 1970 715 C 1970 743.5 1970 743.5 1970 772" stroke="#20775b" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#a3)"/>
+<rect x="1820" y="793" width="300" height="70" rx="6" fill="#eef8f4" stroke="#c9e5d9" stroke-width="1.3"/>
+<text x="1970" y="835" class="body" text-anchor="middle" style="fill:#20775b">New Alpha, if supported</text>
 </svg>

@@ -6,7 +6,7 @@ We study successful protocol actions to identify their executors, then review th
 
 ![Research workflow from seed discovery through transaction analysis and validation](images/system-architecture-en.svg)
 
-The diagram follows five stages: seeds, wallets, transaction history, candidates, and validation. Three transaction groups illustrate how the selected wallet's history supports three different hypotheses. Protocol Alpha Finder coordinates the four operations between these stages.
+The diagram follows five stages: seeds, wallets, transaction history, candidates, and validation. The selected wallet feeds transaction review; vertical ellipses stand for additional history. Three colored dashed groups connect supporting transactions to matching candidate hypotheses. Transaction identifiers are illustrative. Protocol Alpha Finder coordinates the four operations between these stages.
 
 ## What we study
 

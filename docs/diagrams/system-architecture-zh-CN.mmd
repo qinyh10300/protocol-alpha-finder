@@ -15,9 +15,21 @@ flowchart TB
             WALLET5["TX9r…5bK7"]
         end
         subgraph HISTORYS["3 · 历史交易"]
-            HISTORY0["租赁执行记录<br/>清算 → 结算<br/>tx …a91f · …b20e"]
-            HISTORY1["抵押品流动<br/>赎回 → 兑换<br/>tx …c73d · …d48a"]
-            HISTORY2["拍卖执行记录<br/>重启拍卖 → 购买<br/>tx …e52b · …f90c"]
+            subgraph HISTORY0["租赁执行记录"]
+                TX00["0xa91f…42c8 · liquidate"]
+                TX01["0xb20e…73a1 · settle"]
+                TX02["0x18dc…6f02 · claim"]
+            end
+            subgraph HISTORY1["抵押品流动"]
+                TX10["0xc73d…81b6 · redeem"]
+                TX11["0xd48a…59e2 · swap"]
+                TX12["0x92fb…0ac4 · repay"]
+            end
+            subgraph HISTORY2["拍卖执行记录"]
+                TX20["0xe52b…37d9 · reset"]
+                TX21["0xf90c…12a7 · buy"]
+                TX22["0x64ab…95e3 · settle"]
+            end
         end
         subgraph CANDIDATES["4 · Alpha 候选"]
             CANDIDATE0["租赁组合操作<br/>合并调用可能降低<br/>整体执行成本。"]
@@ -36,14 +48,22 @@ flowchart TB
         SEED1 --> WALLET3
         SEED2 --> WALLET4
         SEED2 --> WALLET5
-        WALLET0 -->|Skill 2| HISTORYS
+        WALLET0 -->|Skill 2| TX00
+        WALLET0 --> TX01
+        WALLET0 --> TX02
+        WALLET0 --> TX10
+        WALLET0 --> TX11
+        WALLET0 --> TX12
+        WALLET0 --> TX20
+        WALLET0 --> TX21
+        WALLET0 --> TX22
         HISTORY0 -->|Skill 3| CANDIDATE0
         HISTORY1 -->|Skill 3| CANDIDATE1
         HISTORY2 -->|Skill 3| CANDIDATE2
         CANDIDATE0 -->|Skill 4| CHECK
     end
     S1["Skill 1<br/>寻找策略 钱包"]
-    S2["Skill 2<br/>加载钱包 历史"]
+    S2["Skill 2<br/>监控钱包 历史"]
     S3["Skill 3<br/>提取 Alpha 候选"]
     S4["Skill 4<br/>验证 Alpha 候选"]
     COORD["Protocol Alpha Finder<br/>协调 4 个 Skill"]
@@ -52,8 +72,23 @@ flowchart TB
     COORD -.-> S3
     COORD -.-> S4
     style WALLET0 fill:#20775b,stroke:#20775b,color:#ffffff
-    style S1 fill:#eaf2ff,stroke:#6c9ad9
-    style S2 fill:#e7f7fc,stroke:#53a9c7
-    style S3 fill:#eef0ff,stroke:#929fe8
-    style S4 fill:#e7effb,stroke:#4d74ad
-    %% 地址与交易分组均为方法示意。选中钱包提供历史记录，三组交易证据分别产生三个候选假设，图中选取一个进入验证。Protocol Alpha Finder 统一协调四个编号操作，并记录历史数据覆盖情况。
+    style S1 fill:#eaf2ff,stroke:#83a8d8,color:#214f96
+    style S2 fill:#eaf2ff,stroke:#83a8d8,color:#214f96
+    style S3 fill:#eaf2ff,stroke:#83a8d8,color:#214f96
+    style S4 fill:#eaf2ff,stroke:#83a8d8,color:#214f96
+    style HISTORY0 fill:#ffffff,stroke:#2563b8,stroke-dasharray:7 5
+    style CANDIDATE0 fill:#eff5ff,stroke:#2563b8
+    style TX00 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style TX01 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style TX02 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style HISTORY1 fill:#ffffff,stroke:#7953ad,stroke-dasharray:7 5
+    style CANDIDATE1 fill:#f5f1fc,stroke:#7953ad
+    style TX10 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style TX11 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style TX12 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style HISTORY2 fill:#ffffff,stroke:#a8661e,stroke-dasharray:7 5
+    style CANDIDATE2 fill:#fff7ed,stroke:#a8661e
+    style TX20 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style TX21 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    style TX22 fill:#f8fafc,stroke:#d3dce6,color:#526579
+    %% 地址与交易均为方法示意。选中钱包连接到监控的交易记录，三组虚线标出的证据分别支持三个候选假设，图中选取一个进入验证。Protocol Alpha Finder 统一协调四个操作。监控目前通过手动发起采集与复查完成，并记录历史覆盖情况。
