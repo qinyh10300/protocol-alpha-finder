@@ -7,7 +7,7 @@
   Protocol Alpha Finder
 </h1>
 
-从执行过清算或 keeper 操作的钱包出发，在 TRON 上寻找协议机会。
+Protocol Alpha Finder 是一个 AI 研究 Agent，用于发现 TRON 上由智能合约机制产生的机会。它以已知协议机会 Seed Alpha 为起点，识别执行过该机会的 Strategy Wallets（策略钱包），再研究其交易历史、还原合约交互与资金流，发现新的 Alpha Candidates（候选机会），经验证后形成 Alpha Reports（研究报告）。验证成立的 Alpha 可以成为下一轮种子，形成持续发现的循环：Alpha 找到策略钱包，策略钱包揭示更多 Protocol Alpha。
 
 **[下载 Pitch Deck — PPTX，11 页](pitch-deck/Protocol_Alpha_Finder_TRON_Pitch.pptx)** · **[在线 Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)**
 

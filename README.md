@@ -7,7 +7,7 @@
   Protocol Alpha Finder
 </h1>
 
-Find protocol opportunities on TRON by studying wallets that executed known liquidations or keeper actions.
+Protocol Alpha Finder is an AI research agent for discovering opportunities created by smart contract mechanisms on TRON. It starts with Seed Alpha, a known protocol opportunity, to identify Strategy Wallets that have executed it. The agent investigates their transaction histories, reconstructs contract interactions and asset flows, and discovers new Alpha Candidates. After validation, it produces Alpha Reports explaining the findings. Validated Alpha can become the next seed, creating a repeatable discovery cycle: Alpha finds Strategy Wallets, and Strategy Wallets reveal more Protocol Alpha.
 
 [Pitch Deck](https://github.com/user-attachments/files/32837451/Protocol_Alpha_Finder_THUBA.pdf) | [Demo Video](https://github.com/user-attachments/assets/0ff5dae4-1cba-4d1d-af5f-5f8667f545c0) | [Live Demo](https://qinyh10300.github.io/protocol-alpha-finder/frontend/index.html)
 
